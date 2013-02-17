@@ -7,3 +7,7 @@
 
 .DS_Store
 *.DS_Store
+
+# Eclipse Files #
+.classpath
+.project
