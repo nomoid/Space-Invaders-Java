@@ -33,6 +33,9 @@ public class canvas {
 		 frame.pack();
 		 frame.setLocationRelativeTo(null);
 		 frame.setVisible(true);
+		 Engine engine = new Engine(canvas);
+		 engine.startGame();
+		 
 		 
 		}
 }
