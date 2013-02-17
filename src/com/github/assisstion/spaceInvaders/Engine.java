@@ -5,11 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-
-
-public class Engine extends KeyAdapter{
+public class Engine implements KeyListener{
 	
 	private static final Font FONT_SMALL = new Font("Times New Roman", Font.BOLD, 20);
 	
@@ -31,6 +30,21 @@ public class Engine extends KeyAdapter{
 		String message = new String("Press Enter To Start");
 		g.setFont(FONT_SMALL);
 		g.drawString(message, canvas.getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2), 350);
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e){
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e){
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e){
 		
 	}
 	
