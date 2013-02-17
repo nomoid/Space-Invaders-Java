@@ -6,7 +6,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class canvas {
+public class MainCanvas {
 	public static void main(String[] args) {
 		 /*
 		  * Create a new JFrame and set it's properties up.
