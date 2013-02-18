@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -38,13 +39,13 @@ public class Engine extends Canvas implements KeyListener{
 	 *  	main: started
 	 */
 	private String state = "not_ready";
-	
+	private Graphics2D g;
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
 	public Engine() {
 		addKeyListener(this);
-		setBackground(Color.BLACK);
+		setBackground(Color.PINK);
 		setPreferredSize(new Dimension(600, 700));
 	}
 	
@@ -61,6 +62,12 @@ public class Engine extends Canvas implements KeyListener{
 		}
 		else if(state.equalsIgnoreCase("main")){
 			//Placeholder, nothing here yet
+			SpriteTest imagetest = new SpriteTest();
+			//Creates instance of SpriteTest
+	        g.drawImage(imagetest.getImage(), 0,0, this);
+	        //Gets image from SpriteTest, then creates it
+	        g.finalize();
+	        // WELL, IT DOESN'T WORK. THIS IS MICHAEL TALKING AT 1:28 AM. I IS TIRED. I HAVE NO IDEA WHY IT DOESN'T WORK!!! You can fix it, cuz you're a saint :D
 		}
 		else{
 			//Throws an exception if none of the states match
@@ -72,9 +79,9 @@ public class Engine extends Canvas implements KeyListener{
 	 * Starts the game
 	 */
 	public void startGame(Graphics graphics) {
-		Graphics2D g = (Graphics2D)graphics;
+		g = (Graphics2D)graphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLUE);
 		String message = new String("Press Enter To Start");
 		g.setFont(FONT_SMALL);
 		g.drawString(message, getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2), 350);
@@ -92,6 +99,7 @@ public class Engine extends Canvas implements KeyListener{
 	public void keyPressed(KeyEvent e){
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 			System.out.println("It's starting!");
+			paint(g);
 		}
 	}
 
