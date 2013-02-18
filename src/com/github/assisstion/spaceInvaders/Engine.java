@@ -30,10 +30,14 @@ public class Engine extends Canvas implements KeyListener{
 	@SuppressWarnings("unused")
 	private static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 40);
 	
-	//Set to true by the main method when the game is ready to render
-	private boolean readyToStart = false;
-	//Set to true by this class when the game starting script starts running
-	private boolean started = false;
+	/*
+	 *  Update code runs according to current state of the code
+	 *  Possible states:
+	 *  	not_ready: not ready to start
+	 *  	ready: ready to start but not started yet
+	 *  	main: started
+	 */
+	private String state = "not_ready";
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -49,14 +53,19 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	@Override
 	public void paint(Graphics g){
-		if(!readyToStart){
+		if(state.equalsIgnoreCase("not_ready")){
 			return;
 		}
-		if(!started){
-			started = true;
+		else if(state.equalsIgnoreCase("ready")){
 			startGame(g);
 		}
-		
+		else if(state.equalsIgnoreCase("main")){
+			//Placeholder, nothing here yet
+		}
+		else{
+			//Throws an exception if none of the states match
+			throw new IllegalStateException("Illegal engine state: " + state);
+		}
 	}
 	
 	/*
@@ -69,14 +78,14 @@ public class Engine extends Canvas implements KeyListener{
 		String message = new String("Press Enter To Start");
 		g.setFont(FONT_SMALL);
 		g.drawString(message, getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2), 350);
-		
+		state = "main";
 	}
 	
 	/*
 	 * Called by the main method when the game wants to start
 	 */
 	public void start(){
-		readyToStart = true;
+		state = "ready";
 	}
 
 	@Override
