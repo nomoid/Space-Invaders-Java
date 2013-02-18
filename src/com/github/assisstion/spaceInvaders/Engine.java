@@ -81,7 +81,9 @@ public class Engine extends Canvas implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e){
-		
+		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+			System.out.println("It's starting!");
+		}
 	}
 
 	@Override
