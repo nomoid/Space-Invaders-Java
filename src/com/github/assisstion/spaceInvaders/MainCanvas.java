@@ -12,6 +12,8 @@ public class MainCanvas {
 		 /*
 		  * Create a new JFrame and set it's properties up.
 		  */
+		
+		System.out.println("Program launch");
 		 JFrame frame = new JFrame("Space Invaders");
 		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 frame.setResizable(false);
@@ -22,6 +24,7 @@ public class MainCanvas {
 		 
 		 Engine engine = new Engine();
 		 frame.add(engine);
+		 System.out.println("Engine created");
 		 
 		 /*
 		  * Pack the frame, position it in the center of the screen, and then display
@@ -31,11 +34,13 @@ public class MainCanvas {
 		 frame.pack();
 		 frame.setLocationRelativeTo(null);
 		 frame.setVisible(true);
+		 System.out.println("Frame created");
 		 
 		 /*
 		  * Starts the engine
 		  */
 		 
 		 engine.start();
+		 System.out.println("Engine starting");
 		}
 }
