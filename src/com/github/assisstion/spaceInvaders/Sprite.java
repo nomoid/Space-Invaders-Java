@@ -42,6 +42,10 @@ public class Sprite {
 		this.y = y;
 	}
 	
+	protected Sprite(){
+		
+	}
+	
 	public Image getImage() {
 		return image;
 	}
