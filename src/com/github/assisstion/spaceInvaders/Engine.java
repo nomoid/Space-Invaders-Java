@@ -40,6 +40,8 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	private String state = "not_ready";
 	private Graphics2D g;
+	private Player player1;
+	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
@@ -104,8 +106,16 @@ public class Engine extends Canvas implements KeyListener{
 			if(state.equalsIgnoreCase("ready")){
 				//Starts the game
 				System.out.println("It's starting!");
+				//Creates a new player
+				try{
+					player1 = new Player("Bob");
+				}
+				catch(IOException e1){
+					e1.printStackTrace();
+					//Placeholder
+				}
 				state = "main";
-				Player player = new Player("Bob");
+				
 				//Always call repaint when something changes
 				repaint();
 			}
@@ -113,8 +123,13 @@ public class Engine extends Canvas implements KeyListener{
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 			//sets the direction to Right
 			if (state.equals("main")){
-				//y it no work?
-				player.currentDirection = RIGHT;
+				player1.currentDirection = Player.Direction.RIGHT;
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
 	}
