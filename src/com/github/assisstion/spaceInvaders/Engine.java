@@ -105,8 +105,16 @@ public class Engine extends Canvas implements KeyListener{
 				//Starts the game
 				System.out.println("It's starting!");
 				state = "main";
+				Player player = new Player("Bob");
 				//Always call repaint when something changes
 				repaint();
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				//y it no work?
+				player.currentDirection = RIGHT;
 			}
 		}
 	}

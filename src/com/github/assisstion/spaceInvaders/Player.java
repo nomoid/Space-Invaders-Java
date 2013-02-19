@@ -5,17 +5,24 @@ import java.io.IOException;
 
 public class Player extends Sprite {
 
-
-	public Player(String imageLink) throws IOException {
-		super(imageLink);
-		// TODO Auto-generated constructor stub
+	//Constructor
+	public Player(String name){
+		this.name=name;
 	}
 	
 	private String name;
 	private int score;
 	private Image playerSprite;
+	public Direction currentDirection=null;
 	
+	public static enum Direction {
+		LEFT,
+		RIGHT,
+	}
 
+	public String getName(){
+		return name;
+	}
 	
 
 }
