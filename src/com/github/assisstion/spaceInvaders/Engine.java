@@ -89,17 +89,6 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	public void updateMain(Graphics graphics){
 		g = (Graphics2D) graphics;
-		Sprite imageTest = null;
-		try{
-			//Creates instance of SpriteTest
-			imageTest = new Sprite("resources/bob.jpg");
-		}
-		catch(IOException e){
-			e.printStackTrace();
-			//Placeholder
-		}
-		//Gets image from SpriteTest, then creates it
-		g.drawImage(imageTest.getImage(), imageTest.x, imageTest.y, this);
 	}
 		
 	/*
