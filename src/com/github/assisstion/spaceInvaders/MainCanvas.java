@@ -37,6 +37,5 @@ public class MainCanvas {
 		  */
 		 
 		 engine.start();
-		 
 		}
 }

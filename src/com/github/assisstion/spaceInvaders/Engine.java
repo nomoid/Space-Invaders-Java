@@ -6,10 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides the paint()
@@ -51,9 +51,11 @@ public class Engine extends Canvas implements KeyListener{
 	
 	/*
 	 * Method for updating this canvas
+	 * DO NOT put direct code in here, please put methods accessing the code from here
 	 */
 	@Override
 	public void paint(Graphics g){
+		requestFocus();
 		if(state.equalsIgnoreCase("not_ready")){
 			return;
 		}
@@ -61,13 +63,7 @@ public class Engine extends Canvas implements KeyListener{
 			startGame(g);
 		}
 		else if(state.equalsIgnoreCase("main")){
-			//Placeholder, nothing here yet
-			SpriteTest imagetest = new SpriteTest();
-			//Creates instance of SpriteTest
-	        g.drawImage(imagetest.getImage(), 0,0, this);
-	        //Gets image from SpriteTest, then creates it
-	        g.finalize();
-	        // WELL, IT DOESN'T WORK. THIS IS MICHAEL TALKING AT 1:28 AM. I IS TIRED. I HAVE NO IDEA WHY IT DOESN'T WORK!!! You can fix it, cuz you're a saint :D
+			updateMain(g);
 		}
 		else{
 			//Throws an exception if none of the states match
@@ -85,9 +81,27 @@ public class Engine extends Canvas implements KeyListener{
 		String message = new String("Press Enter To Start");
 		g.setFont(FONT_SMALL);
 		g.drawString(message, getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2), 350);
-		state = "main";
+		
 	}
 	
+	/*
+	 * Main update method
+	 */
+	public void updateMain(Graphics graphics){
+		g = (Graphics2D) graphics;
+		SpriteTest imageTest = null;
+		try{
+			//Creates instance of SpriteTest
+			imageTest = new SpriteTest();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+			//Placeholder
+		}
+		//Gets image from SpriteTest, then creates it
+		g.drawImage(imageTest.getImage(), 0,0, this);
+	}
+		
 	/*
 	 * Called by the main method when the game wants to start
 	 */
@@ -98,8 +112,13 @@ public class Engine extends Canvas implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e){
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
-			System.out.println("It's starting!");
-			paint(g);
+			if(state.equalsIgnoreCase("ready")){
+				//Starts the game
+				System.out.println("It's starting!");
+				state = "main";
+				//Always call repaint when something changes
+				repaint();
+			}
 		}
 	}
 
