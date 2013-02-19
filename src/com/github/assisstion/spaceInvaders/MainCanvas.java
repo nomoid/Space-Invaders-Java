@@ -8,13 +8,17 @@ import javax.swing.JFrame;
  * @author Michael Man
  */
 public class MainCanvas {
+	
+	public static JFrame frame;
+	public static Engine engine;
+	
 	public static void main(String[] args) {
 		 /*
 		  * Create a new JFrame and set it's properties up.
 		  */
 		
 		System.out.println("Program launch");
-		 JFrame frame = new JFrame("Space Invaders");
+		 frame = new JFrame("Space Invaders");
 		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 frame.setResizable(false);
 		 
@@ -22,7 +26,7 @@ public class MainCanvas {
 		  * Creates the engine and adds it to the frame
 		  */
 		 
-		 Engine engine = new Engine();
+		 engine = new Engine();
 		 frame.add(engine);
 		 System.out.println("Engine created");
 		 
