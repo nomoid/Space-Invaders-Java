@@ -139,6 +139,7 @@ public class Engine extends Canvas implements KeyListener{
 			} if (godmode.equals("god")){
 				godmode();
 				godmode="";
+				System.out.println("God Mode is starting!");
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
@@ -181,6 +182,9 @@ public class Engine extends Canvas implements KeyListener{
 				godmode = "god";
 >>>>>>> Added God Mode
 			}
+		}
+		else {
+			godmode = "";
 		}
 	}
 
