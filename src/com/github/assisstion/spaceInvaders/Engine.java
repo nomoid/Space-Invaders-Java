@@ -154,7 +154,7 @@ public class Engine extends Canvas implements KeyListener{
 				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
-<<<<<<< HEAD
+
 		else if (e.getKeyCode()==KeyEvent.VK_UP) {
 			//sets the direction to Up
 			if (state.equals("main")){
@@ -165,7 +165,7 @@ public class Engine extends Canvas implements KeyListener{
 			//sets the direction to Down
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.DOWN;
-=======
+			}
 		else if (e.getKeyCode()==KeyEvent.VK_G){
 			if (godmode.equals("")){
 				godmode = "g";
@@ -180,12 +180,13 @@ public class Engine extends Canvas implements KeyListener{
 		else if (e.getKeyCode()==KeyEvent.VK_D){
 			if (godmode.equals("go")){
 				godmode = "god";
->>>>>>> Added God Mode
+				// Added God Mode
 			}
 		}
 		else {
 			godmode = "";
 		}
+	}
 	}
 
 	@Override
