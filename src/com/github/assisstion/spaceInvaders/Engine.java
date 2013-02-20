@@ -98,10 +98,23 @@ public class Engine extends Canvas implements KeyListener{
 		RenderHelper.renderSprite(g, player1);
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
-			player1.x--;
+			if(player1.movementUpdateCounter == 0){
+				player1.x--;
+				player1.movementUpdateCounter = player1.movementUpdateTicks;
+			}
+			else{
+				player1.movementUpdateCounter--;
+			}
+			
 		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
-			player1.x++;
+			if(player1.movementUpdateCounter == player1.movementUpdateTicks){
+				player1.x++;
+				player1.movementUpdateCounter = 0;
+			}
+			else{
+				player1.movementUpdateCounter++;
+			}
 		}
 		//Reloops this
 		repaint();
