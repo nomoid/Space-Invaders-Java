@@ -40,6 +40,7 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	private String state = "not_ready";
 	private Graphics2D g;
+	private String godmode = "";
 	private Player player1;
 	
 	/*
@@ -135,6 +136,9 @@ public class Engine extends Canvas implements KeyListener{
 				
 				//Always call repaint when something changes
 				repaint();
+			} if (godmode.equals("god")){
+				godmode();
+				godmode="";
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
@@ -149,6 +153,7 @@ public class Engine extends Canvas implements KeyListener{
 				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
+<<<<<<< HEAD
 		else if (e.getKeyCode()==KeyEvent.VK_UP) {
 			//sets the direction to Up
 			if (state.equals("main")){
@@ -159,6 +164,22 @@ public class Engine extends Canvas implements KeyListener{
 			//sets the direction to Down
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.DOWN;
+=======
+		else if (e.getKeyCode()==KeyEvent.VK_G){
+			if (godmode.equals("")){
+				godmode = "g";
+			}
+		}
+		
+		else if (e.getKeyCode()==KeyEvent.VK_O){
+			if (godmode.equals("g")){
+				godmode = "go";
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_D){
+			if (godmode.equals("go")){
+				godmode = "god";
+>>>>>>> Added God Mode
 			}
 		}
 	}
@@ -190,10 +211,15 @@ public class Engine extends Canvas implements KeyListener{
 			}
 		}
 	}
+	
 
 	@Override
 	public void keyTyped(KeyEvent e){
 		//No use yet
+	}
+	
+	private void godmode(){
+		
 	}
 	
 	
