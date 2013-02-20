@@ -98,6 +98,12 @@ public class Engine extends Canvas implements KeyListener{
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 			player1.x++;
 		}
+		else if(player1.currentDirection.equals(Player.Direction.UP)){
+			player1.y--;
+		}
+		else if(player1.currentDirection.equals(Player.Direction.DOWN)){
+			player1.y++;
+		}
 		repaint();
 	}
 		
@@ -140,6 +146,18 @@ public class Engine extends Canvas implements KeyListener{
 				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
+		else if (e.getKeyCode()==KeyEvent.VK_UP) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				player1.currentDirection = Player.Direction.UP;
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				player1.currentDirection = Player.Direction.DOWN;
+			}
+		}
 	}
 
 	@Override
@@ -151,6 +169,18 @@ public class Engine extends Canvas implements KeyListener{
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				player1.currentDirection = Player.Direction.NONE;
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_UP) {
+			//sets the direction to Right
+			if (state.equals("main")){
+				player1.currentDirection = Player.Direction.NONE;
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
 			//sets the direction to Right
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.NONE;

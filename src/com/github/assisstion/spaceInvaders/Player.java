@@ -26,6 +26,8 @@ public class Player extends Sprite {
 	public static enum Direction {
 		LEFT,
 		RIGHT,
+		UP,
+		DOWN,
 		NONE
 	}
 
