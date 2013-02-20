@@ -42,6 +42,8 @@ public class Engine extends Canvas implements KeyListener{
 	private Graphics2D g;
 	private String godmode = "";
 	private Player player1;
+	private boolean rightOn=false;
+	private boolean leftOn=false;
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -147,27 +149,17 @@ public class Engine extends Canvas implements KeyListener{
 			//sets the direction to Right
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.RIGHT;
+				rightOn=true;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 			//sets the direction to Left
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.LEFT;
+				leftOn=true;
 			}
 		}
 
-		else if (e.getKeyCode()==KeyEvent.VK_UP) {
-			//sets the direction to Up
-			if (state.equals("main")){
-				player1.currentDirection = Player.Direction.UP;
-			}
-		}
-		else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			//sets the direction to Down
-			if (state.equals("main")){
-				player1.currentDirection = Player.Direction.DOWN;
-			}
-		}
 		else if (e.getKeyCode()==KeyEvent.VK_G){
 			if (godmode.equals("")){
 				godmode = "g";
@@ -184,6 +176,7 @@ public class Engine extends Canvas implements KeyListener{
 				godmode = "god";
 				// Added God Mode
 			}
+			
 		}
 		else {
 			godmode = "";
@@ -196,16 +189,27 @@ public class Engine extends Canvas implements KeyListener{
 			//sets the direction to None
 			if (state.equals("main")){
 				if (player1.currentDirection == Player.Direction.RIGHT){
-				player1.currentDirection = Player.Direction.NONE;
+					player1.currentDirection = Player.Direction.NONE;
+					//Sees whether leftarrow is still being pressed.
+					if (leftOn){
+						player1.currentDirection = Player.Direction.LEFT;
+					}
 				}
+				rightOn=false;
 			}
+		
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 			//sets the direction to None
 			if (state.equals("main")){
 				if (player1.currentDirection == Player.Direction.LEFT){
 				player1.currentDirection = Player.Direction.NONE;
+				//Sees whether rightarrow is still being pressed.
+				if (rightOn){
+					player1.currentDirection = Player.Direction.RIGHT;
 				}
+			}
+			leftOn=false;
 			}
 		}
 	}
