@@ -91,6 +91,14 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	public void updateMain(Graphics graphics){
 		g = (Graphics2D) graphics;
+		RenderHelper.renderSprite(g, player1);
+		if(player1.currentDirection.equals(Player.Direction.LEFT)){
+			player1.x--;
+		}
+		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
+			player1.x++;
+		}
+		repaint();
 	}
 		
 	/*
