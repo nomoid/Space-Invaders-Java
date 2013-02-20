@@ -156,7 +156,6 @@ public class Engine extends Canvas implements KeyListener{
 			}
 		}
 
-<<<<<<< HEAD
 		else if (e.getKeyCode()==KeyEvent.VK_UP) {
 			//sets the direction to Up
 			if (state.equals("main")){
@@ -169,8 +168,6 @@ public class Engine extends Canvas implements KeyListener{
 				player1.currentDirection = Player.Direction.DOWN;
 			}
 		}
-=======
->>>>>>> Fixed the multidirectional lag problem. Deleted up/down code.
 		else if (e.getKeyCode()==KeyEvent.VK_G){
 			if (godmode.equals("")){
 				godmode = "g";
