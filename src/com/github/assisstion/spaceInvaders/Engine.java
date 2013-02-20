@@ -91,7 +91,9 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	public void updateMain(Graphics graphics){
 		g = (Graphics2D) graphics;
+		//Renders the player
 		RenderHelper.renderSprite(g, player1);
+		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			player1.x--;
 		}
@@ -104,6 +106,7 @@ public class Engine extends Canvas implements KeyListener{
 		else if(player1.currentDirection.equals(Player.Direction.DOWN)){
 			player1.y++;
 		}
+		//Reloops this
 		repaint();
 	}
 		
@@ -141,19 +144,19 @@ public class Engine extends Canvas implements KeyListener{
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			//sets the direction to Right
+			//sets the direction to Left
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_UP) {
-			//sets the direction to Right
+			//sets the direction to Up
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.UP;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			//sets the direction to Right
+			//sets the direction to Down
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.DOWN;
 			}
@@ -163,25 +166,25 @@ public class Engine extends Canvas implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e){
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			//sets the direction to Right
+			//sets the direction to None
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.NONE;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			//sets the direction to Right
+			//sets the direction to None
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.NONE;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_UP) {
-			//sets the direction to Right
+			//sets the direction to None
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.NONE;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			//sets the direction to Right
+			//sets the direction to None
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.NONE;
 			}
@@ -190,7 +193,7 @@ public class Engine extends Canvas implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e){
-		
+		//No use yet
 	}
 	
 	

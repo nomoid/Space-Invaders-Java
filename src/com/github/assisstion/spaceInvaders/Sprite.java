@@ -36,6 +36,7 @@ public class Sprite {
 	}
 	
 	public Sprite(String imageLink, int x, int y) throws IOException{
+		//Reads the image provided by the image link file
 		this.imageLink = imageLink;
 		image = ImageIO.read(new FileInputStream(new File(imageLink)));
 		this.x = x;
