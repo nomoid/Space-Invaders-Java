@@ -136,7 +136,8 @@ public class Engine extends Canvas implements KeyListener{
 				
 				//Always call repaint when something changes
 				repaint();
-			} if (godmode.equals("god")){
+			} 
+			if (godmode.equals("god")){
 				godmode();
 				godmode="";
 				System.out.println("God Mode is starting!");
@@ -166,6 +167,7 @@ public class Engine extends Canvas implements KeyListener{
 			if (state.equals("main")){
 				player1.currentDirection = Player.Direction.DOWN;
 			}
+		}
 		else if (e.getKeyCode()==KeyEvent.VK_G){
 			if (godmode.equals("")){
 				godmode = "g";
@@ -186,7 +188,6 @@ public class Engine extends Canvas implements KeyListener{
 		else {
 			godmode = "";
 		}
-	}
 	}
 
 	@Override
