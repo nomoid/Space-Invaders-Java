@@ -103,12 +103,6 @@ public class Engine extends Canvas implements KeyListener{
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 			player1.x++;
 		}
-		else if(player1.currentDirection.equals(Player.Direction.UP)){
-			player1.y--;
-		}
-		else if(player1.currentDirection.equals(Player.Direction.DOWN)){
-			player1.y++;
-		}
 		//Reloops this
 		repaint();
 	}
@@ -203,13 +197,13 @@ public class Engine extends Canvas implements KeyListener{
 			//sets the direction to None
 			if (state.equals("main")){
 				if (player1.currentDirection == Player.Direction.LEFT){
-				player1.currentDirection = Player.Direction.NONE;
-				//Sees whether rightarrow is still being pressed.
-				if (rightOn){
-					player1.currentDirection = Player.Direction.RIGHT;
+					player1.currentDirection = Player.Direction.NONE;
+					//Sees whether rightarrow is still being pressed.
+					if (rightOn){
+						player1.currentDirection = Player.Direction.RIGHT;
+					}
 				}
-			}
-			leftOn=false;
+				leftOn=false;
 			}
 		}
 	}
@@ -221,7 +215,7 @@ public class Engine extends Canvas implements KeyListener{
 	}
 	
 	private void godmode(){
-		
+		//Unimplemented
 	}
 	
 	
