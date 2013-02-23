@@ -1,6 +1,6 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,8 +20,9 @@ public class Sprite {
 	 */
 	public int x;
 	public int y;
+	public Box hitBox;
 	//These are protected so subclasses can override this
-	protected Image image;
+	protected BufferedImage image;
 	protected String imageLink;
 	
 	/*
@@ -33,6 +34,7 @@ public class Sprite {
 		//Temporarily sets the x and y to 0
 		x = 0;
 		y = 0;
+		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
 	}
 	
 	public Sprite(String imageLink, int x, int y) throws IOException{
@@ -41,13 +43,14 @@ public class Sprite {
 		image = ImageIO.read(new FileInputStream(new File(imageLink)));
 		this.x = x;
 		this.y = y;
+		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
 	}
 	
 	protected Sprite(){
 		
 	}
 	
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return image;
 	}
 	

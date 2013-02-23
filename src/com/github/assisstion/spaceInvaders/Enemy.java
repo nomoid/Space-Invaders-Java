@@ -11,6 +11,10 @@ public class Enemy extends Sprite{
 	public int xUpdateCounter;
 	public int yUpdateCounter;
 	
+	protected Enemy(){
+		
+	}
+	
 	public Enemy(EnemyType type) throws IOException{
 		super(ENEMY_IMAGE[type.ordinal()]);
 		int index = type.ordinal();
