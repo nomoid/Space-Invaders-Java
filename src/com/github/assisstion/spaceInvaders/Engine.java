@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.HashSet;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides the paint()
@@ -44,6 +45,7 @@ public class Engine extends Canvas implements KeyListener{
 	private Player player1;
 	private boolean rightOn=false;
 	private boolean leftOn=false;
+	private HashSet<Sprite> gameObjects = new HashSet<Sprite>();
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -94,8 +96,10 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	public void updateMain(Graphics graphics){
 		g = (Graphics2D) graphics;
-		//Renders the player
-		RenderHelper.renderSprite(g, player1);
+		//Renders the game objects
+		for(Sprite object : gameObjects){
+			RenderHelper.renderSprite(g, object);
+		}
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			if(player1.movementUpdateCounter == 0){
@@ -136,6 +140,7 @@ public class Engine extends Canvas implements KeyListener{
 				//Creates a new player
 				try{
 					player1 = new Player("Bob");
+					gameObjects.add(player1);
 				}
 				catch(IOException e1){
 					e1.printStackTrace();
