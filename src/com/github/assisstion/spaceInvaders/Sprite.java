@@ -15,6 +15,8 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
 	
+	private static int entityIDCounter = 0;
+	
 	/*
 	 * These are public so they can be easily used or modified from other sources
 	 */
@@ -24,6 +26,8 @@ public class Sprite {
 	//These are protected so subclasses can override this
 	protected BufferedImage image;
 	protected String imageLink;
+	//Entity id makes it easy to compare entities
+	private int entityID;
 	
 	/*
 	 * Creates a sprite from an image link
@@ -35,6 +39,7 @@ public class Sprite {
 		x = 0;
 		y = 0;
 		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
+		entityID = entityIDCounter++;
 	}
 	
 	public Sprite(String imageLink, int x, int y) throws IOException{
@@ -44,10 +49,11 @@ public class Sprite {
 		this.x = x;
 		this.y = y;
 		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
+		entityID = entityIDCounter++;
 	}
 	
 	protected Sprite(){
-		
+		entityID = entityIDCounter++;
 	}
 	
 	public BufferedImage getImage() {
@@ -56,5 +62,25 @@ public class Sprite {
 	
 	public String getImageLink(){
 		return imageLink;
+	}
+	
+	public int getEntityID(){
+		return entityID;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Sprite){
+			Sprite s = (Sprite) o;
+			if(s.getEntityID() == getEntityID()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+		return getEntityID();
 	}
 }
