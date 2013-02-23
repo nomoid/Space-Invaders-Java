@@ -155,15 +155,15 @@ public class Engine extends Canvas implements KeyListener{
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 			//sets the direction to Right
 			if (state.equals("main")){
-				player1.currentDirection = Player.Direction.RIGHT;
 				rightOn=true;
+				player1.currentDirection = Player.Direction.RIGHT;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 			//sets the direction to Left
 			if (state.equals("main")){
-				player1.currentDirection = Player.Direction.LEFT;
 				leftOn=true;
+				player1.currentDirection = Player.Direction.LEFT;
 			}
 		}
 
@@ -195,6 +195,7 @@ public class Engine extends Canvas implements KeyListener{
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 			//sets the direction to None
 			if (state.equals("main")){
+				rightOn=false;
 				if (player1.currentDirection == Player.Direction.RIGHT){
 					player1.currentDirection = Player.Direction.NONE;
 					//Sees whether leftarrow is still being pressed.
@@ -203,27 +204,26 @@ public class Engine extends Canvas implements KeyListener{
 						player1.currentDirection = Player.Direction.LEFT;
 					}
 				}
-				rightOn=false;
 			}
 		
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 			//sets the direction to None
 			if (state.equals("main")){
+				leftOn=false;
 				if (player1.currentDirection == Player.Direction.LEFT){
 					player1.currentDirection = Player.Direction.NONE;
 					//Sees whether rightarrow is still being pressed.
 					if (rightOn){
 						player1.currentDirection = Player.Direction.RIGHT;
 					}
-				player1.currentDirection = Player.Direction.NONE;
-				//Sees whether rightarrow is still being pressed.
-				if (rightOn){
-					//If it is, change direction back to Right
-					player1.currentDirection = Player.Direction.RIGHT;
+					player1.currentDirection = Player.Direction.NONE;
+					//Sees whether rightarrow is still being pressed.
+					if (rightOn){
+						//If it is, change direction back to Right
+						player1.currentDirection = Player.Direction.RIGHT;
+					}
 				}
-				leftOn=false;
-			}
 			}
 		}
 	}
