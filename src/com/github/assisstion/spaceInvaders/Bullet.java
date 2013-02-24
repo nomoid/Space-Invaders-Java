@@ -5,8 +5,19 @@ import java.io.IOException;
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
 			{"resources/placeholder.jpg", "resources/placeholder.jpg"};
-		public int x=0;
-		public int y=0;
+		
+		private static final boolean[] BULLET_MOVEMENT_MODE = 
+			{true, true};
+		private static final int[] BULLET_MOVEMENT_SPEED = 
+			{2, 1};
+		private static final BulletDirection[] BULLET_DIRECTION = 
+			{BulletDirection.UP, BulletDirection.DOWN};
+		//True means moves one pixel EVERY movementSpeed seconds
+		//False means moves movementSpeed pixels EVERY second
+		public boolean movementMode;
+		public int movementSpeed;
+		public int movementCounter;
+		public BulletDirection direction;
 		
 		//private boolean isLethal = false;
 		
@@ -20,10 +31,16 @@ public class Bullet extends Sprite {
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;
 			this.y=y;
+			movementMode = BULLET_MOVEMENT_MODE[bulletType.ordinal()];
+			movementSpeed = BULLET_MOVEMENT_SPEED[bulletType.ordinal()];
+			direction = BULLET_DIRECTION[bulletType.ordinal()];
 		}
 		
 		public static enum BulletType{
 			PLAYER, ENEMY;
 		}
-
+		
+		public static enum BulletDirection{
+			UP, DOWN;
+		}
 }

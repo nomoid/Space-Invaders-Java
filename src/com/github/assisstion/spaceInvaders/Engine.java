@@ -10,7 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides the paint()
@@ -45,7 +45,8 @@ public class Engine extends Canvas implements KeyListener{
 	private Player player1;
 	private boolean rightOn=false;
 	private boolean leftOn=false;
-	private HashSet<Sprite> gameObjects = new HashSet<Sprite>();
+	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
+	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -100,6 +101,13 @@ public class Engine extends Canvas implements KeyListener{
 		for(Sprite object : gameObjects){
 			RenderHelper.renderSprite(g, object);
 		}
+		bulletUpdate();
+		playerUpdate();
+		//Reloops this
+		repaint();
+	}
+	
+	public void playerUpdate(){
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			if(player1.movementUpdateCounter == 0){
@@ -120,8 +128,40 @@ public class Engine extends Canvas implements KeyListener{
 				player1.movementUpdateCounter++;
 			}
 		}
-		//Reloops this
-		repaint();
+		if(player1.firingCooldown > 0){
+			player1.firingCooldown--;
+		}
+	}
+	
+	public void bulletUpdate(){
+		for(Bullet b : bullets){
+			if(b.movementMode){
+				if(b.movementCounter == 0){
+					if(b.direction.equals(Bullet.BulletDirection.UP)){
+						b.y--;
+					}
+					else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
+						b.y++;
+					}
+					b.movementCounter = b.movementSpeed;
+				}
+				else{
+					b.movementCounter--;
+				}
+			}
+			else{
+				if(b.direction.equals(Bullet.BulletDirection.UP)){
+					b.y -= b.movementSpeed;
+				}
+				else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
+					b.y += b.movementSpeed;
+				}
+			}
+			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
+				bullets.remove(b);
+				gameObjects.remove(b);
+			}
+		}
 	}
 		
 	/*
@@ -155,6 +195,25 @@ public class Engine extends Canvas implements KeyListener{
 				godmode();
 				godmode="";
 				System.out.println("God Mode is starting!");
+			}
+		}
+		else if (e.getKeyCode()==KeyEvent.VK_SPACE) {
+
+			//fires a bullet
+			if (state.equals("main")){
+				if(player1.firingCooldown <= 0){
+					try{
+						Bullet b = new Bullet(Bullet.BulletType.PLAYER, player1.x, player1.y);
+						bullets.add(b);
+						gameObjects.add(b);
+						player1.firingCooldown = 500;
+						System.out.println("Fire!");
+					}
+					catch(IOException e1){
+						//Placeholder
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
@@ -235,7 +294,7 @@ public class Engine extends Canvas implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e){
-		//No use yet
+		
 	}
 	
 	private void godmode(){

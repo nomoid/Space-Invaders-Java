@@ -27,6 +27,7 @@ public class Player extends Sprite {
 	//These counts the ticks
 	public int movementUpdateCounter;
 	public Direction currentDirection=Direction.NONE;
+	public int firingCooldown;
 	
 	public static enum Direction {
 		LEFT,

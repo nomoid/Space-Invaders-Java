@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  * @author Markus Feng
  * @author Michael Man
  */
-public class Sprite {
+public class Sprite implements Comparable<Sprite>{
 	
 	private static int entityIDCounter = 0;
 	
@@ -82,5 +82,19 @@ public class Sprite {
 	@Override
 	public int hashCode(){
 		return getEntityID();
+	}
+
+	@Override
+	public int compareTo(Sprite s){
+		int iD = s.getEntityID();
+		if(iD > getEntityID()){
+			return -1;
+		}
+		else if(iD == getEntityID()){
+			return 0;
+		}
+		else{
+			return 1;
+		}
 	}
 }
