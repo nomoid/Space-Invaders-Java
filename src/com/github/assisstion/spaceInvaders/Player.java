@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Player extends Sprite {
 	
-	private static final String PLAYER_DEFAULT_IMAGE = "resources/placeholder.jpg";
+	private static final String PLAYER_DEFAULT_IMAGE = "resources/SpaceShip.png";
 	private static final int DEFAULT_MOVEMENT_UPDATE_TICKS = 3;
 	
 	protected Player(){

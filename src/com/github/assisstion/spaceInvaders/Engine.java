@@ -53,7 +53,7 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	public Engine() {
 		addKeyListener(this);
-		setBackground(Color.PINK);
+		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(600, 700));
 	}
 	
