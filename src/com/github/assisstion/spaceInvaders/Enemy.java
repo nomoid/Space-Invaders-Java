@@ -8,6 +8,7 @@ public class Enemy extends Sprite{
 	public int health;
 	public int xUpdateCounter;
 	public int yUpdateCounter;
+	public EnemyType enemytype;
 	
 	protected Enemy(){
 		
@@ -17,6 +18,7 @@ public class Enemy extends Sprite{
 		super(ENEMY_IMAGE[type.ordinal()],x,y);
 		int index = type.ordinal();
 		health = ENEMY_HEALTH[index];
+		enemytype=type;
 	}
 	
 	public static enum EnemyType{
@@ -25,4 +27,5 @@ public class Enemy extends Sprite{
 		BLUE,
 		OTHER
 	}
+	
 }

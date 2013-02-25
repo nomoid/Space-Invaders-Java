@@ -2,16 +2,16 @@ package com.github.assisstion.spaceInvaders;
 
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
-			{"resources/Bullet.png", "resources/Bullet.png"};
+			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png"};
 		
 		private static final boolean[] BULLET_MOVEMENT_MODE = 
-			{false, true};
+			{false, true,true,true};
 		private static final int[] BULLET_MOVEMENT_SPEED = 
-			{6, 2};
+			{6, 4,4,4};
 		private static final BulletDirection[] BULLET_DIRECTION = 
-			{BulletDirection.UP, BulletDirection.DOWN};
+			{BulletDirection.UP, BulletDirection.DOWN,BulletDirection.DOWN,BulletDirection.DOWN};
 		private static final int[] BULLET_DAMAGE = 
-			{100, 50};
+			{100, 50,50,50};
 		//True means moves one pixel EVERY movementSpeed ticks
 		//False means moves movementSpeed pixels EVERY tick
 		public boolean movementMode;
@@ -39,7 +39,7 @@ public class Bullet extends Sprite {
 		}
 		
 		public static enum BulletType{
-			PLAYER, ENEMY;
+			PLAYER, NORMAL,RED,BLUE;
 		}
 		
 		public static enum BulletDirection{

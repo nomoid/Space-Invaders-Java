@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
@@ -57,7 +58,7 @@ public class Engine extends Canvas implements KeyListener{
 	//set containing all enemies
 	private ConcurrentSkipListSet<Enemy> enemies = new ConcurrentSkipListSet<Enemy>();
 	//Set containing all bullets
-	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
+	public ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	//Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
 	/*
@@ -160,6 +161,22 @@ public class Engine extends Canvas implements KeyListener{
 				player1.firingCooldown = 32;
 				System.out.println("Fire!");
 			}
+			
+		for (Enemy e : enemies){
+			Random rand = new Random();
+			if (rand.nextInt(50) == 1){
+				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
+				if (e.enemytype.equals(Enemy.EnemyType.RED)){
+					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
+				} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+					b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
+				}
+				
+				bullets.add(b);
+				gameObjects.add(b);
+				System.out.println("Enemy Fired!");
+			}
+		}
 		}
 	}
 	
@@ -238,6 +255,8 @@ public class Engine extends Canvas implements KeyListener{
 			}
 			for(Enemy e : enemies){
 				if(b.hitBox.overLaps(e.hitBox)){
+					if (b.direction.equals(Bullet.BulletDirection.UP)){
+						
 					gameObjects.remove(b);
 					bullets.remove(b);
 					System.out.println("Bullet removed");
@@ -247,7 +266,9 @@ public class Engine extends Canvas implements KeyListener{
 						gameObjects.remove(e);
 						System.out.println("Enemy Killed");
 					}
+					}
 				}
+
 			}
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
 				bullets.remove(b);
