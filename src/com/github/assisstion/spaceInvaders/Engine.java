@@ -161,23 +161,8 @@ public class Engine extends Canvas implements KeyListener{
 				player1.firingCooldown = 32;
 				System.out.println("Fire!");
 			}
-			
-		for (Enemy e : enemies){
-			Random rand = new Random();
-			if (rand.nextInt(50) == 1){
-				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
-				if (e.enemytype.equals(Enemy.EnemyType.RED)){
-					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
-				} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
-					b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
-				}
-				
-				bullets.add(b);
-				gameObjects.add(b);
-				System.out.println("Enemy Fired!");
-			}
 		}
-		}
+
 	}
 	
 	public void playerUpdate(){
@@ -201,6 +186,21 @@ public class Engine extends Canvas implements KeyListener{
 	}
 	
 	public void bulletUpdate(){
+		for (Enemy e : enemies){
+			Random rand = new Random();
+			if (rand.nextInt(600) == 0){
+				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
+				if (e.enemytype.equals(Enemy.EnemyType.RED)){
+					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
+				} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+					b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
+				}
+				
+				bullets.add(b);
+				gameObjects.add(b);
+				System.out.println("Enemy Fired!");
+			}
+		}
 		for(Bullet b : bullets){
 			if(b.movementMode){
 				if(b.movementCounter == 0){
