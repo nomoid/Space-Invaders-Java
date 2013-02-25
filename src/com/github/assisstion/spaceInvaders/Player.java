@@ -14,7 +14,7 @@ public class Player extends Sprite {
 	//Constructor
 	public Player(String name) throws IOException{
 		//Calls the superclass constructor to automatically set up the player image
-		super(PLAYER_DEFAULT_IMAGE);
+		super(PLAYER_DEFAULT_IMAGE, 276, 600);
 		this.name=name;
 		
 	}

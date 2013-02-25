@@ -46,12 +46,10 @@ public class Engine extends Canvas implements KeyListener{
 	private boolean bulletLeft = true;
 	private boolean rightOn=false;
 	private boolean leftOn=false;
+	private boolean spaceOn = false;
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
-	private ConcurrentSkipListSet<Bunker> Bunker1 = new ConcurrentSkipListSet<Bunker>();
-	private ConcurrentSkipListSet<Bunker> Bunker2 = new ConcurrentSkipListSet<Bunker>();
-	private ConcurrentSkipListSet<Bunker> Bunker3 = new ConcurrentSkipListSet<Bunker>();
-	private ConcurrentSkipListSet<Bunker> Bunker4 = new ConcurrentSkipListSet<Bunker>();
+	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -106,10 +104,38 @@ public class Engine extends Canvas implements KeyListener{
 		for(Sprite object : gameObjects){
 			RenderHelper.renderSprite(g, object);
 		}
+		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
 		//Reloops this
 		repaint();
+	}
+	
+	public void inputUpdate(){
+		//Bullet creation code
+		if(spaceOn){
+			if(player1.firingCooldown <= 0){
+				try{
+					int tempx = player1.x;
+					if (!bulletLeft){
+						tempx=player1.x+32;
+						bulletLeft = true;
+					} 
+					else {
+						bulletLeft = false;
+					}
+					Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
+					bullets.add(b);
+					gameObjects.add(b);
+					player1.firingCooldown = 1000;
+					System.out.println("Fire!");
+				}
+				catch(IOException e1){
+					//Placeholder
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void playerUpdate(){
@@ -205,30 +231,9 @@ public class Engine extends Canvas implements KeyListener{
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_SPACE) {
-
-			//fires a bullet
+			//tells the update loop to allow bullet firing
 			if (state.equals("main")){
-				if(player1.firingCooldown <= 0){
-					try{
-						int tempx = player1.x;
-						
-						if (!bulletLeft){
-							tempx=player1.x+32;
-							bulletLeft = true;
-						} else {
-						bulletLeft = false;
-						}
-						Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
-						bullets.add(b);
-						gameObjects.add(b);
-						player1.firingCooldown = 1000;
-						System.out.println("Fire!");
-					}
-					catch(IOException e1){
-						//Placeholder
-						e1.printStackTrace();
-					}
-				}
+				spaceOn = true;
 			}
 		}
 		else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
@@ -305,6 +310,12 @@ public class Engine extends Canvas implements KeyListener{
 				}
 			}
 		}
+		else if (e.getKeyCode()==KeyEvent.VK_SPACE) {
+			//tells the update loop to stop bullet firing
+			if (state.equals("main")){
+				spaceOn = false;
+			}
+		}
 	}
 
 	@Override
@@ -319,7 +330,9 @@ public class Engine extends Canvas implements KeyListener{
 	
 	private void constructBunker(int x, int y){
 		try{
-		Bunker a = new Bunker(0,x,y);
+			Bunker a = new Bunker(0,x,y);
+			bunkers.add(a);
+			gameObjects.add(a);
 		} catch(IOException e1){
 			//Placeholder
 			System.out.println("yo");
