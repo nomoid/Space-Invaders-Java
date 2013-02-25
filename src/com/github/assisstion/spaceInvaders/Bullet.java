@@ -5,7 +5,7 @@ public class Bullet extends Sprite {
 			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png"};
 		
 		private static final boolean[] BULLET_MOVEMENT_MODE = 
-			{false, true,true,true};
+			{false, false, false, false};
 		private static final int[] BULLET_MOVEMENT_SPEED = 
 			{6, 4,4,4};
 		private static final BulletDirection[] BULLET_DIRECTION = 

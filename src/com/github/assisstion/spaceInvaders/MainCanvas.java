@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.util.Random;
+
 import javax.swing.JFrame;
 
 /**
@@ -11,6 +13,7 @@ public class MainCanvas {
 	
 	public static JFrame frame;
 	public static Engine engine;
+	public static Random rand;
 	
 	public static void main(String[] args) {
 		 /*
@@ -41,9 +44,10 @@ public class MainCanvas {
 		 System.out.println("Frame created");
 		 
 		 /*
-		  * Starts the engine
+		  * Starts the engine and creates the random number generator
 		  */
 		 
+		 rand = new Random();
 		 engine.start();
 		 System.out.println("Engine starting");
 		 

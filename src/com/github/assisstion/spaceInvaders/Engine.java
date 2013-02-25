@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
@@ -187,8 +186,7 @@ public class Engine extends Canvas implements KeyListener{
 	
 	public void bulletUpdate(){
 		for (Enemy e : enemies){
-			Random rand = new Random();
-			if (rand.nextInt(600) == 0){
+			if (e.shootingCounter == 0){
 				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
 				if (e.enemytype.equals(Enemy.EnemyType.RED)){
 					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
@@ -198,7 +196,11 @@ public class Engine extends Canvas implements KeyListener{
 				
 				bullets.add(b);
 				gameObjects.add(b);
+				e.shootingCounter = MainCanvas.rand.nextInt(e.shootingCooldownMax - e.shootingCooldownMin) + e.shootingCooldownMin;
 				System.out.println("Enemy Fired!");
+			}
+			else{
+				e.shootingCounter--;
 			}
 		}
 		for(Bullet b : bullets){
@@ -257,15 +259,15 @@ public class Engine extends Canvas implements KeyListener{
 				if(b.hitBox.overLaps(e.hitBox)){
 					if (b.direction.equals(Bullet.BulletDirection.UP)){
 						
-					gameObjects.remove(b);
-					bullets.remove(b);
-					System.out.println("Bullet removed");
-					e.health -= b.damage;
-					if(e.health <= 0){
-						enemies.remove(e);
-						gameObjects.remove(e);
-						System.out.println("Enemy Killed");
-					}
+						gameObjects.remove(b);
+						bullets.remove(b);
+						System.out.println("Bullet removed");
+						e.health -= b.damage;
+						if(e.health <= 0){
+							enemies.remove(e);
+							gameObjects.remove(e);
+							System.out.println("Enemy Killed");
+						}
 					}
 				}
 
