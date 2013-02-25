@@ -208,13 +208,25 @@ public class Engine extends Canvas implements KeyListener{
 			for(Bunker k : bunkers){
 				if(b.hitBox.overLaps(k.hitBox)){
 					gameObjects.remove(b);
+					
 					k.health -= b.damage;
 					bullets.remove(b);
 					System.out.println("Bullet removed");
 					
+					
 					if (k.health<=0){
 						gameObjects.remove(k);
 						bunkers.remove(k);
+					} else if (k.health==100){
+						//gets bunkernumber and adds 1 to cycle it to the next image.
+						k.setImage(k.getBunkerNum()+1);
+					} else if (k.health==200){
+						//multiplies by 10 and adds 1. e.g. bunker 1 would be turned into 11
+						int x=k.getBunkerNum()*10+1;
+						if (k.getBunkerNum()==0){
+							x=91;
+						}
+						k.setImage(x);
 					}
 				}
 			}
@@ -255,18 +267,18 @@ public class Engine extends Canvas implements KeyListener{
 		//loads map plan here
 		constructEnemyFormation();
 		//Constructs the bunker formations
-		constructBunkerFormation(64, 448);
-		constructBunkerFormation(252, 448);
-		constructBunkerFormation(440, 448);
-		constructBunkerFormation(628, 448);
-		constructBunkerFormation(816, 448);
+		constructBunkerFormation(64, 500);
+		constructBunkerFormation(252, 500);
+		constructBunkerFormation(440, 500);
+		constructBunkerFormation(628, 500);
+		constructBunkerFormation(816, 500);
 		state = "main";
 	}
 	
 	//Constructs a bunker formation with the top left corner at (x, y)
 	public void constructBunkerFormation(int x, int y){
 		int bunkerSize = Bunker.BUNKER_SIZE;
-		constructBunker(4,x,y+bunkerSize*4);
+		constructBunker(4,x+bunkerSize*3,y+bunkerSize);
 		constructBunker(0,x,y+bunkerSize*3);
 		constructBunker(0,x,y+bunkerSize*2);
 		constructBunker(0,x,y+bunkerSize);
@@ -278,7 +290,7 @@ public class Engine extends Canvas implements KeyListener{
 		constructBunker(0,x+bunkerSize*4,y+bunkerSize);
 		constructBunker(0,x+bunkerSize*4,y+bunkerSize*2);
 		constructBunker(0,x+bunkerSize*4,y+bunkerSize*3);
-		constructBunker(3,x+bunkerSize*4,y+bunkerSize*4);
+		constructBunker(3,x+bunkerSize,y+bunkerSize);
 	}
 
 	@Override
