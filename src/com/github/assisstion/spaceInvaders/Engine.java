@@ -142,7 +142,7 @@ public class Engine extends Canvas implements KeyListener{
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			if(player1.movementUpdateCounter == 0){
-				if (player1.x-- > 0){
+				if (player1.x > 0){
 					player1.x--;
 				}
 				player1.movementUpdateCounter = player1.movementUpdateTicks;
@@ -150,16 +150,18 @@ public class Engine extends Canvas implements KeyListener{
 			else{
 				player1.movementUpdateCounter--;
 			}
-			}
+		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 				if(player1.movementUpdateCounter == player1.movementUpdateTicks){
-					player1.x++;
-				player1.movementUpdateCounter = 0;
+					if(player1.x < MainCanvas.frame.getWidth() - player1.getImage().getWidth()){
+						player1.x++;
+					}
+					player1.movementUpdateCounter = 0;
 				}
 				else{
 					player1.movementUpdateCounter++;
 				}
-			}
+		}
 		if(player1.firingCooldown > 0){
 			player1.firingCooldown--;
 		}
