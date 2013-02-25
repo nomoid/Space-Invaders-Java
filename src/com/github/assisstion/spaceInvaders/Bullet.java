@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
-			{"resources/placeholder.jpg", "resources/placeholder.jpg"};
+			{"resources/Bullet.png", "resources/Bullet.png"};
 		
 		private static final boolean[] BULLET_MOVEMENT_MODE = 
 			{true, true};

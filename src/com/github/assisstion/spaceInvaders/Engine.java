@@ -43,6 +43,7 @@ public class Engine extends Canvas implements KeyListener{
 	private Graphics2D g;
 	private String godmode = "";
 	private Player player1;
+	private boolean bulletLeft = true;
 	private boolean rightOn=false;
 	private boolean leftOn=false;
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
@@ -203,7 +204,15 @@ public class Engine extends Canvas implements KeyListener{
 			if (state.equals("main")){
 				if(player1.firingCooldown <= 0){
 					try{
-						Bullet b = new Bullet(Bullet.BulletType.PLAYER, player1.x, player1.y);
+						int tempx = player1.x;
+						
+						if (!bulletLeft){
+							tempx=player1.x+32;
+							bulletLeft = true;
+						} else {
+						bulletLeft = false;
+						}
+						Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
 						bullets.add(b);
 						gameObjects.add(b);
 						player1.firingCooldown = 500;

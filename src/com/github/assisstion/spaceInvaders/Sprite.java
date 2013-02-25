@@ -36,7 +36,7 @@ public class Sprite implements Comparable<Sprite>{
 		this.imageLink = imageLink;
 		image = ImageIO.read(new FileInputStream(new File(imageLink)));
 		//Temporarily sets the x and y to 0
-		x = 268;
+		x = 276;
 		y = 600;
 		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
 		entityID = entityIDCounter++;
