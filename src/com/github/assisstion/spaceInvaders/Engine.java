@@ -156,6 +156,12 @@ public class Engine extends Canvas implements KeyListener{
 		if(player1.firingCooldown > 0){
 			player1.firingCooldown--;
 		}
+		if(player1.x < 0){
+			player1.x = 0;
+		}
+		else if(player1.x > MainCanvas.frame.getWidth() - player1.getImage().getWidth()){
+			player1.x = MainCanvas.frame.getWidth() - player1.getImage().getWidth();
+		}
 	}
 	
 	public void bulletUpdate(){
