@@ -34,6 +34,7 @@ public class Bunker extends Sprite {
 		
 		public int health = 300;
 		private int bunkerNum;
+		public int lastImageUpdate = health;
 		protected Bunker(){
 			
 		}
@@ -50,36 +51,36 @@ public class Bunker extends Sprite {
 			switch(bunkerNum){
 				case 0:
 					return BUNKER_A;
-				case 91:
+				case 10:
 					return BUNKER_A1;
-				case 92:
+				case 20:
 					return BUNKER_A2;
 				case 1:
 					return BUNKER_B;
 				case 11:
 					return BUNKER_B1;
-				case 12:
+				case 21:
 					return BUNKER_B2;
 				case 2:
 					return BUNKER_C;
-				case 21:
+				case 12:
 					return BUNKER_C1;
 				case 22:
 					return BUNKER_C2;
 				case 3:
 					return BUNKER_D;
-				case 31:
+				case 13:
 					return BUNKER_D1;
-				case 32:
+				case 23:
 					return BUNKER_D2;
 				case 4:
 					return BUNKER_E;
-				case 41:
+				case 14:
 					return BUNKER_E1;
-				case 42:
+				case 24:
 					return BUNKER_E2;
 				default:
-					throw new IllegalArgumentException("Illegal Bunker Number");
+					throw new IllegalArgumentException("Illegal Bunker Number: " + bunkerNum);
 			}
 		}
 		

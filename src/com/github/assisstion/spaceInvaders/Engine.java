@@ -199,7 +199,8 @@ public class Engine extends Canvas implements KeyListener{
 				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
 				if (e.enemytype.equals(Enemy.EnemyType.RED)){
 					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
-				} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+				} 
+				else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
 					b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
 				}
 				
@@ -215,14 +216,14 @@ public class Engine extends Canvas implements KeyListener{
 		
 		for(Bullet b : bullets){
 
-				if(b.direction.equals(Bullet.BulletDirection.UP)){
-					b.y -= b.movementSpeed;
-					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
-				}
-				else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
-					b.y += b.movementSpeed;
-					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
-				}
+			if(b.direction.equals(Bullet.BulletDirection.UP)){
+				b.y -= b.movementSpeed;
+				b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
+			}
+			else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
+				b.y += b.movementSpeed;
+				b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
+			}
 			for(Bunker k : bunkers){
 				if(b.hitBox.overLaps(k.hitBox)){
 					gameObjects.remove(b);
@@ -230,23 +231,18 @@ public class Engine extends Canvas implements KeyListener{
 					k.health -= b.damage;
 					bullets.remove(b);
 					
-					
-					if (k.health<=0){
-						gameObjects.remove(k);
-						bunkers.remove(k);
-					} else if (k.health==100){
-						//gets bunkernumber and adds 1 to cycle it to the next image.
-						k.setImage(k.getBunkerNum()+1);
-					} else if (k.health==200){
-						//multiplies by 10 and adds 1. e.g. bunker 1 would be turned into 11
-						int x=k.getBunkerNum()*10+1;
-						if (k.getBunkerNum()==0){
-							x=91;
-						}
-						k.setImage(x);
-					}
+				}
+				if (k.health<=0){
+					gameObjects.remove(k);
+					bunkers.remove(k);
+				} 
+				else if ((k.health % 100) == 0 && k.lastImageUpdate > k.health){
+					int x=k.getBunkerNum()+10;
+					k.setImage(x);
+					k.lastImageUpdate = k.health;
 				}
 			}
+		
 			if (b.hitBox.overLaps(player1.hitBox)){
 				//CHANGE THIS LATER FOR VARYING BULLET DAMAGE
 				if (b.direction.equals(Bullet.BulletDirection.DOWN)){
@@ -258,11 +254,10 @@ public class Engine extends Canvas implements KeyListener{
 						gameObjects.remove(player1);
 						System.out.println("You're Dead!");
 					}
+				}
 			}
-				
 			for(Enemy e : enemies){
 				if(b.hitBox.overLaps(e.hitBox)){
-					System.out.println("asdfasdfadsf");
 					if (b.direction.equals(Bullet.BulletDirection.UP)){
 						gameObjects.remove(b);
 						bullets.remove(b);
@@ -280,8 +275,7 @@ public class Engine extends Canvas implements KeyListener{
 				bullets.remove(b);
 				gameObjects.remove(b);
 			}
-		}
-	}	
+		}	
 	}
 		
 	/*
