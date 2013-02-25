@@ -26,6 +26,7 @@ public class Player extends Sprite {
 	public int movementUpdateCounter;
 	public Direction currentDirection=Direction.NONE;
 	public int firingCooldown;
+	public int health;
 	
 	public static enum Direction {
 		LEFT,

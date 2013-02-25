@@ -10,11 +10,14 @@ public class Bullet extends Sprite {
 			{4, 1};
 		private static final BulletDirection[] BULLET_DIRECTION = 
 			{BulletDirection.UP, BulletDirection.DOWN};
+		private static final int[] BULLET_DAMAGE = 
+			{100, 50};
 		//True means moves one pixel EVERY movementSpeed ticks
 		//False means moves movementSpeed pixels EVERY tick
 		public boolean movementMode;
 		public int movementSpeed;
 		public int movementCounter;
+		public int damage;
 		public BulletDirection direction;
 		
 		//private boolean isLethal = false;
@@ -32,6 +35,7 @@ public class Bullet extends Sprite {
 			movementMode = BULLET_MOVEMENT_MODE[bulletType.ordinal()];
 			movementSpeed = BULLET_MOVEMENT_SPEED[bulletType.ordinal()];
 			direction = BULLET_DIRECTION[bulletType.ordinal()];
+			damage = BULLET_DAMAGE[bulletType.ordinal()];
 		}
 		
 		public static enum BulletType{

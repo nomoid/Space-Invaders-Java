@@ -15,7 +15,7 @@ public class Bunker extends Sprite {
 		
 		public static final int BUNKER_SIZE = 16;
 		
-		public int hitPoints = 3;
+		public int health = 300;
 		private int bunkerNum;
 		
 		protected Bunker(){
