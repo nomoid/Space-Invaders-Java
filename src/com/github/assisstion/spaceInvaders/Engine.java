@@ -54,6 +54,8 @@ public class Engine extends Canvas implements KeyListener{
 	private boolean spaceOn = false;
 	//Set containing all game objects
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
+	//set containing all enemies
+	private ConcurrentSkipListSet<Enemy> enemies = new ConcurrentSkipListSet<Enemy>();
 	//Set containing all bullets
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	//Set containing all bunkers
@@ -124,6 +126,17 @@ public class Engine extends Canvas implements KeyListener{
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
+	}
+	
+	//map input will be developed here later
+	public void constructEnemyFormation(){
+		int x=10;
+		for (int i=0; i<10; i++){
+		Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,20);
+		gameObjects.add(enemy1);
+		enemies.add(enemy1);
+		x=x+132;
+		}
 	}
 	
 	public void inputUpdate(){
@@ -198,9 +211,23 @@ public class Engine extends Canvas implements KeyListener{
 			for(Bunker k : bunkers){
 				if(b.hitBox.overLaps(k.hitBox)){
 					gameObjects.remove(b);
+					k.hitPoints--;
 					bulletTBR.add(b);
 					System.out.println("Bullet removed");
+					
+					if (k.hitPoints==0){
+						gameObjects.remove(k);
+						bunkers.remove(k);
+					}
 				}
+			for(Enemy e : enemies){
+				if(b.hitBox.overLaps(e.hitBox)){
+					gameObjects.remove(b);
+					gameObjects.remove(e);
+					bulletTBR.add(b);
+					System.out.println("Bullet removed & Enemy Killed");
+				}
+			}
 			}
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
 				bulletTBR.add(b);
@@ -227,6 +254,8 @@ public class Engine extends Canvas implements KeyListener{
 		//Creates a new player
 		player1 = new Player("Bob");
 		gameObjects.add(player1);
+		//loads map plan here
+		constructEnemyFormation();
 		//Constructs the bunker formations
 		constructBunkerFormation(64, 448);
 		constructBunkerFormation(252, 448);

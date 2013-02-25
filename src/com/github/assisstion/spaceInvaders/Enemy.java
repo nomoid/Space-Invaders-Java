@@ -2,8 +2,8 @@ package com.github.assisstion.spaceInvaders;
 
 public class Enemy extends Sprite{
 	
-	private static final int[] ENEMY_HEALTH = {};
-	private static final String[] ENEMY_IMAGE = {};
+	private static final int[] ENEMY_HEALTH = {10};
+	private static final String[] ENEMY_IMAGE = {"resources/Enemy SpaceShip.png","resources/Enemy SpaceShip Red.png","resources/Enemy SpaceShip Blue.png"};
 	
 	public int health;
 	public int xUpdateCounter;
@@ -13,13 +13,16 @@ public class Enemy extends Sprite{
 		
 	}
 	
-	public Enemy(EnemyType type) throws GameException{
-		super(ENEMY_IMAGE[type.ordinal()]);
+	public Enemy(EnemyType type,int x, int y) throws GameException{
+		super(ENEMY_IMAGE[type.ordinal()],x,y);
 		int index = type.ordinal();
 		health = ENEMY_HEALTH[index];
 	}
 	
 	public static enum EnemyType{
-		
+		NORMAL,
+		RED,
+		BLUE,
+		OTHER
 	}
 }
