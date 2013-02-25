@@ -13,6 +13,8 @@ public class Bunker extends Sprite {
 		//curved side to the bottom left
 		private static final String BUNKER_E = "resources/BunkerE.png";
 		
+		public static final int BUNKER_SIZE = 16;
+		
 		private int bunkerNum;
 		
 		protected Bunker(){

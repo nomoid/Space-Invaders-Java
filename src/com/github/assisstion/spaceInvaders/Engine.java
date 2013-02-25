@@ -65,7 +65,7 @@ public class Engine extends Canvas implements KeyListener{
 	public Engine() {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(560, 640));
+		setPreferredSize(new Dimension(960, 640));
 	}
 	
 	/*
@@ -191,6 +191,7 @@ public class Engine extends Canvas implements KeyListener{
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
 				bullets.remove(b);
 				gameObjects.remove(b);
+				System.out.println("Bullet removed");
 			}
 		}
 	}
@@ -208,20 +209,29 @@ public class Engine extends Canvas implements KeyListener{
 		//Creates a new player
 		player1 = new Player("Bob");
 		gameObjects.add(player1);
-		constructBunker(4,64,512);
-		constructBunker(0,64,496);
-		constructBunker(0,64,480);
-		constructBunker(0,64,464);
-		constructBunker(1,64,448);
-		constructBunker(0,80,448);
-		constructBunker(0,96,448);
-		constructBunker(0,112,448);
-		constructBunker(2,128,448);
-		constructBunker(0,128,464);
-		constructBunker(0,128,480);
-		constructBunker(0,128,496);
-		constructBunker(3,128,512);
+		constructBunkerFormation(64, 448);
+		constructBunkerFormation(252, 448);
+		constructBunkerFormation(440, 448);
+		constructBunkerFormation(628, 448);
+		constructBunkerFormation(816, 448);
 		state = "main";
+	}
+	
+	public void constructBunkerFormation(int x, int y){
+		int bunkerSize = Bunker.BUNKER_SIZE;
+		constructBunker(4,x,y+bunkerSize*4);
+		constructBunker(0,x,y+bunkerSize*3);
+		constructBunker(0,x,y+bunkerSize*2);
+		constructBunker(0,x,y+bunkerSize);
+		constructBunker(1,x,y);
+		constructBunker(0,x+bunkerSize,y);
+		constructBunker(0,x+bunkerSize*2,y);
+		constructBunker(0,x+bunkerSize*3,y);
+		constructBunker(2,x+bunkerSize*4,y);
+		constructBunker(0,x+bunkerSize*4,y+bunkerSize);
+		constructBunker(0,x+bunkerSize*4,y+bunkerSize*2);
+		constructBunker(0,x+bunkerSize*4,y+bunkerSize*3);
+		constructBunker(3,x+bunkerSize*4,y+bunkerSize*4);
 	}
 
 	@Override
