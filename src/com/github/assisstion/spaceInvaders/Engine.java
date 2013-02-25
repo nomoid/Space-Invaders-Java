@@ -65,7 +65,7 @@ public class Engine extends Canvas implements KeyListener{
 	public Engine() {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(600, 700));
+		setPreferredSize(new Dimension(560, 640));
 	}
 	
 	/*
@@ -201,18 +201,34 @@ public class Engine extends Canvas implements KeyListener{
 	public void start(){
 		state = "ready";
 	}
+	
+	public void startGame(){
+		//Starts the game
+		System.out.println("It's starting!");
+		//Creates a new player
+		player1 = new Player("Bob");
+		gameObjects.add(player1);
+		constructBunker(4,64,512);
+		constructBunker(0,64,496);
+		constructBunker(0,64,480);
+		constructBunker(0,64,464);
+		constructBunker(1,64,448);
+		constructBunker(0,80,448);
+		constructBunker(0,96,448);
+		constructBunker(0,112,448);
+		constructBunker(2,128,448);
+		constructBunker(0,128,464);
+		constructBunker(0,128,480);
+		constructBunker(0,128,496);
+		constructBunker(3,128,512);
+		state = "main";
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e){
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 			if(state.equalsIgnoreCase("ready")){
-				//Starts the game
-				System.out.println("It's starting!");
-				//Creates a new player
-				player1 = new Player("Bob");
-				gameObjects.add(player1);
-				constructBunker(10,20);
-				state = "main";
+				startGame();
 			} 
 			if (godmode.equals("god")){
 				godmode();
@@ -319,8 +335,8 @@ public class Engine extends Canvas implements KeyListener{
 		//God Mode to be initiated here
 	}
 	
-	private void constructBunker(int x, int y){
-		Bunker a = new Bunker(0,x,y);
+	private void constructBunker(int bunkerType, int x, int y){
+		Bunker a = new Bunker(bunkerType,x,y);
 		bunkers.add(a);
 		gameObjects.add(a);
 	} 
