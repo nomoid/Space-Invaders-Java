@@ -128,17 +128,25 @@ public class Engine extends Canvas implements KeyListener{
 	//map input will be developed here later
 	public void constructEnemyFormation(){
 		int x=10;
-		for (int i=0; i<15; i++){
-			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,20);
-			gameObjects.add(enemy1);
-			enemies.add(enemy1);
-			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE,x,80);
-			gameObjects.add(enemy2);
-			enemies.add(enemy2);
-			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,140);
+		for (int i=0; i<10; i++){
+			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,20);
 			gameObjects.add(enemy3);
 			enemies.add(enemy3);
-			x=x+68;
+			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE,x,60);
+			gameObjects.add(enemy2);
+			enemies.add(enemy2);
+			Enemy enemy4 = new Enemy(Enemy.EnemyType.BLUE,x,100);
+			gameObjects.add(enemy4);
+			enemies.add(enemy4);
+			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,140);
+			gameObjects.add(enemy1);
+			enemies.add(enemy1);
+			enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,180);
+			gameObjects.add(enemy1);
+			enemies.add(enemy1);
+		
+			
+			x=x+50;
 		}
 	}
 	
