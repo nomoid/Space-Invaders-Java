@@ -46,5 +46,7 @@ public class MainCanvas {
 		 
 		 engine.start();
 		 System.out.println("Engine starting");
+		 
+		 new Thread(new Clock()).start();
 		}
 }

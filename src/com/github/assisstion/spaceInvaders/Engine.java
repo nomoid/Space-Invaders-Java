@@ -122,8 +122,6 @@ public class Engine extends Canvas implements KeyListener{
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
-		//Reloops this
-		repaint();
 	}
 	
 	public void inputUpdate(){
@@ -141,7 +139,7 @@ public class Engine extends Canvas implements KeyListener{
 				Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
 				bullets.add(b);
 				gameObjects.add(b);
-				player1.firingCooldown = 1000;
+				player1.firingCooldown = 32;
 				System.out.println("Fire!");
 			}
 		}
@@ -150,26 +148,10 @@ public class Engine extends Canvas implements KeyListener{
 	public void playerUpdate(){
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
-			if(player1.movementUpdateCounter == 0){
-				if (player1.x > 0){
-					player1.x--;
-				}
-				player1.movementUpdateCounter = player1.movementUpdateTicks;
-			}
-			else{
-				player1.movementUpdateCounter--;
-			}
+			player1.x -= 4;
 		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
-				if(player1.movementUpdateCounter == player1.movementUpdateTicks){
-					if(player1.x < MainCanvas.frame.getWidth() - player1.getImage().getWidth()){
-						player1.x++;
-					}
-					player1.movementUpdateCounter = 0;
-				}
-				else{
-					player1.movementUpdateCounter++;
-				}
+			player1.x += 4;
 		}
 		if(player1.firingCooldown > 0){
 			player1.firingCooldown--;
@@ -225,9 +207,6 @@ public class Engine extends Canvas implements KeyListener{
 				gameObjects.add(player1);
 				constructBunker(10,20);
 				state = "main";
-				
-				//Always call repaint when something changes
-				repaint();
 			} 
 			if (godmode.equals("god")){
 				godmode();

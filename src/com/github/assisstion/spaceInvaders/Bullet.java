@@ -5,13 +5,13 @@ public class Bullet extends Sprite {
 			{"resources/Bullet.png", "resources/Bullet.png"};
 		
 		private static final boolean[] BULLET_MOVEMENT_MODE = 
-			{true, true};
+			{false, true};
 		private static final int[] BULLET_MOVEMENT_SPEED = 
-			{2, 1};
+			{4, 1};
 		private static final BulletDirection[] BULLET_DIRECTION = 
 			{BulletDirection.UP, BulletDirection.DOWN};
-		//True means moves one pixel EVERY movementSpeed seconds
-		//False means moves movementSpeed pixels EVERY second
+		//True means moves one pixel EVERY movementSpeed ticks
+		//False means moves movementSpeed pixels EVERY tick
 		public boolean movementMode;
 		public int movementSpeed;
 		public int movementCounter;
