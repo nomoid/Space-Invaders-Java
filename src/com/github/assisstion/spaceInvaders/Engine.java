@@ -128,7 +128,7 @@ public class Engine extends Canvas implements KeyListener{
 	//map input will be developed here later
 	public void constructEnemyFormation(){
 		int x=10;
-		for (int i=0; i<10; i++){
+		for (int i=0; i<15; i++){
 			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,20);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
@@ -138,7 +138,7 @@ public class Engine extends Canvas implements KeyListener{
 			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,140);
 			gameObjects.add(enemy3);
 			enemies.add(enemy3);
-			x=x+132;
+			x=x+68;
 		}
 	}
 	
@@ -197,7 +197,6 @@ public class Engine extends Canvas implements KeyListener{
 				bullets.add(b);
 				gameObjects.add(b);
 				e.shootingCounter = MainCanvas.rand.nextInt(e.shootingCooldownMax - e.shootingCooldownMin) + e.shootingCooldownMin;
-				System.out.println("Enemy Fired!");
 			}
 			else{
 				e.shootingCounter--;
@@ -236,7 +235,6 @@ public class Engine extends Canvas implements KeyListener{
 					
 					k.health -= b.damage;
 					bullets.remove(b);
-					System.out.println("Bullet removed");
 					
 					
 					if (k.health<=0){

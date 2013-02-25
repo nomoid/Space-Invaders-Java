@@ -26,7 +26,7 @@ public class Bullet extends Sprite {
 		}
 		
 		//Constructor
-		//Asks for the type of the bullet and the x&y values of the original launch point of the bullet. Implementation will come later.
+		//Asks for the type of the bullet and the x&y values of the original launch point of the bullet.
 		public Bullet(BulletType bulletType, int x, int y) throws GameException{
 			//Calls the superclass constructor to automatically set up the player image
 			super(BULLET_SHOT[bulletType.ordinal()]);
