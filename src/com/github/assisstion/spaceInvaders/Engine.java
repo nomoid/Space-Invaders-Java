@@ -44,6 +44,8 @@ public class Engine extends Canvas implements KeyListener{
 	//Unused for now
 	@SuppressWarnings("unused")
 	private boolean godmodeOn = false;
+	//Direction of the enemies
+	private boolean enemyGoingRight = true;
 	private Player player1;
 	private boolean bulletLeft = true;
 	//true if right arrow key down
@@ -144,8 +146,6 @@ public class Engine extends Canvas implements KeyListener{
 			enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,180);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
-		
-			
 			x=x+50;
 		}
 	}
@@ -176,6 +176,7 @@ public class Engine extends Canvas implements KeyListener{
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			player1.x -= 4;
+			player1.hitBox = new Box(player1.x, player1.y, player1.getImage().getWidth(), player1.getImage().getHeight(), true);
 		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 			player1.x += 4;
@@ -210,24 +211,10 @@ public class Engine extends Canvas implements KeyListener{
 				e.shootingCounter--;
 			}
 		}
+		
+		
 		for(Bullet b : bullets){
-			if(b.movementMode){
-				if(b.movementCounter == 0){
-					if(b.direction.equals(Bullet.BulletDirection.UP)){
-						b.y--;
-						b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
-					}
-					else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
-						b.y++;
-						b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
-					}
-					b.movementCounter = b.movementSpeed;
-				}
-				else{
-					b.movementCounter--;
-				}
-			}
-			else{
+
 				if(b.direction.equals(Bullet.BulletDirection.UP)){
 					b.y -= b.movementSpeed;
 					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
@@ -236,7 +223,6 @@ public class Engine extends Canvas implements KeyListener{
 					b.y += b.movementSpeed;
 					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
 				}
-			}
 			for(Bunker k : bunkers){
 				if(b.hitBox.overLaps(k.hitBox)){
 					gameObjects.remove(b);
@@ -261,13 +247,25 @@ public class Engine extends Canvas implements KeyListener{
 					}
 				}
 			}
+			if (b.hitBox.overLaps(player1.hitBox)){
+				//CHANGE THIS LATER FOR VARYING BULLET DAMAGE
+				if (b.direction.equals(Bullet.BulletDirection.DOWN)){
+					player1.health-=50;
+					System.out.println("You've Been Hit!");
+					bullets.remove(b);
+					gameObjects.remove(b);
+					if (player1.health<=0){
+						gameObjects.remove(player1);
+						System.out.println("You're Dead!");
+					}
+			}
+				
 			for(Enemy e : enemies){
 				if(b.hitBox.overLaps(e.hitBox)){
+					System.out.println("asdfasdfadsf");
 					if (b.direction.equals(Bullet.BulletDirection.UP)){
-						
 						gameObjects.remove(b);
 						bullets.remove(b);
-						System.out.println("Bullet removed");
 						e.health -= b.damage;
 						if(e.health <= 0){
 							enemies.remove(e);
@@ -281,9 +279,9 @@ public class Engine extends Canvas implements KeyListener{
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
 				bullets.remove(b);
 				gameObjects.remove(b);
-				System.out.println("Bullet removed");
 			}
 		}
+	}	
 	}
 		
 	/*
@@ -297,6 +295,7 @@ public class Engine extends Canvas implements KeyListener{
 		//Starts the game
 		System.out.println("It's starting!");
 		//Creates a new player
+		new Thread(new MovementClock()).start();
 		player1 = new Player("Bob");
 		gameObjects.add(player1);
 		//loads map plan here
@@ -444,5 +443,23 @@ public class Engine extends Canvas implements KeyListener{
 		bunkers.add(a);
 		gameObjects.add(a);
 	} 
+	
+	public void moveEnemies(){
+		for (Enemy e: enemies){
+			if (e.x+50 > MainCanvas.frame.getWidth() && enemyGoingRight){
+				e.y+=50;
+			} else if (e.x-50<0 && !enemyGoingRight){
+				e.y+=50;
+			} else {
+				if (enemyGoingRight){
+					e.x+=50;
+				} else {
+					e.x-=50;
+				}
+			}
+		e.hitBox = new Box(e.x, e.y, e.getImage().getWidth(), e.getImage().getHeight(), true);
+
+		}
+	}
 }
 

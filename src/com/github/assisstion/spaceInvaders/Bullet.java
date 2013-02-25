@@ -4,10 +4,8 @@ public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
 			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png"};
 		
-		private static final boolean[] BULLET_MOVEMENT_MODE = 
-			{false, false, false, false};
 		private static final int[] BULLET_MOVEMENT_SPEED = 
-			{6, 4,4,4};
+			{8, 4,4,4};
 		private static final BulletDirection[] BULLET_DIRECTION = 
 			{BulletDirection.UP, BulletDirection.DOWN,BulletDirection.DOWN,BulletDirection.DOWN};
 		private static final int[] BULLET_DAMAGE = 
@@ -32,7 +30,6 @@ public class Bullet extends Sprite {
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;
 			this.y=y;
-			movementMode = BULLET_MOVEMENT_MODE[bulletType.ordinal()];
 			movementSpeed = BULLET_MOVEMENT_SPEED[bulletType.ordinal()];
 			direction = BULLET_DIRECTION[bulletType.ordinal()];
 			damage = BULLET_DAMAGE[bulletType.ordinal()];
