@@ -1,7 +1,5 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.IOException;
-
 public class Enemy extends Sprite{
 	
 	private static final int[] ENEMY_HEALTH = {};
@@ -15,7 +13,7 @@ public class Enemy extends Sprite{
 		
 	}
 	
-	public Enemy(EnemyType type) throws IOException{
+	public Enemy(EnemyType type) throws GameException{
 		super(ENEMY_IMAGE[type.ordinal()]);
 		int index = type.ordinal();
 		health = ENEMY_HEALTH[index];

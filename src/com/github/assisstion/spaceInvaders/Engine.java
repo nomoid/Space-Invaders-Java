@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
@@ -42,13 +41,22 @@ public class Engine extends Canvas implements KeyListener{
 	private String state = "not_ready";
 	private Graphics2D g;
 	private String godmode = "";
+	//Unused for now
+	@SuppressWarnings("unused")
+	private boolean godmodeOn = false;
 	private Player player1;
 	private boolean bulletLeft = true;
+	//true if right arrow key down
 	private boolean rightOn=false;
+	//true if left arrow key down
 	private boolean leftOn=false;
+	//true if space key down
 	private boolean spaceOn = false;
+	//Set containing all game objects
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
+	//Set containing all bullets
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
+	//Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
 	
 	/*
@@ -66,19 +74,26 @@ public class Engine extends Canvas implements KeyListener{
 	 */
 	@Override
 	public void paint(Graphics g){
-		requestFocus();
-		if(state.equalsIgnoreCase("not_ready")){
-			return;
+		try{
+			requestFocus();
+			if(state.equalsIgnoreCase("not_ready")){
+				return;
+			}
+			else if(state.equalsIgnoreCase("ready")){
+				startGame(g);
+			}
+			else if(state.equalsIgnoreCase("main")){
+				updateMain(g);
+			}
+			else{
+				//Throws an exception if none of the states match
+				throw new IllegalStateException("Illegal engine state: " + state);
+			}
 		}
-		else if(state.equalsIgnoreCase("ready")){
-			startGame(g);
-		}
-		else if(state.equalsIgnoreCase("main")){
-			updateMain(g);
-		}
-		else{
-			//Throws an exception if none of the states match
-			throw new IllegalStateException("Illegal engine state: " + state);
+		catch(GameException e){
+			//placeholder
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -115,25 +130,19 @@ public class Engine extends Canvas implements KeyListener{
 		//Bullet creation code
 		if(spaceOn){
 			if(player1.firingCooldown <= 0){
-				try{
-					int tempx = player1.x;
-					if (!bulletLeft){
-						tempx=player1.x+32;
-						bulletLeft = true;
-					} 
-					else {
-						bulletLeft = false;
-					}
-					Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
-					bullets.add(b);
-					gameObjects.add(b);
-					player1.firingCooldown = 1000;
-					System.out.println("Fire!");
+				int tempx = player1.x;
+				if (!bulletLeft){
+					tempx=player1.x+32;
+					bulletLeft = true;
+				} 
+				else {
+					bulletLeft = false;
 				}
-				catch(IOException e1){
-					//Placeholder
-					e1.printStackTrace();
-				}
+				Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
+				bullets.add(b);
+				gameObjects.add(b);
+				player1.firingCooldown = 1000;
+				System.out.println("Fire!");
 			}
 		}
 	}
@@ -212,15 +221,9 @@ public class Engine extends Canvas implements KeyListener{
 				//Starts the game
 				System.out.println("It's starting!");
 				//Creates a new player
-				try{
-					player1 = new Player("Bob");
-					gameObjects.add(player1);
-					constructBunker(10,20);
-				}
-				catch(IOException e1){
-					e1.printStackTrace();
-					//Placeholder
-				}
+				player1 = new Player("Bob");
+				gameObjects.add(player1);
+				constructBunker(10,20);
 				state = "main";
 				
 				//Always call repaint when something changes
@@ -326,19 +329,15 @@ public class Engine extends Canvas implements KeyListener{
 	}
 	
 	private void godmode(){
+		godmodeOn = true;
 		//Unimplemented
 		//God Mode to be initiated here
 	}
 	
 	private void constructBunker(int x, int y){
-		try{
-			Bunker a = new Bunker(0,x,y);
-			bunkers.add(a);
-			gameObjects.add(a);
-		} catch(IOException e1){
-			//Placeholder
-			System.out.println("yo");
-		}
+		Bunker a = new Bunker(0,x,y);
+		bunkers.add(a);
+		gameObjects.add(a);
 	} 
 }
 

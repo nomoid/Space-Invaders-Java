@@ -1,7 +1,5 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.IOException;
-
 public class Bunker extends Sprite {
 		
 		//normal square
@@ -24,7 +22,7 @@ public class Bunker extends Sprite {
 		
 		//Constructor
 		//Asks for BunkerID, The X value of the Bunker and the Y value. Implementation will come later.
-		public Bunker(int bunkerNum, int bunkerX, int bunkerY) throws IOException{
+		public Bunker(int bunkerNum, int bunkerX, int bunkerY) throws GameException{
 			//Calls the superclass constructor to set up the image for THIS OBJECT
 			super(getImageLinkFromBunkerNumber(bunkerNum), bunkerX, bunkerY);
 			this.bunkerNum=bunkerNum;

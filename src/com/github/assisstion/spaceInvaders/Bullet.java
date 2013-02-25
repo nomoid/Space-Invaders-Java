@@ -1,7 +1,5 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.IOException;
-
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
 			{"resources/Bullet.png", "resources/Bullet.png"};
@@ -26,7 +24,7 @@ public class Bullet extends Sprite {
 		
 		//Constructor
 		//Asks for the type of the bullet and the x&y values of the original launch point of the bullet. Implementation will come later.
-		public Bullet(BulletType bulletType, int x, int y) throws IOException{
+		public Bullet(BulletType bulletType, int x, int y) throws GameException{
 			//Calls the superclass constructor to automatically set up the player image
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;

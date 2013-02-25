@@ -32,24 +32,23 @@ public class Sprite implements Comparable<Sprite>{
 	/*
 	 * Creates a sprite from an image link
 	 */
-	public Sprite(String imageLink) throws IOException{
-		this.imageLink = imageLink;
-		image = ImageIO.read(new FileInputStream(new File(imageLink)));
-		//Temporarily sets the x and y to 0
-		x = 0;
-		y = 0;
-		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
-		entityID = entityIDCounter++;
+	public Sprite(String imageLink) throws GameException{
+		this(imageLink, 0, 0);
 	}
 	
-	public Sprite(String imageLink, int x, int y) throws IOException{
-		//Reads the image provided by the image link file
+	public Sprite(String imageLink, int x, int y) throws GameException{
+		this();
 		this.imageLink = imageLink;
+		try{
 		image = ImageIO.read(new FileInputStream(new File(imageLink)));
+		}
+		catch(IOException e){
+			throw new GameException("Error creating " + getClass().getName() + ": " + getEntityID(), e);
+		}
+		//Temporarily sets the x and y to 0
 		this.x = x;
 		this.y = y;
 		hitBox = new Box(x, y, image.getWidth(), image.getHeight());
-		entityID = entityIDCounter++;
 	}
 	
 	protected Sprite(){

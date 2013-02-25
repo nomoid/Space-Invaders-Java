@@ -1,7 +1,5 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.IOException;
-
 public class Player extends Sprite {
 	
 	private static final String PLAYER_DEFAULT_IMAGE = "resources/SpaceShip.png";
@@ -12,7 +10,7 @@ public class Player extends Sprite {
 	}
 	
 	//Constructor
-	public Player(String name) throws IOException{
+	public Player(String name) throws GameException{
 		//Calls the superclass constructor to automatically set up the player image
 		super(PLAYER_DEFAULT_IMAGE, 276, 600);
 		this.name=name;
