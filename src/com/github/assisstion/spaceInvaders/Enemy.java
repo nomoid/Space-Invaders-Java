@@ -6,7 +6,7 @@ public class Enemy extends Sprite{
 	private static final String[] ENEMY_IMAGE = {"resources/Enemy SpaceShip.png","resources/Enemy SpaceShip Red.png","resources/Enemy SpaceShip Blue.png"};
 	//Note the 2D array, it is just an array of int[]'s
 	//The first value is the min, the second value is the max
-	private static final int[][] ENEMY_SHOOTING_COOLDOWN = {{450, 900}, {300, 600}, {200, 400}};
+	private static final int[][] ENEMY_SHOOTING_COOLDOWN = {{600, 1200}, {500, 1000}, {400, 800}};
 	
 	public int health;
 	public int xUpdateCounter;
