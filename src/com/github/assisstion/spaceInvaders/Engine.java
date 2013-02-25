@@ -58,6 +58,8 @@ public class Engine extends Canvas implements KeyListener{
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	//Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
+	//Bullets to be removed 
+	private ConcurrentSkipListSet<Bullet> bulletTBR = new ConcurrentSkipListSet<Bullet>();
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -128,9 +130,9 @@ public class Engine extends Canvas implements KeyListener{
 		//Bullet creation code
 		if(spaceOn){
 			if(player1.firingCooldown <= 0){
-				int tempx = player1.x;
+				int tempx = player1.x + 4;
 				if (!bulletLeft){
-					tempx=player1.x+32;
+					tempx=player1.x + 28;
 					bulletLeft = true;
 				} 
 				else {
@@ -152,6 +154,7 @@ public class Engine extends Canvas implements KeyListener{
 		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 			player1.x += 4;
+			player1.hitBox = new Box(player1.x, player1.y, player1.getImage().getWidth(), player1.getImage().getHeight(), true);
 		}
 		if(player1.firingCooldown > 0){
 			player1.firingCooldown--;
@@ -170,9 +173,11 @@ public class Engine extends Canvas implements KeyListener{
 				if(b.movementCounter == 0){
 					if(b.direction.equals(Bullet.BulletDirection.UP)){
 						b.y--;
+						b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
 					}
 					else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
 						b.y++;
+						b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
 					}
 					b.movementCounter = b.movementSpeed;
 				}
@@ -183,16 +188,29 @@ public class Engine extends Canvas implements KeyListener{
 			else{
 				if(b.direction.equals(Bullet.BulletDirection.UP)){
 					b.y -= b.movementSpeed;
+					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
 				}
 				else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
 					b.y += b.movementSpeed;
+					b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
+				}
+			}
+			for(Bunker k : bunkers){
+				if(b.hitBox.overLaps(k.hitBox)){
+					gameObjects.remove(b);
+					bulletTBR.add(b);
+					System.out.println("Bullet removed");
 				}
 			}
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
-				bullets.remove(b);
+				bulletTBR.add(b);
 				gameObjects.remove(b);
 				System.out.println("Bullet removed");
 			}
+		}
+		for(Bullet b : bulletTBR){
+			bullets.remove(b);
+			bulletTBR.remove(b);
 		}
 	}
 		
@@ -209,6 +227,7 @@ public class Engine extends Canvas implements KeyListener{
 		//Creates a new player
 		player1 = new Player("Bob");
 		gameObjects.add(player1);
+		//Constructs the bunker formations
 		constructBunkerFormation(64, 448);
 		constructBunkerFormation(252, 448);
 		constructBunkerFormation(440, 448);
@@ -217,6 +236,7 @@ public class Engine extends Canvas implements KeyListener{
 		state = "main";
 	}
 	
+	//Constructs a bunker formation with the top left corner at (x, y)
 	public void constructBunkerFormation(int x, int y){
 		int bunkerSize = Bunker.BUNKER_SIZE;
 		constructBunker(4,x,y+bunkerSize*4);
