@@ -48,6 +48,10 @@ public class Engine extends Canvas implements KeyListener{
 	private boolean leftOn=false;
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
+	private ConcurrentSkipListSet<Bunker> Bunker1 = new ConcurrentSkipListSet<Bunker>();
+	private ConcurrentSkipListSet<Bunker> Bunker2 = new ConcurrentSkipListSet<Bunker>();
+	private ConcurrentSkipListSet<Bunker> Bunker3 = new ConcurrentSkipListSet<Bunker>();
+	private ConcurrentSkipListSet<Bunker> Bunker4 = new ConcurrentSkipListSet<Bunker>();
 	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -182,6 +186,7 @@ public class Engine extends Canvas implements KeyListener{
 				try{
 					player1 = new Player("Bob");
 					gameObjects.add(player1);
+					constructBunker(10,20);
 				}
 				catch(IOException e1){
 					e1.printStackTrace();
@@ -215,7 +220,7 @@ public class Engine extends Canvas implements KeyListener{
 						Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
 						bullets.add(b);
 						gameObjects.add(b);
-						player1.firingCooldown = 500;
+						player1.firingCooldown = 1000;
 						System.out.println("Fire!");
 					}
 					catch(IOException e1){
@@ -311,6 +316,13 @@ public class Engine extends Canvas implements KeyListener{
 		//God Mode to be initiated here
 	}
 	
-	
+	private void constructBunker(int x, int y){
+		try{
+		Bunker a = new Bunker(0,x,y);
+		} catch(IOException e1){
+			//Placeholder
+			System.out.println("yo");
+		}
+	} 
 }
 

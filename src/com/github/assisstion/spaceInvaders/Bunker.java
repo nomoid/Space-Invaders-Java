@@ -5,15 +5,15 @@ import java.io.IOException;
 public class Bunker extends Sprite {
 		
 		//normal square
-		private static final String BUNKER_A = "resources/placeholder.jpg";
+		private static final String BUNKER_A = "resources/BunkerA.png";
 		//curved side to the left 
-		private static final String BUNKER_B = "resources/placeholder.jpg";
+		private static final String BUNKER_B = "resources/BunkerB.png";
 		//curved side to the right
-		private static final String BUNKER_C = "resources/placeholder.jpg";
+		private static final String BUNKER_C = "resources/BunkerC.png";
 		//curved side to the bottom right 
-		private static final String BUNKER_D = "resources/placeholder.jpg";
+		private static final String BUNKER_D = "resources/BunkerD.png";
 		//curved side to the bottom left
-		private static final String BUNKER_E = "resources/placeholder.jpg";
+		private static final String BUNKER_E = "resources/BunkerE.png";
 		
 		private int bunkerNum;
 		
