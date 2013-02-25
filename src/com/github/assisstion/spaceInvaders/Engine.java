@@ -132,6 +132,12 @@ public class Engine extends Canvas implements KeyListener{
 			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,20);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
+			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE,x,80);
+			gameObjects.add(enemy2);
+			enemies.add(enemy2);
+			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,140);
+			gameObjects.add(enemy3);
+			enemies.add(enemy3);
 			x=x+132;
 		}
 	}

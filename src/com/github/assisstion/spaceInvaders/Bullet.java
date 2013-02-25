@@ -7,7 +7,7 @@ public class Bullet extends Sprite {
 		private static final boolean[] BULLET_MOVEMENT_MODE = 
 			{false, true};
 		private static final int[] BULLET_MOVEMENT_SPEED = 
-			{4, 1};
+			{6, 2};
 		private static final BulletDirection[] BULLET_DIRECTION = 
 			{BulletDirection.UP, BulletDirection.DOWN};
 		private static final int[] BULLET_DAMAGE = 
