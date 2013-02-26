@@ -468,24 +468,24 @@ public class Engine extends Canvas implements KeyListener{
 			for (Enemy e: enemies){
 				if (e.x+50 >= MainCanvas.frame.getWidth() && enemies.direction.equals(EnemySquad.Direction.RIGHT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed-=750;
+					MovementClock.MovementSpeed-=350;
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				}
 				else if (e.x-50<=0 && enemies.direction.equals(EnemySquad.Direction.LEFT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed-=750;
+					MovementClock.MovementSpeed-=350;
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}
 			for(Enemy e : enemies){
 				if (enemies.direction.equals(EnemySquad.Direction.RIGHT)){
-					e.x+=50;
+					e.x+=25;
 				} 
 				else if (enemies.direction.equals(EnemySquad.Direction.LEFT)){
-					e.x-=50;
+					e.x-=25;
 				} 
 				else if(enemies.direction.equals(EnemySquad.Direction.DOWN)){
-					e.y+=50;
+					e.y+=25;
 				}
 				Helper.updateHitbox(e);
 			}

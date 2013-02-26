@@ -4,7 +4,7 @@ public class MovementClock implements Runnable {
 	public MovementClock(){
 		
 	}
-	public static int MovementSpeed = 3500;
+	public static int MovementSpeed = 1750;
 	@Override
 	public void run(){
 		try{
