@@ -28,11 +28,13 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable
 	 */
 	private static final long serialVersionUID = 21816248595432439L;
-	private static final Font FONT_SMALL = new Font("Times New Roman",
-			Font.BOLD, 20);
+	private static final Font FONT_SMALL = new Font("Copperplate",
+			Font.BOLD, 35);
 	private static final Font FONT_LARGE = new Font("Times New Roman",
 			Font.BOLD, 80);
-
+	private static final Font FONT_MEDIUM = new Font("Copperplate",
+			Font.BOLD, 50);
+	
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -131,11 +133,29 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void drawMenu(Graphics2D g) {
+		g.setFont(FONT_SMALL);
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 960, 70);
-		g.setColor(Color.BLUE);
-		String message = new String(player1.getName() + "'s Score: "
+		g.setColor(Color.BLACK);
+		String message = null;
+		if (!godmodeOn){
+		message = new String(player1.getName() + "'s Score: "
 				+ player1.score);
+		} else {
+			message = new String(player1.getName() + "'s Score: GOD MODE ON");
+		}
+		String message3 = new String("Lives Left: " + player1.livesRemaining);
+		g.drawString(message, 10, 25);
+		g.drawString(message3,600, 25);
+		
+		
+		if (godmodeOn){
+			g.setColor(Color.GREEN);
+			String message4 = new String("GOD MODE ON");
+			g.drawString(message4,getWidth() / 2 - (g.getFontMetrics().stringWidth(message4) / 2),
+			600);
+		}
+		
 
 		Color tempColor = null;
 		if (player1.health > 1300) {
@@ -149,9 +169,7 @@ public class Engine extends Canvas implements KeyListener {
 		g.setColor(tempColor);
 		String message2 = new String(player1.getName() + "'s Health: "
 				+ player1.health + "/2000");
-
-		g.setFont(FONT_SMALL);
-		g.drawString(message, 10, 20);
+	
 		g.drawString(message2, 10, 60);
 
 	}
@@ -207,6 +225,7 @@ public class Engine extends Canvas implements KeyListener {
 						player1.y);
 				bullets.add(b);
 				gameObjects.add(b);
+			
 				player1.firingCooldown = 50;
 				System.out.println("Fire!");
 			}
@@ -224,7 +243,11 @@ public class Engine extends Canvas implements KeyListener {
 			Helper.updateHitbox(player1);
 		}
 		if (player1.firingCooldown > 0) {
+			if (godmodeOn){
+				player1.firingCooldown-=10;
+			} else{
 			player1.firingCooldown--;
+			}
 		}
 		if (player1.x < 0) {
 			player1.x = 0;
