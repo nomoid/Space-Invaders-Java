@@ -46,11 +46,6 @@ public class Engine extends Canvas implements KeyListener{
 	//Unused for now
 	@SuppressWarnings("unused")
 	private boolean godmodeOn = false;
-<<<<<<< HEAD
-	//Direction of the enemies
-	private boolean enemyMovingDown = false;
-=======
->>>>>>> Fixed enemy movement by adding the EnemySquad class
 	private Player player1;
 	private boolean bulletLeft = true;
 	//true if right arrow key down
@@ -468,46 +463,6 @@ public class Engine extends Canvas implements KeyListener{
 	} 
 	
 	public void moveEnemies(){
-<<<<<<< HEAD
-		for (Enemy e: enemies){
-			
-			if (enemyMovingDown && 1+2==5){
-				e.y+=50;
-				e.lastMovement=Enemy.DirectionType.DOWN;
-			}
-			//Situation at the very end, right hand side.
-			else if (e.x+64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.RIGHT)){
-				e.y+=50;
-				e.lastMovement=Enemy.DirectionType.DOWN;
-				enemyMovingDown=true;
-			}
-			//situation after just moving down from above situation
-			else if (e.x+64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.DOWN)){
-				e.x-=50;
-				e.lastMovement=Enemy.DirectionType.LEFT;
-			//situation at the very end, left hand side
-			} else if (e.x-64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.LEFT)){
-				e.y+=50;
-				e.lastMovement=Enemy.DirectionType.DOWN;
-				enemyMovingDown=true;
-			}
-			//situation after just moving down from above situation
-			else if (e.x-64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.DOWN)){
-				e.x+=50;
-				e.lastMovement=Enemy.DirectionType.RIGHT;
-			//normal situation, moving left.
-			} else if (e.lastMovement.equals(Enemy.DirectionType.LEFT)){
-				e.x-=50;
-			} else if (e.lastMovement.equals(Enemy.DirectionType.RIGHT) || e.lastMovement.equals(Enemy.DirectionType.NULL)){
-				e.x+=50;
-				e.lastMovement=Enemy.DirectionType.RIGHT;
-			}
-			else {
-				System.out.println("ERROR");
-			}
-			
-			Helper.updateHitbox(e);
-=======
 		for(EnemySquad enemies : enemySquads){
 			if(enemies.direction.equals(Direction.DOWN)){
 				enemies.direction = enemies.pendingDirection;
@@ -534,7 +489,6 @@ public class Engine extends Canvas implements KeyListener{
 				}
 				Helper.updateHitbox(e);
 			}
->>>>>>> Fixed enemy movement by adding the EnemySquad class
 		}
 	}
 }
