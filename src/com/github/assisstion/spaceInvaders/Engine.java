@@ -139,6 +139,13 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void drawMenu(Graphics2D g) {
+		
+		//message = Score Display
+		//message2=Health Display
+		//message3=Life Display
+		//message4=GOD MODE ON CONFIRMER
+		//message5=Level Display
+		
 		g.setFont(FONT_SMALL);
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 960, 70);
@@ -152,11 +159,11 @@ public class Engine extends Canvas implements KeyListener {
 		} else {
 			g.setColor(Color.RED);
 			message = new String(player1.getName() + "'s Score: GOD MODE ON");
-			message3 = new String("Lives Left: INFINITE");
+			message3 = new String("Lives Left: °");
 			
 		}
 		g.drawString(message, 10, 25);
-		g.drawString(message3,530, 25);
+		g.drawString(message3,730, 25);
 		
 		
 		if (godmodeOn){
@@ -189,6 +196,11 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.drawString(message2, 10, 60);
 
+		
+		
+		g.setColor(Color.BLACK);
+		String message5 = new String("Level: " + currentLevel + "/5");
+		g.drawString(message5,730,60);
 	}
 
 	// map input will be developed here later
@@ -275,10 +287,18 @@ public class Engine extends Canvas implements KeyListener {
 	
 	public void nextLevel(){
 		//STUFF TO DO HERE: display info to player.
+		if (currentLevel==5){
+			GameWon();
+		} else {
 		currentLevel+=1;
 		constructEnemyFormation(currentLevel);
+		MovementClock.MovementSpeed=1750;
+		}
 	}
 	
+	public void GameWon(){
+		System.out.println("You've Won the Game!");
+	}
 	public void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
@@ -296,7 +316,6 @@ public class Engine extends Canvas implements KeyListener {
 				gameObjects.add(b);
 			
 				player1.firingCooldown = 50;
-				System.out.println("Fire!");
 			}
 		}
 
@@ -389,7 +408,6 @@ public class Engine extends Canvas implements KeyListener {
 				if (b.direction.equals(Bullet.BulletDirection.DOWN)
 						&& !godmodeOn) {
 					player1.health -= b.damage;
-					System.out.println("You've Been Hit!");
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
