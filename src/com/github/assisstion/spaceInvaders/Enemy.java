@@ -13,10 +13,7 @@ public class Enemy extends Sprite{
 	public int shootingCooldownMin;
 	public int shootingCooldownMax;
 	public EnemyType enemytype;
-<<<<<<< HEAD
 	public EnemySquad squad;
-=======
->>>>>>> Deleted All Useless Crap.
 	
 	protected Enemy(){
 		
@@ -38,9 +35,4 @@ public class Enemy extends Sprite{
 		BLUE,
 		OTHER
 	}
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> Deleted All Useless Crap.
 }
