@@ -68,7 +68,7 @@ public class Engine extends Canvas implements KeyListener{
 	public Engine() {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(960, 640));
+		setPreferredSize(new Dimension(960, 740));
 	}
 	
 	/*
@@ -141,25 +141,26 @@ public class Engine extends Canvas implements KeyListener{
 	public void constructEnemyFormation(){
 		int x=10;
 		EnemySquad enemies = new EnemySquad();
+		int y=80;
 		for (int i=0; i<10; i++){
 			enemies.direction = EnemySquad.Direction.RIGHT;
-			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,20);
+			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,y);
 			gameObjects.add(enemy3);
 			enemies.add(enemy3);
-			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE,x,60);
+			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE,x,y+40);
 			gameObjects.add(enemy2);
 			enemies.add(enemy2);
-			Enemy enemy4 = new Enemy(Enemy.EnemyType.BLUE,x,100);
+			Enemy enemy4 = new Enemy(Enemy.EnemyType.BLUE,x,y+80);
 			gameObjects.add(enemy4);
 			enemies.add(enemy4);
-			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,140);
+			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,y+120);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
-			enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,180);
+			enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,y+160);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
 			enemySquads.add(enemies);
-			x=x+50;
+			x+=50;
 		}
 	}
 	
@@ -187,7 +188,7 @@ public class Engine extends Canvas implements KeyListener{
 				Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx, player1.y);
 				bullets.add(b);
 				gameObjects.add(b);
-				player1.firingCooldown = 32;
+				player1.firingCooldown = 50;
 				System.out.println("Fire!");
 			}
 		}
@@ -323,11 +324,11 @@ public class Engine extends Canvas implements KeyListener{
 		//loads map plan here
 		constructEnemyFormation();
 		//Constructs the bunker formations
-		constructBunkerFormation(64, 500);
-		constructBunkerFormation(252, 500);
-		constructBunkerFormation(440, 500);
-		constructBunkerFormation(628, 500);
-		constructBunkerFormation(816, 500);
+		constructBunkerFormation(64, 600);
+		constructBunkerFormation(252, 600);
+		constructBunkerFormation(440, 600);
+		constructBunkerFormation(628, 600);
+		constructBunkerFormation(816, 600);
 		state = "main";
 		
 		
