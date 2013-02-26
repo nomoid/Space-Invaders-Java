@@ -5,6 +5,7 @@ By Markus Feng (assisstion) and Michael Man (michael99man)
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
+Last Updated: Feb. 26, 2013
 
 Status:
 Under progress
@@ -14,8 +15,13 @@ Create Frame: DONE
 Create Updating Engine: DONE
 Create Player Mechanics: IN PROGRESS
 Create Enemy Mechanics: IN PROGRESS
-Create Bunker Mechanics: IN PROGRESS
-Collision Testing: NOT STARTED
+Create Bunker Mechanics: DONE
+Collision Testing: IN PROGRESS
+Menu Screen/UI: NOT STARTED
+Music: NOT STARTED
+Graphics: IN PROGRESS
+Levels: NOT STARTED
+Story: NOT STARTED
 (More to come)
 
 *Game Description/Instructions here*
