@@ -29,12 +29,17 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	private static final long serialVersionUID = 21816248595432439L;
 	private static final Font FONT_SMALL = new Font("Copperplate",
-			Font.BOLD, 35);
+			Font.BOLD, 33);
 	private static final Font FONT_LARGE = new Font("Times New Roman",
 			Font.BOLD, 80);
 	private static final Font FONT_MEDIUM = new Font("Copperplate",
 			Font.BOLD, 50);
-	private static final int[][] LEVELS = {{100,200}, {200,300}};
+	private static final int[][] LEVELS = {{10,5}, {12,7},{15,8},{17,10},{17,10}};
+	private static final Enemy.EnemyType[] LEVEL1DATA={Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL};
+	private static final Enemy.EnemyType[] LEVEL2DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL};
+	private static final Enemy.EnemyType[] LEVEL3DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL};
+	private static final Enemy.EnemyType[] LEVEL4DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE};
+	private static final Enemy.EnemyType[] LEVEL5DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED};
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -61,7 +66,8 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	// Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
-
+	//Current level
+	public int currentLevel = 1;
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
@@ -186,27 +192,68 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	// map input will be developed here later
-	public void constructEnemyFormation() {
+	public void constructEnemyFormation(int lvlnum) {
+		int enemyWidth = LEVELS[lvlnum-1][0];
+		
+		
 		int x = 10;
 		EnemySquad enemies = new EnemySquad();
-		int y = 80;
-		for (int i = 0; i < 10; i++) {
+		
+		for (int i = 0; i < enemyWidth; i++) {
+			Enemy.EnemyType[] EnemyData=null;
+			if (lvlnum == 1){
+				EnemyData=LEVEL1DATA;
+			} else if (lvlnum==2){
+				EnemyData=LEVEL2DATA;
+			} else if (lvlnum==3){
+				EnemyData=LEVEL3DATA;
+			} else if (lvlnum==4){
+				EnemyData=LEVEL4DATA;
+			} else if (lvlnum==5){
+				EnemyData=LEVEL5DATA;
+			} else {
+				System.out.println("LEVEL NUMBER ERROR");
+			}
 			enemies.direction = EnemySquad.Direction.RIGHT;
-			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED, x, y);
-			gameObjects.add(enemy3);
-			enemies.add(enemy3);
-			Enemy enemy2 = new Enemy(Enemy.EnemyType.BLUE, x, y + 40);
+			
+			Enemy enemy1 = new Enemy(EnemyData[0], x, 80);
+			Enemy enemy2 = new Enemy(EnemyData[1], x, 120);
+			Enemy enemy3 = new Enemy(EnemyData[2], x, 160);
+			Enemy enemy4 = new Enemy(EnemyData[3], x, 200);
+			Enemy enemy5 = new Enemy(EnemyData[4], x, 240);
+			
+			gameObjects.add(enemy1);
 			gameObjects.add(enemy2);
-			enemies.add(enemy2);
-			Enemy enemy4 = new Enemy(Enemy.EnemyType.BLUE, x, y + 80);
+			gameObjects.add(enemy3);
 			gameObjects.add(enemy4);
+			gameObjects.add(enemy5);
+			enemies.add(enemy1);
+			enemies.add(enemy2);
+			enemies.add(enemy3);
 			enemies.add(enemy4);
-			Enemy enemy1 = new Enemy(Enemy.EnemyType.NORMAL, x, y + 120);
-			gameObjects.add(enemy1);
-			enemies.add(enemy1);
-			enemy1 = new Enemy(Enemy.EnemyType.NORMAL, x, y + 160);
-			gameObjects.add(enemy1);
-			enemies.add(enemy1);
+			enemies.add(enemy5);
+			
+			if (lvlnum>=2){
+			Enemy enemy6 = new Enemy(EnemyData[5], x, 280);
+			Enemy enemy7 = new Enemy(EnemyData[6], x, 320);
+			gameObjects.add(enemy6);
+			enemies.add(enemy6);
+			gameObjects.add(enemy7);
+			enemies.add(enemy7);
+			} if (lvlnum>=3){
+			Enemy enemy8 = new Enemy(EnemyData[7], x, 360);
+			gameObjects.add(enemy8);
+			enemies.add(enemy8);
+			} if (lvlnum>=4){
+				Enemy enemy9 = new Enemy(EnemyData[8], x, 400);
+				gameObjects.add(enemy9);
+				enemies.add(enemy9);
+				Enemy enemy10 = new Enemy(EnemyData[9], x, 440);
+				gameObjects.add(enemy10);
+				enemies.add(enemy10);
+			}
+			
+			
 			enemySquads.add(enemies);
 			x += 50;
 		}
@@ -227,8 +274,11 @@ public class Engine extends Canvas implements KeyListener {
 
 	
 	public void nextLevel(){
-		
+		//STUFF TO DO HERE: display info to player.
+		currentLevel+=1;
+		constructEnemyFormation(currentLevel);
 	}
+	
 	public void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
@@ -287,7 +337,9 @@ public class Engine extends Canvas implements KeyListener {
 					} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)) {
 						b = new Bullet(Bullet.BulletType.BLUE, e.x, e.y);
 					}
-
+					if (e.hitBox.overLaps(player1.hitBox)){
+						player1.livesRemaining=0;
+					}
 					bullets.add(b);
 					gameObjects.add(b);
 					e.shootingCounter = MainCanvas.rand
@@ -341,7 +393,13 @@ public class Engine extends Canvas implements KeyListener {
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
-						gameObjects.remove(player1);
+						player1.livesRemaining-=1;
+						player1.x=432;
+						player1.y=680;
+						player1.health=2000;
+						
+					}
+					if (player1.livesRemaining == 0){
 						System.out.println("You're Dead!");
 						player1.x = MainCanvas.frame.getWidth();
 						player1.y = MainCanvas.frame.getHeight();
@@ -392,7 +450,7 @@ public class Engine extends Canvas implements KeyListener {
 		player1 = new Player("Bob");
 		gameObjects.add(player1);
 		// loads map plan here
-		constructEnemyFormation();
+		constructEnemyFormation(1);
 		// Constructs the bunker formations
 		constructBunkerFormation(64, 600);
 		constructBunkerFormation(252, 600);
