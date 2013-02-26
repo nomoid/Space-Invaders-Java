@@ -248,7 +248,6 @@ public class Engine extends Canvas implements KeyListener{
 					
 					k.health -= b.damage;
 					bullets.remove(b);
-					
 				}
 				if (k.health<=0){
 					gameObjects.remove(k);
@@ -285,7 +284,7 @@ public class Engine extends Canvas implements KeyListener{
 							gameObjects.remove(b);
 							bullets.remove(b);
 							e.health -= b.damage;
-							if(e.health <= 0){
+							if(e.health <= 0 || godmodeOn){
 								enemies.remove(e);
 								gameObjects.remove(e);
 								System.out.println("Enemy Killed");
@@ -469,10 +468,12 @@ public class Engine extends Canvas implements KeyListener{
 			for (Enemy e: enemies){
 				if (e.x+50 >= MainCanvas.frame.getWidth() && enemies.direction.equals(EnemySquad.Direction.RIGHT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
+					MovementClock.MovementSpeed-=750;
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				}
 				else if (e.x-50<=0 && enemies.direction.equals(EnemySquad.Direction.LEFT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
+					MovementClock.MovementSpeed-=750;
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}
