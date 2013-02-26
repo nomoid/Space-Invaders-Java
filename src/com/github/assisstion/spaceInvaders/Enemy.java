@@ -7,13 +7,14 @@ public class Enemy extends Sprite{
 	//Note the 2D array, it is just an array of int[]'s
 	//The first value is the min, the second value is the max
 	private static final int[][] ENEMY_SHOOTING_COOLDOWN = {{1200, 1800}, {1100, 1600}, {1000, 1400}};
-	
+	private static final int[] ENEMY_DEATH_VALUES = {100,200,400,2000};
 	public int health;
 	public int shootingCounter;
 	public int shootingCooldownMin;
 	public int shootingCooldownMax;
 	public EnemyType enemytype;
 	public EnemySquad squad;
+	public int scoreReward;
 	
 	protected Enemy(){
 		
@@ -26,6 +27,7 @@ public class Enemy extends Sprite{
 		enemytype=type;
 		shootingCooldownMin = ENEMY_SHOOTING_COOLDOWN[type.ordinal()][0];
 		shootingCooldownMax = ENEMY_SHOOTING_COOLDOWN[type.ordinal()][1];
+		scoreReward = ENEMY_DEATH_VALUES[type.ordinal()];
 		shootingCounter = MainCanvas.rand.nextInt(shootingCooldownMax);
 	}
 	
@@ -33,6 +35,6 @@ public class Enemy extends Sprite{
 		NORMAL,
 		RED,
 		BLUE,
-		OTHER
+		MOTHERSHIP
 	}
 }

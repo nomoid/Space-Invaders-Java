@@ -130,6 +130,11 @@ public class Engine extends Canvas implements KeyListener{
 		bulletUpdate();
 		playerUpdate();
 		endUpdate();
+		
+		g.setColor(Color.BLUE);
+		String message = new String(player1.getName() + "'s Score: " + player1.score);
+		g.setFont(FONT_SMALL);
+		g.drawString(message, 10, 20);
 	}
 	
 	//map input will be developed here later
@@ -287,6 +292,7 @@ public class Engine extends Canvas implements KeyListener{
 							if(e.health <= 0 || godmodeOn){
 								enemies.remove(e);
 								gameObjects.remove(e);
+								player1.score+=e.scoreReward;
 								System.out.println("Enemy Killed");
 							}
 						}
@@ -323,6 +329,9 @@ public class Engine extends Canvas implements KeyListener{
 		constructBunkerFormation(628, 500);
 		constructBunkerFormation(816, 500);
 		state = "main";
+		
+		
+
 	}
 	
 	//Constructs a bunker formation with the top left corner at (x, y)
