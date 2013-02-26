@@ -44,7 +44,6 @@ public class Engine extends Canvas implements KeyListener{
 	private Graphics2D g;
 	private String godmode = "";
 	//Unused for now
-	@SuppressWarnings("unused")
 	private boolean godmodeOn = false;
 	private Player player1;
 	private boolean bulletLeft = true;
