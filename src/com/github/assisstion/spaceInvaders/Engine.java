@@ -35,7 +35,7 @@ public class Engine extends Canvas implements KeyListener {
 	private static final Font FONT_MEDIUM = new Font("Copperplate",
 			Font.BOLD, 50);
 	private static final int[][] LEVELS = {{10,5}, {12,7},{15,8},{17,10},{17,10}};
-	private static final Enemy.EnemyType[] LEVEL1DATA={Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL};
+	private static final Enemy.EnemyType[] LEVEL1DATA={Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL};
 	private static final Enemy.EnemyType[] LEVEL2DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL,Enemy.EnemyType.NORMAL};
 	private static final Enemy.EnemyType[] LEVEL3DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.NORMAL};
 	private static final Enemy.EnemyType[] LEVEL4DATA={Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.RED,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE,Enemy.EnemyType.BLUE};
