@@ -32,6 +32,8 @@ public class Engine extends Canvas implements KeyListener {
 			Font.BOLD, 33);
 	private static final Font FONT_LARGE = new Font("Times New Roman",
 			Font.BOLD, 80);
+	private static final Font FONT_HUGE = new Font("Times New Roman",
+			Font.BOLD, 110);
 	private static final Font FONT_MEDIUM = new Font("Copperplate",
 			Font.BOLD, 50);
 	private static final int[][] LEVELS = {{10,5}, {12,7},{15,8},{17,10},{17,10}};
@@ -136,6 +138,18 @@ public class Engine extends Canvas implements KeyListener {
 		playerUpdate();
 		endUpdate();
 		drawMenu(g);
+		if (state.equals("game_over")){
+			g.fillRect(0, 0, 960, 740);
+			String gameOver = new String("Game Over!");
+			String yourScore = new String("Final Score: " + player1.score);
+			g.setColor(Color.RED);
+			g.setFont(FONT_HUGE);
+			g.drawString(gameOver,getWidth() / 2 - (g.getFontMetrics().stringWidth(gameOver) / 2), 370);
+			g.setColor(Color.WHITE);
+			g.setFont(FONT_LARGE);
+			g.drawString(yourScore,getWidth() / 2 - (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
+		}
+		
 	}
 
 	public void drawMenu(Graphics2D g) {
@@ -293,6 +307,7 @@ public class Engine extends Canvas implements KeyListener {
 		currentLevel+=1;
 		constructEnemyFormation(currentLevel);
 		MovementClock.MovementSpeed=1750;
+		player1.livesRemaining+=1;
 		}
 	}
 	
@@ -440,6 +455,10 @@ public class Engine extends Canvas implements KeyListener {
 								System.out.println("Enemy Killed");
 							}
 						}
+					if (e.y>960){
+						gameObjects.remove(enemies);
+						state="game_over";
+					}
 					}
 				}
 			}
