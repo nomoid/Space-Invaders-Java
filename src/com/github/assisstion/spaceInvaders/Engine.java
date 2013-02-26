@@ -26,11 +26,7 @@ public class Engine extends Canvas implements KeyListener{
 	 * or any class that extends something that implements Serializable
 	 */
 	private static final long serialVersionUID = 21816248595432439L;
-	@SuppressWarnings("unused")
 	private static final Font FONT_SMALL = new Font("Times New Roman", Font.BOLD, 20);
-	
-	//Unused for now
-	
 	private static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 80);
 	
 	/*
@@ -478,12 +474,12 @@ public class Engine extends Canvas implements KeyListener{
 			for (Enemy e: enemies){
 				if (e.x+50 >= MainCanvas.frame.getWidth() && enemies.direction.equals(EnemySquad.Direction.RIGHT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed-=350;
+					MovementClock.MovementSpeed=(int)(MovementClock.MovementSpeed * (4.0/5.0));
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				}
 				else if (e.x-50<=0 && enemies.direction.equals(EnemySquad.Direction.LEFT)){
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed-=350;
+					MovementClock.MovementSpeed=(int)(MovementClock.MovementSpeed * (4.0/5.0));
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}
