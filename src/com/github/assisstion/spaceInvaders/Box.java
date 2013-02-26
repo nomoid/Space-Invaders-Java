@@ -82,6 +82,13 @@ public class Box{
 		this.y2 = y2 >= y1 ? y2 : y1;
 	}
 	
+	public void setPos(int x, int y, int width, int height, boolean a){
+		x1 = x;
+		x2 = x + Math.abs(width);
+		y1 = y;
+		y2 = y + Math.abs(height);
+	}
+	
 	public int x1(){
 		return x1;
 	}

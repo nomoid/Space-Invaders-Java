@@ -14,6 +14,7 @@ public class MainCanvas {
 	public static JFrame frame;
 	public static Engine engine;
 	public static Random rand;
+	public static boolean isOn;
 	
 	public static void main(String[] args) {
 		 /*
@@ -47,6 +48,7 @@ public class MainCanvas {
 		  * Starts the engine and creates the random number generator
 		  */
 		 
+		 isOn = true;
 		 rand = new Random();
 		 engine.start();
 		 System.out.println("Engine starting");

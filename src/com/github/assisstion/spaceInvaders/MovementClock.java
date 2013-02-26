@@ -7,7 +7,7 @@ public class MovementClock implements Runnable {
 	@Override
 	public void run(){
 		try{
-			while(true){
+			while(MainCanvas.isOn){
 				MainCanvas.engine.moveEnemies();
 				Thread.sleep(4000);
 			}

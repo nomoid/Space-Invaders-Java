@@ -9,7 +9,7 @@ public class Clock implements Runnable{
 	@Override
 	public void run(){
 		try{
-			while(true){
+			while(MainCanvas.isOn){
 				MainCanvas.engine.repaint();
 				Thread.sleep(16);
 			}

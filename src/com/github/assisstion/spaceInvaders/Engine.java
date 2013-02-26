@@ -59,9 +59,10 @@ public class Engine extends Canvas implements KeyListener{
 	//set containing all enemies
 	private ConcurrentSkipListSet<Enemy> enemies = new ConcurrentSkipListSet<Enemy>();
 	//Set containing all bullets
-	public ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
+	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	//Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
+	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
@@ -87,6 +88,10 @@ public class Engine extends Canvas implements KeyListener{
 			}
 			else if(state.equalsIgnoreCase("main")){
 				updateMain(g);
+			}
+			else if(state.equalsIgnoreCase("game_over")){
+				updateMain(g);
+				MainCanvas.isOn = false;
 			}
 			else{
 				//Throws an exception if none of the states match
@@ -120,7 +125,7 @@ public class Engine extends Canvas implements KeyListener{
 		g = (Graphics2D) graphics;
 		//Renders the game objects
 		for(Sprite object : gameObjects){
-			RenderHelper.renderSprite(g, object);
+			Helper.renderSprite(g, object);
 		}
 		inputUpdate();
 		bulletUpdate();
@@ -176,11 +181,11 @@ public class Engine extends Canvas implements KeyListener{
 		//Changes the player location depending on the current direction
 		if(player1.currentDirection.equals(Player.Direction.LEFT)){
 			player1.x -= 4;
-			player1.hitBox = new Box(player1.x, player1.y, player1.getImage().getWidth(), player1.getImage().getHeight(), true);
+			Helper.updateHitbox(player1);
 		}
 		else if(player1.currentDirection.equals(Player.Direction.RIGHT)){
 			player1.x += 4;
-			player1.hitBox = new Box(player1.x, player1.y, player1.getImage().getWidth(), player1.getImage().getHeight(), true);
+			Helper.updateHitbox(player1);
 		}
 		if(player1.firingCooldown > 0){
 			player1.firingCooldown--;
@@ -218,11 +223,11 @@ public class Engine extends Canvas implements KeyListener{
 
 			if(b.direction.equals(Bullet.BulletDirection.UP)){
 				b.y -= b.movementSpeed;
-				b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
+				Helper.updateHitbox(b);
 			}
 			else if(b.direction.equals(Bullet.BulletDirection.DOWN)){
 				b.y += b.movementSpeed;
-				b.hitBox = new Box(b.x, b.y, b.getImage().getWidth(), b.getImage().getHeight(), true);
+				Helper.updateHitbox(b);
 			}
 			for(Bunker k : bunkers){
 				if(b.hitBox.overLaps(k.hitBox)){
@@ -246,13 +251,17 @@ public class Engine extends Canvas implements KeyListener{
 			if (b.hitBox.overLaps(player1.hitBox)){
 				//CHANGE THIS LATER FOR VARYING BULLET DAMAGE
 				if (b.direction.equals(Bullet.BulletDirection.DOWN)){
-					player1.health-=50;
+					player1.health-=b.damage;
 					System.out.println("You've Been Hit!");
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health<=0){
 						gameObjects.remove(player1);
 						System.out.println("You're Dead!");
+						player1.x = MainCanvas.frame.getWidth();
+						player1.y = MainCanvas.frame.getHeight();
+						Helper.updateHitbox(player1);
+						state = "game_over";
 					}
 				}
 			}
@@ -442,16 +451,19 @@ public class Engine extends Canvas implements KeyListener{
 		for (Enemy e: enemies){
 			if (e.x+50 > MainCanvas.frame.getWidth() && enemyGoingRight){
 				e.y+=50;
-			} else if (e.x-50<0 && !enemyGoingRight){
+			}
+			else if (e.x-50<0 && !enemyGoingRight){
 				e.y+=50;
-			} else {
+			} 
+			else {
 				if (enemyGoingRight){
 					e.x+=50;
-				} else {
+				} 
+				else {
 					e.x-=50;
 				}
 			}
-		e.hitBox = new Box(e.x, e.y, e.getImage().getWidth(), e.getImage().getHeight(), true);
+			Helper.updateHitbox(e);
 
 		}
 	}

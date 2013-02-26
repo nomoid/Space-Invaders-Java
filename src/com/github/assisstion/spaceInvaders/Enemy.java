@@ -27,7 +27,7 @@ public class Enemy extends Sprite{
 		enemytype=type;
 		shootingCooldownMin = ENEMY_SHOOTING_COOLDOWN[type.ordinal()][0];
 		shootingCooldownMax = ENEMY_SHOOTING_COOLDOWN[type.ordinal()][1];
-		shootingCounter = MainCanvas.rand.nextInt(shootingCooldownMax - shootingCooldownMin) + shootingCooldownMin;
+		shootingCounter = MainCanvas.rand.nextInt(shootingCooldownMax);
 	}
 	
 	public static enum EnemyType{
