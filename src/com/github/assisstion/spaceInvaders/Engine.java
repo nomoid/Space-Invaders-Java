@@ -34,7 +34,7 @@ public class Engine extends Canvas implements KeyListener {
 			Font.BOLD, 80);
 	private static final Font FONT_MEDIUM = new Font("Copperplate",
 			Font.BOLD, 50);
-	
+	private static final int[][] LEVELS = {{100,200}, {200,300}};
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -138,27 +138,40 @@ public class Engine extends Canvas implements KeyListener {
 		g.fillRect(0, 0, 960, 70);
 		g.setColor(Color.BLACK);
 		String message = null;
+		String message3=null;
 		if (!godmodeOn){
 		message = new String(player1.getName() + "'s Score: "
 				+ player1.score);
+		message3 = new String("Lives Left: " + player1.livesRemaining);
 		} else {
+			g.setColor(Color.RED);
 			message = new String(player1.getName() + "'s Score: GOD MODE ON");
+			message3 = new String("Lives Left: INFINITE");
+			
 		}
-		String message3 = new String("Lives Left: " + player1.livesRemaining);
 		g.drawString(message, 10, 25);
-		g.drawString(message3,600, 25);
+		g.drawString(message3,530, 25);
 		
 		
 		if (godmodeOn){
-			g.setColor(Color.GREEN);
+			g.setColor(Color.RED);
+			g.setFont(FONT_MEDIUM);
 			String message4 = new String("GOD MODE ON");
 			g.drawString(message4,getWidth() / 2 - (g.getFontMetrics().stringWidth(message4) / 2),
-			600);
+			570);
+			g.setFont(FONT_SMALL);
 		}
 		
+		
+		String message2 = new String(player1.getName() + "'s Health: "
+				+ player1.health + "/2000");
 
 		Color tempColor = null;
-		if (player1.health > 1300) {
+		if (godmodeOn){
+			tempColor = Color.red;
+			message2 = (player1.getName() + "'s Health: INFINITE");
+		}
+		else if (player1.health > 1300) {
 			tempColor = Color.green;
 		} else if (player1.health > 600) {
 			tempColor = Color.yellow;
@@ -167,9 +180,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 		g.setColor(tempColor);
-		String message2 = new String(player1.getName() + "'s Health: "
-				+ player1.health + "/2000");
-	
+
 		g.drawString(message2, 10, 60);
 
 	}
@@ -206,10 +217,18 @@ public class Engine extends Canvas implements KeyListener {
 		for (EnemySquad enemies : enemySquads) {
 			if (enemies.isEmpty()) {
 				enemySquads.remove(enemies);
+			} 
+			if (enemySquads.isEmpty()){
+				System.out.println("Level Complete!");
+				nextLevel();
 			}
 		}
 	}
 
+	
+	public void nextLevel(){
+		
+	}
 	public void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
@@ -293,8 +312,13 @@ public class Engine extends Canvas implements KeyListener {
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {
 					gameObjects.remove(b);
-
+					
 					k.health -= b.damage;
+					
+					
+					if (godmodeOn && b.movementSpeed==8){
+						k.health=0;
+					}
 					bullets.remove(b);
 				}
 				if (k.health <= 0) {
@@ -408,6 +432,9 @@ public class Engine extends Canvas implements KeyListener {
 				godmode = "";
 				System.out.println("God Mode is starting!");
 			}
+			else {
+				godmode = "";
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// tells the update loop to allow bullet firing
 			if (state.equals("main")) {
@@ -431,16 +458,25 @@ public class Engine extends Canvas implements KeyListener {
 			if (godmode.equals("")) {
 				godmode = "g";
 			}
+			else {
+				godmode = "";
+			}
 		}
 
 		else if (e.getKeyCode() == KeyEvent.VK_O) {
 			if (godmode.equals("g")) {
 				godmode = "go";
 			}
+			else {
+				godmode = "";
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			if (godmode.equals("go")) {
 				godmode = "god";
 				// Added God Mode
+			} 
+			else {
+				godmode = "";
 			}
 
 		} else {
