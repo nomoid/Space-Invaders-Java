@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
+
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides the paint()
  * method so it can be directly used to paint objects.
@@ -44,8 +46,11 @@ public class Engine extends Canvas implements KeyListener{
 	//Unused for now
 	@SuppressWarnings("unused")
 	private boolean godmodeOn = false;
+<<<<<<< HEAD
 	//Direction of the enemies
 	private boolean enemyMovingDown = false;
+=======
+>>>>>>> Fixed enemy movement by adding the EnemySquad class
 	private Player player1;
 	private boolean bulletLeft = true;
 	//true if right arrow key down
@@ -57,7 +62,7 @@ public class Engine extends Canvas implements KeyListener{
 	//Set containing all game objects
 	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
 	//set containing all enemies
-	private ConcurrentSkipListSet<Enemy> enemies = new ConcurrentSkipListSet<Enemy>();
+	private ConcurrentSkipListSet<EnemySquad> enemySquads = new ConcurrentSkipListSet<EnemySquad>();
 	//Set containing all bullets
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	//Set containing all bunkers
@@ -130,12 +135,15 @@ public class Engine extends Canvas implements KeyListener{
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
+		endUpdate();
 	}
 	
 	//map input will be developed here later
 	public void constructEnemyFormation(){
 		int x=10;
+		EnemySquad enemies = new EnemySquad();
 		for (int i=0; i<10; i++){
+			enemies.direction = EnemySquad.Direction.RIGHT;
 			Enemy enemy3 = new Enemy(Enemy.EnemyType.RED,x,20);
 			gameObjects.add(enemy3);
 			enemies.add(enemy3);
@@ -151,7 +159,17 @@ public class Engine extends Canvas implements KeyListener{
 			enemy1 = new Enemy(Enemy.EnemyType.NORMAL,x,180);
 			gameObjects.add(enemy1);
 			enemies.add(enemy1);
+			enemySquads.add(enemies);
 			x=x+50;
+		}
+	}
+	
+	//For cleaning up stuff
+	public void endUpdate(){
+		for(EnemySquad enemies : enemySquads){
+			if(enemies.isEmpty()){
+				enemySquads.remove(enemies);
+			}
 		}
 	}
 	
@@ -199,25 +217,26 @@ public class Engine extends Canvas implements KeyListener{
 	}
 	
 	public void bulletUpdate(){
-		for (Enemy e : enemies){
-			if (e.shootingCounter == 0){
-				Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
-				if (e.enemytype.equals(Enemy.EnemyType.RED)){
-					b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
-				} 
-				else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
-					b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
+		for(EnemySquad es : enemySquads){
+			for (Enemy e : es){
+				if (e.shootingCounter == 0){
+					Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x,e.y);
+					if (e.enemytype.equals(Enemy.EnemyType.RED)){
+						b = new Bullet(Bullet.BulletType.RED, e.x,e.y);
+					} 
+					else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+						b = new Bullet(Bullet.BulletType.BLUE, e.x,e.y);
+					}
+					
+					bullets.add(b);
+					gameObjects.add(b);
+					e.shootingCounter = MainCanvas.rand.nextInt(e.shootingCooldownMax - e.shootingCooldownMin) + e.shootingCooldownMin;
 				}
-				
-				bullets.add(b);
-				gameObjects.add(b);
-				e.shootingCounter = MainCanvas.rand.nextInt(e.shootingCooldownMax - e.shootingCooldownMin) + e.shootingCooldownMin;
-			}
-			else{
-				e.shootingCounter--;
+				else{
+					e.shootingCounter--;
+				}
 			}
 		}
-		
 		
 		for(Bullet b : bullets){
 
@@ -265,20 +284,21 @@ public class Engine extends Canvas implements KeyListener{
 					}
 				}
 			}
-			for(Enemy e : enemies){
-				if(b.hitBox.overLaps(e.hitBox)){
-					if (b.direction.equals(Bullet.BulletDirection.UP)){
-						gameObjects.remove(b);
-						bullets.remove(b);
-						e.health -= b.damage;
-						if(e.health <= 0){
-							enemies.remove(e);
-							gameObjects.remove(e);
-							System.out.println("Enemy Killed");
+			for(EnemySquad enemies : enemySquads){
+				for(Enemy e : enemies){
+					if(b.hitBox.overLaps(e.hitBox)){
+						if (b.direction.equals(Bullet.BulletDirection.UP)){
+							gameObjects.remove(b);
+							bullets.remove(b);
+							e.health -= b.damage;
+							if(e.health <= 0){
+								enemies.remove(e);
+								gameObjects.remove(e);
+								System.out.println("Enemy Killed");
+							}
 						}
 					}
 				}
-
 			}
 			if(b.y < 0 - b.getImage().getHeight() || b.x < 0 - b.getImage().getWidth() || b.x > MainCanvas.frame.getWidth() || b.y > MainCanvas.frame.getHeight()){
 				bullets.remove(b);
@@ -448,6 +468,7 @@ public class Engine extends Canvas implements KeyListener{
 	} 
 	
 	public void moveEnemies(){
+<<<<<<< HEAD
 		for (Enemy e: enemies){
 			
 			if (enemyMovingDown && 1+2==5){
@@ -486,6 +507,34 @@ public class Engine extends Canvas implements KeyListener{
 			}
 			
 			Helper.updateHitbox(e);
+=======
+		for(EnemySquad enemies : enemySquads){
+			if(enemies.direction.equals(Direction.DOWN)){
+				enemies.direction = enemies.pendingDirection;
+			}
+			for (Enemy e: enemies){
+				if (e.x+50 >= MainCanvas.frame.getWidth() && enemies.direction.equals(EnemySquad.Direction.RIGHT)){
+					enemies.direction = EnemySquad.Direction.DOWN;
+					enemies.pendingDirection = EnemySquad.Direction.LEFT;
+				}
+				else if (e.x-50<=0 && enemies.direction.equals(EnemySquad.Direction.LEFT)){
+					enemies.direction = EnemySquad.Direction.DOWN;
+					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
+				}
+			}
+			for(Enemy e : enemies){
+				if (enemies.direction.equals(EnemySquad.Direction.RIGHT)){
+					e.x+=50;
+				} 
+				else if (enemies.direction.equals(EnemySquad.Direction.LEFT)){
+					e.x-=50;
+				} 
+				else if(enemies.direction.equals(EnemySquad.Direction.DOWN)){
+					e.y+=50;
+				}
+				Helper.updateHitbox(e);
+			}
+>>>>>>> Fixed enemy movement by adding the EnemySquad class
 		}
 	}
 }

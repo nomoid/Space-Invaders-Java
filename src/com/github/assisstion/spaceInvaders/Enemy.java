@@ -15,7 +15,11 @@ public class Enemy extends Sprite{
 	public int shootingCooldownMin;
 	public int shootingCooldownMax;
 	public EnemyType enemytype;
+<<<<<<< HEAD
 	public DirectionType lastMovement=DirectionType.NULL;
+=======
+	public EnemySquad squad;
+>>>>>>> Fixed enemy movement by adding the EnemySquad class
 	
 	protected Enemy(){
 		
@@ -37,6 +41,7 @@ public class Enemy extends Sprite{
 		BLUE,
 		OTHER
 	}
+<<<<<<< HEAD
 	
 	public static enum DirectionType{
 		UP,
@@ -46,4 +51,6 @@ public class Enemy extends Sprite{
 		NULL
 	}
 	
+=======
+>>>>>>> Fixed enemy movement by adding the EnemySquad class
 }
