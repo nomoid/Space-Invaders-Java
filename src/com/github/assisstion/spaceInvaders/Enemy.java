@@ -15,6 +15,7 @@ public class Enemy extends Sprite{
 	public int shootingCooldownMin;
 	public int shootingCooldownMax;
 	public EnemyType enemytype;
+	public DirectionType lastMovement=DirectionType.NULL;
 	
 	protected Enemy(){
 		
@@ -35,6 +36,14 @@ public class Enemy extends Sprite{
 		RED,
 		BLUE,
 		OTHER
+	}
+	
+	public static enum DirectionType{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		NULL
 	}
 	
 }

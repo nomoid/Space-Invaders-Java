@@ -24,12 +24,12 @@ public class Engine extends Canvas implements KeyListener{
 	 * or any class that extends something that implements Serializable
 	 */
 	private static final long serialVersionUID = 21816248595432439L;
-
+	@SuppressWarnings("unused")
 	private static final Font FONT_SMALL = new Font("Times New Roman", Font.BOLD, 20);
 	
 	//Unused for now
-	@SuppressWarnings("unused")
-	private static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 40);
+	
+	private static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 80);
 	
 	/*
 	 *  Update code runs according to current state of the code
@@ -45,7 +45,7 @@ public class Engine extends Canvas implements KeyListener{
 	@SuppressWarnings("unused")
 	private boolean godmodeOn = false;
 	//Direction of the enemies
-	private boolean enemyGoingRight = true;
+	private boolean enemyMovingDown = false;
 	private Player player1;
 	private boolean bulletLeft = true;
 	//true if right arrow key down
@@ -113,7 +113,7 @@ public class Engine extends Canvas implements KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLUE);
 		String message = new String("Press Enter To Start");
-		g.setFont(FONT_SMALL);
+		g.setFont(FONT_LARGE);
 		g.drawString(message, getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2), 350);
 		
 	}
@@ -250,7 +250,7 @@ public class Engine extends Canvas implements KeyListener{
 		
 			if (b.hitBox.overLaps(player1.hitBox)){
 				//CHANGE THIS LATER FOR VARYING BULLET DAMAGE
-				if (b.direction.equals(Bullet.BulletDirection.DOWN)){
+				if (b.direction.equals(Bullet.BulletDirection.DOWN) && !godmodeOn){
 					player1.health-=b.damage;
 					System.out.println("You've Been Hit!");
 					bullets.remove(b);
@@ -449,22 +449,43 @@ public class Engine extends Canvas implements KeyListener{
 	
 	public void moveEnemies(){
 		for (Enemy e: enemies){
-			if (e.x+50 > MainCanvas.frame.getWidth() && enemyGoingRight){
+			
+			if (enemyMovingDown && 1+2==5){
 				e.y+=50;
+				e.lastMovement=Enemy.DirectionType.DOWN;
 			}
-			else if (e.x-50<0 && !enemyGoingRight){
+			//Situation at the very end, right hand side.
+			else if (e.x+64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.RIGHT)){
 				e.y+=50;
-			} 
+				e.lastMovement=Enemy.DirectionType.DOWN;
+				enemyMovingDown=true;
+			}
+			//situation after just moving down from above situation
+			else if (e.x+64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.DOWN)){
+				e.x-=50;
+				e.lastMovement=Enemy.DirectionType.LEFT;
+			//situation at the very end, left hand side
+			} else if (e.x-64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.LEFT)){
+				e.y+=50;
+				e.lastMovement=Enemy.DirectionType.DOWN;
+				enemyMovingDown=true;
+			}
+			//situation after just moving down from above situation
+			else if (e.x-64 > MainCanvas.frame.getWidth() && e.lastMovement.equals(Enemy.DirectionType.DOWN)){
+				e.x+=50;
+				e.lastMovement=Enemy.DirectionType.RIGHT;
+			//normal situation, moving left.
+			} else if (e.lastMovement.equals(Enemy.DirectionType.LEFT)){
+				e.x-=50;
+			} else if (e.lastMovement.equals(Enemy.DirectionType.RIGHT) || e.lastMovement.equals(Enemy.DirectionType.NULL)){
+				e.x+=50;
+				e.lastMovement=Enemy.DirectionType.RIGHT;
+			}
 			else {
-				if (enemyGoingRight){
-					e.x+=50;
-				} 
-				else {
-					e.x-=50;
-				}
+				System.out.println("ERROR");
 			}
+			
 			Helper.updateHitbox(e);
-
 		}
 	}
 }

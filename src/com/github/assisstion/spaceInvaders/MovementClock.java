@@ -4,12 +4,13 @@ public class MovementClock implements Runnable {
 	public MovementClock(){
 		
 	}
+	public static int MovementSpeed = 4000;
 	@Override
 	public void run(){
 		try{
 			while(MainCanvas.isOn){
 				MainCanvas.engine.moveEnemies();
-				Thread.sleep(4000);
+				Thread.sleep(MovementSpeed);
 			}
 		}
 		catch(InterruptedException e){
