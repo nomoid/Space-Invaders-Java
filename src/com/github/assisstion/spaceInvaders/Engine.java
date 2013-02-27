@@ -596,19 +596,18 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void dropPowerup(Enemy e,int x, int y){
-		int randint = MainCanvas.rand
-				.nextInt(1000);
+		int randint = MainCanvas.rand.nextInt(1000);
 		PowerupType fillerType = null;
 		
 		if (e.enemytype.equals(Enemy.EnemyType.NORMAL)) {
-			if (randint <= 30) {
-				if (randint <= 8) {
+			if (randint < 40) {
+				if (randint < 10) {
 					fillerType = PowerupType.HEALTH;
-				} else if (randint <= 15) {
+				} else if (randint < 20) {
 					fillerType = PowerupType.SPEED;
-				} else if (randint <= 23) {
+				} else if (randint < 30) {
 					fillerType = PowerupType.DAMAGE;
-				} else if (randint <= 30) {
+				} else if (randint < 40) {
 					fillerType = PowerupType.FIRERATE;
 				}
 				Powerup a = new Powerup(fillerType, x, y);
@@ -616,29 +615,29 @@ public class Engine extends Canvas implements KeyListener {
 				powerups.add(a);
 			}
 		} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
-			if (randint <= 80) {
-				if (randint <= 20) {
+			if (randint < 80) {
+				if (randint < 20) {
 					fillerType = PowerupType.HEALTH;
-				} else if (randint <= 40) {
+				} else if (randint < 40) {
 					fillerType = PowerupType.SPEED;
-				} else if (randint <= 60) {
+				} else if (randint < 60) {
 					fillerType = PowerupType.DAMAGE;
-				} else if (randint <= 80) {
+				} else if (randint < 80) {
 					fillerType = PowerupType.FIRERATE;
 				}
 				Powerup a = new Powerup(fillerType, x, y);
 				gameObjects.add(a);
 				powerups.add(a);
 			}
-		} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
-			if (randint <= 160) {
-				if (randint <= 40) {
+		} else if (e.enemytype.equals(Enemy.EnemyType.RED)){
+			if (randint < 160) {
+				if (randint < 40) {
 					fillerType = PowerupType.HEALTH;
-				} else if (randint <= 80) {
+				} else if (randint < 80) {
 					fillerType = PowerupType.SPEED;
-				} else if (randint <= 120) {
+				} else if (randint < 120) {
 					fillerType = PowerupType.DAMAGE;
-				} else if (randint <= 160) {
+				} else if (randint < 160) {
 					fillerType = PowerupType.FIRERATE;
 				}
 				Powerup a = new Powerup(fillerType, x, y);
