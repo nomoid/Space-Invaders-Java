@@ -116,10 +116,10 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("main")) {
 				updateMain(g);
 			} else if (state.equalsIgnoreCase("game_over")) {
-				updateMain(g);
+				gameLost((Graphics2D) g);
 				MainCanvas.isOn = false;
 			} else if (state.equalsIgnoreCase("game_won")) {
-				updateMain(g);
+				gameWon((Graphics2D) g);
 				MainCanvas.isOn = false;
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
@@ -162,12 +162,8 @@ public class Engine extends Canvas implements KeyListener {
 		bulletUpdate();
 		playerUpdate();
 		powerupUpdate();
+		enemyUpdate();
 		endUpdate();
-		if (state.equals("game_over")) {
-			gameLost(g);
-		} else if (state.equals("game_won")) {
-			gameWon(g);
-		}
 	}
 
 	public void render(Graphics2D g) {
@@ -359,7 +355,7 @@ public class Engine extends Canvas implements KeyListener {
 		} else {
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
-			MovementClock.MovementSpeed = 1750;
+			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
 			player1.livesRemaining += 1;
 		}
 	}
@@ -376,7 +372,7 @@ public class Engine extends Canvas implements KeyListener {
 					bulletLeft = false;
 				}
 				int extraDamage = 1;
-				if (player1.powerups.contains(PowerupType.DAMAGE)) {
+				if (player1.powerups.containsKey(PowerupType.DAMAGE)) {
 					extraDamage = 2;
 				}
 
@@ -387,7 +383,7 @@ public class Engine extends Canvas implements KeyListener {
 								.ordinal()]);
 				bullets.add(b);
 				gameObjects.add(b);
-				if (player1.powerups.contains(PowerupType.FIRERATE)) {
+				if (player1.powerups.containsKey(PowerupType.FIRERATE)) {
 					player1.firingCooldown = 25;
 				} else {
 					player1.firingCooldown = 50;
@@ -400,7 +396,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void playerUpdate() {
 		// Changes the player location depending on the current direction
 		int extraSpeed=1;
-		if (player1.powerups.contains(PowerupType.SPEED)) {
+		if (player1.powerups.containsKey(PowerupType.SPEED)) {
 			extraSpeed = 2;
 		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
@@ -539,7 +535,7 @@ public class Engine extends Canvas implements KeyListener {
 
 						}
 
-						if (e.y > 960) {
+						if (e.y > player1.y) {
 							state = "game_over";
 							System.out.println("Game Over!");
 						}
@@ -559,6 +555,23 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 	}
+	
+	public void enemyUpdate(){
+		for(EnemySquad enemies : enemySquads){
+			for(Enemy e : enemies){
+				if(e.hitBox.overLaps(player1.hitBox)){
+					gameObjects.remove(player1);
+					state = "game_over";
+				}
+				for(Bunker k : bunkers){
+					if(e.hitBox.overLaps(k.hitBox)){
+						bunkers.remove(k);
+						gameObjects.remove(k);
+					}
+				}
+			}
+		}
+	}
 
 	public void powerupUpdate() {
 		for (Powerup p : powerups) {
@@ -568,6 +581,16 @@ public class Engine extends Canvas implements KeyListener {
 				processPowerup(player1, p.type);
 				gameObjects.remove(p);
 				powerups.remove(p);
+			}
+		}
+		for(PowerupType p : player1.powerups.keySet()){
+			int n = player1.powerups.get(p);
+			n--;
+			if(n > 0){
+				player1.powerups.put(p, n);
+			}
+			else{
+				player1.powerups.remove(p);
 			}
 		}
 	}
@@ -635,13 +658,13 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			break;
 		case FIRERATE:
-			player.powerups.add(PowerupType.FIRERATE);
+			player.powerups.put(PowerupType.FIRERATE, Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case DAMAGE:
-			player.powerups.add(PowerupType.DAMAGE);
+			player.powerups.put(PowerupType.DAMAGE, Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case SPEED:
-			player.powerups.add(PowerupType.SPEED);
+			player.powerups.put(PowerupType.SPEED, Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		}
 	}
@@ -820,12 +843,14 @@ public class Engine extends Canvas implements KeyListener {
 				if (e.x + 50 >= MainCanvas.frame.getWidth()
 						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
+					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
+					MovementClock.MovementSpeed =  speed > MovementClock.MINIMUM_SPEED ? speed : MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				} else if (e.x - 50 <= 0
 						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					MovementClock.MovementSpeed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
+					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
+					MovementClock.MovementSpeed =  speed > MovementClock.MINIMUM_SPEED ? speed : MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}

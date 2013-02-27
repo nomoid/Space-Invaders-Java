@@ -1,6 +1,6 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
 
@@ -18,7 +18,7 @@ public class Player extends Sprite {
 		//Calls the superclass constructor to automatically set up the player image
 		super(PLAYER_DEFAULT_IMAGE, 432, 680);
 		this.name=name;
-		this.powerups = new ConcurrentSkipListSet<PowerupType>();
+		this.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 	}
 	
 	private String name;
@@ -28,7 +28,7 @@ public class Player extends Sprite {
 	public int firingCooldown;
 	public int health=PLAYER_DEFAULT_HEALTH;
 	public int livesRemaining=3;
-	public ConcurrentSkipListSet<PowerupType> powerups;
+	public ConcurrentSkipListMap<PowerupType, Integer> powerups;
 	
 	public static enum Direction {
 		LEFT,
