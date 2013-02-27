@@ -1,9 +1,13 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.util.concurrent.ConcurrentSkipListSet;
+
+import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
+
 public class Player extends Sprite {
 	
 	private static final String PLAYER_DEFAULT_IMAGE = "resources/SpaceShip.png";
-	private static final int DEFAULT_MOVEMENT_UPDATE_TICKS = 0;
+	public static final int PLAYER_DEFAULT_HEALTH = 2000;
 	
 	protected Player(){
 		
@@ -14,20 +18,17 @@ public class Player extends Sprite {
 		//Calls the superclass constructor to automatically set up the player image
 		super(PLAYER_DEFAULT_IMAGE, 432, 680);
 		this.name=name;
-		
+		this.powerups = new ConcurrentSkipListSet<PowerupType>();
 	}
 	
 	private String name;
 	//Made this public so other classes can easily access it
 	public int score;
-	//This is the amount of ticks (renders) per pixel of movement
-	public int movementUpdateTicks = DEFAULT_MOVEMENT_UPDATE_TICKS;
-	//These counts the ticks
-	public int movementUpdateCounter;
 	public Direction currentDirection=Direction.NONE;
 	public int firingCooldown;
-	public int health=2000;
+	public int health=PLAYER_DEFAULT_HEALTH;
 	public int livesRemaining=3;
+	public ConcurrentSkipListSet<PowerupType> powerups;
 	
 	public static enum Direction {
 		LEFT,

@@ -9,7 +9,9 @@ public class MovementClock implements Runnable {
 	public void run(){
 		try{
 			while(MainCanvas.isOn){
-				MainCanvas.engine.moveEnemies();
+				if(MainCanvas.engine.state.equalsIgnoreCase("main")){
+					MainCanvas.engine.moveEnemies();
+				}
 				Thread.sleep(MovementSpeed);
 			}
 		}

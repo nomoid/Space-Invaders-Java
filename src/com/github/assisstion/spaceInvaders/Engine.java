@@ -12,6 +12,9 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
+import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
+import com.github.assisstion.spaceInvaders.Bullet.BulletDirection;
+import com.github.assisstion.spaceInvaders.Bullet.BulletType;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
@@ -83,6 +86,8 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	// Set containing all bunkers
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
+	// Set containing all visible powerups
+	private ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
 	// Current level
 	public int currentLevel = 1;
 
@@ -115,6 +120,8 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("game_won")) {
 				updateMain(g);
 				MainCanvas.isOn = false;
+			} else if (state.equalsIgnoreCase("pause")){
+				render((Graphics2D) g);
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
@@ -149,20 +156,25 @@ public class Engine extends Canvas implements KeyListener {
 	public void updateMain(Graphics graphics) {
 		g = (Graphics2D) graphics;
 		// Renders the game objects
-		for (Sprite object : gameObjects) {
-			Helper.renderSprite(g, object);
-		}
+		render(g);
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
+		powerupUpdate();
 		endUpdate();
-		drawMenu(g);
 		if (state.equals("game_over")) {
 			gameLost(g);
 		} else if (state.equals("game_won")) {
 			gameWon(g);
 		}
 
+	}
+	
+	public void render(Graphics2D g){
+		for (Sprite object : gameObjects) {
+			Helper.renderSprite(g, object);
+		}
+		drawMenu(g);
 	}
 
 	public void gameLost(Graphics2D g) {
@@ -234,18 +246,18 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 		String message2 = new String(player1.getName() + "'s Health: "
-				+ player1.health + "/2000");
+				+ player1.health + "/" + Player.PLAYER_DEFAULT_HEALTH);
 
 		Color tempColor = null;
 		if (godmodeOn) {
 			tempColor = Color.red;
 			message2 = (player1.getName() + "'s Health: INFINITE");
-		} else if (player1.health > 1600) {
+		} else if (player1.health > Player.PLAYER_DEFAULT_HEALTH * 3 / 4) {
 			tempColor = Color.green;
-		} else if (player1.health > 1000) {
-			tempColor = Color.orange;
-		} else if (player1.health > 600) {
+		} else if (player1.health > Player.PLAYER_DEFAULT_HEALTH / 2) {
 			tempColor = Color.yellow;
+		} else if (player1.health > Player.PLAYER_DEFAULT_HEALTH / 4) {
+			tempColor = Color.orange;
 		} else {
 			tempColor = Color.red;
 		}
@@ -363,12 +375,25 @@ public class Engine extends Canvas implements KeyListener {
 				} else {
 					bulletLeft = false;
 				}
-				Bullet b = new Bullet(Bullet.BulletType.PLAYER, tempx,
-						player1.y);
+				int extraDamage = 1;
+				int extraSpeed = 1;
+				if(player1.powerups.contains(PowerupType.DAMAGE)){
+					extraDamage = 2;
+				}
+				if(player1.powerups.contains(PowerupType.SPEED)){
+					extraSpeed = 2;
+				}
+				Bullet b = new Bullet(BulletType.PLAYER, tempx,
+						player1.y, Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]*extraDamage, 
+						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER.ordinal()]*extraSpeed);
 				bullets.add(b);
 				gameObjects.add(b);
-
-				player1.firingCooldown = 50;
+				if(player1.powerups.contains(PowerupType.FIRERATE)){
+					player1.firingCooldown = 25;
+				}
+				else{
+					player1.firingCooldown = 50;
+				}
 			}
 		}
 
@@ -403,12 +428,12 @@ public class Engine extends Canvas implements KeyListener {
 		for (EnemySquad es : enemySquads) {
 			for (Enemy e : es) {
 				if (e.shootingCounter == 0) {
-					Bullet b = new Bullet(Bullet.BulletType.NORMAL, e.x, e.y);
+					Bullet b = new Bullet(BulletType.NORMAL, e.x, e.y);
 
 					if (e.enemytype.equals(Enemy.EnemyType.RED)) {
-						b = new Bullet(Bullet.BulletType.RED, e.x, e.y);
+						b = new Bullet(BulletType.RED, e.x, e.y);
 					} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
-						b = new Bullet(Bullet.BulletType.BLUE, e.x, e.y);
+						b = new Bullet(BulletType.BLUE, e.x, e.y);
 					}
 
 					if (e.hitBox.overLaps(player1.hitBox)) {
@@ -429,10 +454,10 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (Bullet b : bullets) {
 
-			if (b.direction.equals(Bullet.BulletDirection.UP)) {
+			if (b.direction.equals(BulletDirection.UP)) {
 				b.y -= b.movementSpeed;
 				Helper.updateHitbox(b);
-			} else if (b.direction.equals(Bullet.BulletDirection.DOWN)) {
+			} else if (b.direction.equals(BulletDirection.DOWN)) {
 				b.y += b.movementSpeed;
 				Helper.updateHitbox(b);
 			}
@@ -462,7 +487,7 @@ public class Engine extends Canvas implements KeyListener {
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
 				// CHANGE THIS LATER FOR VARYING BULLET DAMAGE
-				if (b.direction.equals(Bullet.BulletDirection.DOWN)
+				if (b.direction.equals(BulletDirection.DOWN)
 						&& !godmodeOn) {
 					player1.health -= b.damage;
 					bullets.remove(b);
@@ -471,7 +496,7 @@ public class Engine extends Canvas implements KeyListener {
 						player1.livesRemaining -= 1;
 						player1.x = 432;
 						player1.y = 680;
-						player1.health = 2000;
+						player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
 					}
 					if (player1.livesRemaining == 0) {
@@ -486,7 +511,7 @@ public class Engine extends Canvas implements KeyListener {
 			for (EnemySquad enemies : enemySquads) {
 				for (Enemy e : enemies) {
 					if (b.hitBox.overLaps(e.hitBox)) {
-						if (b.direction.equals(Bullet.BulletDirection.UP)) {
+						if (b.direction.equals(BulletDirection.UP)) {
 							e.health -= b.damage;
 							if (!godmodeOn){
 								bullets.remove(b);
@@ -517,6 +542,27 @@ public class Engine extends Canvas implements KeyListener {
 				bullets.remove(b);
 				gameObjects.remove(b);
 			}
+		}
+	}
+	
+	public void powerupUpdate(){
+		for(Powerup p : powerups){
+			if(p.hitBox.overLaps(player1.hitBox)){
+				processPowerup(player1, p.type);
+			}
+		}
+	}
+	
+	public void processPowerup(Player player, PowerupType p){
+		switch(p){
+			case HEALTH: player.health += Player.PLAYER_DEFAULT_HEALTH/4;
+			break;
+			case FIRERATE: player.powerups.add(PowerupType.FIRERATE);
+			break;
+			case DAMAGE: player.powerups.add(PowerupType.DAMAGE);
+			break;
+			case SPEED: player.powerups.add(PowerupType.SPEED);
+			break;
 		}
 	}
 
@@ -658,6 +704,14 @@ public class Engine extends Canvas implements KeyListener {
 			// tells the update loop to stop bullet firing
 			if (state.equals("main")) {
 				spaceOn = false;
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_P) {
+			if (state.equals("main")) {
+				state = "pause";
+			}
+			else if (state.equals("pause")) {
+				state = "main";
 			}
 		}
 	}

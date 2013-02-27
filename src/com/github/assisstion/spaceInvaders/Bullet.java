@@ -4,11 +4,11 @@ public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
 			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png"};
 		
-		private static final int[] BULLET_MOVEMENT_SPEED = 
+		public static final int[] BULLET_MOVEMENT_SPEED = 
 			{8, 4,4,4};
-		private static final BulletDirection[] BULLET_DIRECTION = 
+		public static final BulletDirection[] BULLET_DIRECTION = 
 			{BulletDirection.UP, BulletDirection.DOWN,BulletDirection.DOWN,BulletDirection.DOWN};
-		private static final int[] BULLET_DAMAGE = 
+		public static final int[] BULLET_DAMAGE = 
 			{100, 100,200,150 };
 		//True means moves one pixel EVERY movementSpeed ticks
 		//False means moves movementSpeed pixels EVERY tick
@@ -35,18 +35,21 @@ public class Bullet extends Sprite {
 			damage = BULLET_DAMAGE[bulletType.ordinal()];
 		}
 		
+		public Bullet(BulletType bulletType, int x, int y, int damage, int movementSpeed) throws GameException{
+			//Calls the superclass constructor to automatically set up the player image
+			super(BULLET_SHOT[bulletType.ordinal()]);
+			this.x=x;
+			this.y=y;
+			this.movementSpeed = movementSpeed;
+			direction = BULLET_DIRECTION[bulletType.ordinal()];
+			this.damage = damage;
+		}
+		
 		public static enum BulletType{
 			PLAYER, NORMAL,RED,BLUE;
 		}
 		
 		public static enum BulletDirection{
 			UP, DOWN;
-		}
-		
-		public static enum Boosts{
-			HEALTH,
-			FIRERATE,
-			DAMAGE,
-			SPEED
 		}
 }
