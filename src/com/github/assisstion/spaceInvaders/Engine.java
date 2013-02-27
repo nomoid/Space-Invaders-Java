@@ -60,6 +60,7 @@ public class Engine extends Canvas implements KeyListener {
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED };
+	public int hitSpree = 0;
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -167,7 +168,7 @@ public class Engine extends Canvas implements KeyListener {
 		} else if (state.equals("game_won")) {
 			gameWon(g);
 		}
-
+		System.out.println("Hitspree of: " + hitSpree);
 	}
 	
 	public void render(Graphics2D g){
@@ -473,6 +474,10 @@ public class Engine extends Canvas implements KeyListener {
 						gameObjects.remove(b);
 						bullets.remove(b);
 					}
+					
+					if (b.movementSpeed == 8){
+						hitSpree=0;
+					}
 				}
 				if (k.health <= 0) {
 					gameObjects.remove(k);
@@ -490,6 +495,7 @@ public class Engine extends Canvas implements KeyListener {
 				if (b.direction.equals(BulletDirection.DOWN)
 						&& !godmodeOn) {
 					player1.health -= b.damage;
+					hitSpree=0;
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
@@ -513,6 +519,7 @@ public class Engine extends Canvas implements KeyListener {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.direction.equals(BulletDirection.UP)) {
 							e.health -= b.damage;
+							hitSpree+=1;
 							if (!godmodeOn){
 								bullets.remove(b);
 								gameObjects.remove(b);
@@ -539,16 +546,23 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.x < 0 - b.getImage().getWidth()
 					|| b.x > MainCanvas.frame.getWidth()
 					|| b.y > MainCanvas.frame.getHeight()) {
+				if (b.movementSpeed==8){
+					hitSpree=0;
+				}
 				bullets.remove(b);
 				gameObjects.remove(b);
+
 			}
 		}
 	}
 	
 	public void powerupUpdate(){
 		for(Powerup p : powerups){
+			p.y += p.movementSpeed;
+			Helper.updateHitbox(p);
 			if(p.hitBox.overLaps(player1.hitBox)){
 				processPowerup(player1, p.type);
+				gameObjects.remove(p);
 			}
 		}
 	}
