@@ -121,7 +121,7 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("game_won")) {
 				updateMain(g);
 				MainCanvas.isOn = false;
-			} else if (state.equalsIgnoreCase("pause")){
+			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
 			} else {
 				// Throws an exception if none of the states match
@@ -168,10 +168,9 @@ public class Engine extends Canvas implements KeyListener {
 		} else if (state.equals("game_won")) {
 			gameWon(g);
 		}
-		System.out.println("Hitspree of: " + hitSpree);
 	}
-	
-	public void render(Graphics2D g){
+
+	public void render(Graphics2D g) {
 		for (Sprite object : gameObjects) {
 			Helper.renderSprite(g, object);
 		}
@@ -378,21 +377,22 @@ public class Engine extends Canvas implements KeyListener {
 				}
 				int extraDamage = 1;
 				int extraSpeed = 1;
-				if(player1.powerups.contains(PowerupType.DAMAGE)){
+				if (player1.powerups.contains(PowerupType.DAMAGE)) {
 					extraDamage = 2;
 				}
-				if(player1.powerups.contains(PowerupType.SPEED)){
+				if (player1.powerups.contains(PowerupType.SPEED)) {
 					extraSpeed = 2;
 				}
-				Bullet b = new Bullet(BulletType.PLAYER, tempx,
-						player1.y, Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]*extraDamage, 
-						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER.ordinal()]*extraSpeed);
+				Bullet b = new Bullet(BulletType.PLAYER, tempx, player1.y,
+						Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]
+								* extraDamage,
+						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
+								.ordinal()] * extraSpeed);
 				bullets.add(b);
 				gameObjects.add(b);
-				if(player1.powerups.contains(PowerupType.FIRERATE)){
+				if (player1.powerups.contains(PowerupType.FIRERATE)) {
 					player1.firingCooldown = 25;
-				}
-				else{
+				} else {
 					player1.firingCooldown = 50;
 				}
 			}
@@ -433,7 +433,7 @@ public class Engine extends Canvas implements KeyListener {
 
 					if (e.enemytype.equals(Enemy.EnemyType.RED)) {
 						b = new Bullet(BulletType.RED, e.x, e.y);
-					} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+					} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)) {
 						b = new Bullet(BulletType.BLUE, e.x, e.y);
 					}
 
@@ -474,9 +474,9 @@ public class Engine extends Canvas implements KeyListener {
 						gameObjects.remove(b);
 						bullets.remove(b);
 					}
-					
-					if (b.movementSpeed == 8){
-						hitSpree=0;
+
+					if (b.movementSpeed == 8) {
+						hitSpree = 0;
 					}
 				}
 				if (k.health <= 0) {
@@ -492,10 +492,9 @@ public class Engine extends Canvas implements KeyListener {
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
 				// CHANGE THIS LATER FOR VARYING BULLET DAMAGE
-				if (b.direction.equals(BulletDirection.DOWN)
-						&& !godmodeOn) {
+				if (b.direction.equals(BulletDirection.DOWN) && !godmodeOn) {
 					player1.health -= b.damage;
-					hitSpree=0;
+					hitSpree = 0;
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
@@ -516,25 +515,29 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			for (EnemySquad enemies : enemySquads) {
 				for (Enemy e : enemies) {
+					if (enemies.toBeRemoved) {
+						gameObjects.remove(e);
+						enemies.remove(e);
+					}
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.direction.equals(BulletDirection.UP)) {
 							e.health -= b.damage;
-							hitSpree+=1;
-							if (!godmodeOn){
+							hitSpree += 1;
+							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
 							}
 							if (e.health <= 0 || godmodeOn) {
+								dropPowerup(e, e.x, e.y);
 								enemies.remove(e);
 								gameObjects.remove(e);
 								player1.score += e.scoreReward;
 								System.out.println("Enemy Killed");
+
 							}
-							
+
 						}
 
-
-						
 						if (e.y > 960) {
 							gameObjects.remove(enemies);
 							state = "game_over";
@@ -546,8 +549,8 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.x < 0 - b.getImage().getWidth()
 					|| b.x > MainCanvas.frame.getWidth()
 					|| b.y > MainCanvas.frame.getHeight()) {
-				if (b.movementSpeed==8){
-					hitSpree=0;
+				if (b.movementSpeed == 8) {
+					hitSpree = 0;
 				}
 				bullets.remove(b);
 				gameObjects.remove(b);
@@ -555,27 +558,89 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 	}
-	
-	public void powerupUpdate(){
-		for(Powerup p : powerups){
+
+	public void powerupUpdate() {
+		for (Powerup p : powerups) {
 			p.y += p.movementSpeed;
 			Helper.updateHitbox(p);
-			if(p.hitBox.overLaps(player1.hitBox)){
+			if (p.hitBox.overLaps(player1.hitBox)) {
 				processPowerup(player1, p.type);
 				gameObjects.remove(p);
+				powerups.remove(p);
 			}
 		}
 	}
-	
-	public void processPowerup(Player player, PowerupType p){
-		switch(p){
-			case HEALTH: player.health += Player.PLAYER_DEFAULT_HEALTH/4;
+
+	public void dropPowerup(Enemy e,int x, int y){
+		int randint = MainCanvas.rand
+				.nextInt(1000);
+		PowerupType fillerType = null;
+		
+		if (e.enemytype.equals(Enemy.EnemyType.NORMAL)) {
+			if (randint <= 30) {
+				if (randint <= 8) {
+					fillerType = PowerupType.HEALTH;
+				} else if (randint <= 15) {
+					fillerType = PowerupType.SPEED;
+				} else if (randint <= 23) {
+					fillerType = PowerupType.DAMAGE;
+				} else if (randint <= 30) {
+					fillerType = PowerupType.FIRERATE;
+				}
+				Powerup a = new Powerup(fillerType, x, y);
+				gameObjects.add(a);
+				powerups.add(a);
+			}
+		} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+			if (randint <= 80) {
+				if (randint <= 20) {
+					fillerType = PowerupType.HEALTH;
+				} else if (randint <= 40) {
+					fillerType = PowerupType.SPEED;
+				} else if (randint <= 60) {
+					fillerType = PowerupType.DAMAGE;
+				} else if (randint <= 80) {
+					fillerType = PowerupType.FIRERATE;
+				}
+				Powerup a = new Powerup(fillerType, x, y);
+				gameObjects.add(a);
+				powerups.add(a);
+			}
+		} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)){
+			if (randint <= 160) {
+				if (randint <= 40) {
+					fillerType = PowerupType.HEALTH;
+				} else if (randint <= 80) {
+					fillerType = PowerupType.SPEED;
+				} else if (randint <= 120) {
+					fillerType = PowerupType.DAMAGE;
+				} else if (randint <= 160) {
+					fillerType = PowerupType.FIRERATE;
+				}
+				Powerup a = new Powerup(fillerType, x, y);
+				gameObjects.add(a);
+				powerups.add(a);
+			}
+		}
+		
+	}
+
+	public void processPowerup(Player player, PowerupType p) {
+		switch (p) {
+		case HEALTH:
+			player.health += 500;
+			if (player.health > 2000) {
+				player.health = 2000;
+			}
 			break;
-			case FIRERATE: player.powerups.add(PowerupType.FIRERATE);
+		case FIRERATE:
+			player.powerups.add(PowerupType.FIRERATE);
 			break;
-			case DAMAGE: player.powerups.add(PowerupType.DAMAGE);
+		case DAMAGE:
+			player.powerups.add(PowerupType.DAMAGE);
 			break;
-			case SPEED: player.powerups.add(PowerupType.SPEED);
+		case SPEED:
+			player.powerups.add(PowerupType.SPEED);
 			break;
 		}
 	}
@@ -719,12 +784,10 @@ public class Engine extends Canvas implements KeyListener {
 			if (state.equals("main")) {
 				spaceOn = false;
 			}
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_P) {
+		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			if (state.equals("main")) {
 				state = "pause";
-			}
-			else if (state.equals("pause")) {
+			} else if (state.equals("pause")) {
 				state = "main";
 			}
 		}
