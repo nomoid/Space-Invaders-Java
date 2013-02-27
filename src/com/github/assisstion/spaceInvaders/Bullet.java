@@ -42,4 +42,11 @@ public class Bullet extends Sprite {
 		public static enum BulletDirection{
 			UP, DOWN;
 		}
+		
+		public static enum Boosts{
+			HEALTH,
+			FIRERATE,
+			DAMAGE,
+			SPEED
+		}
 }
