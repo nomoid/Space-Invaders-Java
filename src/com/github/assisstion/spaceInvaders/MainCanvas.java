@@ -50,7 +50,7 @@ public class MainCanvas {
 		 
 		 isOn = true;
 		 rand = new Random();
-		 engine.start();
+		 engine.state="ready";
 		 System.out.println("Engine starting");
 		 
 		 new Thread(new Clock()).start();
