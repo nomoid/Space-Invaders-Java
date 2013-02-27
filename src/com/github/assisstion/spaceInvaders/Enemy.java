@@ -2,7 +2,7 @@ package com.github.assisstion.spaceInvaders;
 
 public class Enemy extends Sprite{
 	
-	private static final int[] ENEMY_HEALTH = {100, 200, 300};
+	private static final int[] ENEMY_HEALTH = {100, 300, 200};
 	private static final String[] ENEMY_IMAGE = {"resources/Enemy SpaceShip.png","resources/Enemy SpaceShip Red.png","resources/Enemy SpaceShip Blue.png"};
 	//Note the 2D array, it is just an array of int[]'s
 	//The first value is the min, the second value is the max

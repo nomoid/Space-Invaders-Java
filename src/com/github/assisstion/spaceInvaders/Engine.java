@@ -376,18 +376,15 @@ public class Engine extends Canvas implements KeyListener {
 					bulletLeft = false;
 				}
 				int extraDamage = 1;
-				int extraSpeed = 1;
 				if (player1.powerups.contains(PowerupType.DAMAGE)) {
 					extraDamage = 2;
 				}
-				if (player1.powerups.contains(PowerupType.SPEED)) {
-					extraSpeed = 2;
-				}
+
 				Bullet b = new Bullet(BulletType.PLAYER, tempx, player1.y,
 						Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
-								.ordinal()] * extraSpeed);
+								.ordinal()]);
 				bullets.add(b);
 				gameObjects.add(b);
 				if (player1.powerups.contains(PowerupType.FIRERATE)) {
@@ -402,11 +399,15 @@ public class Engine extends Canvas implements KeyListener {
 
 	public void playerUpdate() {
 		// Changes the player location depending on the current direction
+		int extraSpeed=1;
+		if (player1.powerups.contains(PowerupType.SPEED)) {
+			extraSpeed = 2;
+		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
-			player1.x -= 4;
+			player1.x -= 4*extraSpeed;
 			Helper.updateHitbox(player1);
 		} else if (player1.currentDirection.equals(Player.Direction.RIGHT)) {
-			player1.x += 4;
+			player1.x += 4*extraSpeed;
 			Helper.updateHitbox(player1);
 		}
 		if (player1.firingCooldown > 0) {
@@ -539,8 +540,8 @@ public class Engine extends Canvas implements KeyListener {
 						}
 
 						if (e.y > 960) {
-							gameObjects.remove(enemies);
 							state = "game_over";
+							System.out.println("Game Over!");
 						}
 					}
 				}
