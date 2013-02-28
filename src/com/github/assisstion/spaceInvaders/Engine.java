@@ -30,19 +30,18 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-	
-	
-	
+
+	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
 	private static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD,
 			33);
-	private static final Font FONT_LARGE = new Font("Bank Gothic",
-			Font.BOLD, 70);
+	private static final Font FONT_LARGE = new Font("Bank Gothic", Font.BOLD,
+			70);
 	private static final Font FONT_HUGE = new Font("Times New Roman",
 			Font.BOLD, 110);
 	private static final Font FONT_MEDIUM = new Font("Bank Gothic", Font.BOLD,
 			50);
-	
+	private String[] leName = { "-", "-", "-", "-", "-", "-", "-" };
 	private static final int[][] LEVELS = { { 10, 5 }, { 12, 7 }, { 15, 8 },
 			{ 17, 10 }, { 17, 10 } };
 	private static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
@@ -116,7 +115,9 @@ public class Engine extends Canvas implements KeyListener {
 			if (state.equalsIgnoreCase("not_ready")) {
 				return;
 			} else if (state.equalsIgnoreCase("ready")) {
-				startGame(g);
+				startGame((Graphics2D) g);
+			} else if (state.equalsIgnoreCase("nametaking")) {
+				renderName(g);
 			} else if (state.equalsIgnoreCase("main")) {
 				updateMain(g);
 			} else if (state.equalsIgnoreCase("game_over")) {
@@ -142,18 +143,58 @@ public class Engine extends Canvas implements KeyListener {
 	/*
 	 * Starts the game
 	 */
-	public void startGame(Graphics graphics) {
-		g = (Graphics2D) graphics;
+	public void renderName(Graphics gOld) {
+		g = (Graphics2D) gOld;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+				RenderingHints.VALUE_ANTIALIAS_OFF);
+
+		startGame(g);
+
+		Font lefont = new Font("Copperplate", Font.PLAIN, 200);
+		g.setFont(lefont);
+		g.setColor(Color.RED);
+
+		StringBuilder builder = new StringBuilder();
+		for (String s : leName) {
+			builder.append(s);
+		}
+
+		
+
+		String message = builder.toString();
+		g.drawString(message,
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				500);
+		
+		deleteHyphens(leName,leName);
+		// implement countdown? Hi, Name! 3... 2... 1... EPIC
+		//WEIRD BUG TEXT DISAPPEARS MARKus U FIX
+	}
+	
+	private void deleteHyphens(String[] leBame, String[] leName){
+		for (int i = 0; i < 7; i++) {
+			if (leBame[i].equals("-")) {
+				leBame[i] = "";
+			}
+			else {
+				tempname+=leBame[i];
+			}
+			
+			leBame=leName;
+			
+		}
+	}
+
+	public void startGame(Graphics2D g) {
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_OFF);
 		g.setColor(Color.BLUE);
 		String message = new String("Press Enter To Start");
 		g.setFont(FONT_MEDIUM);
 		g.drawString(message,
 				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
 				700);
-		
-		
+
 		g.setFont(FONT_LARGE);
 		g.setColor(Color.WHITE);
 		message = "Welcome to";
@@ -162,37 +203,27 @@ public class Engine extends Canvas implements KeyListener {
 				80);
 		message = "Space Invaders!";
 		g.drawString(message,
-						getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
-						150);
-		 Font fonttiny = new Font("Copperplate", Font.ITALIC, 18);
-		 g.setFont(fonttiny);
-		 message = "Created by Markus Feng and Michael Man (2013)";
-		 g.drawString(message,
-					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
-					180);
-		 
-		 g.setColor(Color.DARK_GRAY);
-		 g.fillRect(0, 200, 960, 450);
-		 
-		 Font lefont = new Font("Helvetica", Font.ROMAN_BASELINE, 50);
-		 g.setFont(lefont);
-		 g.setColor(Color.GREEN);
-		 message = "What is your name?";
-		 g.drawString(message,
-					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
-					260);
-		 
-		 lefont = new Font("Copperplate", Font.PLAIN, 250);
-		 g.setFont(lefont);
-		 g.setColor(Color.RED);
-		 message= "----------";
-		 g.drawString(message,
-					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
-					500);
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				150);
+		Font fonttiny = new Font("Copperplate", Font.ITALIC, 18);
+		g.setFont(fonttiny);
+		message = "Created by Markus Feng and Michael Man (2013)";
+		g.drawString(message,
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				180);
 
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 200, 960, 450);
 
-		 
-		 
+		Font lefont = new Font("Helvetica", Font.ROMAN_BASELINE, 50);
+		g.setFont(lefont);
+		g.setColor(Color.GREEN);
+		message = "What is your name?";
+		g.drawString(message,
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				260);
+
+		state = "nametaking";
 	}
 
 	/*
@@ -439,15 +470,15 @@ public class Engine extends Canvas implements KeyListener {
 
 	public void playerUpdate() {
 		// Changes the player location depending on the current direction
-		int extraSpeed=1;
+		int extraSpeed = 1;
 		if (player1.powerups.containsKey(PowerupType.SPEED)) {
 			extraSpeed = 2;
 		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
-			player1.x -= 4*extraSpeed;
+			player1.x -= 4 * extraSpeed;
 			Helper.updateHitbox(player1);
 		} else if (player1.currentDirection.equals(Player.Direction.RIGHT)) {
-			player1.x += 4*extraSpeed;
+			player1.x += 4 * extraSpeed;
 			Helper.updateHitbox(player1);
 		}
 		if (player1.firingCooldown > 0) {
@@ -599,16 +630,16 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 	}
-	
-	public void enemyUpdate(){
-		for(EnemySquad enemies : enemySquads){
-			for(Enemy e : enemies){
-				if(e.hitBox.overLaps(player1.hitBox)){
+
+	public void enemyUpdate() {
+		for (EnemySquad enemies : enemySquads) {
+			for (Enemy e : enemies) {
+				if (e.hitBox.overLaps(player1.hitBox)) {
 					gameObjects.remove(player1);
 					state = "game_over";
 				}
-				for(Bunker k : bunkers){
-					if(e.hitBox.overLaps(k.hitBox)){
+				for (Bunker k : bunkers) {
+					if (e.hitBox.overLaps(k.hitBox)) {
 						bunkers.remove(k);
 						gameObjects.remove(k);
 					}
@@ -627,27 +658,25 @@ public class Engine extends Canvas implements KeyListener {
 				powerups.remove(p);
 			}
 		}
-		for(PowerupType p : player1.powerups.keySet()){
+		for (PowerupType p : player1.powerups.keySet()) {
 			int n = player1.powerups.get(p);
 			n--;
-			if(n > 0){
+			if (n > 0) {
 				player1.powerups.put(p, n);
-			}
-			else{
+			} else {
 				player1.powerups.remove(p);
 				System.out.println("Powerup Removed");
 			}
 		}
 	}
 
-	public void dropPowerup(Enemy e,int x, int y){
+	public void dropPowerup(Enemy e, int x, int y) {
 		int randint = MainCanvas.rand.nextInt(1000);
 		PowerupType fillerType = null;
 		int numeral = Helper.getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
 		if (randint < Powerup.POWERUP_CHANCES[numeral][0]) {
-			int type = MainCanvas.rand.nextInt(
-					Powerup.POWERUP_CHANCES[numeral]
-					[Powerup.POWERUP_CHANCES[numeral].length-1]);
+			int type = MainCanvas.rand
+					.nextInt(Powerup.POWERUP_CHANCES[numeral][Powerup.POWERUP_CHANCES[numeral].length - 1]);
 			if (type < Powerup.POWERUP_CHANCES[numeral][1]) {
 				fillerType = PowerupType.HEALTH;
 			} else if (type < Powerup.POWERUP_CHANCES[numeral][2]) {
@@ -672,13 +701,16 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			break;
 		case FIRERATE:
-			player.powerups.put(PowerupType.FIRERATE, Powerup.DEFAULT_POWERUP_FRAMES);
+			player.powerups.put(PowerupType.FIRERATE,
+					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case DAMAGE:
-			player.powerups.put(PowerupType.DAMAGE, Powerup.DEFAULT_POWERUP_FRAMES);
+			player.powerups.put(PowerupType.DAMAGE,
+					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case SPEED:
-			player.powerups.put(PowerupType.SPEED, Powerup.DEFAULT_POWERUP_FRAMES);
+			player.powerups.put(PowerupType.SPEED,
+					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		}
 	}
@@ -692,7 +724,7 @@ public class Engine extends Canvas implements KeyListener {
 		System.out.println("It's starting!");
 		// Creates a new player
 		new Thread(new MovementClock()).start();
-		player1 = new Player("Bob");
+		player1 = new Player(tempname);
 		gameObjects.add(player1);
 		// loads map plan here
 		constructEnemyFormation(1);
@@ -726,60 +758,55 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if (state.equalsIgnoreCase("ready")) {
-				startGame();
-			}
-			if (godmode.equals("god")) {
-				godmode();
-				godmode = "";
-				System.out.println("God Mode is starting!");
-			} else {
-				godmode = "";
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			// tells the update loop to allow bullet firing
-			if (state.equals("main")) {
+		if (state.equals("main")) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (godmode.equals("god")) {
+					godmode();
+					godmode = "";
+					System.out.println("God Mode is starting!");
+				} else {
+					godmode = "";
+				}
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				// tells the update loop to allow bullet firing
 				spaceOn = true;
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			// sets the direction to Right
-			if (state.equals("main")) {
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				// sets the direction to Right
 				rightOn = true;
 				player1.currentDirection = Player.Direction.RIGHT;
+			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				// sets the direction to Left
+				if (state.equals("main")) {
+					leftOn = true;
+					player1.currentDirection = Player.Direction.LEFT;
+				}
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			// sets the direction to Left
-			if (state.equals("main")) {
-				leftOn = true;
-				player1.currentDirection = Player.Direction.LEFT;
-			}
-		}
 
-		else if (e.getKeyCode() == KeyEvent.VK_G) {
-			if (godmode.equals("")) {
-				godmode = "g";
+			else if (e.getKeyCode() == KeyEvent.VK_G) {
+				if (godmode.equals("")) {
+					godmode = "g";
+				} else {
+					godmode = "";
+				}
+			}
+
+			else if (e.getKeyCode() == KeyEvent.VK_O) {
+				if (godmode.equals("g")) {
+					godmode = "go";
+				} else {
+					godmode = "";
+				}
+			} else if (e.getKeyCode() == KeyEvent.VK_D) {
+				if (godmode.equals("go")) {
+					godmode = "god";
+					// Added God Mode
+				} else {
+					godmode = "";
+				}
+
 			} else {
 				godmode = "";
 			}
-		}
-
-		else if (e.getKeyCode() == KeyEvent.VK_O) {
-			if (godmode.equals("g")) {
-				godmode = "go";
-			} else {
-				godmode = "";
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_D) {
-			if (godmode.equals("go")) {
-				godmode = "god";
-				// Added God Mode
-			} else {
-				godmode = "";
-			}
-
-		} else {
-			godmode = "";
 		}
 	}
 
@@ -833,7 +860,34 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		if (e.getKeyCode() == 0) {
+			if (state.equalsIgnoreCase("nametaking") && !(tempname.equals(""))) {
+				startGame();
+				state="main";
+			}
+		} else {
+			if (state.equals("nametaking")) {
+				System.out.println(e.getKeyChar());
+				int i = 0;
+				String string = "";
 
+				while (!string.equals("-")) {
+					if (i < 7) {
+						string = leName[i];
+					} else {
+						break;
+					}
+
+					if (!string.equals("-")) {
+						i++;
+					}
+				}
+
+				if (i < 7) {
+					leName[i] = Character.toString(e.getKeyChar());
+				}
+			}
+		}
 	}
 
 	private void godmode() {
@@ -858,13 +912,15 @@ public class Engine extends Canvas implements KeyListener {
 						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
 					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
-					MovementClock.MovementSpeed =  speed > MovementClock.MINIMUM_SPEED ? speed : MovementClock.MINIMUM_SPEED;
+					MovementClock.MovementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
+							: MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				} else if (e.x - 50 <= 0
 						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
 					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
-					MovementClock.MovementSpeed =  speed > MovementClock.MINIMUM_SPEED ? speed : MovementClock.MINIMUM_SPEED;
+					MovementClock.MovementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
+							: MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}
