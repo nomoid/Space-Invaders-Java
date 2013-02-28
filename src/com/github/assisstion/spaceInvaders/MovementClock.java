@@ -3,7 +3,7 @@ package com.github.assisstion.spaceInvaders;
 public class MovementClock implements Runnable {
 	
 	public static final int DEFAULT_SPEED = 1750;
-	public static final int MINIMUM_SPEED = 50;
+	public static final int MINIMUM_SPEED = 900;
 	
 	public MovementClock(){
 		

@@ -30,6 +30,9 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	
+	
+	
 	private static final long serialVersionUID = 21816248595432439L;
 	private static final Font FONT_SMALL = new Font("Copperplate", Font.BOLD,
 			33);
@@ -591,6 +594,7 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			else{
 				player1.powerups.remove(p);
+				System.out.println("Powerup Removed");
 			}
 		}
 	}
