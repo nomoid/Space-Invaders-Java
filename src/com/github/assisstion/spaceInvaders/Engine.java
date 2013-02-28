@@ -34,14 +34,15 @@ public class Engine extends Canvas implements KeyListener {
 	
 	
 	private static final long serialVersionUID = 21816248595432439L;
-	private static final Font FONT_SMALL = new Font("Copperplate", Font.BOLD,
+	private static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD,
 			33);
-	private static final Font FONT_LARGE = new Font("Times New Roman",
-			Font.BOLD, 80);
+	private static final Font FONT_LARGE = new Font("Bank Gothic",
+			Font.BOLD, 70);
 	private static final Font FONT_HUGE = new Font("Times New Roman",
 			Font.BOLD, 110);
-	private static final Font FONT_MEDIUM = new Font("Copperplate", Font.BOLD,
+	private static final Font FONT_MEDIUM = new Font("Bank Gothic", Font.BOLD,
 			50);
+	
 	private static final int[][] LEVELS = { { 10, 5 }, { 12, 7 }, { 15, 8 },
 			{ 17, 10 }, { 17, 10 } };
 	private static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
@@ -147,11 +148,51 @@ public class Engine extends Canvas implements KeyListener {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.BLUE);
 		String message = new String("Press Enter To Start");
-		g.setFont(FONT_LARGE);
+		g.setFont(FONT_MEDIUM);
 		g.drawString(message,
 				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
-				350);
+				700);
+		
+		
+		g.setFont(FONT_LARGE);
+		g.setColor(Color.WHITE);
+		message = "Welcome to";
+		g.drawString(message,
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				80);
+		message = "Space Invaders!";
+		g.drawString(message,
+						getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+						150);
+		 Font fonttiny = new Font("Copperplate", Font.ITALIC, 18);
+		 g.setFont(fonttiny);
+		 message = "Created by Markus Feng and Michael Man (2013)";
+		 g.drawString(message,
+					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+					180);
+		 
+		 g.setColor(Color.DARK_GRAY);
+		 g.fillRect(0, 200, 960, 450);
+		 
+		 Font lefont = new Font("Helvetica", Font.ROMAN_BASELINE, 50);
+		 g.setFont(lefont);
+		 g.setColor(Color.GREEN);
+		 message = "What is your name?";
+		 g.drawString(message,
+					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+					260);
+		 
+		 lefont = new Font("Copperplate", Font.PLAIN, 250);
+		 g.setFont(lefont);
+		 g.setColor(Color.RED);
+		 message= "----------";
+		 g.drawString(message,
+					getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+					500);
 
+
+		 
+		 
 	}
 
 	/*
@@ -233,7 +274,7 @@ public class Engine extends Canvas implements KeyListener {
 
 		}
 		g.drawString(message, 10, 25);
-		g.drawString(message3, 730, 25);
+		g.drawString(message3, 710, 25);
 
 		if (godmodeOn) {
 			g.setColor(Color.RED);
@@ -267,7 +308,7 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.setColor(Color.BLACK);
 		String message5 = new String("Level: " + currentLevel + "/5");
-		g.drawString(message5, 730, 60);
+		g.drawString(message5, 710, 60);
 	}
 
 	// map input will be developed here later
