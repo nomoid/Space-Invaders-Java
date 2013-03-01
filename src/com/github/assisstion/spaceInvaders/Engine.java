@@ -124,12 +124,13 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("main")) {
 				updateMain(g);
 			} else if (state.equalsIgnoreCase("game_over")) {
+				gameCleanup();
 				gameLost((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("game_won")) {
+				gameCleanup();
 				gameWon((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
-			} else if (state.equalsIgnoreCase("justfinished")){
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
@@ -245,7 +246,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void gameLost(Graphics2D g) {
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
-		String yourScore = new String("Final Score: " + player1.score);
+		String yourScore = new String("Final Score: " + (godmodeOn?"°":player1.score));
 		g.setColor(Color.RED);
 		g.setFont(FONT_HUGE);
 		g.drawString(gameOver, getWidth() / 2
@@ -254,16 +255,12 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-		state="justfinished";
 	}
 
 	public void gameWon(Graphics2D g) {
-
 		g.fillRect(0, 0, 960, 740);
-		player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH
-				+ player1.health;
 		String gameWon = new String("You've Won!");
-		String yourScore = new String("Final Score: " + player1.score);
+		String yourScore = new String("Final Score: " + (godmodeOn?"°":player1.score));
 		g.setColor(Color.BLUE);
 		g.setFont(FONT_HUGE);
 		g.drawString(gameWon,
@@ -273,11 +270,19 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-		System.out.println("You've Won the Game!");
+		
+		
+	}
+	
+	public void gameCleanup(){
+		if(state.equalsIgnoreCase("game_won")){
+			player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH
+					+ player1.health;
+		}
+		System.out.println("Cleaning up game");
 		for (Sprite s:gameObjects){
 			gameObjects.remove(s);
 		}
-		state = "justfinished";
 	}
 
 	public void drawMenu(Graphics2D g) {
@@ -431,7 +436,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	public void nextLevel() {
 		// STUFF TO DO HERE: display info to player.
-		if (currentLevel == 5) {
+		if (currentLevel >= 5) {
 			state = "game_won";
 		} else {
 			if (livesatlvlstart == player1.livesRemaining) {
@@ -466,6 +471,7 @@ public class Engine extends Canvas implements KeyListener {
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()]);
+				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
 				if (player1.powerups.containsKey(PowerupType.FIRERATE)) {
@@ -510,7 +516,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void bulletUpdate() {
 		for (EnemySquad es : enemySquads) {
 			for (Enemy e : es) {
-				if (e.shootingCounter == 0) {
+				if (e.shootingCounter <= 0) {
 					Bullet b = new Bullet(BulletType.NORMAL, e.x, e.y);
 
 					if (e.enemytype.equals(Enemy.EnemyType.RED)) {
@@ -522,6 +528,8 @@ public class Engine extends Canvas implements KeyListener {
 					if (e.hitBox.overLaps(player1.hitBox)) {
 						player1.livesRemaining = 0;
 					}
+					
+					b.owner = e;
 
 					bullets.add(b);
 					gameObjects.add(b);
@@ -550,14 +558,14 @@ public class Engine extends Canvas implements KeyListener {
 
 					k.health -= b.damage;
 
-					if (godmodeOn && b.movementSpeed == 8) {
+					if (godmodeOn && b.owner instanceof Player) {
 						k.health = 0;
 					} else {
 						gameObjects.remove(b);
 						bullets.remove(b);
 					}
 
-					if (b.movementSpeed == 8) {
+					if (b.owner instanceof Player) {
 						hitSpree = 0;
 					}
 				}
@@ -573,8 +581,7 @@ public class Engine extends Canvas implements KeyListener {
 			}
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
-				// CHANGE THIS LATER FOR VARYING BULLET DAMAGE
-				if (b.direction.equals(BulletDirection.DOWN) && !godmodeOn) {
+				if ((b.owner instanceof Enemy) && !godmodeOn) {
 					player1.health -= b.damage;
 					hitSpree = 0;
 					bullets.remove(b);
@@ -586,7 +593,7 @@ public class Engine extends Canvas implements KeyListener {
 						player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
 					}
-					if (player1.livesRemaining == 0) {
+					if (player1.livesRemaining <= 0) {
 						System.out.println("You're Dead!");
 						player1.x = MainCanvas.frame.getWidth();
 						player1.y = MainCanvas.frame.getHeight();
@@ -602,7 +609,7 @@ public class Engine extends Canvas implements KeyListener {
 						enemies.remove(e);
 					}
 					if (b.hitBox.overLaps(e.hitBox)) {
-						if (b.direction.equals(BulletDirection.UP)) {
+						if (b.owner instanceof Player) {
 							e.health -= b.damage;
 							hitSpree += 1;
 							if (!godmodeOn) {
@@ -631,7 +638,7 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.x < 0 - b.getImage().getWidth()
 					|| b.x > MainCanvas.frame.getWidth()
 					|| b.y > MainCanvas.frame.getHeight()) {
-				if (b.movementSpeed == 8) {
+				if (b.owner instanceof Player) {
 					hitSpree = 0;
 				}
 				bullets.remove(b);
@@ -846,7 +853,7 @@ public class Engine extends Canvas implements KeyListener {
 					leName[nameLength] = '-';
 				}
 			} else if (Character.isLetterOrDigit(e.getKeyChar())) {
-				if (nameLength < 7) {
+				if (nameLength < NAME_MAX_LENGTH) {
 					nameLength++;
 					leName[nameLength - 1] = e.getKeyChar();
 				}

@@ -17,6 +17,7 @@ public class Bullet extends Sprite {
 		public int movementCounter;
 		public int damage;
 		public BulletDirection direction;
+		public Sprite owner;
 		
 		//private boolean isLethal = false;
 		
