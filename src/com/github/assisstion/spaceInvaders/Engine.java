@@ -30,7 +30,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-
+	private int livesatlvlstart;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
 	private static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD,
@@ -42,9 +42,9 @@ public class Engine extends Canvas implements KeyListener {
 	private static final Font FONT_MEDIUM = new Font("Bank Gothic", Font.BOLD,
 			50);
 	private static final int NAME_MAX_LENGTH = 7;
-	
-	private static final int[][] LEVELS = { { 10, 5 }, { 12, 7 }, { 15, 8 },
-			{ 17, 10 }, { 17, 10 } };
+
+	private static final int[][] LEVELS = { { 10, 4 }, { 12, 5 }, { 13, 6 },
+			{ 14, 7 }, { 16, 8 } };
 	private static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
@@ -54,12 +54,12 @@ public class Engine extends Canvas implements KeyListener {
 			Enemy.EnemyType.NORMAL };
 	private static final Enemy.EnemyType[] LEVEL3DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL };
 	private static final Enemy.EnemyType[] LEVEL4DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE };
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL };
 	private static final Enemy.EnemyType[] LEVEL5DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
@@ -97,8 +97,7 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
 	// Current level
 	public int currentLevel = 1;
-	
-	
+
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
@@ -126,12 +125,11 @@ public class Engine extends Canvas implements KeyListener {
 				updateMain(g);
 			} else if (state.equalsIgnoreCase("game_over")) {
 				gameLost((Graphics2D) g);
-				MainCanvas.isOn = false;
 			} else if (state.equalsIgnoreCase("game_won")) {
 				gameWon((Graphics2D) g);
-				MainCanvas.isOn = false;
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
+			} else if (state.equalsIgnoreCase("justfinished")){
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
@@ -153,8 +151,6 @@ public class Engine extends Canvas implements KeyListener {
 				RenderingHints.VALUE_ANTIALIAS_OFF);
 
 		startGame(g);
-		
-		
 
 		Font lefont = new Font("Copperplate", Font.PLAIN, 200);
 		g.setFont(lefont);
@@ -166,11 +162,11 @@ public class Engine extends Canvas implements KeyListener {
 		g.drawString(message,
 				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
 				500);
-		
+
 		// implement countdown? Hi, Name! 3... 2... 1... EPIC
 	}
-	
-	private char[] removeChar(char[] ca, char c){
+
+	private char[] removeChar(char[] ca, char c) {
 		char[] transferArray = new char[ca.length];
 		int j = 0;
 		for (int i = 0; i < ca.length; i++) {
@@ -247,7 +243,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void gameLost(Graphics2D g) {
-		g.fillRect(0, 0, 960, 740);
+		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
 		String yourScore = new String("Final Score: " + player1.score);
 		g.setColor(Color.RED);
@@ -258,13 +254,14 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-
+		state="justfinished";
 	}
 
 	public void gameWon(Graphics2D g) {
-		
+
 		g.fillRect(0, 0, 960, 740);
-		player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH + player1.health;
+		player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH
+				+ player1.health;
 		String gameWon = new String("You've Won!");
 		String yourScore = new String("Final Score: " + player1.score);
 		g.setColor(Color.BLUE);
@@ -277,7 +274,10 @@ public class Engine extends Canvas implements KeyListener {
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
 		System.out.println("You've Won the Game!");
-		state = "ready";
+		for (Sprite s:gameObjects){
+			gameObjects.remove(s);
+		}
+		state = "justfinished";
 	}
 
 	public void drawMenu(Graphics2D g) {
@@ -406,7 +406,13 @@ public class Engine extends Canvas implements KeyListener {
 			}
 
 			enemySquads.add(enemies);
-			x += 50;
+			if (lvlnum <= 2) {
+				x += 70;
+			} else if (lvlnum <= 4) {
+				x += 60;
+			} else {
+				x += 50;
+			}
 		}
 	}
 
@@ -428,10 +434,14 @@ public class Engine extends Canvas implements KeyListener {
 		if (currentLevel == 5) {
 			state = "game_won";
 		} else {
+			if (livesatlvlstart == player1.livesRemaining) {
+				player1.livesRemaining++;
+			}
+			livesatlvlstart = player1.livesRemaining;
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
-			player1.livesRemaining += 1;
+
 		}
 	}
 
@@ -459,7 +469,7 @@ public class Engine extends Canvas implements KeyListener {
 				bullets.add(b);
 				gameObjects.add(b);
 				if (player1.powerups.containsKey(PowerupType.FIRERATE)) {
-					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN/3;
+					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN / 3;
 				} else {
 					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN;
 				}
@@ -635,8 +645,15 @@ public class Engine extends Canvas implements KeyListener {
 		for (EnemySquad enemies : enemySquads) {
 			for (Enemy e : enemies) {
 				if (e.hitBox.overLaps(player1.hitBox)) {
-					gameObjects.remove(player1);
-					state = "game_over";
+					if (!godmodeOn) {
+						player1.livesRemaining--;
+					}
+					for (Enemy a : enemies) {
+						a.x = a.startingX;
+						a.y = a.startingY;
+
+						Helper.updateHitbox(a);
+					}
 				}
 				for (Bunker k : bunkers) {
 					if (e.hitBox.overLaps(k.hitBox)) {
@@ -695,7 +712,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void processPowerup(Player player, PowerupType p) {
 		switch (p) {
 		case HEALTH:
-			player.health += Player.PLAYER_DEFAULT_HEALTH/4;
+			player.health += Player.PLAYER_DEFAULT_HEALTH / 4;
 			if (player.health > Player.PLAYER_DEFAULT_HEALTH) {
 				player.health = Player.PLAYER_DEFAULT_HEALTH;
 			}
@@ -725,9 +742,13 @@ public class Engine extends Canvas implements KeyListener {
 		// Creates a new player
 		new Thread(new MovementClock()).start();
 		player1 = new Player(tempname);
+		if (tempname.equalsIgnoreCase("god")) {
+			godmodeOn = true;
+		}
 		gameObjects.add(player1);
 		// loads map plan here
 		constructEnemyFormation(1);
+		livesatlvlstart = player1.livesRemaining;
 		// Constructs the bunker formations
 		constructBunkerFormation(64, 600);
 		constructBunkerFormation(252, 600);
@@ -758,7 +779,11 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (state.equals("main")) {
+		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
+				&& state.equals("justfinished")) {
+			state = "ready";
+			g=null;
+		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (godmode.equals("god")) {
 					godmode();
@@ -807,27 +832,25 @@ public class Engine extends Canvas implements KeyListener {
 			} else {
 				godmode = "";
 			}
-			//note shift fails
-		} else if (state.equals("nametaking")){
+			// note shift fails
+		} else if (state.equals("nametaking")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				//fix this. in case tempname=""
+				// fix this. in case tempname=""
 				System.out.println("Enter Pressed");
 				startGame();
-				state="main";
-			
-			} else if (e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
-				if(nameLength > 0){
+				state = "main";
+
+			} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				if (nameLength > 0) {
 					nameLength--;
 					leName[nameLength] = '-';
 				}
-			}
-			else if(Character.isLetterOrDigit(e.getKeyChar())){
-				if(nameLength < 7){
+			} else if (Character.isLetterOrDigit(e.getKeyChar())) {
+				if (nameLength < 7) {
 					nameLength++;
-					leName[nameLength-1] = e.getKeyChar();
+					leName[nameLength - 1] = e.getKeyChar();
 				}
-			}
-			else{
+			} else {
 				System.out.println("action key");
 			}
 		}
@@ -883,7 +906,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
 
 	private void godmode() {
@@ -932,10 +955,10 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 	}
-	
-	public static char[] createEmptyName(char c, int length){
+
+	public static char[] createEmptyName(char c, int length) {
 		char[] ca = new char[length];
-		for(int i = 0; i < ca.length; i++){
+		for (int i = 0; i < ca.length; i++) {
 			ca[i] = c;
 		}
 		return ca;

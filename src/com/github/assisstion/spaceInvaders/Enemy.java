@@ -15,6 +15,8 @@ public class Enemy extends Sprite{
 	public EnemyType enemytype;
 	public EnemySquad squad;
 	public int scoreReward;
+	public int startingX;
+	public int startingY;
 	
 	protected Enemy(){
 		
@@ -22,6 +24,8 @@ public class Enemy extends Sprite{
 	
 	public Enemy(EnemyType type,int x, int y) throws GameException{
 		super(ENEMY_IMAGE[type.ordinal()],x,y);
+		startingX=x;
+		startingY=y;
 		int index = type.ordinal();
 		health = ENEMY_HEALTH[index];
 		enemytype=type;
