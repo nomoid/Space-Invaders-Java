@@ -811,6 +811,7 @@ public class Engine extends Canvas implements KeyListener {
 			} else {
 				godmode = "";
 			}
+			//note shift fails
 		} else if (state.equals("nametaking")){
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				//fix this. in case tempname=""
@@ -819,8 +820,12 @@ public class Engine extends Canvas implements KeyListener {
 					startGame();
 					state="main";
 				}
-			} else {
-				if (state.equals("nametaking")) {
+			
+			} else if (e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
+				
+				
+			}
+			else {
 					int i = 0;
 					String string = "";
 
@@ -839,7 +844,6 @@ public class Engine extends Canvas implements KeyListener {
 					if (i < 7) {
 						leName[i] = Character.toString(e.getKeyChar());
 					}
-				}
 			}
 		}
 	}
