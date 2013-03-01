@@ -262,7 +262,9 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void gameWon(Graphics2D g) {
+		
 		g.fillRect(0, 0, 960, 740);
+		player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH + player1.health;
 		String gameWon = new String("You've Won!");
 		String yourScore = new String("Final Score: " + player1.score);
 		g.setColor(Color.BLUE);
@@ -446,7 +448,7 @@ public class Engine extends Canvas implements KeyListener {
 				}
 				int extraDamage = 1;
 				if (player1.powerups.containsKey(PowerupType.DAMAGE)) {
-					extraDamage = 2;
+					extraDamage = 3;
 				}
 
 				Bullet b = new Bullet(BulletType.PLAYER, tempx, player1.y,
@@ -457,9 +459,9 @@ public class Engine extends Canvas implements KeyListener {
 				bullets.add(b);
 				gameObjects.add(b);
 				if (player1.powerups.containsKey(PowerupType.FIRERATE)) {
-					player1.firingCooldown = 25;
+					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN/3;
 				} else {
-					player1.firingCooldown = 50;
+					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN;
 				}
 			}
 		}
@@ -470,7 +472,7 @@ public class Engine extends Canvas implements KeyListener {
 		// Changes the player location depending on the current direction
 		int extraSpeed = 1;
 		if (player1.powerups.containsKey(PowerupType.SPEED)) {
-			extraSpeed = 2;
+			extraSpeed = 3;
 		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
 			player1.x -= 4 * extraSpeed;
@@ -693,9 +695,9 @@ public class Engine extends Canvas implements KeyListener {
 	public void processPowerup(Player player, PowerupType p) {
 		switch (p) {
 		case HEALTH:
-			player.health += 500;
-			if (player.health > 2000) {
-				player.health = 2000;
+			player.health += Player.PLAYER_DEFAULT_HEALTH/4;
+			if (player.health > Player.PLAYER_DEFAULT_HEALTH) {
+				player.health = Player.PLAYER_DEFAULT_HEALTH;
 			}
 			break;
 		case FIRERATE:
