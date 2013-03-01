@@ -166,7 +166,6 @@ public class Engine extends Canvas implements KeyListener {
 				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
 				500);
 		
-		deleteHyphens(leName,leName);
 		// implement countdown? Hi, Name! 3... 2... 1... EPIC
 		//WEIRD BUG TEXT DISAPPEARS MARKus U FIX
 	}
@@ -179,8 +178,6 @@ public class Engine extends Canvas implements KeyListener {
 			else {
 				tempname+=leBame[i];
 			}
-			
-			leBame=leName;
 			
 		}
 	}
@@ -807,6 +804,37 @@ public class Engine extends Canvas implements KeyListener {
 			} else {
 				godmode = "";
 			}
+		} else if (state.equals("nametaking")){
+			System.out.println(KeyEvent.VK_ENTER);
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				System.out.println("Enter Pressed");
+				if (state.equalsIgnoreCase("nametaking")) {
+					startGame();
+					state="main";
+				}
+			} else {
+				if (state.equals("nametaking")) {
+					System.out.println(e.getKeyChar());
+					int i = 0;
+					String string = "";
+
+					while (!string.equals("-")) {
+						if (i < 7) {
+							string = leName[i];
+						} else {
+							break;
+						}
+
+						if (!string.equals("-")) {
+							i++;
+						}
+					}
+
+					if (i < 7) {
+						leName[i] = Character.toString(e.getKeyChar());
+					}
+				}
+			}
 		}
 	}
 
@@ -860,34 +888,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (e.getKeyCode() == 0) {
-			if (state.equalsIgnoreCase("nametaking") && !(tempname.equals(""))) {
-				startGame();
-				state="main";
-			}
-		} else {
-			if (state.equals("nametaking")) {
-				System.out.println(e.getKeyChar());
-				int i = 0;
-				String string = "";
-
-				while (!string.equals("-")) {
-					if (i < 7) {
-						string = leName[i];
-					} else {
-						break;
-					}
-
-					if (!string.equals("-")) {
-						i++;
-					}
-				}
-
-				if (i < 7) {
-					leName[i] = Character.toString(e.getKeyChar());
-				}
-			}
-		}
+		
 	}
 
 	private void godmode() {
