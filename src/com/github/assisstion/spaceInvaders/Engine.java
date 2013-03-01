@@ -1,5 +1,6 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -30,6 +32,9 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	private int nextReward;
+	private boolean rewardAvaliable=false;
+	private Powerup.PowerupType OpenReward;
 	private int livesatlvlstart;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
@@ -67,6 +72,9 @@ public class Engine extends Canvas implements KeyListener {
 	public int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
+	
+	private static final Powerup.PowerupType[] REWARDS_LIST = {Powerup.PowerupType.SPEED,Powerup.PowerupType.HEALTH,Powerup.PowerupType.DAMAGE,Powerup.PowerupType.FIRERATE,Powerup.PowerupType.BUNKER};
+	private static final int[] REWARDS_REQUIREMENTS =  {10,20,30,40,50};
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -221,6 +229,13 @@ public class Engine extends Canvas implements KeyListener {
 		state = "nametaking";
 	}
 
+	
+	public void redeem(){
+		
+		//blah gives hitstreak reward
+		
+		rewardAvaliable=false;
+	}
 	/*
 	 * Main update method
 	 */
@@ -234,6 +249,7 @@ public class Engine extends Canvas implements KeyListener {
 		powerupUpdate();
 		enemyUpdate();
 		endUpdate();
+		hitSpreeHelper();
 	}
 
 	public void render(Graphics2D g) {
@@ -300,12 +316,12 @@ public class Engine extends Canvas implements KeyListener {
 		String message = null;
 		String message3 = null;
 		if (!godmodeOn) {
-			message = new String(player1.getName() + "'s Score: "
+			message = new String("Score: "
 					+ player1.score);
 			message3 = new String("Lives Left: " + player1.livesRemaining);
 		} else {
 			g.setColor(Color.RED);
-			message = new String(player1.getName() + "'s Score: GOD MODE ON");
+			message = new String("Score: °");
 			message3 = new String("Lives Left: °");
 
 		}
@@ -321,13 +337,13 @@ public class Engine extends Canvas implements KeyListener {
 			g.setFont(FONT_SMALL);
 		}
 
-		String message2 = new String(player1.getName() + "'s Health: "
+		String message2 = new String("Health: "
 				+ player1.health + "/" + Player.PLAYER_DEFAULT_HEALTH);
 
 		Color tempColor = null;
 		if (godmodeOn) {
 			tempColor = Color.red;
-			message2 = (player1.getName() + "'s Health: INFINITE");
+			message2 = ("Health: INFINITE");
 		} else if (player1.health > Player.PLAYER_DEFAULT_HEALTH * 3 / 4) {
 			tempColor = Color.green;
 		} else if (player1.health > Player.PLAYER_DEFAULT_HEALTH / 2) {
@@ -342,11 +358,39 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.drawString(message2, 10, 60);
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLACK);	
 		String message5 = new String("Level: " + currentLevel + "/5");
 		g.drawString(message5, 710, 60);
+		
+		g.setColor(Color.RED);
+		if (rewardAvaliable){
+			g.setColor(Color.GREEN);
+		} 
+		
+		Font lefont = new Font("Arial",Font.BOLD,30);
+		g.setFont(lefont);
+		g.drawString("Hitstreak: " + hitSpree, 355, 27);
+		g.drawString("Reward: " + (rewardAvaliable?OpenReward:"N/A"), 355, 55);
+
+		Stroke oldStroke = g.getStroke();
+		g.setStroke(new BasicStroke(7));
+		g.drawRect(350, 1, 330, 64);
+		g.setStroke(oldStroke);
+
 	}
 
+	public void hitSpreeHelper(){
+		for (int i = 0; i<5; i++){
+			if (hitSpree>=REWARDS_REQUIREMENTS[i]){
+				OpenReward = REWARDS_LIST[i];
+				rewardAvaliable=true;
+			} else {
+				i--;
+				break;
+			}
+		}
+		
+	}
 	// map input will be developed here later
 	public void constructEnemyFormation(int lvlnum) {
 		int enemyWidth = LEVELS[lvlnum - 1][0];
@@ -802,6 +846,8 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				// tells the update loop to allow bullet firing
 				spaceOn = true;
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvaliable) {
+					redeem();
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				// sets the direction to Right
 				rightOn = true;

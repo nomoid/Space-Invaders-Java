@@ -31,6 +31,7 @@ public class Powerup extends Sprite{
 		HEALTH,
 		FIRERATE,
 		DAMAGE,
-		SPEED;
+		SPEED,
+		BUNKER
 	}
 }
