@@ -158,7 +158,14 @@ public class Engine extends Canvas implements KeyListener {
 		for (String s : leName) {
 			builder.append(s);
 		}
-
+		tempname="";
+		for (int i=0; i<7; i++){
+			if (leName[i].equals("-")){
+				
+			} else {
+				tempname+=leName[i];
+			}
+		}
 		
 
 		String message = builder.toString();
@@ -805,8 +812,8 @@ public class Engine extends Canvas implements KeyListener {
 				godmode = "";
 			}
 		} else if (state.equals("nametaking")){
-			System.out.println(KeyEvent.VK_ENTER);
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				//fix this. in case tempname=""
 				System.out.println("Enter Pressed");
 				if (state.equalsIgnoreCase("nametaking")) {
 					startGame();
@@ -814,7 +821,6 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			} else {
 				if (state.equals("nametaking")) {
-					System.out.println(e.getKeyChar());
 					int i = 0;
 					String string = "";
 
