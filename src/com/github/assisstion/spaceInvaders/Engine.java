@@ -41,7 +41,8 @@ public class Engine extends Canvas implements KeyListener {
 			Font.BOLD, 110);
 	private static final Font FONT_MEDIUM = new Font("Bank Gothic", Font.BOLD,
 			50);
-	private String[] leName = { "-", "-", "-", "-", "-", "-", "-" };
+	private static final int NAME_MAX_LENGTH = 7;
+	
 	private static final int[][] LEVELS = { { 10, 5 }, { 12, 7 }, { 15, 8 },
 			{ 17, 10 }, { 17, 10 } };
 	private static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
@@ -64,6 +65,8 @@ public class Engine extends Canvas implements KeyListener {
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED };
 	public int hitSpree = 0;
+	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
+	private int nameLength;
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -94,7 +97,8 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
 	// Current level
 	public int currentLevel = 1;
-
+	
+	
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
@@ -149,44 +153,34 @@ public class Engine extends Canvas implements KeyListener {
 				RenderingHints.VALUE_ANTIALIAS_OFF);
 
 		startGame(g);
+		
+		
 
 		Font lefont = new Font("Copperplate", Font.PLAIN, 200);
 		g.setFont(lefont);
 		g.setColor(Color.RED);
 
-		StringBuilder builder = new StringBuilder();
-		for (String s : leName) {
-			builder.append(s);
-		}
-		tempname="";
-		for (int i=0; i<7; i++){
-			if (leName[i].equals("-")){
-				
-			} else {
-				tempname+=leName[i];
-			}
-		}
-		
+		tempname = String.copyValueOf(removeChar(leName, '-'));
 
-		String message = builder.toString();
+		String message = String.copyValueOf(leName);
 		g.drawString(message,
 				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
 				500);
 		
 		// implement countdown? Hi, Name! 3... 2... 1... EPIC
-		//WEIRD BUG TEXT DISAPPEARS MARKus U FIX
 	}
 	
-	private void deleteHyphens(String[] leBame, String[] leName){
-		for (int i = 0; i < 7; i++) {
-			if (leBame[i].equals("-")) {
-				leBame[i] = "";
+	private char[] removeChar(char[] ca, char c){
+		char[] transferArray = new char[ca.length];
+		int j = 0;
+		for (int i = 0; i < ca.length; i++) {
+			if (ca[i] != c) {
+				transferArray[j++] = ca[i];
 			}
-			else {
-				tempname+=leBame[i];
-			}
-			
 		}
+		char[] returnArray = new char[j];
+		System.arraycopy(transferArray, 0, returnArray, 0, j);
+		return returnArray;
 	}
 
 	public void startGame(Graphics2D g) {
@@ -816,34 +810,23 @@ public class Engine extends Canvas implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				//fix this. in case tempname=""
 				System.out.println("Enter Pressed");
-				if (state.equalsIgnoreCase("nametaking")) {
-					startGame();
-					state="main";
-				}
+				startGame();
+				state="main";
 			
 			} else if (e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
-				
-				
+				if(nameLength > 0){
+					nameLength--;
+					leName[nameLength] = '-';
+				}
 			}
-			else {
-					int i = 0;
-					String string = "";
-
-					while (!string.equals("-")) {
-						if (i < 7) {
-							string = leName[i];
-						} else {
-							break;
-						}
-
-						if (!string.equals("-")) {
-							i++;
-						}
-					}
-
-					if (i < 7) {
-						leName[i] = Character.toString(e.getKeyChar());
-					}
+			else if(Character.isLetterOrDigit(e.getKeyChar())){
+				if(nameLength < 7){
+					nameLength++;
+					leName[nameLength-1] = e.getKeyChar();
+				}
+			}
+			else{
+				System.out.println("action key");
 			}
 		}
 	}
@@ -946,5 +929,13 @@ public class Engine extends Canvas implements KeyListener {
 				Helper.updateHitbox(e);
 			}
 		}
+	}
+	
+	public static char[] createEmptyName(char c, int length){
+		char[] ca = new char[length];
+		for(int i = 0; i < ca.length; i++){
+			ca[i] = c;
+		}
+		return ca;
 	}
 }
