@@ -779,6 +779,11 @@ public class Engine extends Canvas implements KeyListener {
 			player.powerups.put(PowerupType.SPEED,
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
+		case BUNKER:
+			for (Bunker k:bunkers){
+				k.health=300;
+			}
+			break;
 		}
 	}
 

@@ -13,28 +13,28 @@ Under progress
 Tasks:
 Create Frame: DONE
 Create Updating Engine: DONE
-Create Player Mechanics: BASICALLY DONE
-Create Enemy Mechanics: BASICALLY DONE
+Create Player Mechanics: DONE
+Create Enemy Mechanics: DONE
 Create Bunker Mechanics: DONE
-Collision Testing: IN PROGRESS
-Menu Screen/UI: IN PROGRESS
+Collision Testing: DONE
+Menu Screen/UI: IN PROGRESS/PRETTY MUCH DONE (add high score rankings)
 Music: NOT STARTED
 Graphics: IN PROGRESS
-Story: NOT STARTED
-Opening Screen: IN PROGRESS
-Closing Screen: NOT STARTED
-Levels: BASICALLY DONE
+Story: NOT STARTED AT ALL
+Opening Screen: BASICALLY DONE
+Closing Screen: BASICALLY DONE - missing high score rankings
+Levels: DONE
+Hitstreaks: DONE!
 
 
-POSSIBLE IDEAS: POWERUPS, like when you finish a level without dying. Double power shot lasts forever or for a level? goes through weaker enemies
-
-POWERUP IDEAS:
-Health boost
-Bunker Regeneration
-Damage boost
-Speed boost?
-
-
-(More to come)
+POTENTIAL FEATURES:
+Boss battle!
+High score leaderboards!
+Music!
+Better sprites!
 
 *Game Description/Instructions here*
+
+Left arrow: Move left
+Right arrow: Move right
+Space: Fire!
