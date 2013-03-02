@@ -178,9 +178,9 @@ public class Engine extends Canvas implements KeyListener {
 				
 		if (deathCounter<=125){
 			secondsLeft="2";
-		} else if (deathCounter<=63){
+		} if (deathCounter<=63){
 			secondsLeft="1";
-		} else if (deathCounter==0){
+		} if (deathCounter==0){
 			secondsLeft="0";
 			state="main";
 			return;
