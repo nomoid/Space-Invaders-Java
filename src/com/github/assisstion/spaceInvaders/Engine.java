@@ -149,8 +149,8 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("just_died")) {
-				render((Graphics2D) g);
-
+				deathStuff((Graphics2D) g);
+				render((Graphics2D) g);		
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
@@ -167,6 +167,30 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
+	
+	public void deathStuff(Graphics2D g){
+		deathCounter--;
+		String secondsLeft = "3";
+		Font leFont = new Font("Copperplate", Font.BOLD, 100);
+		g.setFont(leFont);
+		g.setColor(Color.RED);
+
+				
+		if (deathCounter<=125){
+			secondsLeft="2";
+		} else if (deathCounter<=63){
+			secondsLeft="1";
+		} else if (deathCounter==0){
+			secondsLeft="0";
+			state="main";
+			return;
+		}
+		String message = "Respawn in " + secondsLeft;
+		
+		g.drawString(message, getWidth() / 2
+				- (g.getFontMetrics().stringWidth(message) / 2), 570);
+		
+	}
 	/*
 	 * Starts the game
 	 */
