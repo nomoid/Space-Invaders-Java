@@ -684,9 +684,6 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			for (EnemySquad enemies : enemySquads) {
 				for (Enemy e : enemies) {
-					if (enemies.toBeRemoved) {
-						removeEnemy(enemies, e);
-					}
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
 							e.health -= b.damage;
@@ -778,7 +775,8 @@ public class Engine extends Canvas implements KeyListener {
 		int numeral = Helper.getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
 		if (randint < Powerup.POWERUP_CHANCES[numeral][0]) {
 			int type = MainCanvas.rand
-					.nextInt(Powerup.POWERUP_CHANCES[numeral][Powerup.POWERUP_CHANCES[numeral].length - 1]);
+					.nextInt(Powerup.POWERUP_CHANCES[numeral]
+					[Powerup.POWERUP_CHANCES[numeral].length - 1]);
 			if (type < Powerup.POWERUP_CHANCES[numeral][1]) {
 				fillerType = PowerupType.HEALTH;
 			} else if (type < Powerup.POWERUP_CHANCES[numeral][2]) {

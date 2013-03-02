@@ -10,7 +10,6 @@ public class EnemySquad	extends ConcurrentSkipListSet<Enemy> implements Comparab
 	public Direction direction;
 	//Next direction to go after this direction
 	public Direction pendingDirection;
-	public boolean toBeRemoved=false;
 	
 	public EnemySquad(){
 		super();
