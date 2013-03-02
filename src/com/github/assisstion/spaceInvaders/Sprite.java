@@ -1,11 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 /**
  * A sprite class for loading and keeping track of images
@@ -40,7 +36,7 @@ public class Sprite implements Comparable<Sprite>{
 		this();
 		this.imageLink = imageLink;
 		try{
-		image = ImageIO.read(new FileInputStream(new File(imageLink)));
+			image = ResourceHolder.getImageResource(imageLink);
 		}
 		catch(IOException e){
 			throw new GameException("Error creating " + getClass().getName() + ": " + getEntityID(), e);

@@ -428,18 +428,24 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (int i = 0; i < enemyWidth; i++) {
 			Enemy.EnemyType[] EnemyData = null;
-			if (lvlnum == 1) {
+			switch(lvlnum){
+				case 1:
 				EnemyData = LEVEL1DATA;
-			} else if (lvlnum == 2) {
+				break;
+				case 2:
 				EnemyData = LEVEL2DATA;
-			} else if (lvlnum == 3) {
+				break;
+				case 3:
 				EnemyData = LEVEL3DATA;
-			} else if (lvlnum == 4) {
+				break;
+				case 4:
 				EnemyData = LEVEL4DATA;
-			} else if (lvlnum == 5) {
+				break;
+				case 5:
 				EnemyData = LEVEL5DATA;
-			} else {
-				System.out.println("LEVEL NUMBER ERROR");
+				break;
+				default:
+				throw new IllegalArgumentException("Level Number Error!");
 			}
 			enemies.direction = EnemySquad.Direction.RIGHT;
 
@@ -693,7 +699,6 @@ public class Engine extends Canvas implements KeyListener {
 								dropPowerup(e, e.x, e.y);
 								removeEnemy(enemies, e);
 								player1.score += e.scoreReward;
-								System.out.println("Enemy Killed");
 
 							}
 
