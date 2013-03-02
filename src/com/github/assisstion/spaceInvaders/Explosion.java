@@ -7,7 +7,7 @@ public class Explosion extends Sprite{
 	
 	public int explosionTimer;
 	
-	public Explosion(Sprite sprite,int type,int duration) throws GameException{
+	public Explosion(Sprite sprite,int type) throws GameException{
 		super(EXPLOSION_DEFAULT_IMAGES[type], sprite.x, sprite.y);
 		explosionTimer = DEFAULT_EXPLOSION_TIMERS[type];
 	}
