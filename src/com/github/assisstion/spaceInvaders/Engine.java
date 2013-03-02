@@ -74,7 +74,7 @@ public class Engine extends Canvas implements KeyListener {
 	private int nameLength;
 	
 	private static final Powerup.PowerupType[] REWARDS_LIST = {Powerup.PowerupType.SPEED,Powerup.PowerupType.HEALTH,Powerup.PowerupType.DAMAGE,Powerup.PowerupType.FIRERATE,Powerup.PowerupType.BUNKER};
-	private static final int[] REWARDS_REQUIREMENTS =  {10,20,30,40,50};
+	private static final int[] REWARDS_REQUIREMENTS =  {5,8,14,20,30};
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -232,8 +232,7 @@ public class Engine extends Canvas implements KeyListener {
 	
 	public void redeem(){
 		
-		//blah gives hitstreak reward
-		
+		processPowerup(player1,OpenReward);
 		rewardAvaliable=false;
 	}
 	/*
@@ -295,7 +294,6 @@ public class Engine extends Canvas implements KeyListener {
 			player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH
 					+ player1.health;
 		}
-		System.out.println("Cleaning up game");
 		for (Sprite s:gameObjects){
 			gameObjects.remove(s);
 		}
@@ -369,7 +367,7 @@ public class Engine extends Canvas implements KeyListener {
 		
 		Font lefont = new Font("Arial",Font.BOLD,30);
 		g.setFont(lefont);
-		g.drawString("Hitstreak: " + hitSpree, 355, 27);
+		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
 		g.drawString("Reward: " + (rewardAvaliable?OpenReward:"N/A"), 355, 55);
 
 		Stroke oldStroke = g.getStroke();
@@ -381,6 +379,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	public void hitSpreeHelper(){
 		for (int i = 0; i<5; i++){
+			nextReward = REWARDS_REQUIREMENTS[i];
 			if (hitSpree>=REWARDS_REQUIREMENTS[i]){
 				OpenReward = REWARDS_LIST[i];
 				rewardAvaliable=true;
@@ -834,6 +833,8 @@ public class Engine extends Canvas implements KeyListener {
 				&& state.equals("justfinished")) {
 			state = "ready";
 			g=null;
+		} else if (rewardAvaliable && e.getKeyCode()==KeyEvent.VK_R){
+			redeem();
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (godmode.equals("god")) {
