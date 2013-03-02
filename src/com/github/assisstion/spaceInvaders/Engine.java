@@ -646,8 +646,8 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 		for (Bullet b : bullets) {
-			b.tempX += 6 * Math.sin(Math.toRadians(b.rotation));
-			b.tempY -= 6 * Math.cos(Math.toRadians(b.rotation));
+			b.tempX += b.movementSpeed * Math.sin(Math.toRadians(b.rotation));
+			b.tempY -= b.movementSpeed * Math.cos(Math.toRadians(b.rotation));
 			b.updateLocation();
 			Helper.updateHitbox(b);
 			for (Bunker k : bunkers) {
