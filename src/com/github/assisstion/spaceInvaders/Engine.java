@@ -794,7 +794,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void processPowerup(Player player, PowerupType p) {
 		switch (p) {
 		case HEALTH:
-			player.health += Player.PLAYER_DEFAULT_HEALTH / 4;
+			player.health += Player.PLAYER_DEFAULT_HEALTH / 2;
 			if (player.health > Player.PLAYER_DEFAULT_HEALTH) {
 				player.health = Player.PLAYER_DEFAULT_HEALTH;
 			}
@@ -809,6 +809,7 @@ public class Engine extends Canvas implements KeyListener {
 			break;
 		case XTRALIFE:
 			player.livesRemaining++;
+			break;
 		case SPEED:
 			player.powerups.put(PowerupType.SPEED,
 					Powerup.DEFAULT_POWERUP_FRAMES);
@@ -818,7 +819,7 @@ public class Engine extends Canvas implements KeyListener {
 			processPowerup(player,Powerup.PowerupType.SPEED);
 			processPowerup(player,Powerup.PowerupType.FIRERATE);
 			processPowerup(player,Powerup.PowerupType.DAMAGE);
-			
+			break;
 		case BUNKER:
 			for (Bunker k : bunkers) {
 				k.health = Bunker.BUNKER_DEFAULT_HEALTH;
