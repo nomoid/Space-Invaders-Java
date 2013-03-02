@@ -10,11 +10,12 @@ public class Powerup extends Sprite{
 		{40, 20, 30, 35, 40},
 		{80, 40, 60, 70, 80},
 		{160, 90, 120, 145, 160},
+		{1000, 200, 400, 650, 1000},
 	};
 	
 	
 	public static final EnemyType[] ENEMY_POWERUP_TABLE = {
-		EnemyType.NORMAL, EnemyType.BLUE, EnemyType.RED
+		EnemyType.NORMAL, EnemyType.BLUE, EnemyType.RED, EnemyType.MOTHERSHIP
 	};
 	
 	public PowerupType type;

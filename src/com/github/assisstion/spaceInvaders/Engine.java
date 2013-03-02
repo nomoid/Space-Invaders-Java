@@ -32,6 +32,11 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	private static int MOTHERSHIP_CHANCE = 3000;
+	private static int MOTHERSHIP_SPEED = 4;
+	private boolean mothershipOn = false;
+	private Enemy mothership = null;
+	private boolean readyForMothership = false;
 	private boolean EggOn;
 	private boolean PixarOn;
 	private int deathCounter;
@@ -296,6 +301,29 @@ public class Engine extends Canvas implements KeyListener {
 		hitSpreeUpdate();
 		explosionUpdate();
 		endUpdate();
+		motherShip();
+
+	}
+
+	public void motherShip() {
+		if (readyForMothership) {
+			if (!mothershipOn) {
+				if (MainCanvas.rand.nextInt(MOTHERSHIP_CHANCE) == 0) {
+
+					mothership = new Enemy(Enemy.EnemyType.MOTHERSHIP, 10, 80);
+					for (EnemySquad enemies : enemySquads) {
+						enemies.add(mothership);
+						Helper.updateHitbox(mothership);
+					}
+					gameObjects.add(mothership);
+					System.out.println("Mothership Deployed!");
+					mothershipOn = true;
+				}
+			} else {
+				mothership.x += MOTHERSHIP_SPEED;
+				Helper.updateHitbox(mothership);
+			}
+		}
 	}
 
 	public void render(Graphics2D g) {
@@ -558,6 +586,7 @@ public class Engine extends Canvas implements KeyListener {
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
+			readyForMothership=false;
 
 		}
 	}
@@ -627,25 +656,27 @@ public class Engine extends Canvas implements KeyListener {
 	public void bulletUpdate() {
 		for (EnemySquad es : enemySquads) {
 			for (Enemy e : es) {
-				if (e.shootingCounter <= 0) {
-					Bullet b = new Bullet(BulletType.NORMAL, e.x, e.y);
+				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
+					if (e.shootingCounter <= 0) {
+						Bullet b = new Bullet(BulletType.NORMAL, e.x, e.y);
 
-					if (e.enemytype.equals(Enemy.EnemyType.RED)) {
-						b = new Bullet(BulletType.RED, e.x, e.y);
-					} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)) {
-						b = new Bullet(BulletType.BLUE, e.x, e.y);
+						if (e.enemytype.equals(Enemy.EnemyType.RED)) {
+							b = new Bullet(BulletType.RED, e.x, e.y);
+						} else if (e.enemytype.equals(Enemy.EnemyType.BLUE)) {
+							b = new Bullet(BulletType.BLUE, e.x, e.y);
+						}
+
+						b.owner = e;
+
+						bullets.add(b);
+						gameObjects.add(b);
+						e.shootingCounter = MainCanvas.rand
+								.nextInt(e.shootingCooldownMax
+										- e.shootingCooldownMin)
+								+ e.shootingCooldownMin;
+					} else {
+						e.shootingCounter--;
 					}
-
-					b.owner = e;
-
-					bullets.add(b);
-					gameObjects.add(b);
-					e.shootingCounter = MainCanvas.rand
-							.nextInt(e.shootingCooldownMax
-									- e.shootingCooldownMin)
-							+ e.shootingCooldownMin;
-				} else {
-					e.shootingCounter--;
 				}
 			}
 		}
@@ -718,6 +749,10 @@ public class Engine extends Canvas implements KeyListener {
 							if (e.health <= 0 || godmodeOn) {
 								dropPowerup(e, e.x, e.y);
 								removeEnemy(enemies, e);
+								if (e.equals(mothership)) {
+									System.out.println("Mothership Destroyed!");
+									mothershipOn = false;
+								}
 								player1.score += e.scoreReward;
 
 							}
@@ -759,6 +794,11 @@ public class Engine extends Canvas implements KeyListener {
 						a.y = a.startingY;
 						Helper.updateHitbox(a);
 					}
+				} if (e.x>getWidth()){
+					System.out.println("Annddd it's gone!");
+					removeEnemy(enemies, e);
+					mothershipOn=false;
+					mothership=null;     
 				}
 				for (Bunker k : bunkers) {
 					if (e.hitBox.overLaps(k.hitBox)) {
@@ -1070,12 +1110,19 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			}
 			for (Enemy e : enemies) {
-				if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-					e.x += 25;
-				} else if (enemies.direction.equals(EnemySquad.Direction.LEFT)) {
-					e.x -= 25;
-				} else if (enemies.direction.equals(EnemySquad.Direction.DOWN)) {
-					e.y += 25;
+				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
+					if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
+						e.x += 25;
+					} else if (enemies.direction
+							.equals(EnemySquad.Direction.LEFT)) {
+						e.x -= 25;
+					} else if (enemies.direction
+							.equals(EnemySquad.Direction.DOWN)) {
+						e.y += 25;
+						if (e.y - e.startingY >= 50) {
+							readyForMothership = true;
+						}
+					}
 				}
 				Helper.updateHitbox(e);
 			}
