@@ -5,7 +5,7 @@ By Markus Feng (assisstion) and Michael Man (michael99man)
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
-Last Updated: Feb. 26, 2013
+Last Updated: Mar. 2, 2013
 
 Status:
 Under progress
@@ -17,14 +17,14 @@ Create Player Mechanics: DONE
 Create Enemy Mechanics: DONE
 Create Bunker Mechanics: DONE
 Collision Testing: DONE
-Menu Screen/UI: IN PROGRESS/PRETTY MUCH DONE (add high score rankings)
+Menu Screen/UI: BASICALLY DONE - add high score rankings
 Music: NOT STARTED
 Graphics: IN PROGRESS
-Story: NOT STARTED AT ALL
-Opening Screen: BASICALLY DONE
+Story: NOT STARTED
+Opening Screen: BASICALLY DONE - add menu
 Closing Screen: BASICALLY DONE - missing high score rankings
-Levels: DONE
-Hitstreaks: DONE!
+Levels: BASICALLY DONE - add boss level
+Hitstreaks: DONE
 
 
 POTENTIAL FEATURES:
@@ -38,8 +38,9 @@ Better sprites!
 Left arrow: Move left
 Right arrow: Move right
 Space: Fire!
-R: Redeem
-
+R: Redeem hit streak reward
+P: Pause/Resume game
+Enter: Start game
 
 Hit Streak Rewards Explanation:
 Hit sprees form an integral part of the game. By repeatedly striking an enemy without
