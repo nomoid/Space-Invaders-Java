@@ -38,3 +38,18 @@ Better sprites!
 Left arrow: Move left
 Right arrow: Move right
 Space: Fire!
+R: Redeem
+
+
+Hit Streak Rewards Explanation:
+Hit sprees form an integral part of the game. By repeatedly striking an enemy without
+missing/hitting a bunker/getting hit, you will have a chance to get a reward!
+The better the reward, the larger the hitstreak required to redeem it is. After meeting the requirements
+for a hitstreak, the top box will turn GREEN! Press R to redeem the powerup as written. However, note that
+the requirement in the box will have changed! This means that you can continue shooting to get the next reward.
+But if you miss, you will lose everything, and your hitstreak will return to 0. If you redeem, your hitspree
+will also reset to 0.
+
+
+
+Note: Easter Eggs MAY be present

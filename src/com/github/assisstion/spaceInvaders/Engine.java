@@ -33,7 +33,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable
 	 */
 	private int nextReward;
-	private boolean rewardAvaliable=false;
+	private boolean rewardAvaliable = false;
 	private Powerup.PowerupType OpenReward;
 	private int livesatlvlstart;
 	private String tempname = "";
@@ -72,9 +72,12 @@ public class Engine extends Canvas implements KeyListener {
 	public int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
-	
-	private static final Powerup.PowerupType[] REWARDS_LIST = {Powerup.PowerupType.SPEED,Powerup.PowerupType.HEALTH,Powerup.PowerupType.DAMAGE,Powerup.PowerupType.FIRERATE,Powerup.PowerupType.BUNKER};
-	private static final int[] REWARDS_REQUIREMENTS =  {5,8,14,20,30};
+
+	private static final Powerup.PowerupType[] REWARDS_LIST = {
+			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH,
+			Powerup.PowerupType.DAMAGE, Powerup.PowerupType.FIRERATE,
+			Powerup.PowerupType.BUNKER };
+	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 20, 30 };
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -229,12 +232,12 @@ public class Engine extends Canvas implements KeyListener {
 		state = "nametaking";
 	}
 
-	
-	public void redeem(){
-		
-		processPowerup(player1,OpenReward);
-		rewardAvaliable=false;
+	public void redeem() {
+		rewardAvaliable = false;
+		hitSpree = 0;
+		processPowerup(player1, OpenReward);
 	}
+
 	/*
 	 * Main update method
 	 */
@@ -261,7 +264,8 @@ public class Engine extends Canvas implements KeyListener {
 	public void gameLost(Graphics2D g) {
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
-		String yourScore = new String("Final Score: " + (godmodeOn?"°":player1.score));
+		String yourScore = new String("Final Score: "
+				+ (godmodeOn ? "°" : player1.score));
 		g.setColor(Color.RED);
 		g.setFont(FONT_HUGE);
 		g.drawString(gameOver, getWidth() / 2
@@ -275,7 +279,8 @@ public class Engine extends Canvas implements KeyListener {
 	public void gameWon(Graphics2D g) {
 		g.fillRect(0, 0, 960, 740);
 		String gameWon = new String("You've Won!");
-		String yourScore = new String("Final Score: " + (godmodeOn?"°":player1.score));
+		String yourScore = new String("Final Score: "
+				+ (godmodeOn ? "°" : player1.score));
 		g.setColor(Color.BLUE);
 		g.setFont(FONT_HUGE);
 		g.drawString(gameWon,
@@ -285,16 +290,15 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-		
-		
+
 	}
-	
-	public void gameCleanup(){
-		if(state.equalsIgnoreCase("game_won")){
-			player1.score += player1.livesRemaining * Player.PLAYER_DEFAULT_HEALTH
-					+ player1.health;
+
+	public void gameCleanup() {
+		if (state.equalsIgnoreCase("game_won")) {
+			player1.score += player1.livesRemaining
+					* Player.PLAYER_DEFAULT_HEALTH + player1.health;
 		}
-		for (Sprite s:gameObjects){
+		for (Sprite s : gameObjects) {
 			gameObjects.remove(s);
 		}
 	}
@@ -314,8 +318,7 @@ public class Engine extends Canvas implements KeyListener {
 		String message = null;
 		String message3 = null;
 		if (!godmodeOn) {
-			message = new String("Score: "
-					+ player1.score);
+			message = new String("Score: " + player1.score);
 			message3 = new String("Lives Left: " + player1.livesRemaining);
 		} else {
 			g.setColor(Color.RED);
@@ -335,8 +338,8 @@ public class Engine extends Canvas implements KeyListener {
 			g.setFont(FONT_SMALL);
 		}
 
-		String message2 = new String("Health: "
-				+ player1.health + "/" + Player.PLAYER_DEFAULT_HEALTH);
+		String message2 = new String("Health: " + player1.health + "/"
+				+ Player.PLAYER_DEFAULT_HEALTH);
 
 		Color tempColor = null;
 		if (godmodeOn) {
@@ -356,19 +359,20 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.drawString(message2, 10, 60);
 
-		g.setColor(Color.BLACK);	
+		g.setColor(Color.BLACK);
 		String message5 = new String("Level: " + currentLevel + "/5");
 		g.drawString(message5, 710, 60);
-		
+
 		g.setColor(Color.RED);
-		if (rewardAvaliable){
+		if (rewardAvaliable) {
 			g.setColor(Color.GREEN);
-		} 
-		
-		Font lefont = new Font("Arial",Font.BOLD,30);
+		}
+
+		Font lefont = new Font("Arial", Font.BOLD, 30);
 		g.setFont(lefont);
 		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
-		g.drawString("Reward: " + (rewardAvaliable?OpenReward:"N/A"), 355, 55);
+		g.drawString("Reward: " + (rewardAvaliable ? OpenReward : "N/A"), 355,
+				55);
 
 		Stroke oldStroke = g.getStroke();
 		g.setStroke(new BasicStroke(7));
@@ -377,19 +381,20 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void hitSpreeHelper(){
-		for (int i = 0; i<5; i++){
+	public void hitSpreeHelper() {
+		for (int i = 0; i < 5; i++) {
 			nextReward = REWARDS_REQUIREMENTS[i];
-			if (hitSpree>=REWARDS_REQUIREMENTS[i]){
+			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
 				OpenReward = REWARDS_LIST[i];
-				rewardAvaliable=true;
+				rewardAvaliable = true;
 			} else {
 				i--;
 				break;
 			}
 		}
-		
+
 	}
+
 	// map input will be developed here later
 	public void constructEnemyFormation(int lvlnum) {
 		int enemyWidth = LEVELS[lvlnum - 1][0];
@@ -571,7 +576,7 @@ public class Engine extends Canvas implements KeyListener {
 					if (e.hitBox.overLaps(player1.hitBox)) {
 						player1.livesRemaining = 0;
 					}
-					
+
 					b.owner = e;
 
 					bullets.add(b);
@@ -610,6 +615,7 @@ public class Engine extends Canvas implements KeyListener {
 
 					if (b.owner instanceof Player) {
 						hitSpree = 0;
+						rewardAvaliable = false;
 					}
 				}
 				if (k.health <= 0) {
@@ -627,6 +633,7 @@ public class Engine extends Canvas implements KeyListener {
 				if ((b.owner instanceof Enemy) && !godmodeOn) {
 					player1.health -= b.damage;
 					hitSpree = 0;
+					rewardAvaliable = false;
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
@@ -683,6 +690,7 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.y > MainCanvas.frame.getHeight()) {
 				if (b.owner instanceof Player) {
 					hitSpree = 0;
+					rewardAvaliable = false;
 				}
 				bullets.remove(b);
 				gameObjects.remove(b);
@@ -780,8 +788,8 @@ public class Engine extends Canvas implements KeyListener {
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case BUNKER:
-			for (Bunker k:bunkers){
-				k.health=300;
+			for (Bunker k : bunkers) {
+				k.health = 300;
 			}
 			break;
 		}
@@ -837,8 +845,8 @@ public class Engine extends Canvas implements KeyListener {
 		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
 				&& state.equals("justfinished")) {
 			state = "ready";
-			g=null;
-		} else if (rewardAvaliable && e.getKeyCode()==KeyEvent.VK_R){
+			g = null;
+		} else if (rewardAvaliable && e.getKeyCode() == KeyEvent.VK_R) {
 			redeem();
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -853,7 +861,7 @@ public class Engine extends Canvas implements KeyListener {
 				// tells the update loop to allow bullet firing
 				spaceOn = true;
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvaliable) {
-					redeem();
+				redeem();
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				// sets the direction to Right
 				rightOn = true;
