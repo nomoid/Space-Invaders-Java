@@ -1,11 +1,16 @@
 package com.github.assisstion.spaceInvaders;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 public class Helper{
 	public static void renderSprite(Graphics2D g, Sprite s){
 		//Draws the Sprite s to the Graphics2D g
-		g.drawImage(s.getImage(), s.x, s.y, s.getImage().getWidth(), s.getImage().getHeight(), MainCanvas.frame);
+		AffineTransform imageRender = new AffineTransform();
+		imageRender.setToTranslation(s.x, s.y);
+		imageRender.setToRotation(s.rotation);
+		g.drawImage(s.getImage(), imageRender, MainCanvas.frame);
+		//g.drawImage(s.getImage(), s.x, s.y, s.getImage().getWidth(), s.getImage().getHeight(), MainCanvas.frame);
 	}
 	
 	public static void updateHitbox(Sprite s){

@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
 import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
-import com.github.assisstion.spaceInvaders.Bullet.BulletDirection;
 import com.github.assisstion.spaceInvaders.Bullet.BulletType;
 
 /**
@@ -624,10 +623,10 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (Bullet b : bullets) {
 
-			if (b.direction.equals(BulletDirection.UP)) {
+			if (b.rotation==0) {
 				b.y -= b.movementSpeed;
 				Helper.updateHitbox(b);
-			} else if (b.direction.equals(BulletDirection.DOWN)) {
+			} else if (b.rotation==180) {
 				b.y += b.movementSpeed;
 				Helper.updateHitbox(b);
 			}

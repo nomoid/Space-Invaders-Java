@@ -18,6 +18,7 @@ public class Sprite implements Comparable<Sprite>{
 	 */
 	public int x;
 	public int y;
+	public double rotation;
 	public Box hitBox;
 	//These are protected so subclasses can override this
 	protected BufferedImage image;

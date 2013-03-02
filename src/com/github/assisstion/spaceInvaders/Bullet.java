@@ -6,8 +6,8 @@ public class Bullet extends Sprite {
 		
 		public static final int[] BULLET_MOVEMENT_SPEED = 
 			{8, 4,4,4};
-		public static final BulletDirection[] BULLET_DIRECTION = 
-			{BulletDirection.UP, BulletDirection.DOWN,BulletDirection.DOWN,BulletDirection.DOWN};
+		public static final double[] BULLET_DIRECTION = 
+			{0, 180, 180, 180};
 		public static final int[] BULLET_DAMAGE = 
 			{100, 100,200,150 };
 		//True means moves one pixel EVERY movementSpeed ticks
@@ -16,7 +16,8 @@ public class Bullet extends Sprite {
 		public int movementSpeed;
 		public int movementCounter;
 		public int damage;
-		public BulletDirection direction;
+		public double tempX;
+		public double tempY;
 		public Sprite owner;
 		
 		//private boolean isLethal = false;
@@ -32,7 +33,7 @@ public class Bullet extends Sprite {
 			this.x=x;
 			this.y=y;
 			movementSpeed = BULLET_MOVEMENT_SPEED[bulletType.ordinal()];
-			direction = BULLET_DIRECTION[bulletType.ordinal()];
+			rotation = BULLET_DIRECTION[bulletType.ordinal()];
 			damage = BULLET_DAMAGE[bulletType.ordinal()];
 		}
 		
@@ -42,7 +43,7 @@ public class Bullet extends Sprite {
 			this.x=x;
 			this.y=y;
 			this.movementSpeed = movementSpeed;
-			direction = BULLET_DIRECTION[bulletType.ordinal()];
+			rotation = BULLET_DIRECTION[bulletType.ordinal()];
 			this.damage = damage;
 		}
 		
@@ -50,7 +51,8 @@ public class Bullet extends Sprite {
 			PLAYER, NORMAL,RED,BLUE;
 		}
 		
-		public static enum BulletDirection{
-			UP, DOWN;
+		public void updateLocation(){
+			x = (int) tempX;
+			y = (int) tempY;
 		}
 }
