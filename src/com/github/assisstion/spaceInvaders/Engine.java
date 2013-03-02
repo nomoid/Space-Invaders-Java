@@ -150,7 +150,8 @@ public class Engine extends Canvas implements KeyListener {
 				render((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("just_died")) {
 				deathStuff((Graphics2D) g);
-				render((Graphics2D) g);		
+				render((Graphics2D) g);	
+				explosionUpdate();
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
