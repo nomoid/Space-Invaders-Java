@@ -229,7 +229,7 @@ public class Engine extends Canvas implements KeyListener {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 200, 960, 450);
 
-		Font lefont = new Font("Helvetica", Font.ROMAN_BASELINE, 50);
+		Font lefont = new Font("Capitals", Font.ROMAN_BASELINE, 50);
 		g.setFont(lefont);
 		g.setColor(Color.GREEN);
 		message = "What is your name?";
@@ -380,7 +380,7 @@ public class Engine extends Canvas implements KeyListener {
 			g.setColor(Color.GREEN);
 		}
 
-		Font lefont = new Font("Arial", Font.BOLD, 30);
+		Font lefont = new Font("Copperplate", Font.BOLD, 30);
 		g.setFont(lefont);
 		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
 		g.drawString("Reward: " + (rewardAvaliable ? openReward : "N/A"), 355,
