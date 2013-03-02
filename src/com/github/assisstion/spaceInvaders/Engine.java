@@ -106,6 +106,10 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
 	// Set containing all visible powerups
 	private ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
+	// Set containing all objects to be rendered above gameObjects
+	private ConcurrentSkipListSet<Sprite> overlay = new ConcurrentSkipListSet<Sprite>();
+	// Set containing all explosions
+	private ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
 	// Current level
 	public int currentLevel = 1;
 
@@ -148,6 +152,10 @@ public class Engine extends Canvas implements KeyListener {
 						+ state);
 			}
 		} catch (GameException e) {
+			// placeholder
+			e.printStackTrace();
+			System.exit(1);
+		} catch (Exception e) {
 			// placeholder
 			e.printStackTrace();
 			System.exit(1);
@@ -250,12 +258,16 @@ public class Engine extends Canvas implements KeyListener {
 		playerUpdate();
 		powerupUpdate();
 		enemyUpdate();
+		hitSpreeUpdate();
+		explosionUpdate();
 		endUpdate();
-		hitSpreeHelper();
 	}
 
 	public void render(Graphics2D g) {
 		for (Sprite object : gameObjects) {
+			Helper.renderSprite(g, object);
+		}
+		for(Sprite object : overlay){
 			Helper.renderSprite(g, object);
 		}
 		drawMenu(g);
@@ -381,7 +393,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void hitSpreeHelper() {
+	public void hitSpreeUpdate() {
 		for (int i = 0; i < REWARDS_REQUIREMENTS.length; i++) {
 			nextReward = REWARDS_REQUIREMENTS[i];
 			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
@@ -393,6 +405,18 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 
+	}
+	
+	public void explosionUpdate(){
+		for(Explosion ex : explosions){
+			if(ex.explosionTimer <= 0){
+				overlay.remove(ex);
+				explosions.remove(ex);
+			}
+			else{
+				ex.explosionTimer--;
+			}	
+		}
 	}
 
 	// map input will be developed here later
@@ -655,8 +679,7 @@ public class Engine extends Canvas implements KeyListener {
 			for (EnemySquad enemies : enemySquads) {
 				for (Enemy e : enemies) {
 					if (enemies.toBeRemoved) {
-						gameObjects.remove(e);
-						enemies.remove(e);
+						removeEnemy(enemies, e);
 					}
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
@@ -668,8 +691,7 @@ public class Engine extends Canvas implements KeyListener {
 							}
 							if (e.health <= 0 || godmodeOn) {
 								dropPowerup(e, e.x, e.y);
-								enemies.remove(e);
-								gameObjects.remove(e);
+								removeEnemy(enemies, e);
 								player1.score += e.scoreReward;
 								System.out.println("Enemy Killed");
 
@@ -1030,5 +1052,13 @@ public class Engine extends Canvas implements KeyListener {
 			ca[i] = c;
 		}
 		return ca;
+	}
+	
+	public void removeEnemy(EnemySquad enemies, Enemy e){
+		gameObjects.remove(e);
+		enemies.remove(e);
+		Explosion ex = new Explosion(e);
+		overlay.add(ex);
+		explosions.add(ex);
 	}
 }
