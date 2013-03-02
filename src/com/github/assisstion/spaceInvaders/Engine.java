@@ -661,7 +661,7 @@ public class Engine extends Canvas implements KeyListener {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
 							e.health -= b.damage;
-							hitSpree += 10;
+							hitSpree += 1;
 							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
