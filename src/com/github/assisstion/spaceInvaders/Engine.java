@@ -32,6 +32,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	private int deathCounter;
 	private int nextReward;
 	private boolean rewardAvaliable = false;
 	private Powerup.PowerupType openReward;
@@ -74,9 +75,12 @@ public class Engine extends Canvas implements KeyListener {
 	private int nameLength;
 
 	private static final Powerup.PowerupType[] REWARDS_LIST = {
-			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH, Powerup.PowerupType.BUNKER,
-			Powerup.PowerupType.DAMAGE, Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE, Powerup.PowerupType.STEROIDS};
-	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 18, 22, 28, 35 };
+			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH,
+			Powerup.PowerupType.BUNKER, Powerup.PowerupType.DAMAGE,
+			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
+			Powerup.PowerupType.STEROIDS };
+	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 18, 22, 28,
+			35 };
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -145,6 +149,9 @@ public class Engine extends Canvas implements KeyListener {
 				gameWon((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
+			} else if (state.equalsIgnoreCase("just_died")) {
+				render((Graphics2D) g);
+
 			} else {
 				// Throws an exception if none of the states match
 				throw new IllegalStateException("Illegal engine state: "
@@ -266,7 +273,7 @@ public class Engine extends Canvas implements KeyListener {
 		for (Sprite object : gameObjects) {
 			Helper.renderSprite(g, object);
 		}
-		for(Sprite object : overlay){
+		for (Sprite object : overlay) {
 			Helper.renderSprite(g, object);
 		}
 		drawMenu(g);
@@ -405,16 +412,15 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 	}
-	
-	public void explosionUpdate(){
-		for(Explosion ex : explosions){
-			if(ex.explosionTimer <= 0){
+
+	public void explosionUpdate() {
+		for (Explosion ex : explosions) {
+			if (ex.explosionTimer <= 0) {
 				overlay.remove(ex);
 				explosions.remove(ex);
-			}
-			else{
+			} else {
 				ex.explosionTimer--;
-			}	
+			}
 		}
 	}
 
@@ -427,23 +433,23 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (int i = 0; i < enemyWidth; i++) {
 			Enemy.EnemyType[] EnemyData = null;
-			switch(lvlnum){
-				case 1:
+			switch (lvlnum) {
+			case 1:
 				EnemyData = LEVEL1DATA;
 				break;
-				case 2:
+			case 2:
 				EnemyData = LEVEL2DATA;
 				break;
-				case 3:
+			case 3:
 				EnemyData = LEVEL3DATA;
 				break;
-				case 4:
+			case 4:
 				EnemyData = LEVEL4DATA;
 				break;
-				case 5:
+			case 5:
 				EnemyData = LEVEL5DATA;
 				break;
-				default:
+			default:
 				throw new IllegalArgumentException("Level Number Error!");
 			}
 			enemies.direction = EnemySquad.Direction.RIGHT;
@@ -602,10 +608,6 @@ public class Engine extends Canvas implements KeyListener {
 						b = new Bullet(BulletType.BLUE, e.x, e.y);
 					}
 
-					if (e.hitBox.overLaps(player1.hitBox)) {
-						player1.livesRemaining = 0;
-					}
-
 					b.owner = e;
 
 					bullets.add(b);
@@ -666,10 +668,15 @@ public class Engine extends Canvas implements KeyListener {
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
-						player1.livesRemaining -= 1;
+						player1.livesRemaining--;
+						state = "just_died";
 						player1.x = 432;
 						player1.y = 680;
 						player1.health = Player.PLAYER_DEFAULT_HEALTH;
+						deathCounter=188;
+						Explosion ex = new Explosion(player1,1);
+						overlay.add(ex);
+						explosions.add(ex);
 
 					}
 					if (player1.livesRemaining <= 0) {
@@ -728,11 +735,18 @@ public class Engine extends Canvas implements KeyListener {
 				if (e.hitBox.overLaps(player1.hitBox)) {
 					if (!godmodeOn) {
 						player1.livesRemaining--;
+						state = "just_died";
+						player1.x = 432;
+						player1.y = 680;
+						player1.health = Player.PLAYER_DEFAULT_HEALTH;
+						deathCounter = 188;
+						Explosion ex = new Explosion(player1,1);
+						overlay.add(ex);
+						explosions.add(ex);
 					}
 					for (Enemy a : enemies) {
 						a.x = a.startingX;
 						a.y = a.startingY;
-
 						Helper.updateHitbox(a);
 					}
 				}
@@ -774,8 +788,7 @@ public class Engine extends Canvas implements KeyListener {
 		int numeral = Helper.getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
 		if (randint < Powerup.POWERUP_CHANCES[numeral][0]) {
 			int type = MainCanvas.rand
-					.nextInt(Powerup.POWERUP_CHANCES[numeral]
-					[Powerup.POWERUP_CHANCES[numeral].length - 1]);
+					.nextInt(Powerup.POWERUP_CHANCES[numeral][Powerup.POWERUP_CHANCES[numeral].length - 1]);
 			if (type < Powerup.POWERUP_CHANCES[numeral][1]) {
 				fillerType = PowerupType.HEALTH;
 			} else if (type < Powerup.POWERUP_CHANCES[numeral][2]) {
@@ -815,10 +828,10 @@ public class Engine extends Canvas implements KeyListener {
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case STEROIDS:
-			processPowerup(player,Powerup.PowerupType.HEALTH);
-			processPowerup(player,Powerup.PowerupType.SPEED);
-			processPowerup(player,Powerup.PowerupType.FIRERATE);
-			processPowerup(player,Powerup.PowerupType.DAMAGE);
+			processPowerup(player, Powerup.PowerupType.HEALTH);
+			processPowerup(player, Powerup.PowerupType.SPEED);
+			processPowerup(player, Powerup.PowerupType.FIRERATE);
+			processPowerup(player, Powerup.PowerupType.DAMAGE);
 			break;
 		case BUNKER:
 			for (Bunker k : bunkers) {
@@ -1064,11 +1077,11 @@ public class Engine extends Canvas implements KeyListener {
 		}
 		return ca;
 	}
-	
-	public void removeEnemy(EnemySquad enemies, Enemy e){
+
+	public void removeEnemy(EnemySquad enemies, Enemy e) {
 		gameObjects.remove(e);
 		enemies.remove(e);
-		Explosion ex = new Explosion(e);
+		Explosion ex = new Explosion(e,0);
 		overlay.add(ex);
 		explosions.add(ex);
 	}
