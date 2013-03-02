@@ -11,6 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
@@ -184,6 +185,7 @@ public class Engine extends Canvas implements KeyListener {
 		} if (deathCounter==0){
 			secondsLeft="0";
 			state="main";
+			gameObjects.add(player1);
 			return;
 		}
 		String message = "Respawn in " + secondsLeft;
@@ -689,14 +691,7 @@ public class Engine extends Canvas implements KeyListener {
 					gameObjects.remove(b);
 					if (player1.health <= 0) {
 						player1.livesRemaining--;
-						state = "just_died";
-						player1.x = 432;
-						player1.y = 680;
-						player1.health = Player.PLAYER_DEFAULT_HEALTH;
-						deathCounter=188;
-						Explosion ex = new Explosion(player1,1);
-						overlay.add(ex);
-						explosions.add(ex);
+						playerDeath();
 
 					}
 					if (player1.livesRemaining <= 0) {
@@ -755,14 +750,7 @@ public class Engine extends Canvas implements KeyListener {
 				if (e.hitBox.overLaps(player1.hitBox)) {
 					if (!godmodeOn) {
 						player1.livesRemaining--;
-						state = "just_died";
-						player1.x = 432;
-						player1.y = 680;
-						player1.health = Player.PLAYER_DEFAULT_HEALTH;
-						deathCounter = 188;
-						Explosion ex = new Explosion(player1,1);
-						overlay.add(ex);
-						explosions.add(ex);
+						playerDeath();
 					}
 					for (Enemy a : enemies) {
 						a.x = a.startingX;
@@ -1104,5 +1092,18 @@ public class Engine extends Canvas implements KeyListener {
 		Explosion ex = new Explosion(e,0);
 		overlay.add(ex);
 		explosions.add(ex);
+	}
+	
+	public void playerDeath(){
+		state = "just_died";
+		player1.health = Player.PLAYER_DEFAULT_HEALTH;
+		deathCounter=188;
+		Explosion ex = new Explosion(player1,1);
+		player1.x = 432;
+		player1.y = 680;
+		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
+		overlay.add(ex);
+		explosions.add(ex);
+		gameObjects.remove(player1);
 	}
 }
