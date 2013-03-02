@@ -74,10 +74,9 @@ public class Engine extends Canvas implements KeyListener {
 	private int nameLength;
 
 	private static final Powerup.PowerupType[] REWARDS_LIST = {
-			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH,
-			Powerup.PowerupType.DAMAGE, Powerup.PowerupType.FIRERATE,
-			Powerup.PowerupType.BUNKER };
-	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 20, 30 };
+			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH, Powerup.PowerupType.BUNKER,
+			Powerup.PowerupType.DAMAGE, Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE, Powerup.PowerupType.STEROIDS};
+	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 18, 22, 28, 35 };
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
@@ -808,10 +807,18 @@ public class Engine extends Canvas implements KeyListener {
 			player.powerups.put(PowerupType.DAMAGE,
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
+		case XTRALIFE:
+			player.livesRemaining++;
 		case SPEED:
 			player.powerups.put(PowerupType.SPEED,
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
+		case STEROIDS:
+			processPowerup(player,Powerup.PowerupType.HEALTH);
+			processPowerup(player,Powerup.PowerupType.SPEED);
+			processPowerup(player,Powerup.PowerupType.FIRERATE);
+			processPowerup(player,Powerup.PowerupType.DAMAGE);
+			
 		case BUNKER:
 			for (Bunker k : bunkers) {
 				k.health = Bunker.BUNKER_DEFAULT_HEALTH;
