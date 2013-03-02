@@ -622,14 +622,10 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 		for (Bullet b : bullets) {
-
-			if (b.rotation==0) {
-				b.y -= b.movementSpeed;
-				Helper.updateHitbox(b);
-			} else if (b.rotation==180) {
-				b.y += b.movementSpeed;
-				Helper.updateHitbox(b);
-			}
+			b.tempX += 6 * Math.sin(Math.toRadians(b.rotation));
+			b.tempY -= 6 * Math.cos(Math.toRadians(b.rotation));
+			b.updateLocation();
+			Helper.updateHitbox(b);
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {
 					gameObjects.remove(b);

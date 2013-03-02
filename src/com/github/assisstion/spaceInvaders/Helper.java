@@ -8,7 +8,7 @@ public class Helper{
 		//Draws the Sprite s to the Graphics2D g
 		AffineTransform imageRender = new AffineTransform();
 		imageRender.setToTranslation(s.x, s.y);
-		imageRender.setToRotation(s.rotation);
+		imageRender.rotate(Math.toRadians(s.rotation));
 		g.drawImage(s.getImage(), imageRender, MainCanvas.frame);
 		//g.drawImage(s.getImage(), s.x, s.y, s.getImage().getWidth(), s.getImage().getHeight(), MainCanvas.frame);
 	}

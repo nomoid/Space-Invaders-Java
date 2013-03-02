@@ -32,6 +32,8 @@ public class Bullet extends Sprite {
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;
 			this.y=y;
+			tempX = x;
+			tempY = y;
 			movementSpeed = BULLET_MOVEMENT_SPEED[bulletType.ordinal()];
 			rotation = BULLET_DIRECTION[bulletType.ordinal()];
 			damage = BULLET_DAMAGE[bulletType.ordinal()];
@@ -42,6 +44,8 @@ public class Bullet extends Sprite {
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;
 			this.y=y;
+			tempX = x;
+			tempY = y;
 			this.movementSpeed = movementSpeed;
 			rotation = BULLET_DIRECTION[bulletType.ordinal()];
 			this.damage = damage;

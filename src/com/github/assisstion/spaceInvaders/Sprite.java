@@ -45,6 +45,7 @@ public class Sprite implements Comparable<Sprite>{
 		//Temporarily sets the x and y to 0
 		this.x = x;
 		this.y = y;
+		rotation = 0;
 		hitBox = new Box(x, y, image.getWidth(), image.getHeight(), true);
 	}
 	
