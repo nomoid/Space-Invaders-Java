@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Bunker extends Sprite {
 		
+		public static final int BUNKER_DEFAULT_HEALTH = 300;
 		//normal square
 		private static final String BUNKER_A = "resources/BunkerA.png";
 		private static final String BUNKER_A1 = "resources/BunkerA-1.png";
@@ -32,8 +33,9 @@ public class Bunker extends Sprite {
 		
 		public static final int BUNKER_SIZE = 16;
 		
-		public int health = 300;
+		public int health = BUNKER_DEFAULT_HEALTH;
 		private int bunkerNum;
+		public int originalBunker;
 		public int lastImageUpdate = health;
 		protected Bunker(){
 			
@@ -45,6 +47,7 @@ public class Bunker extends Sprite {
 			//Calls the superclass constructor to set up the image for THIS OBJECT
 			super(getImageLinkFromBunkerNumber(bunkerNum), bunkerX, bunkerY);
 			this.bunkerNum=bunkerNum;
+			originalBunker = bunkerNum;
 		}
 		
 		public static String getImageLinkFromBunkerNumber(int bunkerNum){

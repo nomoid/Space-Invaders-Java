@@ -34,7 +34,7 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	private int nextReward;
 	private boolean rewardAvaliable = false;
-	private Powerup.PowerupType OpenReward;
+	private Powerup.PowerupType openReward;
 	private int livesatlvlstart;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
@@ -235,7 +235,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void redeem() {
 		rewardAvaliable = false;
 		hitSpree = 0;
-		processPowerup(player1, OpenReward);
+		processPowerup(player1, openReward);
 	}
 
 	/*
@@ -371,7 +371,7 @@ public class Engine extends Canvas implements KeyListener {
 		Font lefont = new Font("Arial", Font.BOLD, 30);
 		g.setFont(lefont);
 		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
-		g.drawString("Reward: " + (rewardAvaliable ? OpenReward : "N/A"), 355,
+		g.drawString("Reward: " + (rewardAvaliable ? openReward : "N/A"), 355,
 				55);
 
 		Stroke oldStroke = g.getStroke();
@@ -382,10 +382,10 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void hitSpreeHelper() {
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < REWARDS_REQUIREMENTS.length; i++) {
 			nextReward = REWARDS_REQUIREMENTS[i];
 			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
-				OpenReward = REWARDS_LIST[i];
+				openReward = REWARDS_LIST[i];
 				rewardAvaliable = true;
 			} else {
 				i--;
@@ -661,7 +661,7 @@ public class Engine extends Canvas implements KeyListener {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
 							e.health -= b.damage;
-							hitSpree += 1;
+							hitSpree += 10;
 							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
@@ -789,7 +789,8 @@ public class Engine extends Canvas implements KeyListener {
 			break;
 		case BUNKER:
 			for (Bunker k : bunkers) {
-				k.health = 300;
+				k.health = Bunker.BUNKER_DEFAULT_HEALTH;
+				k.setImage(k.originalBunker);
 			}
 			break;
 		}
