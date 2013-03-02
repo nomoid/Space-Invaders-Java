@@ -6,7 +6,7 @@ import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
 
 public class Player extends Sprite {
 	
-	private static final String PLAYER_DEFAULT_IMAGE = "resources/SpaceShip.png";
+	private static final String[] PLAYER_DEFAULT_IMAGE = {"resources/SpaceShip.png","resources/EasterEgg.png"};
 	public static final int PLAYER_DEFAULT_HEALTH = 500;
 	public static final int PLAYER_DEFAULT_FIRING_COOLDOWN = 30;
 	
@@ -15,9 +15,9 @@ public class Player extends Sprite {
 	}
 	
 	//Constructor
-	public Player(String name) throws GameException{
+	public Player(int type,String name) throws GameException{
 		//Calls the superclass constructor to automatically set up the player image
-		super(PLAYER_DEFAULT_IMAGE, 432, 680);
+		super(PLAYER_DEFAULT_IMAGE[type], 432, 680);
 		this.name=name;
 		this.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 	}

@@ -32,6 +32,8 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	private boolean EggOn;
+	private boolean PixarOn;
 	private int deathCounter;
 	private int nextReward;
 	private boolean rewardAvaliable = false;
@@ -92,7 +94,6 @@ public class Engine extends Canvas implements KeyListener {
 	// Unused for now
 	private boolean godmodeOn = false;
 	private Player player1;
-	private boolean bulletLeft = true;
 	// true if right arrow key down
 	private boolean rightOn = false;
 	// true if left arrow key down
@@ -151,7 +152,7 @@ public class Engine extends Canvas implements KeyListener {
 				render((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("just_died")) {
 				deathStuff((Graphics2D) g);
-				render((Graphics2D) g);	
+				render((Graphics2D) g);
 				explosionUpdate();
 			} else {
 				// Throws an exception if none of the states match
@@ -169,31 +170,33 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	
-	public void deathStuff(Graphics2D g){
+	public void deathStuff(Graphics2D g) {
 		deathCounter--;
 		String secondsLeft = "3";
 		Font leFont = new Font("Copperplate", Font.BOLD, 100);
 		g.setFont(leFont);
 		g.setColor(Color.RED);
 
-				
-		if (deathCounter<=125){
-			secondsLeft="2";
-		} if (deathCounter<=63){
-			secondsLeft="1";
-		} if (deathCounter==0){
-			secondsLeft="0";
-			state="main";
+		if (deathCounter <= 125) {
+			secondsLeft = "2";
+		}
+		if (deathCounter <= 63) {
+			secondsLeft = "1";
+		}
+		if (deathCounter == 0) {
+			secondsLeft = "0";
+			state = "main";
 			gameObjects.add(player1);
 			return;
 		}
 		String message = "Respawn in " + secondsLeft;
-		
-		g.drawString(message, getWidth() / 2
-				- (g.getFontMetrics().stringWidth(message) / 2), 570);
-		
+
+		g.drawString(message,
+				getWidth() / 2 - (g.getFontMetrics().stringWidth(message) / 2),
+				570);
+
 	}
+
 	/*
 	 * Starts the game
 	 */
@@ -563,23 +566,22 @@ public class Engine extends Canvas implements KeyListener {
 		// Bullet creation code
 		if (spaceOn) {
 			if (player1.firingCooldown <= 0) {
-				int tempx = player1.x + 4;
-				if (!bulletLeft) {
-					tempx = player1.x + 28;
-					bulletLeft = true;
-				} else {
-					bulletLeft = false;
-				}
 				int extraDamage = 1;
 				if (player1.powerups.containsKey(PowerupType.DAMAGE)) {
 					extraDamage = 3;
 				}
-
-				Bullet b = new Bullet(BulletType.PLAYER, tempx, player1.y,
+				BulletType tempType = BulletType.PLAYER;
+				if (PixarOn) {
+					// sumthing
+				} else if (EggOn) {
+					tempType = BulletType.EGG;
+				}
+				Bullet b = new Bullet(tempType, player1.x + 16, player1.y,
 						Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()]);
+
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
@@ -859,10 +861,18 @@ public class Engine extends Canvas implements KeyListener {
 		System.out.println("It's starting!");
 		// Creates a new player
 		new Thread(new MovementClock()).start();
-		player1 = new Player(tempname);
+		int type = 0;
 		if (tempname.equalsIgnoreCase("god")) {
 			godmodeOn = true;
+		} else if (tempname.equalsIgnoreCase("easter")
+				|| tempname.equalsIgnoreCase("egg")) {
+			EggOn = true;
+			type = 1;
+		} else if (tempname.equalsIgnoreCase("A113")) {
+			PixarOn = true;
+			type = 2;
 		}
+		player1 = new Player(type, tempname);
 		gameObjects.add(player1);
 		// loads map plan here
 		constructEnemyFormation(1);
@@ -906,7 +916,7 @@ public class Engine extends Canvas implements KeyListener {
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (godmode.equals("god")) {
-					godmode();
+					godmodeOn = true;
 					godmode = "";
 					System.out.println("God Mode is starting!");
 				} else {
@@ -1031,12 +1041,6 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	private void godmode() {
-		godmodeOn = true;
-		// Unimplemented
-		// God Mode to be initiated here
-	}
-
 	private void constructBunker(int bunkerType, int x, int y) {
 		Bunker a = new Bunker(bunkerType, x, y);
 		bunkers.add(a);
@@ -1089,16 +1093,16 @@ public class Engine extends Canvas implements KeyListener {
 	public void removeEnemy(EnemySquad enemies, Enemy e) {
 		gameObjects.remove(e);
 		enemies.remove(e);
-		Explosion ex = new Explosion(e,0);
+		Explosion ex = new Explosion(e, 0);
 		overlay.add(ex);
 		explosions.add(ex);
 	}
-	
-	public void playerDeath(){
+
+	public void playerDeath() {
 		state = "just_died";
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
-		deathCounter=188;
-		Explosion ex = new Explosion(player1,1);
+		deathCounter = 188;
+		Explosion ex = new Explosion(player1, 1);
 		player1.x = 432;
 		player1.y = 680;
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
