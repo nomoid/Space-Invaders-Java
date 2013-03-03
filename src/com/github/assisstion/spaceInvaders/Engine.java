@@ -572,7 +572,7 @@ public class Engine extends Canvas implements KeyListener {
 				player1.livesRemaining++;
 			}
 			livesatlvlstart = player1.livesRemaining;
-			currentLevel += 5;
+			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;
@@ -903,7 +903,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void startGame() {
 		// Starts the game
 		System.out.println("It's starting!");
-		// Creates a new player
+		
 		new Thread(new MovementClock()).start();
 		int type = 0;
 		if (tempname.equalsIgnoreCase("god")) {
@@ -916,6 +916,7 @@ public class Engine extends Canvas implements KeyListener {
 			PixarOn = true;
 			type = 2;
 		}
+		// Creates a new player
 		player1 = new Player(type, tempname);
 		gameObjects.add(player1);
 		// loads map plan here
