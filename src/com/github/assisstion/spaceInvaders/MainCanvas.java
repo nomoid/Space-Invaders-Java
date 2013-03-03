@@ -1,7 +1,5 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.util.Random;
 
 import javax.swing.JFrame;
