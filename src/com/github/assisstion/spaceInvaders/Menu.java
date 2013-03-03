@@ -53,6 +53,7 @@ public class Menu {
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
+				startGame();
 			}
 		});
 		button1.setBounds(960/2-24, 400, 48, 48);
@@ -64,6 +65,13 @@ public class Menu {
 		
 	}
 	public void startGame() {
+		
+		MainCanvas.frame.remove(contentPane);
+		MainCanvas.frame.validate();
+		MainCanvas.frame.repaint();
+		
+
+		
 		MainCanvas.engine = new Engine();
 		MainCanvas.frame.add(MainCanvas.engine);
 		MainCanvas.frame.pack();
@@ -71,5 +79,6 @@ public class Menu {
 		MainCanvas.rand = new Random();
 		MainCanvas.engine.state = "ready";
 		System.out.println("Engine starting");
+		MainCanvas.frame.repaint();
 	}
 }

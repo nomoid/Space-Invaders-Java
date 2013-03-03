@@ -22,7 +22,7 @@ public class MainCanvas {
 		  * Create a new JFrame and set it's properties up.
 		  */
 		
-		System.out.println("Program launch");
+		 System.out.println("Program launch");
 		 frame = new JFrame("Space Invaders");
 		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 frame.setResizable(false);
