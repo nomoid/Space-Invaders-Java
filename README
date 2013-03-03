@@ -5,7 +5,7 @@ By Markus Feng (assisstion) and Michael Man (michael99man)
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
-Last Updated: Mar. 2, 2013
+Last Updated: Mar. 3, 2013
 
 Status:
 Under progress
@@ -17,15 +17,16 @@ Create Player Mechanics: DONE
 Create Enemy Mechanics: DONE
 Create Bunker Mechanics: DONE
 Collision Testing: DONE
-Menu Screen/UI: BASICALLY DONE - add high score rankings
+Menu Screen/UI: BASICALLY DONE - add high score rankings, add main menu
 Music: NOT STARTED
-Graphics: IN PROGRESS
+Graphics: IN PROGRESS - add bg, change sprites (possibly)
 Story: NOT STARTED
 Opening Screen: BASICALLY DONE - add menu
 Closing Screen: BASICALLY DONE - missing high score rankings
 Levels: BASICALLY DONE - add boss level
 Hitstreaks: DONE
-
+Game Balancing: IN PROGRESS - wait for bosses
+Game Testing: BARELY STARTED - 1 tester: Chauncey
 
 POTENTIAL FEATURES:
 Boss battle!
