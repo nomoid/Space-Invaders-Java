@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ public class MainCanvas {
 	public static Engine engine;
 	public static Random rand;
 	public static boolean isOn;
+	public static Menu menu;
 	
 	public static void main(String[] args) {
 		 /*
@@ -30,8 +33,7 @@ public class MainCanvas {
 		  * Creates the engine and adds it to the frame
 		  */
 		 
-		 engine = new Engine();
-		 frame.add(engine);
+
 		 System.out.println("Engine created");
 		 
 		 /*
@@ -39,20 +41,23 @@ public class MainCanvas {
 		  * it.
 		  */
 		 
-		 frame.pack();
+		 menu = new Menu();
+		 menu.startGame();
 		 frame.setLocationRelativeTo(null);
 		 frame.setVisible(true);
+		 
+
 		 System.out.println("Frame created");
 		 
 		 /*
 		  * Starts the engine and creates the random number generator
 		  */
-		 
-		 isOn = true;
-		 rand = new Random();
-		 engine.state="ready";
-		 System.out.println("Engine starting");
+
 		 
 		 new Thread(new Clock()).start();
+
+
+
+		 
 		}
 }

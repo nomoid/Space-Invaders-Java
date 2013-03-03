@@ -3,7 +3,6 @@ package com.github.assisstion.spaceInvaders;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -90,8 +89,6 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	public Engine() {
 		addKeyListener(this);
-		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(960, 740));
 	}
 
 	/*
