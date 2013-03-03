@@ -1,19 +1,43 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class Menu {
-
+	
+	
+	public JPanel contentPane;
 	
 	public Menu() {
-		 MainCanvas.frame.setBackground(Color.BLACK);
-		 MainCanvas.frame.setPreferredSize(new Dimension(960, 760));
-		 MainCanvas.frame.pack();
+		MainCanvas.frame.setBackground(Color.BLACK);
+		MainCanvas.frame.setPreferredSize(new Dimension(960, 760));
+
+		contentPane = new JPanel();
+		
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		MainCanvas.frame.setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		MainCanvas.frame.pack();
+		buildMenu();
+
 	}
+
 	
+	public void buildMenu(){
+		JButton button1 = new JButton();
+		button1.setBounds(0, 0, 20, 20);
+		contentPane.add(button1);
+		
+	}
 	public void startGame() {
 		MainCanvas.engine = new Engine();
 		MainCanvas.frame.add(MainCanvas.engine);
