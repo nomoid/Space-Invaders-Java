@@ -337,6 +337,24 @@ public class Engine extends Canvas implements KeyListener {
 		for (Sprite s : gameObjects) {
 			gameObjects.remove(s);
 		}
+		for(EnemySquad enemies : enemySquads){
+			gameObjects.remove(enemies);
+		}
+		for(Bullet b : bullets){
+			gameObjects.remove(b);
+		}
+		for(Bunker k : bunkers){
+			gameObjects.remove(k);
+		}
+		for(Powerup p : powerups){
+			gameObjects.remove(p);
+		}
+		for (Sprite s : overlay) {
+			gameObjects.remove(s);
+		}
+		for (Explosion ex : explosions) {
+			gameObjects.remove(ex);
+		}
 	}
 
 	public void drawMenu(Graphics2D g) {
