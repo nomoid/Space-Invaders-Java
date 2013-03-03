@@ -15,8 +15,8 @@ public final class Data{
 			50);
 	public static final int NAME_MAX_LENGTH = 7;
 
-	public static final int[][] LEVELS = { { 10, 4 }, { 12, 5 }, { 13, 6 },
-			{ 14, 7 }, { 16, 8 } };
+	public static final int[][] LEVELS = { { 7, 4 }, { 9, 5 }, { 12, 6 },
+			{ 13, 7 }, { 15, 8 } };
 	public static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
@@ -41,6 +41,6 @@ public final class Data{
 			Powerup.PowerupType.BUNKER, Powerup.PowerupType.DAMAGE,
 			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
 			Powerup.PowerupType.STEROIDS };
-	public static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 18, 22, 28,
-		35 };
+	public static final int[] REWARDS_REQUIREMENTS = { 3, 6, 9, 12, 15, 18,
+		20 };
 }
