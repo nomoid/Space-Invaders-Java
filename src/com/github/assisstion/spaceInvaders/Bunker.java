@@ -1,11 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class Bunker extends Sprite {
 		
@@ -94,7 +90,7 @@ public class Bunker extends Sprite {
 		public void setImage(int bunkerNum){
 			this.bunkerNum=bunkerNum;
 			try {
-				image = ImageIO.read(new FileInputStream(new File(getImageLinkFromBunkerNumber(bunkerNum))));
+				image = ResourceHolder.getImageResource(getImageLinkFromBunkerNumber(bunkerNum));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
