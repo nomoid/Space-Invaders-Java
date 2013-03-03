@@ -56,6 +56,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * not_ready: not ready to start ready: ready to start but not started yet
 	 * main: started
 	 */
+	private boolean minigameOn = false;
 	public String state = "not_ready";
 	private Graphics2D g;
 	private String godmode = "";
@@ -415,6 +416,10 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.setColor(Color.BLACK);
 		String message5 = new String("Level: " + currentLevel + "/5");
+		
+		if (minigameOn){
+			message5 = new String("Level:Bonus");
+		}
 		g.drawString(message5, 710, 60);
 
 		g.setColor(Color.RED);
@@ -463,7 +468,6 @@ public class Engine extends Canvas implements KeyListener {
 	// map input will be developed here later
 	public void constructEnemyFormation(int lvlnum) {
 		int enemyWidth = LEVELS[lvlnum - 1][0];
-
 		int x = 10;
 		EnemySquad enemies = new EnemySquad();
 
@@ -474,7 +478,7 @@ public class Engine extends Canvas implements KeyListener {
 				EnemyData = LEVEL1DATA;
 				break;
 			case 2:
-				EnemyData = LEVEL2DATA;
+				//EnemyData = LEVEL2DATA;
 				break;
 			case 3:
 				EnemyData = LEVEL3DATA;
@@ -484,6 +488,10 @@ public class Engine extends Canvas implements KeyListener {
 				break;
 			case 5:
 				EnemyData = LEVEL5DATA;
+				break;
+			case 6: 
+				EnemyData = MINIGAMEDATA;
+				minigameOn=true;
 				break;
 			default:
 				throw new IllegalArgumentException("Level Number Error!");
@@ -553,9 +561,10 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
+	
 	public void nextLevel() {
 		// STUFF TO DO HERE: display info to player.
-		if (currentLevel >= 5) {
+		if (currentLevel > 5) {
 			gameCleanup();
 			state = "game_won";
 		} else {
@@ -563,12 +572,13 @@ public class Engine extends Canvas implements KeyListener {
 				player1.livesRemaining++;
 			}
 			livesatlvlstart = player1.livesRemaining;
-			currentLevel += 1;
+			currentLevel += 5;
 			constructEnemyFormation(currentLevel);
 			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;
-
 		}
+		
+		
 	}
 
 	public void inputUpdate() {
@@ -697,12 +707,12 @@ public class Engine extends Canvas implements KeyListener {
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
 				if ((b.owner instanceof Enemy) && !godmodeOn) {
-					player1.health -= b.damage;
+					player1.health -= b.damage;		
 					hitSpree = 0;
 					rewardAvaliable = false;
 					bullets.remove(b);
 					gameObjects.remove(b);
-					if (player1.health <= 0) {
+					if (player1.health <=0) {
 						player1.livesRemaining--;
 						playerDeath();
 
@@ -714,6 +724,10 @@ public class Engine extends Canvas implements KeyListener {
 						Helper.updateHitbox(player1);
 						gameCleanup();
 						state = "game_over";
+					}
+					
+					if (minigameOn){
+						nextLevel();
 					}
 				}
 			}
@@ -727,14 +741,18 @@ public class Engine extends Canvas implements KeyListener {
 								bullets.remove(b);
 								gameObjects.remove(b);
 							}
-							if (e.health <= 0 || godmodeOn) {
+							if (e.health <= 0 || godmodeOn || minigameOn) {
 								dropPowerup(e, e.x, e.y);
-								removeEnemy(enemies, e);
+								removeEnemy(enemies, e);								
 								if (e.equals(mothership)) {
 									System.out.println("Mothership Destroyed!");
 									mothershipOn = false;
 								}
+								if (minigameOn){
+									player1.score+= 500;
+								} else {
 								player1.score += e.scoreReward;
+								}
 
 							}
 
@@ -770,6 +788,8 @@ public class Engine extends Canvas implements KeyListener {
 					if (!godmodeOn) {
 						player1.livesRemaining--;
 						playerDeath();
+					} if (minigameOn){
+						nextLevel();
 					}
 					/*
 					for (Enemy a : enemies) {

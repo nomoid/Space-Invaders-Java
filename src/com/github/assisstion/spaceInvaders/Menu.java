@@ -27,15 +27,15 @@ public class Menu {
 		MainCanvas.frame.setBackground(Color.BLACK);
 		MainCanvas.frame.setPreferredSize(new Dimension(960, 760));
 
-		contentPane = new JPanel();
+		//contentPane = new JPanel();
 		
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		MainCanvas.frame.setContentPane(contentPane);
-		contentPane.setLayout(null);
+		//contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		//MainCanvas.frame.setContentPane(contentPane);
+		//contentPane.setLayout(null);
 		
 		MainCanvas.frame.pack();
-		buildMenu();
-
+		//buildMenu();
+		startGame();
 	}
 
 	
@@ -65,12 +65,13 @@ public class Menu {
 		
 	}
 	public void startGame() {
-		
+		/*
 		MainCanvas.frame.remove(contentPane);
 		MainCanvas.frame.validate();
 		MainCanvas.frame.repaint();
 		
-
+		
+		*/
 		
 		MainCanvas.engine = new Engine();
 		MainCanvas.frame.add(MainCanvas.engine);

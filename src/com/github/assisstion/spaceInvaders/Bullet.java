@@ -9,7 +9,7 @@ public class Bullet extends Sprite {
 		public static final double[] BULLET_DIRECTION = 
 			{0, 180, 180, 180,0};
 		public static final int[] BULLET_DAMAGE = 
-			{100, 100,200,150,100};
+			{100, 100,250,150,100};
 		//True means moves one pixel EVERY movementSpeed ticks
 		//False means moves movementSpeed pixels EVERY tick
 		public boolean movementMode;
