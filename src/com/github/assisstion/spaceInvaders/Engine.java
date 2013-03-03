@@ -18,6 +18,8 @@ import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
 import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
 import com.github.assisstion.spaceInvaders.Bullet.BulletType;
 
+import static com.github.assisstion.spaceInvaders.Data.*;
+
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
  * the paint() method so it can be directly used to paint objects.
@@ -32,8 +34,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-	private static int MOTHERSHIP_CHANCE = 3000;
-	private static int MOTHERSHIP_SPEED = 4;
+	
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -46,48 +47,10 @@ public class Engine extends Canvas implements KeyListener {
 	private int livesatlvlstart;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
-	private static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD,
-			33);
-	private static final Font FONT_LARGE = new Font("Bank Gothic", Font.BOLD,
-			70);
-	private static final Font FONT_HUGE = new Font("Times New Roman",
-			Font.BOLD, 110);
-	private static final Font FONT_MEDIUM = new Font("Bank Gothic", Font.BOLD,
-			50);
-	private static final int NAME_MAX_LENGTH = 7;
-
-	private static final int[][] LEVELS = { { 10, 4 }, { 12, 5 }, { 13, 6 },
-			{ 14, 7 }, { 16, 8 } };
-	private static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
-			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
-	private static final Enemy.EnemyType[] LEVEL2DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
-			Enemy.EnemyType.NORMAL };
-	private static final Enemy.EnemyType[] LEVEL3DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
-			Enemy.EnemyType.NORMAL };
-	private static final Enemy.EnemyType[] LEVEL4DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL };
-	private static final Enemy.EnemyType[] LEVEL5DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED };
 	public int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
-
-	private static final Powerup.PowerupType[] REWARDS_LIST = {
-			Powerup.PowerupType.SPEED, Powerup.PowerupType.HEALTH,
-			Powerup.PowerupType.BUNKER, Powerup.PowerupType.DAMAGE,
-			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
-			Powerup.PowerupType.STEROIDS };
-	private static final int[] REWARDS_REQUIREMENTS = { 5, 8, 14, 18, 22, 28,
-			35 };
+	
 	/*
 	 * Update code runs according to current state of the code Possible states:
 	 * not_ready: not ready to start ready: ready to start but not started yet
