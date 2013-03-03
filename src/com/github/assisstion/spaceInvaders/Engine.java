@@ -111,10 +111,8 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equalsIgnoreCase("main")) {
 				updateMain(g);
 			} else if (state.equalsIgnoreCase("game_over")) {
-				gameCleanup();
 				gameLost((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("game_won")) {
-				gameCleanup();
 				gameWon((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("pause")) {
 				render((Graphics2D) g);
@@ -540,6 +538,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void nextLevel() {
 		// STUFF TO DO HERE: display info to player.
 		if (currentLevel >= 5) {
+			gameCleanup();
 			state = "game_won";
 		} else {
 			if (livesatlvlstart == player1.livesRemaining) {
@@ -695,6 +694,7 @@ public class Engine extends Canvas implements KeyListener {
 						player1.x = MainCanvas.frame.getWidth();
 						player1.y = MainCanvas.frame.getHeight();
 						Helper.updateHitbox(player1);
+						gameCleanup();
 						state = "game_over";
 					}
 				}
@@ -723,6 +723,7 @@ public class Engine extends Canvas implements KeyListener {
 						}
 
 						if (e.y > player1.y) {
+							gameCleanup();
 							state = "game_over";
 							System.out.println("Game Over!");
 						}
@@ -752,11 +753,13 @@ public class Engine extends Canvas implements KeyListener {
 						player1.livesRemaining--;
 						playerDeath();
 					}
+					/*
 					for (Enemy a : enemies) {
 						a.x = a.startingX;
 						a.y = a.startingY;
 						Helper.updateHitbox(a);
 					}
+					*/
 				} if (e.x>getWidth()){
 					System.out.println("Annddd it's gone!");
 					removeEnemy(enemies, e);
