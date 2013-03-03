@@ -1096,10 +1096,10 @@ public class Engine extends Canvas implements KeyListener {
 			for (Enemy e : enemies) {
 				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
 					if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-						e.x += 25;
+						e.x += 40;
 					} else if (enemies.direction
 							.equals(EnemySquad.Direction.LEFT)) {
-						e.x -= 25;
+						e.x -= 40;
 					} else if (enemies.direction
 							.equals(EnemySquad.Direction.DOWN)) {
 						e.y += 25;
