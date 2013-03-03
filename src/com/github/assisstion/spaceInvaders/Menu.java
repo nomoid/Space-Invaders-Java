@@ -8,9 +8,9 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 public class Menu {
 
 	
-	public Menu() { 
+	public Menu() {
 		 MainCanvas.frame.setBackground(Color.BLACK);
-		 MainCanvas.frame.setPreferredSize(new Dimension(960, 740));
+		 MainCanvas.frame.setPreferredSize(new Dimension(960, 760));
 		 MainCanvas.frame.pack();
 	}
 	

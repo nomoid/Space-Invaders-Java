@@ -42,10 +42,9 @@ public class MainCanvas {
 		  */
 		 
 		 menu = new Menu();
-		 menu.startGame();
+		 //menu.startGame();
 		 frame.setLocationRelativeTo(null);
 		 frame.setVisible(true);
-		 
 
 		 System.out.println("Frame created");
 		 
