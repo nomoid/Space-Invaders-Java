@@ -18,7 +18,14 @@ public class Menu extends JPanel{
 	public Menu() {
 		setLayout(null);
 		setBackground(Color.BLACK);
+<<<<<<< HEAD
 		setPreferredSize(new Dimension(960, 740));
+=======
+		setPreferredSize(new Dimension(960, 730));
+		
+		buildMenu();
+		
+>>>>>>> Balancing!
 		System.out.println("Menu built");
 	}
 	

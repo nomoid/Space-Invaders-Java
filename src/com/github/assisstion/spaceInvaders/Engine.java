@@ -34,7 +34,6 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-	
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -92,7 +91,7 @@ public class Engine extends Canvas implements KeyListener {
 	public Engine() {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(960, 740));
+		setPreferredSize(new Dimension(960, 730));
 	}
 
 	/*
@@ -438,7 +437,12 @@ public class Engine extends Canvas implements KeyListener {
 
 		Font lefont = new Font("Copperplate", Font.BOLD, 30);
 		g.setFont(lefont);
-		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
+		String hi = "Hitstreak: " + hitSpree + "/" + nextReward;
+		if (minigameOn){
+			hi = "Hitstreak: N/A";
+			rewardAvailable=false;
+		}
+		g.drawString(hi, 355, 27);
 		g.drawString("Reward: " + (rewardAvailable ? openReward : "N/A"), 355,
 				55);
 
@@ -681,8 +685,12 @@ public class Engine extends Canvas implements KeyListener {
 		}
 
 		for (Bullet b : bullets) {
-			b.tempX += b.movementSpeed * Math.sin(Math.toRadians(b.rotation));
-			b.tempY -= b.movementSpeed * Math.cos(Math.toRadians(b.rotation));
+			double extraBulletSpeed = 1;
+			if (player1.powerups.containsKey(PowerupType.SPEED)) {
+				extraBulletSpeed = 1.75;
+			}
+			b.tempX += b.movementSpeed * Math.sin(Math.toRadians(b.rotation)) * extraBulletSpeed;
+			b.tempY -= b.movementSpeed * Math.cos(Math.toRadians(b.rotation)) * extraBulletSpeed;
 			b.updateLocation();
 			Helper.updateHitbox(b);
 			for (Bunker k : bunkers) {
@@ -745,7 +753,9 @@ public class Engine extends Canvas implements KeyListener {
 								gameObjects.remove(b);
 							}
 							if (e.health <= 0 || godmodeOn || minigameOn) {
-								dropPowerup(e, e.x, e.y);
+								if (!minigameOn){
+									dropPowerup(e, e.x, e.y);
+								}
 								removeEnemy(enemies, e);								
 								if (e.equals(mothership)) {
 									System.out.println("Mothership Destroyed!");
@@ -967,7 +977,9 @@ public class Engine extends Canvas implements KeyListener {
 			state = "ready";
 			g = null;
 		} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
-			redeem();
+			if (!minigameOn){
+				redeem();
+			}
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (godmode.equals("god")) {

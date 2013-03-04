@@ -48,5 +48,5 @@ public final class Data {
 			Powerup.PowerupType.BUNKER, Powerup.PowerupType.DAMAGE,
 			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
 			Powerup.PowerupType.STEROIDS };
-	public static final int[] REWARDS_REQUIREMENTS = { 3, 6, 9, 12, 15, 18, 20 };
+	public static final int[] REWARDS_REQUIREMENTS = { 5, 8, 11, 15, 20, 23, 30 };
 }
