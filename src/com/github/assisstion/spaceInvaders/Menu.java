@@ -19,9 +19,13 @@ public class Menu extends JPanel{
 		setLayout(null);
 		setBackground(Color.BLACK);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		setPreferredSize(new Dimension(960, 740));
 =======
 		setPreferredSize(new Dimension(960, 730));
+=======
+		setPreferredSize(new Dimension(960, 740));
+>>>>>>> Oops. Note: Small black gap on top during gameplay
 		
 		buildMenu();
 		
