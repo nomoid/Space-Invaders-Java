@@ -39,6 +39,7 @@ public class MainCanvas {
 		 */
 		
 		menu = new Menu();
+		menu.addMenuBuilder(new MainMenuBuilder());
 		frame.add(menu);
 		
 		frame.setLocationRelativeTo(null);

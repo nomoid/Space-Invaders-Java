@@ -960,7 +960,7 @@ public class Engine extends Canvas implements KeyListener {
 				&& (state.equals("game_over") 
 				|| state.equals("game_won"))){
 			MainCanvas.menu.remove(this);
-			MainCanvas.menu.buildMenu();
+			MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
 		}
 		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
 				&& state.equals("justfinished")) {
