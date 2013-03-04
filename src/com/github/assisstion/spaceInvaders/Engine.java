@@ -38,11 +38,11 @@ public class Engine extends Canvas implements KeyListener {
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
-	private boolean EggOn;
-	private boolean PixarOn;
+	private boolean eggOn;
+	private boolean pixarOn;
 	private int deathCounter;
 	private int nextReward;
-	private boolean rewardAvaliable = false;
+	private boolean rewardAvailable = false;
 	private Powerup.PowerupType openReward;
 	private int livesatlvlstart;
 	private String tempname = "";
@@ -243,7 +243,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void redeem() {
-		rewardAvaliable = false;
+		rewardAvailable = false;
 		hitSpree = 0;
 		processPowerup(player1, openReward);
 	}
@@ -339,23 +339,32 @@ public class Engine extends Canvas implements KeyListener {
 			gameObjects.remove(s);
 		}
 		for(EnemySquad enemies : enemySquads){
-			gameObjects.remove(enemies);
+			enemySquads.remove(enemies);
+			for(Enemy e : enemies){
+				enemies.remove(e);
+				gameObjects.remove(e);
+			}
 		}
 		for(Bullet b : bullets){
 			gameObjects.remove(b);
+			bullets.remove(b);
 		}
 		for(Bunker k : bunkers){
 			gameObjects.remove(k);
+			bunkers.remove(k);
 		}
 		for(Powerup p : powerups){
 			gameObjects.remove(p);
+			powerups.remove(p);
 		}
 		for (Sprite s : overlay) {
-			gameObjects.remove(s);
+			overlay.remove(s);
 		}
 		for (Explosion ex : explosions) {
-			gameObjects.remove(ex);
+			overlay.remove(ex);
+			explosions.remove(ex);
 		}
+		gameObjects.remove(player1);
 	}
 
 	public void drawMenu(Graphics2D g) {
@@ -423,14 +432,14 @@ public class Engine extends Canvas implements KeyListener {
 		g.drawString(message5, 710, 60);
 
 		g.setColor(Color.RED);
-		if (rewardAvaliable) {
+		if (rewardAvailable) {
 			g.setColor(Color.GREEN);
 		}
 
 		Font lefont = new Font("Copperplate", Font.BOLD, 30);
 		g.setFont(lefont);
 		g.drawString("Hitstreak: " + hitSpree + "/" + nextReward, 355, 27);
-		g.drawString("Reward: " + (rewardAvaliable ? openReward : "N/A"), 355,
+		g.drawString("Reward: " + (rewardAvailable ? openReward : "N/A"), 355,
 				55);
 
 		Stroke oldStroke = g.getStroke();
@@ -445,7 +454,7 @@ public class Engine extends Canvas implements KeyListener {
 			nextReward = REWARDS_REQUIREMENTS[i];
 			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
 				openReward = REWARDS_LIST[i];
-				rewardAvaliable = true;
+				rewardAvailable = true;
 			} else {
 				i--;
 				break;
@@ -574,7 +583,7 @@ public class Engine extends Canvas implements KeyListener {
 			livesatlvlstart = player1.livesRemaining;
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
-			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
+			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;
 		}
 		
@@ -590,9 +599,9 @@ public class Engine extends Canvas implements KeyListener {
 					extraDamage = 3;
 				}
 				BulletType tempType = BulletType.PLAYER;
-				if (PixarOn) {
+				if (pixarOn) {
 					// sumthing
-				} else if (EggOn) {
+				} else if (eggOn) {
 					tempType = BulletType.EGG;
 				}
 				Bullet b = new Bullet(tempType, player1.x + 16, player1.y,
@@ -691,7 +700,7 @@ public class Engine extends Canvas implements KeyListener {
 
 					if (b.owner instanceof Player) {
 						hitSpree = 0;
-						rewardAvaliable = false;
+						rewardAvailable = false;
 					}
 				}
 				if (k.health <= 0) {
@@ -709,22 +718,16 @@ public class Engine extends Canvas implements KeyListener {
 				if ((b.owner instanceof Enemy) && !godmodeOn) {
 					player1.health -= b.damage;		
 					hitSpree = 0;
-					rewardAvaliable = false;
+					rewardAvailable = false;
 					bullets.remove(b);
 					gameObjects.remove(b);
 					if (player1.health <=0) {
-						player1.livesRemaining--;
+						
+						
 						playerDeath();
 
 					}
-					if (player1.livesRemaining <= 0) {
-						System.out.println("You're Dead!");
-						player1.x = MainCanvas.frame.getWidth();
-						player1.y = MainCanvas.frame.getHeight();
-						Helper.updateHitbox(player1);
-						gameCleanup();
-						state = "game_over";
-					}
+					
 					
 					if (minigameOn){
 						nextLevel();
@@ -772,7 +775,7 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.y > MainCanvas.frame.getHeight()) {
 				if (b.owner instanceof Player) {
 					hitSpree = 0;
-					rewardAvaliable = false;
+					rewardAvailable = false;
 				}
 				bullets.remove(b);
 				gameObjects.remove(b);
@@ -786,8 +789,8 @@ public class Engine extends Canvas implements KeyListener {
 			for (Enemy e : enemies) {
 				if (e.hitBox.overLaps(player1.hitBox)) {
 					if (!godmodeOn) {
-						player1.livesRemaining--;
 						playerDeath();
+						removeEnemy(enemies, e);
 					} if (minigameOn){
 						nextLevel();
 					}
@@ -910,10 +913,10 @@ public class Engine extends Canvas implements KeyListener {
 			godmodeOn = true;
 		} else if (tempname.equalsIgnoreCase("easter")
 				|| tempname.equalsIgnoreCase("egg")) {
-			EggOn = true;
+			eggOn = true;
 			type = 1;
 		} else if (tempname.equalsIgnoreCase("A113")) {
-			PixarOn = true;
+			pixarOn = true;
 			type = 2;
 		}
 		// Creates a new player
@@ -952,11 +955,18 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		if(e.getKeyCode() == KeyEvent.VK_ENTER
+				&& (state.equals("game_over") 
+				|| state.equals("game_won"))){
+			MainCanvas.menu.remove(this);
+			MainCanvas.menu.buildMenu();
+		}
 		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
 				&& state.equals("justfinished")) {
 			state = "ready";
 			g = null;
-		} else if (rewardAvaliable && e.getKeyCode() == KeyEvent.VK_R) {
+		} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
 			redeem();
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -970,7 +980,7 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				// tells the update loop to allow bullet firing
 				spaceOn = true;
-			} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvaliable) {
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvailable) {
 				redeem();
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				// sets the direction to Right
@@ -1006,10 +1016,11 @@ public class Engine extends Canvas implements KeyListener {
 					godmode = "";
 				}
 
+			} else if(e.getKeyCode() == KeyEvent.VK_K){
+				playerDeath();
 			} else {
 				godmode = "";
 			}
-			// note shift fails
 		} else if (state.equals("nametaking")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				// fix this. in case tempname=""
@@ -1101,15 +1112,15 @@ public class Engine extends Canvas implements KeyListener {
 				if (e.x + 50 >= MainCanvas.frame.getWidth()
 						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
-					MovementClock.MovementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
+					int speed = (int) (MovementClock.movementSpeed * (4.0 / 5.0));
+					MovementClock.movementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
 							: MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				} else if (e.x - 50 <= 0
 						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.MovementSpeed * (4.0 / 5.0));
-					MovementClock.MovementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
+					int speed = (int) (MovementClock.movementSpeed * (4.0 / 5.0));
+					MovementClock.movementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
 							: MovementClock.MINIMUM_SPEED;
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
@@ -1152,6 +1163,15 @@ public class Engine extends Canvas implements KeyListener {
 
 	public void playerDeath() {
 		state = "just_died";
+		player1.livesRemaining--;
+		if (player1.livesRemaining <= 0) {
+			System.out.println("You're Dead!");
+			player1.x = MainCanvas.frame.getWidth();
+			player1.y = MainCanvas.frame.getHeight();
+			Helper.updateHitbox(player1);
+			gameCleanup();
+			state = "game_over";
+		}
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 		deathCounter = 188;
 		Explosion ex = new Explosion(player1, 1);

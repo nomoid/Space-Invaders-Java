@@ -8,7 +8,7 @@ public class MovementClock implements Runnable {
 	public MovementClock(){
 		
 	}
-	public static int MovementSpeed = DEFAULT_SPEED;
+	public static int movementSpeed = DEFAULT_SPEED;
 	@Override
 	public void run(){
 		try{
@@ -16,7 +16,7 @@ public class MovementClock implements Runnable {
 				if(MainCanvas.engine.state.equalsIgnoreCase("main")){
 					MainCanvas.engine.moveEnemies();
 				}
-				Thread.sleep(MovementSpeed);
+				Thread.sleep(movementSpeed);
 			}
 		}
 		catch(InterruptedException e){

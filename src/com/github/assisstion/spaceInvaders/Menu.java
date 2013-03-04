@@ -27,6 +27,13 @@ public class Menu extends JPanel{
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(960, 740));
 		
+		buildMenu();
+		
+		System.out.println("Menu built");
+	}
+	
+	public void buildMenu(){
+		setLayout(null);
 		BufferedImage buttonIcon = null;
 		try {
 			buttonIcon = ResourceHolder.getImageResource("resources/Spaceship.png");
@@ -39,6 +46,7 @@ public class Menu extends JPanel{
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
+				closeMenu();
 				startGame();
 			}
 		});
@@ -46,15 +54,17 @@ public class Menu extends JPanel{
 		button1.setBorder(BorderFactory.createEmptyBorder());
 		button1.setContentAreaFilled(false);
 		add(button1);
-		
-		System.out.println("Menu built");
+	}
+	
+	public void closeMenu(){
+		remove(button1);
 	}
 	
 	/*
 	 * Starts the game engine
 	 */
 	public void startGame() {
-		remove(button1);
+		
 		setLayout(new FlowLayout());
 		MainCanvas.engine = new Engine();
 		add(MainCanvas.engine);
