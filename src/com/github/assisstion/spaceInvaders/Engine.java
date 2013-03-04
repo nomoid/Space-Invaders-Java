@@ -478,7 +478,7 @@ public class Engine extends Canvas implements KeyListener {
 				EnemyData = LEVEL1DATA;
 				break;
 			case 2:
-				//EnemyData = LEVEL2DATA;
+				EnemyData = LEVEL2DATA;
 				break;
 			case 3:
 				EnemyData = LEVEL3DATA;
@@ -491,10 +491,10 @@ public class Engine extends Canvas implements KeyListener {
 				break;
 			case 6: 
 				EnemyData = MINIGAMEDATA;
-				minigameOn=true;
+				minigameOn = true;
 				break;
 			default:
-				throw new IllegalArgumentException("Level Number Error!");
+				throw new IllegalArgumentException("Level Number Error: " + lvlnum);
 			}
 			enemies.direction = EnemySquad.Direction.RIGHT;
 
@@ -572,7 +572,7 @@ public class Engine extends Canvas implements KeyListener {
 				player1.livesRemaining++;
 			}
 			livesatlvlstart = player1.livesRemaining;
-			currentLevel += 5;
+			currentLevel ++;
 			constructEnemyFormation(currentLevel);
 			MovementClock.MovementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;

@@ -14,7 +14,7 @@ public final class Data {
 	public static final int NAME_MAX_LENGTH = 7;
 
 	public static final int[][] LEVELS = { { 7, 4 }, { 9, 5 }, { 12, 6 },
-			{ 13, 7 }, { 15, 8 }, { 18, 10 } };
+			{ 13, 7 }, { 15, 8 }, { 18, 10 }, {20, 10}};
 	public static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };

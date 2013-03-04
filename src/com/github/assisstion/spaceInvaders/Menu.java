@@ -1,8 +1,8 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -13,43 +13,29 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
-public class Menu {
+public class Menu extends JPanel{
 	
-	
-	public JPanel contentPane;
+	private static final long serialVersionUID = 8162618142692095178L;
+	private JButton button1;
 	
 	public Menu() {
-		MainCanvas.frame.setBackground(Color.BLACK);
-		MainCanvas.frame.setPreferredSize(new Dimension(960, 760));
-
-		//contentPane = new JPanel();
+		setLayout(null);
+		setBackground(Color.BLACK);
+		setPreferredSize(new Dimension(960, 740));
 		
-		//contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		//MainCanvas.frame.setContentPane(contentPane);
-		//contentPane.setLayout(null);
-		
-		MainCanvas.frame.pack();
-		//buildMenu();
-		startGame();
-	}
-
-	
-	public void buildMenu(){
-		//menu to be built here
 		BufferedImage buttonIcon = null;
 		try {
 			buttonIcon = ResourceHolder.getImageResource("resources/Spaceship.png");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
 		
-		JButton button1 = new JButton(new ImageIcon(buttonIcon));
+		button1 = new JButton(new ImageIcon(buttonIcon));
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
@@ -57,29 +43,26 @@ public class Menu {
 			}
 		});
 		button1.setBounds(960/2-24, 400, 48, 48);
-		
-		
 		button1.setBorder(BorderFactory.createEmptyBorder());
 		button1.setContentAreaFilled(false);
-		contentPane.add(button1);
+		add(button1);
 		
+		System.out.println("Menu built");
 	}
+	
+	/*
+	 * Starts the game engine
+	 */
 	public void startGame() {
-		/*
-		MainCanvas.frame.remove(contentPane);
-		MainCanvas.frame.validate();
-		MainCanvas.frame.repaint();
-		
-		
-		*/
-		
+		remove(button1);
+		setLayout(new FlowLayout());
 		MainCanvas.engine = new Engine();
-		MainCanvas.frame.add(MainCanvas.engine);
+		add(MainCanvas.engine);
 		MainCanvas.frame.pack();
 		MainCanvas.isOn = true;
 		MainCanvas.rand = new Random();
 		MainCanvas.engine.state = "ready";
 		System.out.println("Engine starting");
-		MainCanvas.frame.repaint();
+		new Thread(new Clock()).start();
 	}
 }

@@ -18,43 +18,34 @@ public class MainCanvas {
 	public static Menu menu;
 	
 	public static void main(String[] args) {
-		 /*
-		  * Create a new JFrame and set it's properties up.
-		  */
+		/*
+		 * Create a new JFrame and set it's properties up.
+		 */
 		
-		 System.out.println("Program launch");
-		 frame = new JFrame("Space Invaders");
-		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 frame.setResizable(false);
+		System.out.println("Program launch");
+		frame = new JFrame("Space Invaders");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 		 
-		 /*
-		  * Creates the engine and adds it to the frame
-		  */
-		 
+		/*
+		 * Creates the engine and adds it to the frame
+		 */
+		
+		System.out.println("Engine created");
+		
+		/*
+		 * Pack the frame, position it in the center of the screen, and then display
+		 * it, and add the menu.
+		 */
+		
+		menu = new Menu();
+		frame.add(menu);
+		
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.pack();
+		frame.validate();
 
-		 System.out.println("Engine created");
-		 
-		 /*
-		  * Pack the frame, position it in the center of the screen, and then display
-		  * it.
-		  */
-		 
-		 menu = new Menu();
-		 //menu.startGame();
-		 frame.setLocationRelativeTo(null);
-		 frame.setVisible(true);
-
-		 System.out.println("Frame created");
-		 
-		 /*
-		  * Starts the engine and creates the random number generator
-		  */
-
-		 
-		 new Thread(new Clock()).start();
-
-
-
-		 
-		}
+		System.out.println("Frame created");
+	}
 }
