@@ -2,6 +2,8 @@ package com.github.assisstion.spaceInvaders;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,7 +29,15 @@ public class PlotMenuBuilder implements MenuBuilder {
 		parent.add(mainlabel);
 		
 		
-		returnButton = new JButton("placeholdertext");
+		
+		BufferedImage returnIcon = null;
+		try {
+			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading image!");
+		}
+		returnButton = new JButton(new ImageIcon(returnIcon));
 		
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -37,7 +47,7 @@ public class PlotMenuBuilder implements MenuBuilder {
 			}
 		});
 		
-		returnButton.setBounds(960/2,500,50,50);
+		returnButton.setBounds(0,740-94,162,94);
 		parent.add(returnButton);
 		
 	}
