@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.Random;
+
 import javax.swing.JPanel;
 
 
@@ -14,6 +15,7 @@ public class Menu extends JPanel{
 	
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
+
 	
 	public Menu() {
 		setLayout(null);

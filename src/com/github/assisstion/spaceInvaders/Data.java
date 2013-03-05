@@ -3,7 +3,7 @@ package com.github.assisstion.spaceInvaders;
 import java.awt.Font;
 
 public final class Data {
-	public static final int MOTHERSHIP_CHANCE = 3000;
+	public static final int MOTHERSHIP_CHANCE = 5000;
 	public static final int MOTHERSHIP_SPEED = 4;
 	public static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD, 33);
 	public static final Font FONT_LARGE = new Font("Bank Gothic", Font.BOLD, 70);

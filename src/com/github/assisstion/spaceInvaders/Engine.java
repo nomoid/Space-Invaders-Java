@@ -43,7 +43,6 @@ public class Engine extends Canvas implements KeyListener {
 	private int nextReward;
 	private boolean rewardAvailable = false;
 	private Powerup.PowerupType openReward;
-	private int livesatlvlstart;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
 	public int hitSpree = 0;
@@ -581,10 +580,6 @@ public class Engine extends Canvas implements KeyListener {
 			gameCleanup();
 			state = "game_won";
 		} else {
-			if (livesatlvlstart == player1.livesRemaining) {
-				player1.livesRemaining++;
-			}
-			livesatlvlstart = player1.livesRemaining;
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
@@ -686,7 +681,7 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (Bullet b : bullets) {
 			double extraBulletSpeed = 1;
-			if (player1.powerups.containsKey(PowerupType.SPEED)) {
+			if (player1.powerups.containsKey(PowerupType.SPEED) && (b.owner instanceof Player)) {
 				extraBulletSpeed = 1.75;
 			}
 			b.tempX += b.movementSpeed * Math.sin(Math.toRadians(b.rotation)) * extraBulletSpeed;
@@ -934,7 +929,6 @@ public class Engine extends Canvas implements KeyListener {
 		gameObjects.add(player1);
 		// loads map plan here
 		constructEnemyFormation(1);
-		livesatlvlstart = player1.livesRemaining;
 		// Constructs the bunker formations
 		constructBunkerFormation(64, 600);
 		constructBunkerFormation(252, 600);
