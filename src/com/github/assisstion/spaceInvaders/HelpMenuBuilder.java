@@ -49,9 +49,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 		parent.remove(returnButton);
 	}
 
-	
-	@Override
-	public BufferedImage getReturnImage(){
+	private BufferedImage getReturnImage(){
 		BufferedImage returnIcon = null;
 		try {
 			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
