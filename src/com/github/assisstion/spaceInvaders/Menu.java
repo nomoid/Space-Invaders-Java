@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -28,10 +29,12 @@ public class Menu extends JPanel{
 		builders.add(builder);
 		builder.build(this);
 	}
-	
+
 	public void closeMenu(MenuBuilder builder){
 		builders.remove(builder);
 		builder.unBuild(this);
+        this.revalidate();
+        this.repaint();
 	}
 	
 	public void closeAllMenus(){
@@ -41,6 +44,7 @@ public class Menu extends JPanel{
 		}
 	}
 	
+
 	/*
 	 * Starts the game engine
 	 */

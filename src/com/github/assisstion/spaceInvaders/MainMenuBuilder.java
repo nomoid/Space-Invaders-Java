@@ -62,12 +62,16 @@ public class MainMenuBuilder implements MenuBuilder{
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new HelpMenuBuilder());
 			}
 		});
 		
 		storyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new PlotMenuBuilder());			
 			}
 		});
 		
@@ -92,15 +96,19 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.add(helpButton);
 		parent.add(startButton);
 		parent.add(logolabel);
+		
 	}
+	
+
+	
 	
 	@Override
 	public void unBuild(Menu menu){
 		parent = menu;
-			parent.remove(storyButton);
-			parent.remove(helpButton);
-			parent.remove(startButton);
-			parent.remove(logolabel);
+		parent.remove(storyButton);
+		parent.remove(helpButton);
+		parent.remove(startButton);
+		parent.remove(logolabel);
 	}
 
 }
