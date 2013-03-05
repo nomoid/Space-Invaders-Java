@@ -30,14 +30,8 @@ public class PlotMenuBuilder implements MenuBuilder {
 		
 		
 		
-		BufferedImage returnIcon = null;
-		try {
-			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error loading image!");
-		}
-		returnButton = new JButton(new ImageIcon(returnIcon));
+		
+		returnButton = new JButton(new ImageIcon(getReturnImage()));
 		
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -56,6 +50,18 @@ public class PlotMenuBuilder implements MenuBuilder {
 	public void unBuild(Menu menu) {
 		parent.remove(mainlabel);
 		parent.remove(returnButton);
+	}
+	
+	@Override
+	public BufferedImage getReturnImage(){
+		BufferedImage returnIcon = null;
+		try {
+			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading image!");
+		}
+		return returnIcon;
 	}
 
 }

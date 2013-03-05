@@ -22,22 +22,13 @@ public class HelpMenuBuilder implements MenuBuilder {
 	@Override
 	public void build(Menu menu) {
 		
-		BufferedImage returnIcon = null;
-		try {
-			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error loading image!");
-		}
-		
-		
 		parent=menu;
 		helplabel = new JLabel(new ImageIcon("resources/Spaceship.png"));
 		helplabel.setBounds(960/2,100,100,100);
 		parent.add(helplabel);
 		
 		
-		returnButton = new JButton(new ImageIcon(returnIcon));
+		returnButton = new JButton(new ImageIcon(getReturnImage()));
 		
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -58,4 +49,16 @@ public class HelpMenuBuilder implements MenuBuilder {
 		parent.remove(returnButton);
 	}
 
+	
+	@Override
+	public BufferedImage getReturnImage(){
+		BufferedImage returnIcon = null;
+		try {
+			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading image!");
+		}
+		return returnIcon;
+	}
 }

@@ -110,5 +110,18 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(startButton);
 		parent.remove(logolabel);
 	}
+	
+	
+	@Override
+	public BufferedImage getReturnImage(){
+		BufferedImage returnIcon = null;
+		try {
+			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading image!");
+		}
+		return returnIcon;
+	}
 
 }
