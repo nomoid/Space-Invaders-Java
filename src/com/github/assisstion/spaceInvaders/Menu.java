@@ -2,7 +2,6 @@ package com.github.assisstion.spaceInvaders;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -13,9 +12,9 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class Menu extends JPanel{
 	
+	
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
-
 	
 	public Menu() {
 		setLayout(null);
@@ -45,6 +44,8 @@ public class Menu extends JPanel{
 			builder.unBuild(this);
 			builder = builders.pollLast();
 		}
+		revalidate();
+        repaint();
 	}
 	
 
@@ -52,8 +53,6 @@ public class Menu extends JPanel{
 	 * Starts the game engine
 	 */
 	public void startGame() {
-		
-		setLayout(new FlowLayout());
 		MainCanvas.engine = new Engine();
 		add(MainCanvas.engine);
 		MainCanvas.frame.pack();

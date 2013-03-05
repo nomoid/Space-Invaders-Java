@@ -83,6 +83,7 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
 	// Current level
 	public int currentLevel = 1;
+	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -91,6 +92,7 @@ public class Engine extends Canvas implements KeyListener {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(960, 740));
+		setBounds(0, 0, 960, 740);
 	}
 
 	/*
@@ -1096,8 +1098,11 @@ public class Engine extends Canvas implements KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			if (state.equals("main")) {
 				state = "pause";
+				//MainCanvas.menu.remove(this);
+				MainCanvas.menu.addMenuBuilder(pauseMenu);
 			} else if (state.equals("pause")) {
 				state = "main";
+				MainCanvas.menu.closeMenu(pauseMenu);
 			}
 		}
 	}

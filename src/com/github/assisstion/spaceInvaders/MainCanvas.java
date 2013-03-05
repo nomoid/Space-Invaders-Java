@@ -3,6 +3,7 @@ package com.github.assisstion.spaceInvaders;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * Main class for starting the program.
@@ -40,7 +41,7 @@ public class MainCanvas {
 		
 		menu = new Menu();
 		menu.addMenuBuilder(new MainMenuBuilder());
-		frame.add(menu);
+		frame.setContentPane(menu);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

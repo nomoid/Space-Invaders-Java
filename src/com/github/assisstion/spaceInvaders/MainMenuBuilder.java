@@ -30,10 +30,9 @@ public class MainMenuBuilder implements MenuBuilder{
 	@Override
 	public void build(Menu menu){
 		parent = menu;
-		parent.setLayout(null);
 		BufferedImage startbuttonIcon = null;
 		BufferedImage helpbuttonIcon = null;
-		BufferedImage storybuttonIcon=null;
+		BufferedImage storybuttonIcon = null;
 		BufferedImage mainLogoIcon = null;
 		try {
 			startbuttonIcon = ResourceHolder.getImageResource(STARTBUTTON);
@@ -44,7 +43,6 @@ public class MainMenuBuilder implements MenuBuilder{
 			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
-		
 		
 		startButton = new JButton(new ImageIcon(startbuttonIcon));
 		helpButton = new JButton(new ImageIcon(helpbuttonIcon));
@@ -75,12 +73,9 @@ public class MainMenuBuilder implements MenuBuilder{
 			}
 		});
 		
-		
-		
 		startButton.setBounds(960/2-81, 300, 162, 79);
 		helpButton.setBounds(960/2-81, 380, 162, 79);
 		storyButton.setBounds(960/2-81, 460, 162, 79);
-		
 		
 		logolabel.setBounds(960/2-450,30,900,100);
 		

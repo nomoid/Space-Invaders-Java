@@ -27,12 +27,8 @@ public class PlotMenuBuilder implements MenuBuilder {
 		mainlabel = new JLabel(new ImageIcon("resources/Spaceship.png"));
 		mainlabel.setBounds(960/2,100,100,100);
 		parent.add(mainlabel);
-		
-		
-		
-		
+
 		returnButton = new JButton(new ImageIcon(getReturnImage()));
-		
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
