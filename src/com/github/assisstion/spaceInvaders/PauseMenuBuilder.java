@@ -1,5 +1,8 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 public class PauseMenuBuilder implements MenuBuilder{
@@ -7,7 +10,7 @@ public class PauseMenuBuilder implements MenuBuilder{
 	private PauseMenuBuilder instance;
 	private Menu parent;
 	
-	private JButton helplabel;
+	private JButton pauseButton;
 
 	public PauseMenuBuilder(){
 		instance = this;
@@ -16,14 +19,26 @@ public class PauseMenuBuilder implements MenuBuilder{
 	@Override
 	public void build(Menu menu){
 		parent = menu;
-		helplabel = new JButton("hi");
-		helplabel.setBounds(960/2,100,100,100);
-		parent.add(helplabel);
+		
+		pauseButton = new JButton("hi");
+		pauseButton.setBounds(960/2,100,100,100);
+		
+		pauseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				MainCanvas.menu.add(MainCanvas.engine);
+				MainCanvas.engine.state="main";
+				MainCanvas.frame.pack();
+			}
+		});
+		
+		parent.add(pauseButton);
 	}
 
 	@Override
 	public void unBuild(Menu menu){
-		parent.remove(helplabel);
+		parent.remove(pauseButton);
 	}
 
 }

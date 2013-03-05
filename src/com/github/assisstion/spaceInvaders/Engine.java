@@ -1098,12 +1098,10 @@ public class Engine extends Canvas implements KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			if (state.equals("main")) {
 				state = "pause";
-				//MainCanvas.menu.remove(this);
+				MainCanvas.menu.remove(this);
 				MainCanvas.menu.addMenuBuilder(pauseMenu);
-			} else if (state.equals("pause")) {
-				state = "main";
-				MainCanvas.menu.closeMenu(pauseMenu);
-			}
+
+			} 
 		}
 	}
 

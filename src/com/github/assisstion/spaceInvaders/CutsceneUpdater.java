@@ -11,7 +11,7 @@ public class CutsceneUpdater implements Runnable {
 	public void run(){
 		try{
 			while(instance.isOn){
-				Thread.sleep(10);
+				Thread.sleep(50);
 				instance.updateText();
 			}
 		}
