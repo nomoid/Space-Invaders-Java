@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -28,19 +27,23 @@ public class Menu extends JPanel{
 	public void addMenuBuilder(MenuBuilder builder){
 		builders.add(builder);
 		builder.build(this);
+		revalidate();
+        repaint();
 	}
 
 	public void closeMenu(MenuBuilder builder){
 		builders.remove(builder);
 		builder.unBuild(this);
-        this.revalidate();
-        this.repaint();
+		revalidate();
+        repaint();
 	}
 	
 	public void closeAllMenus(){
-		for(MenuBuilder builder: builders){
+		MenuBuilder builder = builders.pollLast();
+		while(builder != null){
 			builders.remove(builder);
 			builder.unBuild(this);
+			builder = builders.pollLast();
 		}
 	}
 	
