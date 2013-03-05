@@ -742,7 +742,7 @@ public class Engine extends Canvas implements KeyListener {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
 							e.health -= b.damage;
-							hitSpree += 1;
+							hitSpree ++;
 							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
@@ -897,9 +897,13 @@ public class Engine extends Canvas implements KeyListener {
 			break;
 		case BUNKER:
 			for (Bunker k : bunkers) {
-				k.health = Bunker.BUNKER_DEFAULT_HEALTH;
-				k.setImage(k.originalBunker);
+				bunkers.remove(k);
 			}
+			constructBunkerFormation(64, 600);
+			constructBunkerFormation(252, 600);
+			constructBunkerFormation(440, 600);
+			constructBunkerFormation(628, 600);
+			constructBunkerFormation(816, 600);	
 			break;
 		}
 	}
