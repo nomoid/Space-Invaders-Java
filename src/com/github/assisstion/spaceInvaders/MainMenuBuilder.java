@@ -53,7 +53,9 @@ public class MainMenuBuilder implements MenuBuilder{
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
 				parent.closeMenu(instance);
-				parent.startGame();
+				TextCutsceneBuilder cutscenebuilder = new TextCutsceneBuilder();
+				parent.addMenuBuilder(cutscenebuilder);	
+				new Thread(new CutsceneUpdater(cutscenebuilder)).start();
 			}
 		});
 		

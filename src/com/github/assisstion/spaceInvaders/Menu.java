@@ -52,6 +52,8 @@ public class Menu extends JPanel{
 	/*
 	 * Starts the game engine
 	 */
+	
+	
 	public void startGame() {
 		MainCanvas.engine = new Engine();
 		add(MainCanvas.engine);
