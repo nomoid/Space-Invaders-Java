@@ -7,7 +7,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Cutscene{
 	
-	public static final int DEFAULT_DELAY = 50;
+	public static final int DEFAULT_DELAY = 45;
 	
 	public char[][] pages;
 	public Sprite[][] sprites;
