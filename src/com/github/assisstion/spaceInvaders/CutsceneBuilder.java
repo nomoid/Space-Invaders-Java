@@ -7,23 +7,25 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class TextCutsceneBuilder implements MenuBuilder {
-	private TextCutsceneBuilder instance;
+public class CutsceneBuilder implements MenuBuilder {
+	private CutsceneBuilder instance;
 	private Menu parent;
 	
 	public boolean isOn;
 	
 	
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
-	private int pageNumber = 0;
+	public int pageNumber = 0;
 	private Sprite[][] sprites;
 	private String[] text;
+	public int[] delays;
 	
-	public TextCutsceneBuilder(String[] text, Sprite[][] sprites){
+	public CutsceneBuilder(Cutscene cutscene){
 		instance = this;
 		isOn= true;
-		this.sprites = sprites;
-		this.text = text;
+		this.sprites = cutscene.sprites;
+		this.text = cutscene.pages;
+		this.delays = cutscene.delays;
 	}
 	
 	@Override

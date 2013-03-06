@@ -2,10 +2,10 @@ package com.github.assisstion.spaceInvaders;
 
 public class CutsceneUpdater implements Runnable {
 	
-	private TextCutsceneBuilder instance;
+	private CutsceneBuilder instance;
 	private int delay;
 	
-	public CutsceneUpdater(TextCutsceneBuilder builder, int delay){
+	public CutsceneUpdater(CutsceneBuilder builder, int delay){
 		instance=builder;
 		this.delay = delay;
 	}
@@ -13,7 +13,12 @@ public class CutsceneUpdater implements Runnable {
 	public void run(){
 		try{
 			while(instance.isOn){
-				Thread.sleep(delay);
+				if(instance.delays != null){
+					Thread.sleep(instance.delays[instance.pageNumber]);
+				}
+				else{
+					Thread.sleep(delay);
+				}
 				instance.update(MainCanvas.menu);
 			}
 		}
