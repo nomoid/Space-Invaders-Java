@@ -21,19 +21,22 @@ public class CutsceneBuilder implements MenuBuilder {
 	public int pageNumber = 0;
 	private Sprite[][] sprites;
 	private char[][] text;
-	public int[] delays;
+	public double[] pageDelays;
+	public boolean justFinishedLine=false;;
 	private int i = 0;
 	private int x= 0;
 	private String leText = "";
 	private Font[] fonts;
+	private Color[] colors;
 	
 	public CutsceneBuilder(Cutscene cutscene){
 		instance = this;
 		isOn= true;
 		this.sprites = cutscene.sprites;
 		this.text = cutscene.pages;
-		this.delays = cutscene.delays;
+		this.pageDelays = cutscene.delays;
 		this.fonts = cutscene.fonts;
+		this.colors= cutscene.colors;
 	}
 	
 	@Override
@@ -43,6 +46,7 @@ public class CutsceneBuilder implements MenuBuilder {
 	}
 	
 	public void update(Menu menu){
+		justFinishedLine=false;
 		parent = menu;
 		if(pageNumber >= text.length){
 			parent.closeMenu(instance);
@@ -51,13 +55,14 @@ public class CutsceneBuilder implements MenuBuilder {
 			leText+= text[x][i]; 
 			unBuildText();
 			buildText(leText);
-			Sprite[] array = sprites[pageNumber];
-			for(Sprite s : array){
-				buildIcon(s.getImage(), s.x, s.y);
-			}
+			//Sprite[] array = sprites[pageNumber];
+			//for(Sprite s : array){
+			//	buildIcon(s.getImage(), s.x, s.y);
+			//}
 			i++;
 			
 		} else {
+			justFinishedLine=true;
 			i=0;
 			x++;
 			leText = "";
@@ -83,19 +88,19 @@ public class CutsceneBuilder implements MenuBuilder {
 	}
 	
 	private void buildText(String text){
-		String[] labels = text.split("\n");
-		int y=0;
+		String[] labels = text.split("&");
+		int y=10;
 		for(String string : labels){
-			y += 100;
-			constructLabel(fonts[x], string, 200, y, 960, 200);
+			constructLabel(colors[x],fonts[x], string, 25, y, 960, 40);
+			y += 40;
 		}
 		
 	}
 
-	private void constructLabel(Font tempfont, String text, int x, int y, int width, int height){
+	private void constructLabel(Color tempcolor, Font tempfont, String text, int x, int y, int width, int height){
 		JLabel label = new JLabel(text);
-		label.setForeground(Color.white);
 		label.setFont(tempfont);
+		label.setForeground(tempcolor);
 		label.setBounds(x,y,width,height);
 		parent.add(label);
 		labelList.add(label);
