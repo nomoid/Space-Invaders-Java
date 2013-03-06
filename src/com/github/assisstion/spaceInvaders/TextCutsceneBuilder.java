@@ -1,11 +1,11 @@
 package com.github.assisstion.spaceInvaders;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import static com.github.assisstion.spaceInvaders.CutsceneData.*;
 
 public class TextCutsceneBuilder implements MenuBuilder {
 	private TextCutsceneBuilder instance;
@@ -16,27 +16,36 @@ public class TextCutsceneBuilder implements MenuBuilder {
 	
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
 	private int pageNumber = 0;
+	private Sprite[][] sprites;
+	private String[] text;
 	
-	public TextCutsceneBuilder(){
+	public TextCutsceneBuilder(String[] text, Sprite[][] sprites){
 		instance = this;
 		isOn= true;
+		this.sprites = sprites;
+		this.text = text;
 	}
 	
 	@Override
 	public void build(Menu menu) {
 		parent = menu;
-		updateText(parent);
+		update(parent);
 	}
 	
-	public void updateText(Menu menu){
+	public void update(Menu menu){
 		parent = menu;
-		if(pageNumber >= CUTSCENE_1_PAGES.length){
+		if(pageNumber >= text.length){
 			parent.closeMenu(instance);
 			parent.startGame();
 		}
 		else{
 			unBuildText();
-			buildText(CUTSCENE_1_PAGES[pageNumber++]);
+			buildText(text[pageNumber]);
+			Sprite[] array = sprites[pageNumber];
+			for(Sprite s : array){
+				buildIcon(s.getImage(), s.x, s.y);
+			}
+			pageNumber++;
 		}
 	}
 
@@ -60,16 +69,23 @@ public class TextCutsceneBuilder implements MenuBuilder {
 		String[] labels = text.split("\n");
 		int y = 0;
 		for(String string : labels){
-			constructLabel(string, 200, y);
+			constructLabel(string, 200, y, 960, 200);
 			y += 100;
 		}
 		
 	}
 
-	private void constructLabel(String text, int x, int y){
+	private void constructLabel(String text, int x, int y, int width, int height){
 		JLabel label = new JLabel(text);
 		label.setForeground(Color.white);
-		label.setBounds(x,y,960,200);
+		label.setBounds(x,y,width,height);
+		parent.add(label);
+		labelList.add(label);
+	}
+	
+	private void buildIcon(BufferedImage image, int x, int y){
+		JLabel label = new JLabel(new ImageIcon(image));
+		label.setBounds(x,y,image.getWidth(),image.getHeight());
 		parent.add(label);
 		labelList.add(label);
 	}

@@ -6,5 +6,5 @@ public final class CutsceneData{
 	
 	public static final String[] CUTSCENE_1_PAGES = {CUTSCENE_1_PAGE_1, CUTSCENE_1_PAGE_2};
 	
-	public static final Sprite[][] CUTSCENE_1_SPRITES = {};
+	public static final Sprite[][] CUTSCENE_1_SPRITES = {{},{}};
 }
