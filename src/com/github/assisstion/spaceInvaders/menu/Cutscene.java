@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+import java.awt.Font;
+
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Cutscene{
@@ -9,15 +11,17 @@ public class Cutscene{
 	public char[][] pages;
 	public Sprite[][] sprites;
 	public int[] delays;
+	public Font[] fonts;
 	
-	public Cutscene(char[][] pages, Sprite[][] sprites){
-		this(pages, sprites, null);
+	public Cutscene(char[][] pages, Sprite[][] sprites, Font[] fontlist){
+		this(pages, sprites, null,fontlist);
 	}
 	
-	public Cutscene(char[][] pages, Sprite[][] sprites, int[] delays){
+	public Cutscene(char[][] pages, Sprite[][] sprites, int[] delays, Font[] fontlist){
 		this.pages = pages;
 		this.sprites = sprites;
 		this.delays = delays;
+		this.fonts = fontlist;
 	}
 	
 	protected Cutscene(){

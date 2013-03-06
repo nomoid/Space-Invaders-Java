@@ -1,6 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -24,6 +25,7 @@ public class CutsceneBuilder implements MenuBuilder {
 	private int i = 0;
 	private int x= 0;
 	private String leText = "";
+	private Font[] fonts;
 	
 	public CutsceneBuilder(Cutscene cutscene){
 		instance = this;
@@ -31,6 +33,7 @@ public class CutsceneBuilder implements MenuBuilder {
 		this.sprites = cutscene.sprites;
 		this.text = cutscene.pages;
 		this.delays = cutscene.delays;
+		this.fonts = cutscene.fonts;
 	}
 	
 	@Override
@@ -84,14 +87,15 @@ public class CutsceneBuilder implements MenuBuilder {
 		int y=0;
 		for(String string : labels){
 			y += 100;
-			constructLabel(string, 200, y, 960, 200);
+			constructLabel(fonts[x], string, 200, y, 960, 200);
 		}
 		
 	}
 
-	private void constructLabel(String text, int x, int y, int width, int height){
+	private void constructLabel(Font tempfont, String text, int x, int y, int width, int height){
 		JLabel label = new JLabel(text);
 		label.setForeground(Color.white);
+		label.setFont(tempfont);
 		label.setBounds(x,y,width,height);
 		parent.add(label);
 		labelList.add(label);
