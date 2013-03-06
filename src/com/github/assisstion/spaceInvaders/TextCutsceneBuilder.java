@@ -5,16 +5,15 @@ import java.util.LinkedList;
 
 import javax.swing.JLabel;
 
+import static com.github.assisstion.spaceInvaders.CutsceneData.*;
+
 public class TextCutsceneBuilder implements MenuBuilder {
 	private TextCutsceneBuilder instance;
 	private Menu parent;
 	
 	public boolean isOn;
 	
-	private static final String PAGE_1 = "Somewhere deep in Tofite-held space...";
-	private static final String PAGE_2 = "Something happened...";
 	
-	private static final String[] PAGES = {PAGE_1, PAGE_2};
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
 	private int pageNumber = 0;
 	
@@ -31,13 +30,13 @@ public class TextCutsceneBuilder implements MenuBuilder {
 	
 	public void updateText(Menu menu){
 		parent = menu;
-		if(pageNumber >= PAGES.length){
+		if(pageNumber >= CUTSCENE_1_PAGES.length){
 			parent.closeMenu(instance);
 			parent.startGame();
 		}
 		else{
 			unBuildText();
-			buildText(PAGES[pageNumber++]);
+			buildText(CUTSCENE_1_PAGES[pageNumber++]);
 		}
 	}
 
@@ -50,7 +49,6 @@ public class TextCutsceneBuilder implements MenuBuilder {
 	
 	private void unBuildText(){
 		for(JLabel label : labelList){
-			System.out.println("unbuilt");
 			parent.remove(label);
 		}
 		labelList.clear();
