@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener{
@@ -23,6 +22,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 	private boolean notYetCreated = true;
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
 	public int pageNumber = 0;
+	@SuppressWarnings("unused")
 	private Sprite[][] sprites;
 	private char[][] text;
 	public double[] pageDelays;
@@ -122,6 +122,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void buildIcon(BufferedImage image, int x, int y) {
 		JLabel label = new JLabel(new ImageIcon(image));
 		label.setBounds(x, y, image.getWidth(), image.getHeight());

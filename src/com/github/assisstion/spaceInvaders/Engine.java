@@ -64,8 +64,8 @@ public class Engine extends Canvas implements KeyListener {
 	private Powerup.PowerupType openReward;
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
-	public int hitSpree = 0;
-	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
+	private int hitSpree = 0;
+	private char[] leName = Helper.createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
 	
 	/*
@@ -101,7 +101,7 @@ public class Engine extends Canvas implements KeyListener {
 	// Set containing all explosions
 	private ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
 	// Current level
-	public int currentLevel = 1;
+	private int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 
 	/*
@@ -156,7 +156,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void deathStuff(Graphics2D g) {
+	private void deathStuff(Graphics2D g) {
 		deathCounter--;
 		String secondsLeft = "3";
 		Font leFont = new Font("Copperplate", Font.BOLD, 100);
@@ -186,7 +186,7 @@ public class Engine extends Canvas implements KeyListener {
 	/*
 	 * Starts the game
 	 */
-	public void renderName(Graphics gOld) {
+	private void renderName(Graphics gOld) {
 		g = (Graphics2D) gOld;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -261,7 +261,7 @@ public class Engine extends Canvas implements KeyListener {
 		state = "nametaking";
 	}
 
-	public void redeem() {
+	private void redeem() {
 		rewardAvailable = false;
 		hitSpree = 0;
 		processPowerup(player1, openReward);
@@ -270,7 +270,7 @@ public class Engine extends Canvas implements KeyListener {
 	/*
 	 * Main update method
 	 */
-	public void updateMain(Graphics graphics) {
+	private void updateMain(Graphics graphics) {
 		g = (Graphics2D) graphics;
 		// Renders the game objects
 		render(g);
@@ -286,7 +286,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void motherShip() {
+	private void motherShip() {
 		if (readyForMothership) {
 			if (!mothershipOn) {
 				if (MainCanvas.rand.nextInt(MOTHERSHIP_CHANCE) == 0) {
@@ -307,7 +307,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void render(Graphics2D g) {
+	private void render(Graphics2D g) {
 		for (Sprite object : gameObjects) {
 			Helper.renderSprite(g, object);
 		}
@@ -317,7 +317,7 @@ public class Engine extends Canvas implements KeyListener {
 		drawMenu(g);
 	}
 
-	public void gameLost(Graphics2D g) {
+	private void gameLost(Graphics2D g) {
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
 		String yourScore = new String("Final Score: "
@@ -332,7 +332,7 @@ public class Engine extends Canvas implements KeyListener {
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
 	}
 
-	public void gameWon(Graphics2D g) {
+	private void gameWon(Graphics2D g) {
 		g.fillRect(0, 0, 960, 740);
 		String gameWon = new String("You've Won!");
 		String yourScore = new String("Final Score: "
@@ -349,7 +349,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void gameCleanup() {
+	private void gameCleanup() {
 		if (state.equalsIgnoreCase("game_won")) {
 			player1.score += player1.livesRemaining
 					* Player.PLAYER_DEFAULT_HEALTH + player1.health;
@@ -386,7 +386,7 @@ public class Engine extends Canvas implements KeyListener {
 		gameObjects.remove(player1);
 	}
 
-	public void drawMenu(Graphics2D g) {
+	private void drawMenu(Graphics2D g) {
 
 		// message = Score Display
 		// message2=Health Display
@@ -473,7 +473,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void hitSpreeUpdate() {
+	private void hitSpreeUpdate() {
 		for (int i = 0; i < REWARDS_REQUIREMENTS.length; i++) {
 			nextReward = REWARDS_REQUIREMENTS[i];
 			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
@@ -487,7 +487,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void explosionUpdate() {
+	private void explosionUpdate() {
 		for (Explosion ex : explosions) {
 			if (ex.explosionTimer <= 0) {
 				overlay.remove(ex);
@@ -499,7 +499,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	// map input will be developed here later
-	public void constructEnemyFormation(int lvlnum) {
+	private void constructEnemyFormation(int lvlnum) {
 		int enemyWidth = LEVELS[lvlnum - 1][0];
 		int x = 10;
 		EnemySquad enemies = new EnemySquad();
@@ -582,7 +582,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	// For cleaning up stuff
-	public void endUpdate() {
+	private void endUpdate() {
 		for (EnemySquad enemies : enemySquads) {
 			if (enemies.isEmpty()) {
 				enemySquads.remove(enemies);
@@ -595,7 +595,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	
-	public void nextLevel() {
+	private void nextLevel() {
 		// STUFF TO DO HERE: display info to player.
 		if (currentLevel > 5) {
 			gameCleanup();
@@ -610,7 +610,7 @@ public class Engine extends Canvas implements KeyListener {
 		
 	}
 
-	public void inputUpdate() {
+	private void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
 			if (player1.firingCooldown <= 0) {
@@ -643,7 +643,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	public void playerUpdate() {
+	private void playerUpdate() {
 		// Changes the player location depending on the current direction
 		int extraSpeed = 1;
 		if (player1.powerups.containsKey(PowerupType.SPEED)) {
@@ -672,7 +672,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void bulletUpdate() {
+	private void bulletUpdate() {
 		for (EnemySquad es : enemySquads) {
 			for (Enemy e : es) {
 				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
@@ -810,7 +810,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void enemyUpdate() {
+	private void enemyUpdate() {
 		for (EnemySquad enemies : enemySquads) {
 			for (Enemy e : enemies) {
 				if (e.hitBox.overLaps(player1.hitBox)) {
@@ -843,7 +843,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void powerupUpdate() {
+	private void powerupUpdate() {
 		for (Powerup p : powerups) {
 			p.y += p.movementSpeed;
 			Helper.updateHitbox(p);
@@ -865,7 +865,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void dropPowerup(Enemy e, int x, int y) {
+	private void dropPowerup(Enemy e, int x, int y) {
 		int randint = MainCanvas.rand.nextInt(1000);
 		PowerupType fillerType = null;
 		int numeral = Helper.getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
@@ -887,7 +887,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public void processPowerup(Player player, PowerupType p) {
+	private void processPowerup(Player player, PowerupType p) {
 		switch (p) {
 		case HEALTH:
 			player.health += Player.PLAYER_DEFAULT_HEALTH / 2;
@@ -1177,15 +1177,7 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	public static char[] createEmptyName(char c, int length) {
-		char[] ca = new char[length];
-		for (int i = 0; i < ca.length; i++) {
-			ca[i] = c;
-		}
-		return ca;
-	}
-
-	public void removeEnemy(EnemySquad enemies, Enemy e) {
+	private void removeEnemy(EnemySquad enemies, Enemy e) {
 		gameObjects.remove(e);
 		enemies.remove(e);
 		Explosion ex = new Explosion(e, 0);
@@ -1193,7 +1185,7 @@ public class Engine extends Canvas implements KeyListener {
 		explosions.add(ex);
 	}
 
-	public void playerDeath() {
+	private void playerDeath() {
 		state = "just_died";
 		player1.livesRemaining--;
 		if (player1.livesRemaining <= 0) {

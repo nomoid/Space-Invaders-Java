@@ -27,4 +27,12 @@ public class Helper{
 		}
 		return -1;
 	}
+	
+	public static char[] createEmptyName(char c, int length) {
+		char[] ca = new char[length];
+		for (int i = 0; i < ca.length; i++) {
+			ca[i] = c;
+		}
+		return ca;
+	}
 }
