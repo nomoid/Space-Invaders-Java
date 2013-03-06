@@ -3,7 +3,6 @@ package com.github.assisstion.spaceInvaders;
 import java.util.Random;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * Main class for starting the program.
