@@ -1,4 +1,7 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
+
+import com.github.assisstion.spaceInvaders.gameObject.Player;
+import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public final class CutsceneData{
 	public static final class Cutscene1{

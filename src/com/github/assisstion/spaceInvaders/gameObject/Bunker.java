@@ -1,7 +1,10 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 public class Bunker extends Sprite {
 		

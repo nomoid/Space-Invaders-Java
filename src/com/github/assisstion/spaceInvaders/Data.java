@@ -2,6 +2,9 @@ package com.github.assisstion.spaceInvaders;
 
 import java.awt.Font;
 
+import com.github.assisstion.spaceInvaders.gameObject.Enemy;
+import com.github.assisstion.spaceInvaders.gameObject.Powerup;
+
 public final class Data {
 	public static final int MOTHERSHIP_CHANCE = 5000;
 	public static final int MOTHERSHIP_SPEED = 4;

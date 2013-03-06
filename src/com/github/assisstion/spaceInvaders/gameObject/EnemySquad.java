@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 

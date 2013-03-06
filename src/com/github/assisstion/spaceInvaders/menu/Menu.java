@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,6 +8,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 
+import com.github.assisstion.spaceInvaders.Clock;
+import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class Menu extends JPanel{

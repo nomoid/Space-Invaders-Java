@@ -1,4 +1,7 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
+
+import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.github.assisstion.spaceInvaders.MovementClock;
 
 public class CutsceneUpdater implements Runnable {
 	

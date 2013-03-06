@@ -1,8 +1,9 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
+import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
 
 public class Player extends Sprite {
 	

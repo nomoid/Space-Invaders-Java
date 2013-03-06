@@ -14,9 +14,19 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import com.github.assisstion.spaceInvaders.EnemySquad.Direction;
-import com.github.assisstion.spaceInvaders.Powerup.PowerupType;
-import com.github.assisstion.spaceInvaders.Bullet.BulletType;
+import com.github.assisstion.spaceInvaders.gameObject.Bullet;
+import com.github.assisstion.spaceInvaders.gameObject.Bunker;
+import com.github.assisstion.spaceInvaders.gameObject.Enemy;
+import com.github.assisstion.spaceInvaders.gameObject.EnemySquad;
+import com.github.assisstion.spaceInvaders.gameObject.Explosion;
+import com.github.assisstion.spaceInvaders.gameObject.Player;
+import com.github.assisstion.spaceInvaders.gameObject.Powerup;
+import com.github.assisstion.spaceInvaders.gameObject.Sprite;
+import com.github.assisstion.spaceInvaders.gameObject.Bullet.BulletType;
+import com.github.assisstion.spaceInvaders.gameObject.EnemySquad.Direction;
+import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
+import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
+import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 
 import static com.github.assisstion.spaceInvaders.Data.*;
 

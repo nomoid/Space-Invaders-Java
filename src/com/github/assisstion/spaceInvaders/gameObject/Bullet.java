@@ -1,4 +1,6 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
+
+import com.github.assisstion.spaceInvaders.GameException;
 
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 

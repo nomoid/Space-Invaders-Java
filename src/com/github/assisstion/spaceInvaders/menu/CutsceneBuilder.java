@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder {
 	private CutsceneBuilder instance;

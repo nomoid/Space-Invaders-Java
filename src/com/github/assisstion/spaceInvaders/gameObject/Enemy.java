@@ -1,4 +1,7 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
+
+import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class Enemy extends Sprite {
 

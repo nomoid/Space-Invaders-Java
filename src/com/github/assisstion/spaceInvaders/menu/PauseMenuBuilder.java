@@ -1,9 +1,11 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+
+import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class PauseMenuBuilder implements MenuBuilder{
 

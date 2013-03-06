@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 public class HelpMenuBuilder implements MenuBuilder {
 	private HelpMenuBuilder instance;

@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
 
 public class Box{
 	

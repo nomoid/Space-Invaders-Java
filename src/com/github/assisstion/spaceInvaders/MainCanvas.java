@@ -4,6 +4,9 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
+import com.github.assisstion.spaceInvaders.menu.Menu;
+
 /**
  * Main class for starting the program.
  * @author Markus Feng

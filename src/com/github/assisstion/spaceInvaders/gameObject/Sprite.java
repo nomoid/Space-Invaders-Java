@@ -1,7 +1,10 @@
-package com.github.assisstion.spaceInvaders;
+package com.github.assisstion.spaceInvaders.gameObject;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 /**
  * A sprite class for loading and keeping track of images
