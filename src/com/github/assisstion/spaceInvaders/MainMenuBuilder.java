@@ -55,7 +55,7 @@ public class MainMenuBuilder implements MenuBuilder{
 				parent.closeMenu(instance);
 				TextCutsceneBuilder cutscenebuilder = new TextCutsceneBuilder();
 				parent.addMenuBuilder(cutscenebuilder);	
-				new Thread(new CutsceneUpdater(cutscenebuilder)).start();
+				new Thread(new CutsceneUpdater(cutscenebuilder, 2000)).start();
 			}
 		});
 		

@@ -3,15 +3,17 @@ package com.github.assisstion.spaceInvaders;
 public class CutsceneUpdater implements Runnable {
 	
 	private TextCutsceneBuilder instance;
+	private int delay;
 	
-	public CutsceneUpdater(TextCutsceneBuilder hi){
-		instance=hi;
+	public CutsceneUpdater(TextCutsceneBuilder builder, int delay){
+		instance=builder;
+		this.delay = delay;
 	}
 	@Override
 	public void run(){
 		try{
 			while(instance.isOn){
-				Thread.sleep(2000);
+				Thread.sleep(delay);
 				instance.updateText(MainCanvas.menu);
 			}
 		}
