@@ -46,8 +46,8 @@ public class MainCanvas {
 		frame.setContentPane(menu);
 		
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
 		frame.pack();
+		frame.setVisible(true);
 		frame.validate();
 
 		System.out.println("Frame created");
