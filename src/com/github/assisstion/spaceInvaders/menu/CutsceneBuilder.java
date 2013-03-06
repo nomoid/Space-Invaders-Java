@@ -46,12 +46,15 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 	@Override
 	public void build(Menu menu) {
 		parent = menu;
+		parent.addKeyListener(this);
 		update(parent);
 	}
 
 	public void update(Menu menu) {
+		
 		justFinishedLine = false;
 		parent = menu;
+		parent.requestFocus();
 		if (pageNumber >= text.length) {
 			parent.closeMenu(instance);
 			parent.startGame();
