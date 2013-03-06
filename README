@@ -1,7 +1,4 @@
 Space Invaders (Java)
-
-By Markus Feng (assisstion) and Michael Man (michael99man)
-
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
@@ -55,3 +52,11 @@ will also reset to 0.
 
 
 Note: Easter Eggs MAY be present
+
+
+Credits
+----------------------------------------------------------------
+assisstion - Programmer
+michael99man - Programmer
+LunacyEcho - Sound Manager
+Transfordete - Graphics Manager
