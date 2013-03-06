@@ -44,7 +44,7 @@ public class CutsceneBuilder implements MenuBuilder {
 		if(pageNumber >= text.length){
 			parent.closeMenu(instance);
 			parent.startGame();
-		} if (i<text[x].length){
+		} else if (i<text[x].length){
 			leText+= text[x][i]; 
 			unBuildText();
 			buildText(leText);
