@@ -4,17 +4,17 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Cutscene{
 	
-	public static final int DEFAULT_DELAY = 2000;
+	public static final int DEFAULT_DELAY = 50;
 	
-	public String[] pages;
+	public char[][] pages;
 	public Sprite[][] sprites;
 	public int[] delays;
 	
-	public Cutscene(String[] pages, Sprite[][] sprites){
+	public Cutscene(char[][] pages, Sprite[][] sprites){
 		this(pages, sprites, null);
 	}
 	
-	public Cutscene(String[] pages, Sprite[][] sprites, int[] delays){
+	public Cutscene(char[][] pages, Sprite[][] sprites, int[] delays){
 		this.pages = pages;
 		this.sprites = sprites;
 		this.delays = delays;

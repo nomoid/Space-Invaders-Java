@@ -19,8 +19,11 @@ public class CutsceneBuilder implements MenuBuilder {
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
 	public int pageNumber = 0;
 	private Sprite[][] sprites;
-	private String[] text;
+	private char[][] text;
 	public int[] delays;
+	private int i = 0;
+	private int x= 0;
+	private String leText = "";
 	
 	public CutsceneBuilder(Cutscene cutscene){
 		instance = this;
@@ -41,17 +44,24 @@ public class CutsceneBuilder implements MenuBuilder {
 		if(pageNumber >= text.length){
 			parent.closeMenu(instance);
 			parent.startGame();
-		}
-		else{
+		} if (i<text[x].length){
+			leText+= text[x][i]; 
 			unBuildText();
-			buildText(text[pageNumber]);
+			buildText(leText);
 			Sprite[] array = sprites[pageNumber];
 			for(Sprite s : array){
 				buildIcon(s.getImage(), s.x, s.y);
 			}
+			i++;
+			
+		} else {
+			i=0;
+			x++;
+			leText = "";
 			pageNumber++;
 		}
 	}
+	
 
 	@Override
 	public void unBuild(Menu menu) {
@@ -71,10 +81,10 @@ public class CutsceneBuilder implements MenuBuilder {
 	
 	private void buildText(String text){
 		String[] labels = text.split("\n");
-		int y = 0;
+		int y=0;
 		for(String string : labels){
-			constructLabel(string, 200, y, 960, 200);
 			y += 100;
+			constructLabel(string, 200, y, 960, 200);
 		}
 		
 	}

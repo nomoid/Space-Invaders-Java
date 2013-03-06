@@ -9,7 +9,7 @@ public final class CutsceneData{
 		private static final String PAGE_1 = "Somewhere deep in Tofite-held space...";
 		private static final String PAGE_2 = "Something happened...";
 		
-		private static final String[] PAGES = {PAGE_1, PAGE_2};
+		private static final char[][] PAGES = {PAGE_1.toCharArray(), PAGE_2.toCharArray()};
 		
 		private static final Sprite[][] SPRITES = {{new Player(0, "hi")},{}};
 
