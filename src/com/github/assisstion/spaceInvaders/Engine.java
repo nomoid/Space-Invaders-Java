@@ -11,8 +11,16 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.github.assisstion.spaceInvaders.gameObject.Bullet;
 import com.github.assisstion.spaceInvaders.gameObject.Bunker;
@@ -44,6 +52,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
+	private static final String BULLETSOUND = "resources/bulletsound.wav";
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -620,7 +629,7 @@ public class Engine extends Canvas implements KeyListener {
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()]);
-
+				playSound(BULLETSOUND);
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
@@ -1205,4 +1214,24 @@ public class Engine extends Canvas implements KeyListener {
 		explosions.add(ex);
 		gameObjects.remove(player1);
 	}
+	
+	
+	public void playSound(String location){
+	      try {
+	          // Open an audio input stream.
+	    	  File soundFile = new File(location);
+	          AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+	          // Get a sound clip resource.
+	          Clip clip = AudioSystem.getClip();
+	          // Open audio clip and load samples from the audio input stream.
+	          clip.open(audioIn);
+	          clip.start();
+	       } catch (UnsupportedAudioFileException e) {
+	          e.printStackTrace();
+	       } catch (IOException e) {
+	          e.printStackTrace();
+	       } catch (LineUnavailableException e) {
+	          e.printStackTrace();
+	       }
+	    }
 }
