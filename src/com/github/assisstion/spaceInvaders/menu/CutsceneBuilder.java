@@ -115,7 +115,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		}
 		lastString = labels[labels.length - 1];
 
-		// hmm it's setting text even when multilined
 		if (notYetCreated) {
 			lastlabel = constructLabel(colors[x], fonts[x], lastString, 25, y,
 					960, 40);

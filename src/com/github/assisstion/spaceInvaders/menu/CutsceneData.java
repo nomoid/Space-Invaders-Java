@@ -45,7 +45,7 @@ public final class CutsceneData{
 		private static final String PAGE_34 = "You: Uhh... Hm... here's the plan. I'll&climb into a subship and fend them off.&I'll come back for repairs.";
 		private static final String PAGE_35 = "Tofu: That's too dangerous! Are you going mad?";
 		private static final String PAGE_36 = "You: Don't blame me. Blame the creators of this game.";
-		private static final String PAGE_37 = "[Tofite Captain] Foolish humans. Prepare to embrace death&as reward for your stupidity. All&your base will soon belong to us!";
+		private static final String PAGE_37 = "[Tofite Captain] Foolish humans. Prepare to embrace&death as reward for your stupidity. All your&base will soon belong to us!";
 		private static final String PAGE_38 = "Tofu: Gah. Fine... Just... Don't die.";
 		private static final String PAGE_39 = "You: I won't. Heroes never die.";
 		private static final String PAGE_40 = "Tofu: But you're not a hero.";
