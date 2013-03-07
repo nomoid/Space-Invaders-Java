@@ -73,6 +73,8 @@ public class Engine extends Canvas implements KeyListener {
 	 * not_ready: not ready to start ready: ready to start but not started yet
 	 * main: started
 	 */
+	private int shotsFired=0;
+	private int shotsHit=0;
 	private boolean minigameOn = false;
 	public String state = "not_ready";
 	private Graphics2D g;
@@ -601,6 +603,10 @@ public class Engine extends Canvas implements KeyListener {
 			gameCleanup();
 			state = "game_won";
 		} else {
+			shotsFired=0;
+			shotsHit=0;
+			
+			player1.score= player1.score*(1 + shotsHit/shotsFired);
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
@@ -629,6 +635,7 @@ public class Engine extends Canvas implements KeyListener {
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()]);
+				shotsFired++;
 				playSound(BULLETSOUND);
 				b.owner = player1;
 				bullets.add(b);
@@ -762,6 +769,7 @@ public class Engine extends Canvas implements KeyListener {
 				for (Enemy e : enemies) {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
+							shotsHit++;
 							e.health -= b.damage;
 							hitSpree ++;
 							if (!godmodeOn) {

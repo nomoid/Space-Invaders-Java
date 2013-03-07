@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +17,7 @@ import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 public class MainMenuBuilder implements MenuBuilder{
 
+	private final static String MENUSONG = "resources/Menu Song (.wav).wav";
 	private final static String STARTBUTTON = "resources/startButton.png";
 	private final static String HELPBUTTON = "resources/helpButton.png";
 	private final static String STORYBUTTON = "resources/storyButton.png";
@@ -95,6 +99,7 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.add(helpButton);
 		parent.add(startButton);
 		parent.add(logolabel);
+		playSound(MENUSONG);
 		
 	}
 	
@@ -109,4 +114,18 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(startButton);
 		parent.remove(logolabel);
 	}
+	
+	public void playSound(String location){
+	      try {
+	          Clip clip = ResourceHolder.getAudioResource(location);
+	          clip.start();
+	          clip.loop(Clip.LOOP_CONTINUOUSLY);
+	       } catch (UnsupportedAudioFileException e) {
+	          e.printStackTrace();
+	       } catch (IOException e) {
+	          e.printStackTrace();
+	       } catch (LineUnavailableException e) {
+	          e.printStackTrace();
+	       }
+	    }
 }
