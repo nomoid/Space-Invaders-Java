@@ -1210,13 +1210,7 @@ public class Engine extends Canvas implements KeyListener {
 	
 	public void playSound(String location){
 	      try {
-	          // Open an audio input stream.
-	    	  File soundFile = new File(location);
-	          AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-	          // Get a sound clip resource.
-	          Clip clip = AudioSystem.getClip();
-	          // Open audio clip and load samples from the audio input stream.
-	          clip.open(audioIn);
+	          Clip clip = ResourceHolder.getAudioResource(location);
 	          clip.start();
 	       } catch (UnsupportedAudioFileException e) {
 	          e.printStackTrace();
