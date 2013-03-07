@@ -30,7 +30,7 @@ public final class CutsceneData{
 		private static final String PAGE_19 = "Tofu: Same. Hey, _____, remember what I said about luck?";
 		private static final String PAGE_20 = "You: Yeah?";
 		private static final String PAGE_21 = "Tofu: Three of our subships made it.";
-		private static final String PAGE_22 = "You: Great! Well, we won't even need 'em. Let's drag our&butts back to mission control and get&us some well-deserved rest.";
+		private static final String PAGE_22 = "You: Great! Well, we won't even need 'em. Let's drag our butts&back to mission control and get us&some well-deserved rest.";
 		private static final String PAGE_23 = "You: Why so silent?";
 		private static final String PAGE_24 = "Tofu: Well, for starters, a Tofite armada&appears to be approaching.";
 		private static final String PAGE_25 = "You: Crap. Can this day get any worse?";
