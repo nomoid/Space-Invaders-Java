@@ -18,6 +18,7 @@ public class CutsceneUpdater implements Runnable {
 			while(instance.isOn){
 				if(instance.justFinishedLine){
 					Thread.sleep((int) (instance.pageDelays[instance.pageNumber] * 100));
+					instance.unBuildText();
 				}
 				else{
 					Thread.sleep(delay);

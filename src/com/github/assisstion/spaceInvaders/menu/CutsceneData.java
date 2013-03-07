@@ -19,11 +19,11 @@ public final class CutsceneData{
 		private static final String PAGE_8 = "Tofu: Oh shut up. Where the heck are we?";
 		private static final String PAGE_9 = "Tofu: Where'd these asteroids come from? This area's&more densely packed than Sector A113 of the&asteroid belt!";
 		private static final String PAGE_10 = "CRASH!";
-		private static final String PAGE_11 = "<System Log: Hull Integrity at 48%.>";
+		private static final String PAGE_11 = "<System Log: Hull Integrity at 69%.>";
 		private static final String PAGE_12 = "You: OH MY MICK WHAT JUST HAPPENED?!";
 		private static final String PAGE_13 = "Tofu: I'M TRYING TO CONTROL THE SHIP!!";
 		private static final String PAGE_14 = "CRASH!";
-		private static final String PAGE_15 = "<System Log: Hull Integrity at 30%. Supplies lost.>";
+		private static final String PAGE_15 = "<System Log: Hull Integrity at 38%. Supplies lost.>";
 		private static final String PAGE_16 = "You: DAMNIT! I'm losing control!";
 		private static final String PAGE_17 = "<MISSION LOG: 1500, June 9th, 2320>";
 		private static final String PAGE_18 = "You: Ugh... where are we? Passed out&for a couple of hours.";

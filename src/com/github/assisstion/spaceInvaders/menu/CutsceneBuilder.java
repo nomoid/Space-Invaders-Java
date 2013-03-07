@@ -12,12 +12,14 @@ import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
-public class CutsceneBuilder implements MenuBuilder, KeyListener{
+public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private CutsceneBuilder instance;
 	private Menu parent;
 
+	private String lastString;
+	private int y = 10;
 	public boolean isOn;
-
+	private static final String ADVANCEMENTTEXT = "Press Enter to skip";
 	private JLabel lastlabel;
 	private boolean notYetCreated = true;
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
@@ -48,10 +50,16 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 		parent = menu;
 		parent.addKeyListener(this);
 		update(parent);
+		JLabel advancementLabel = new JLabel(ADVANCEMENTTEXT);
+		advancementLabel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+		advancementLabel.setForeground(Color.WHITE);
+		advancementLabel.setBounds(750, 650, 200, 100);
+		parent.add(advancementLabel);
+		labelList.add(advancementLabel);
 	}
 
 	public void update(Menu menu) {
-		
+
 		justFinishedLine = false;
 		parent = menu;
 		parent.requestFocus();
@@ -60,7 +68,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 			parent.startGame();
 		} else if (i < text[x].length) {
 			leText += text[x][i];
-			unBuildText();
 			buildText(leText);
 			// Sprite[] array = sprites[pageNumber];
 			// for(Sprite s : array){
@@ -69,12 +76,13 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 			i++;
 
 		} else {
-			justFinishedLine = true;
+			notYetCreated = true;
+			y = 10;
 			i = 0;
 			x++;
 			leText = "";
 			pageNumber++;
-			notYetCreated = true;
+			justFinishedLine = true;
 		}
 	}
 
@@ -85,9 +93,13 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 		unBuildText();
 	}
 
-	private void unBuildText() {
+	public void unBuildText() {
 		for (JLabel label : labelList) {
-			parent.remove(label);
+			if (!label.getText().equals(ADVANCEMENTTEXT)) {
+				if (justFinishedLine) {
+					parent.remove(label);
+				}
+			}
 		}
 		labelList.clear();
 		parent.revalidate();
@@ -96,30 +108,39 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 
 	private void buildText(String text) {
 		String[] labels = text.split("&");
-		
-		int y = 10;
-		
-		for (int i = 0; i < labels.length; i++) {
-			constructLabel(colors[x], fonts[x], labels[i], 25, y, 960, 40);
-			y += 40;
+		if (labels.length > 1) {
+			if (lastString.equals(labels[labels.length - 2])) {
+				notYetCreated = true;
+			}
 		}
+		lastString = labels[labels.length - 1];
 
+		// hmm it's setting text even when multilined
+		if (notYetCreated) {
+			lastlabel = constructLabel(colors[x], fonts[x], lastString, 25, y,
+					960, 40);
+			y += 40;
+		} else {
+			updateLabel(lastlabel, lastString);
+		}
+		// find way to only have to update changing label.
 	}
 
-	private void constructLabel(Color tempcolor, Font tempfont, String text,
-		int x, int y, int width, int height) {
-		
-		if (notYetCreated){
-			JLabel label = new JLabel(text);
-			label.setFont(tempfont);
-			label.setForeground(tempcolor);
-			label.setBounds(x, y, width, height);
-			lastlabel=label;
-			parent.add(label);
-			labelList.add(label);
-		} else {
-			lastlabel.setText(text);
-		}
+	private JLabel constructLabel(Color tempcolor, Font tempfont, String text,
+			int x, int y, int width, int height) {
+		JLabel label = new JLabel(text);
+		label.setFont(tempfont);
+		label.setForeground(tempcolor);
+		label.setBounds(x, y, width, height);
+
+		parent.add(label);
+		notYetCreated = false;
+		return label;
+	}
+
+	private void updateLabel(JLabel lelabel, String text) {
+		lastlabel.setText(text);
+		labelList.add(lastlabel);
 	}
 
 	@SuppressWarnings("unused")
@@ -132,7 +153,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			parent.closeMenu(instance);
 			parent.startGame();
 		}
@@ -141,12 +162,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
