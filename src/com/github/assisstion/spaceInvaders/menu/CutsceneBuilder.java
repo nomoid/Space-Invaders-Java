@@ -23,12 +23,13 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private JLabel lastlabel;
 	private boolean notYetCreated = true;
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
+	private LinkedList<JLabel> tempLabelList = new LinkedList<JLabel>();
 	public int pageNumber = 0;
 	@SuppressWarnings("unused")
 	private Sprite[][] sprites;
 	private char[][] text;
 	public double[] pageDelays;
-	public boolean justFinishedLine = false;;
+	public boolean justFinishedLine = false;
 	private int i = 0;
 	private int x = 0;
 	private String leText = "";
@@ -90,7 +91,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	public void unBuild(Menu menu) {
 		parent = menu;
 		isOn = false;
-		unBuildText();
+		parent.removeKeyListener(this);
+		fullUnBuildText();
 	}
 
 	public void unBuildText() {
@@ -100,6 +102,22 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					parent.remove(label);
 				}
 			}
+			else{
+				tempLabelList.add(label);
+			}
+		}
+		labelList.clear();
+		for(JLabel label : tempLabelList){
+			labelList.add(label);
+		}
+		tempLabelList.clear();
+		parent.revalidate();
+		parent.repaint();
+	}
+	
+	public void fullUnBuildText(){
+		for (JLabel label : labelList) {
+			parent.remove(label);
 		}
 		labelList.clear();
 		parent.revalidate();
@@ -133,13 +151,14 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		label.setBounds(x, y, width, height);
 
 		parent.add(label);
+		labelList.add(label);
 		notYetCreated = false;
 		return label;
 	}
 
 	private void updateLabel(JLabel lelabel, String text) {
 		lastlabel.setText(text);
-		labelList.add(lastlabel);
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -155,6 +174,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			parent.closeMenu(instance);
 			parent.startGame();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_B) {
+			System.out.println("b2");
 		}
 	}
 

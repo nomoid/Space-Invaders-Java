@@ -13,6 +13,9 @@ public class MovementClock implements Runnable {
 	public void run(){
 		try{
 			while(MainCanvas.isOn){
+				if(MainCanvas.engine == null){
+					break;
+				}
 				if(MainCanvas.engine.state.equalsIgnoreCase("main")){
 					MainCanvas.engine.moveEnemies();
 				}
@@ -20,7 +23,7 @@ public class MovementClock implements Runnable {
 			}
 		}
 		catch(InterruptedException e){
-			new Thread(new MovementClock()).start();
+			e.printStackTrace();
 		}
 	}
 	

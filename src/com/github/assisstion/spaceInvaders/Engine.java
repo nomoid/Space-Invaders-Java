@@ -995,6 +995,7 @@ public class Engine extends Canvas implements KeyListener {
 				|| state.equals("game_won"))){
 			MainCanvas.menu.remove(this);
 			MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
+			MainCanvas.engine = null;
 		}
 		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
 				&& state.equals("justfinished")) {
@@ -1053,6 +1054,7 @@ public class Engine extends Canvas implements KeyListener {
 				}
 
 			} else if(e.getKeyCode() == KeyEvent.VK_K){
+				player1.livesRemaining = 0;
 				playerDeath();
 			} else {
 				godmode = "";
