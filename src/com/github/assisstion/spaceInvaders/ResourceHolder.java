@@ -12,7 +12,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class ResourceHolder{
+public final class ResourceHolder{
 	private static ConcurrentSkipListMap<String, BufferedImage>
 		loadedImageResources = new ConcurrentSkipListMap<String, BufferedImage>();
 	private static ConcurrentSkipListMap<String, Clip>
