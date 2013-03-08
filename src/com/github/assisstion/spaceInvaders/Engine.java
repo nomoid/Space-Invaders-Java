@@ -30,6 +30,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet.BulletType;
 import com.github.assisstion.spaceInvaders.gameObject.EnemySquad.Direction;
 import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
+import com.github.assisstion.spaceInvaders.menu.LevelMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 
@@ -102,6 +103,8 @@ public class Engine extends Canvas implements KeyListener {
 	// Current level
 	private int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
+	private LevelMenuBuilder nextLevelMenu = new LevelMenuBuilder();
+	
 
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -600,14 +603,18 @@ public class Engine extends Canvas implements KeyListener {
 			gameCleanup();
 			state = "game_won";
 		} else {
-			shotsFired=0;
-			shotsHit=0;
-			
 			player1.score= player1.score*(1 + shotsHit/shotsFired);
+
+			shotsFired=0;
+			shotsHit=0;	
 			currentLevel += 1;
 			constructEnemyFormation(currentLevel);
 			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;
+			
+			state="paused";
+			MainCanvas.menu.remove(this);
+			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 		}
 		
 		
