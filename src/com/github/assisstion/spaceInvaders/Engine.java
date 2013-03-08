@@ -351,6 +351,32 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
+	private void levelCleanup() {
+		for(EnemySquad enemies : enemySquads){
+			enemySquads.remove(enemies);
+			for(Enemy e : enemies){
+				enemies.remove(e);
+				gameObjects.remove(e);
+			}
+		}
+		for(Bullet b : bullets){
+			gameObjects.remove(b);
+			bullets.remove(b);
+		}
+		for(Powerup p : powerups){
+			gameObjects.remove(p);
+			powerups.remove(p);
+		}
+		for (Sprite s : overlay) {
+			overlay.remove(s);
+		}
+		for (Explosion ex : explosions) {
+			overlay.remove(ex);
+			explosions.remove(ex);
+		}
+		player1.x=432;
+		player1.y=680;
+	}
 	private void gameCleanup() {
 		if (state.equalsIgnoreCase("game_won")) {
 			player1.score += player1.livesRemaining
@@ -604,10 +630,8 @@ public class Engine extends Canvas implements KeyListener {
 			state = "game_won";
 		} else {
 			player1.score= player1.score*(1 + shotsHit/shotsFired);
-
-			shotsFired=0;
-			shotsHit=0;	
 			currentLevel += 1;
+			levelCleanup();
 			constructEnemyFormation(currentLevel);
 			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
 			readyForMothership=false;
@@ -615,6 +639,8 @@ public class Engine extends Canvas implements KeyListener {
 			state="paused";
 			MainCanvas.menu.remove(this);
 			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
+			shotsFired=0;
+			shotsHit=0;	
 		}
 		
 		
