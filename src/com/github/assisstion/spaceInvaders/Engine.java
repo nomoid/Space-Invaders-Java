@@ -1097,8 +1097,10 @@ public class Engine extends Canvas implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				// fix this. in case tempname=""
 				System.out.println("Enter Pressed");
+				if (!tempname.equals("")){
 				startGame();
 				state = "main";
+				}
 
 			} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 				if (nameLength > 0) {

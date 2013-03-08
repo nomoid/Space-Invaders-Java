@@ -101,21 +101,20 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 				if (justFinishedLine) {
 					parent.remove(label);
 				}
-			}
-			else{
+			} else {
 				tempLabelList.add(label);
 			}
 		}
 		labelList.clear();
-		for(JLabel label : tempLabelList){
+		for (JLabel label : tempLabelList) {
 			labelList.add(label);
 		}
 		tempLabelList.clear();
 		parent.revalidate();
 		parent.repaint();
 	}
-	
-	public void fullUnBuildText(){
+
+	public void fullUnBuildText() {
 		for (JLabel label : labelList) {
 			parent.remove(label);
 		}
@@ -158,7 +157,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	private void updateLabel(JLabel lelabel, String text) {
 		lastlabel.setText(text);
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -173,22 +172,23 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			for (JLabel label : labelList) {
-						parent.remove(label);
-				}
+				parent.remove(label);
 			}
 			parent.closeMenu(instance);
 			parent.startGame();
+		}
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

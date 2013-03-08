@@ -2,15 +2,18 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 
 import com.github.assisstion.spaceInvaders.Clock;
 import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.sun.codemodel.internal.JLabel;
 
 public class Menu extends JPanel{
 	
@@ -50,7 +53,6 @@ public class Menu extends JPanel{
         repaint();
 	}
 	
-
 	/*
 	 * Starts the game engine
 	 */

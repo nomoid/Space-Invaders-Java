@@ -20,7 +20,7 @@ public class LevelMenuBuilder implements MenuBuilder {
 	public void build(Menu menu) {
 		parent = menu;
 		nextLevelButton = new JButton("Next Level");
-		nextLevelButton.setBounds(960/2,100,100,100);
+		nextLevelButton.setBounds(960/2-50,400,100,100);
 		
 		nextLevelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
