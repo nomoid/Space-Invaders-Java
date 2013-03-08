@@ -42,7 +42,7 @@ public class Bullet extends Sprite {
 		}
 		
 		
-		public Bullet(BulletType bulletType, int x, int y, int damage, int movementSpeed) throws GameException{
+		public Bullet(BulletType bulletType, int x, int y, int damage, int movementSpeed, double direction) throws GameException{
 			//Calls the superclass constructor to automatically set up the player image
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;
@@ -50,7 +50,7 @@ public class Bullet extends Sprite {
 			tempX = x;
 			tempY = y;
 			this.movementSpeed = movementSpeed;
-			rotation = BULLET_DIRECTION[bulletType.ordinal()];
+			rotation = direction;
 			this.damage = damage;
 		}
 		

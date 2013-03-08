@@ -24,6 +24,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Bunker;
 import com.github.assisstion.spaceInvaders.gameObject.Enemy;
 import com.github.assisstion.spaceInvaders.gameObject.EnemySquad;
 import com.github.assisstion.spaceInvaders.gameObject.Explosion;
+import com.github.assisstion.spaceInvaders.gameObject.Hostile;
 import com.github.assisstion.spaceInvaders.gameObject.Player;
 import com.github.assisstion.spaceInvaders.gameObject.Powerup;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
@@ -664,7 +665,7 @@ public class Engine extends Canvas implements KeyListener {
 						Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]
 								* extraDamage,
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
-								.ordinal()]);
+								.ordinal()], 0);
 				shotsFired++;
 				playSound(BULLETSOUND);
 				b.owner = player1;
@@ -776,7 +777,7 @@ public class Engine extends Canvas implements KeyListener {
 			}
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
-				if ((b.owner instanceof Enemy) && !godmodeOn) {
+				if ((b.owner instanceof Hostile) && !godmodeOn) {
 					player1.health -= b.damage;		
 					hitSpree = 0;
 					rewardAvailable = false;
