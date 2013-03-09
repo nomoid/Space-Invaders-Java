@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.Pair;
 
 import static com.github.assisstion.spaceInvaders.gameObject.BossData.*;
 
@@ -19,6 +20,8 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	
 	protected ConcurrentSkipListSet<BulletFormation> formations
 		= new ConcurrentSkipListSet<BulletFormation>();
+	
+	public boolean readyForFormation = true;
 	
 	protected Boss() {
 
@@ -35,15 +38,17 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 		return bullets;
 	}
 	
-	public Set<Bullet> update(){
+	public Pair<Boolean, Set<Bullet>> update(){
 		HashSet<Bullet> bullets = new HashSet<Bullet>();
+		boolean done = false;
 		for(BulletFormation formation : formations){
 			bullets.addAll(formation.updateBulletFormation(x, y));
 			if(formation.isDone()){
 				formations.remove(formation);
+				done = true;
 			}
 		}
-		return bullets;
+		return new Pair<Boolean, Set<Bullet>>(new Boolean(done), bullets);
 	}
 	
 	private void createHitbox(){

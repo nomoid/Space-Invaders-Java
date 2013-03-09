@@ -12,6 +12,7 @@ import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -19,7 +20,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.github.assisstion.spaceInvaders.gameObject.Boss;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet;
+import com.github.assisstion.spaceInvaders.gameObject.BulletFormations;
 import com.github.assisstion.spaceInvaders.gameObject.Bunker;
 import com.github.assisstion.spaceInvaders.gameObject.Enemy;
 import com.github.assisstion.spaceInvaders.gameObject.EnemySquad;
@@ -101,10 +104,13 @@ public class Engine extends Canvas implements KeyListener {
 	private ConcurrentSkipListSet<Sprite> overlay = new ConcurrentSkipListSet<Sprite>();
 	// Set containing all explosions
 	private ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
+	// The boss
+	private Boss boss;
 	// Current level
 	private int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 	private LevelMenuBuilder nextLevelMenu = new LevelMenuBuilder();
+	private boolean bossOn;
 	
 
 	/*
@@ -275,8 +281,9 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	private void updateMain(Graphics graphics) {
 		g = (Graphics2D) graphics;
-		// Renders the game objects
+		// Renders the game objects, make sure to call this first
 		render(g);
+		//Make sure to call this second
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
@@ -284,12 +291,15 @@ public class Engine extends Canvas implements KeyListener {
 		enemyUpdate();
 		hitSpreeUpdate();
 		explosionUpdate();
+		motherShipUpdate();
+		bossUpdate();
+		//Make sure to call this last
 		endUpdate();
-		motherShip();
+		
 
 	}
 
-	private void motherShip() {
+	private void motherShipUpdate() {
 		if (readyForMothership) {
 			if (!mothershipOn) {
 				if (MainCanvas.rand.nextInt(MOTHERSHIP_CHANCE) == 0) {
@@ -1254,8 +1264,23 @@ public class Engine extends Canvas implements KeyListener {
 		gameObjects.remove(player1);
 	}
 	
+	public void bossUpdate(){
+		if(bossOn){
+			if(boss.readyForFormation){
+				bullets.addAll(boss.addBulletFormation(BulletFormations.getNewBulletFormation(0)));
+			}
+			Pair<Boolean, Set<Bullet>> pair = boss.update();
+			if(pair.getValueOne()){
+				bullets.addAll(pair.getValueTwo());
+			}
+			else{
+				bullets.removeAll(pair.getValueTwo());
+			}
+		}
+	}
 	
-	public void playSound(String location){
+	
+	public static void playSound(String location){
 	      try {
 	          Clip clip = ResourceHolder.getAudioResource(location);
 	          clip.start();

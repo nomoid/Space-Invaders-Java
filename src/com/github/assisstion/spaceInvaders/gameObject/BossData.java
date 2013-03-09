@@ -4,7 +4,7 @@ package com.github.assisstion.spaceInvaders.gameObject;
 public class BossData{
 	public static final BulletFormation[] 
 		BOSS_FORMATIONS = {
-			new BulletFormations.BulletFormationOne()
+			new BulletFormations.BulletFormationZero()
 	};
 	
 	public static final int[][] 
