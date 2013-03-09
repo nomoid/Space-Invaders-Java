@@ -13,6 +13,9 @@ import com.github.assisstion.spaceInvaders.menu.Menu;
  * @author Michael Man
  */
 public class MainCanvas {
+	public static final int FRAME_WIDTH = 960;
+	public static final int FRAME_HEIGHT = 740;
+	
 	public static JFrame frame;
 	public static Engine engine;
 	public static Random rand;

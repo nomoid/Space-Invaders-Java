@@ -6,28 +6,38 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.github.assisstion.spaceInvaders.GameException;
+import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.Pair;
 
 public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	
+	private int tempX;
+	private int tempY;
+	public int movementSpeed;
 	public int health;
 	public CopyOnWriteArraySet<Box> hitBox;
+	protected ConcurrentSkipListSet<BulletFormation> formations
+		= new ConcurrentSkipListSet<BulletFormation>();
+	public boolean readyForFormation = true;
+	/*
+	 * Note: boss actually appears to move left
+	 * when the Direction is 90 (right) as it moves
+	 * right relative to the rotation of the sprite
+	 */
+	public double movementDirection = 90;
 	
 	public static int BOSS_IMAGE_WIDTH = 32;
 	public static int BOSS_IMAGE_HEIGHT = 32;
 	private static String BOSS_IMAGE =
 			"resources/SpaceShip.png";
-	
 	public static final int[][] 
 			BOSS_HITBOX_FORMATION = {
 			{0, 0, BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT},
 			
 		};
 	
-	protected ConcurrentSkipListSet<BulletFormation> formations
-		= new ConcurrentSkipListSet<BulletFormation>();
 	
-	public boolean readyForFormation = true;
+	
 	
 	protected Boss() {
 
@@ -36,6 +46,10 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	public Boss(int x, int y) throws GameException {
 		super(BOSS_IMAGE, x, y);
 		health = 10000;
+		rotation = 180;
+		movementSpeed = 4;
+		tempX = x;
+		tempY = y;
 		createHitbox();
 	}
 	
@@ -72,8 +86,6 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 		}
 		hitBox = new CopyOnWriteArraySet<Box>(tempSet);
 	}
-	
-	
 
 	@Override
 	public void updateHitbox(){
@@ -83,5 +95,15 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 					 BOSS_HITBOX_FORMATION[i][2], BOSS_HITBOX_FORMATION[i][3], true);
 			i++;
 		}
+	}
+	
+	public void updateLocation(){
+		if(x < 0 || x > MainCanvas.FRAME_WIDTH - BOSS_IMAGE_WIDTH){
+			movementDirection = -movementDirection;
+		}
+		tempX += movementSpeed * Math.sin(Math.toRadians(rotation + movementDirection));
+		tempY -= movementSpeed * Math.cos(Math.toRadians(rotation + movementDirection));
+		x = (int) tempX;
+		y = (int) tempY;
 	}
 }

@@ -40,6 +40,7 @@ import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 
 import static com.github.assisstion.spaceInvaders.Data.*;
+import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
@@ -120,8 +121,8 @@ public class Engine extends Canvas implements KeyListener {
 	public Engine() {
 		addKeyListener(this);
 		setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(960, 740));
-		setBounds(0, 0, 960, 740);
+		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 	}
 
 	/*
@@ -652,7 +653,7 @@ public class Engine extends Canvas implements KeyListener {
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
 
-		currentLevel++;
+		currentLevel+=5;
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
@@ -1277,9 +1278,12 @@ public class Engine extends Canvas implements KeyListener {
 	
 	public void bossUpdate(){
 		if(bossOn){
+			boss.updateLocation();
 			Helper.updateHitbox(boss);
 			if(boss.readyForFormation){
-				Set<Bullet> added = boss.addBulletFormation(BulletFormations.getNewBulletFormation(0));
+				Set<Bullet> added = boss.addBulletFormation(
+						BulletFormations.getNewBulletFormation(MainCanvas.rand.nextInt(
+						BulletFormations.BULLET_FORMATION_AMOUNT)));
 				bullets.addAll(added);
 				gameObjects.addAll(added);
 			}
