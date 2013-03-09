@@ -8,15 +8,21 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import com.github.assisstion.spaceInvaders.GameException;
 import com.github.assisstion.spaceInvaders.Pair;
 
-import static com.github.assisstion.spaceInvaders.gameObject.BossData.*;
-
 public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	
 	public int health;
 	public CopyOnWriteArraySet<Box> hitBox;
 	
+	public static int BOSS_IMAGE_WIDTH = 32;
+	public static int BOSS_IMAGE_HEIGHT = 32;
 	private static String BOSS_IMAGE =
-			"resources/boss.png";
+			"resources/SpaceShip.png";
+	
+	public static final int[][] 
+			BOSS_HITBOX_FORMATION = {
+			{0, 0, BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT},
+			
+		};
 	
 	protected ConcurrentSkipListSet<BulletFormation> formations
 		= new ConcurrentSkipListSet<BulletFormation>();
@@ -29,11 +35,16 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 
 	public Boss(int x, int y) throws GameException {
 		super(BOSS_IMAGE, x, y);
+		health = 10000;
 		createHitbox();
 	}
 	
 	public Set<Bullet> addBulletFormation(BulletFormation formation){
+		readyForFormation = false;
 		Set<Bullet> bullets = formation.createBulletFormation(x, y);
+		for(Bullet b : bullets){
+			b.owner = this;
+		}
 		formations.add(formation);
 		return bullets;
 	}
@@ -46,6 +57,7 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 			if(formation.isDone()){
 				formations.remove(formation);
 				done = true;
+				readyForFormation = true;
 			}
 		}
 		return new Pair<Boolean, Set<Bullet>>(new Boolean(done), bullets);
@@ -67,8 +79,8 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	public void updateHitbox(){
 		int i = 0;
 		for(Box b : hitBox){
-			b.setPos(x + BOSS_HITBOX_FORMATION[i][0], y + BOSS_HITBOX_FORMATION[i][0], 
-					 BOSS_HITBOX_FORMATION[i][0], BOSS_HITBOX_FORMATION[i][0], true);
+			b.setPos(x + BOSS_HITBOX_FORMATION[i][0], y + BOSS_HITBOX_FORMATION[i][1], 
+					 BOSS_HITBOX_FORMATION[i][2], BOSS_HITBOX_FORMATION[i][3], true);
 			i++;
 		}
 	}

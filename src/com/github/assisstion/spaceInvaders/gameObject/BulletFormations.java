@@ -27,7 +27,7 @@ public class BulletFormations{
 			else if(counter == 120){
 				Bullet b = new Bullet(BLUE, x, y);
 				b.rotation = 210;
-				newBullets.add(new Bullet(BLUE, x, y));
+				newBullets.add(b);
 			}
 			else if(counter == 180){
 				finish();
@@ -38,6 +38,9 @@ public class BulletFormations{
 	}
 	
 	public static BulletFormation getNewBulletFormation(int id){
-		return BossData.BOSS_FORMATIONS[id];
+		switch(id){
+			case 0: return new BulletFormationZero();
+			default: throw new IllegalArgumentException("Illegal bullet formation id: " + id);
+		}
 	}
 }

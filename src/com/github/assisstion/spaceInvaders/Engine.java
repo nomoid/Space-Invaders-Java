@@ -21,6 +21,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.github.assisstion.spaceInvaders.gameObject.Boss;
+import com.github.assisstion.spaceInvaders.gameObject.Box;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet;
 import com.github.assisstion.spaceInvaders.gameObject.BulletFormations;
 import com.github.assisstion.spaceInvaders.gameObject.Bunker;
@@ -385,6 +386,10 @@ public class Engine extends Canvas implements KeyListener {
 			overlay.remove(ex);
 			explosions.remove(ex);
 		}
+		if(bossOn){
+			gameObjects.remove(boss);
+		}
+		
 		player1.x=432;
 		player1.y=680;
 	}
@@ -485,7 +490,10 @@ public class Engine extends Canvas implements KeyListener {
 		String message5 = new String("Level: " + currentLevel + "/5");
 		
 		if (minigameOn){
-			message5 = new String("Level:Bonus");
+			message5 = new String("Level: Bonus");
+		}
+		if(bossOn){
+			message5 = new String("Level: BOSS");
 		}
 		g.drawString(message5, 710, 60);
 
@@ -561,7 +569,12 @@ public class Engine extends Canvas implements KeyListener {
 			case 5:
 				EnemyData = LEVEL5DATA;
 				break;
-			case 6: 
+			case 6:
+				boss = new Boss(400, 100);
+				gameObjects.add(boss);
+				bossOn = true;
+				return;
+			case 7: 
 				EnemyData = MINIGAMEDATA;
 				minigameOn = true;
 				break;
@@ -642,12 +655,13 @@ public class Engine extends Canvas implements KeyListener {
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
 
-		if (currentLevel > 5) {
+		currentLevel++;
+		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
 		} else {
-			player1.score= player1.score*(1 + shotsHit/shotsFired);
-			currentLevel += 1;
+			player1.score= (int)(player1.score*(1.0 + (double)(shotsHit)/shotsFired));
+			
 			levelCleanup();
 			constructEnemyFormation(currentLevel);
 			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
@@ -1266,15 +1280,40 @@ public class Engine extends Canvas implements KeyListener {
 	
 	public void bossUpdate(){
 		if(bossOn){
+			Helper.updateHitbox(boss);
 			if(boss.readyForFormation){
-				bullets.addAll(boss.addBulletFormation(BulletFormations.getNewBulletFormation(0)));
+				Set<Bullet> added = boss.addBulletFormation(BulletFormations.getNewBulletFormation(0));
+				bullets.addAll(added);
+				gameObjects.addAll(added);
 			}
 			Pair<Boolean, Set<Bullet>> pair = boss.update();
-			if(pair.getValueOne()){
+			if(!pair.getValueOne()){
 				bullets.addAll(pair.getValueTwo());
+				gameObjects.addAll(pair.getValueTwo());
 			}
 			else{
 				bullets.removeAll(pair.getValueTwo());
+				gameObjects.removeAll(pair.getValueTwo());
+			}
+			for(Bullet b : bullets){
+				if(b.owner instanceof Player){
+					if(Helper.overlapsIrregularHitbox(
+						new Box[]{b.hitBox}, boss.hitBox.toArray(new Box[]{}))){
+						shotsHit++;
+						boss.health -= b.damage;
+						hitSpree ++;
+						if (!godmodeOn) {
+							bullets.remove(b);
+							gameObjects.remove(b);
+						}
+						if (boss.health <= 0 || godmodeOn || minigameOn) {
+							boss = null;
+							bossOn = false;
+							player1.score += 10000;
+							nextLevel();
+						}
+					}
+				}
 			}
 		}
 	}
