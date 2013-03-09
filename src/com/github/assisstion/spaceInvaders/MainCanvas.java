@@ -3,6 +3,7 @@ package com.github.assisstion.spaceInvaders;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.Menu;
@@ -13,7 +14,6 @@ import com.github.assisstion.spaceInvaders.menu.Menu;
  * @author Michael Man
  */
 public class MainCanvas {
-	
 	public static JFrame frame;
 	public static Engine engine;
 	public static Random rand;
@@ -21,6 +21,13 @@ public class MainCanvas {
 	public static Menu menu;
 	
 	public static void main(String[] args) {
+		// take the menu bar off the jframe
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+
+		// set the name of the application menu item
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Space Invaders");
+
+		
 		/*
 		 * Create a new JFrame and set it's properties up.
 		 */

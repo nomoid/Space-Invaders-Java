@@ -25,7 +25,7 @@ public class LevelMenuBuilder implements MenuBuilder {
 		
 		parent = menu;
 		nextLevelButton = new JButton(new ImageIcon(getImage()));
-		nextLevelButton.setBounds(0,540,960,200);
+		nextLevelButton.setBounds(0,590,960,150);
 		
 		nextLevelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
