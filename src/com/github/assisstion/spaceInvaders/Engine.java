@@ -386,9 +386,6 @@ public class Engine extends Canvas implements KeyListener {
 			overlay.remove(ex);
 			explosions.remove(ex);
 		}
-		if(bossOn){
-			gameObjects.remove(boss);
-		}
 		
 		player1.x=432;
 		player1.y=680;
@@ -1306,7 +1303,8 @@ public class Engine extends Canvas implements KeyListener {
 							bullets.remove(b);
 							gameObjects.remove(b);
 						}
-						if (boss.health <= 0 || godmodeOn || minigameOn) {
+						if (boss.health <= 0 || godmodeOn) {
+							gameObjects.remove(boss);
 							boss = null;
 							bossOn = false;
 							player1.score += 10000;
