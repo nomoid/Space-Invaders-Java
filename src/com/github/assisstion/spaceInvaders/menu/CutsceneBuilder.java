@@ -91,7 +91,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	public void unBuild(Menu menu) {
 		parent = menu;
 		isOn = false;
-		parent.removeKeyListener(this);
 		fullUnBuildText();
 	}
 

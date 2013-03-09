@@ -1120,7 +1120,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			// sets the direction to None
-			if (state.equals("main")) {
+			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
 				rightOn = false;
 				if (player1.currentDirection == Player.Direction.RIGHT) {
 					player1.currentDirection = Player.Direction.NONE;
@@ -1134,7 +1134,7 @@ public class Engine extends Canvas implements KeyListener {
 
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			// sets the direction to None
-			if (state.equals("main")) {
+			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
 				leftOn = false;
 				if (player1.currentDirection == Player.Direction.LEFT) {
 					player1.currentDirection = Player.Direction.NONE;
@@ -1152,11 +1152,11 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// tells the update loop to stop bullet firing
-			if (state.equals("main")) {
+			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
 				spaceOn = false;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
-			if (state.equals("main")) {
+			if (state.equals("main") || state.equals("just_died")) {
 				state = "pause";
 				MainCanvas.menu.remove(this);
 				MainCanvas.menu.addMenuBuilder(pauseMenu);
