@@ -1033,10 +1033,6 @@ public class Engine extends Canvas implements KeyListener {
 				&& state.equals("justfinished")) {
 			state = "ready";
 			g = null;
-		} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
-			if (!minigameOn){
-				redeem();
-			}
 		} else if (state.equals("main")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (godmode.equals("god")) {
@@ -1088,6 +1084,11 @@ public class Engine extends Canvas implements KeyListener {
 			} else if(e.getKeyCode() == KeyEvent.VK_K){
 				player1.livesRemaining = 0;
 				playerDeath();
+			}
+			else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
+					if (!minigameOn){
+						redeem();
+					}
 			} else {
 				godmode = "";
 			}
