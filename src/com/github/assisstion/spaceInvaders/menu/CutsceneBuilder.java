@@ -73,7 +73,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 			// Sprite[] array = sprites[pageNumber];
 			// for(Sprite s : array){
 			// buildIcon(s.getImage(), s.x, s.y);
-			// }
+			// } 
 			i++;
 
 		} else {
@@ -138,7 +138,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		} else {
 			updateLabel(lastlabel, lastString);
 		}
-		// find way to only have to update changing label.
 	}
 
 	private JLabel constructLabel(Color tempcolor, Font tempfont, String text,
@@ -156,7 +155,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	private void updateLabel(JLabel lelabel, String text) {
 		lastlabel.setText(text);
-
 	}
 
 	@SuppressWarnings("unused")

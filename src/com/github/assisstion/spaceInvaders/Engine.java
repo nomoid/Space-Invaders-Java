@@ -111,7 +111,7 @@ public class Engine extends Canvas implements KeyListener {
 	// Current level
 	private int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
-	private LevelMenuBuilder nextLevelMenu = new LevelMenuBuilder();
+	private LevelMenuBuilder nextLevelMenu;
 	private boolean bossOn;
 	
 
@@ -653,12 +653,12 @@ public class Engine extends Canvas implements KeyListener {
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
 
-		currentLevel+=5;
+		currentLevel+=1;
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
 		} else {
-			player1.score= (int)(player1.score*(1.0 + (double)(shotsHit)/shotsFired));
+
 			
 			levelCleanup();
 			constructEnemyFormation(currentLevel);
@@ -667,6 +667,8 @@ public class Engine extends Canvas implements KeyListener {
 			
 			state="paused";
 			MainCanvas.menu.remove(this);
+			nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn);
+			player1.score= (int)(player1.score*(1.0 + (double)(shotsHit)/shotsFired));
 			// STUFF TO DO HERE: display info to player.
 			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 			shotsFired=0;
