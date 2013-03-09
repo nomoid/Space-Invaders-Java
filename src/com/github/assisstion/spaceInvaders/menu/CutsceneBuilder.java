@@ -170,9 +170,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			for (JLabel label : labelList) {
-				parent.remove(label);
-			}
+			fullUnBuildText();
 			parent.closeMenu(instance);
 			parent.startGame();
 		}
