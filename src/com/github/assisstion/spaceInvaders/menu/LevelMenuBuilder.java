@@ -2,10 +2,14 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 
 public class LevelMenuBuilder implements MenuBuilder {
@@ -18,9 +22,10 @@ public class LevelMenuBuilder implements MenuBuilder {
 	}
 	@Override
 	public void build(Menu menu) {
+		
 		parent = menu;
-		nextLevelButton = new JButton("Next Level");
-		nextLevelButton.setBounds(960/2-50,400,100,100);
+		nextLevelButton = new JButton(new ImageIcon(getImage()));
+		nextLevelButton.setBounds(0,540,960,200);
 		
 		nextLevelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -42,4 +47,14 @@ public class LevelMenuBuilder implements MenuBuilder {
 	
 	}
 
+	private BufferedImage getImage(){
+		BufferedImage returnIcon = null;
+		try {
+			returnIcon = ResourceHolder.getImageResource("resources/nextlevelButton.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error loading image!");
+		}
+		return returnIcon;
+	}
 }

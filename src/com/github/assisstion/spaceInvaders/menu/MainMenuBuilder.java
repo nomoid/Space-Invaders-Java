@@ -22,12 +22,16 @@ public class MainMenuBuilder implements MenuBuilder{
 	private final static String HELPBUTTON = "resources/helpButton.png";
 	private final static String STORYBUTTON = "resources/storyButton.png";
 	private final static String MAINLOGO = "resources/MainLogo.png";
+	private final static String HSBUTTON = "resources/highscoreButton.png";
+	private final static String CREDITSBUTTON = "resources/creditsButton.png";
 	private MainMenuBuilder instance;
 	private Menu parent;
 	private JButton startButton;
 	private JButton storyButton;
 	private JButton helpButton;
 	private JLabel logolabel;
+	private JButton creditsButton;
+	private JButton hscoreButton;
 	
 	public MainMenuBuilder(){
 		instance = this;
@@ -40,16 +44,24 @@ public class MainMenuBuilder implements MenuBuilder{
 		BufferedImage helpbuttonIcon = null;
 		BufferedImage storybuttonIcon = null;
 		BufferedImage mainLogoIcon = null;
+		BufferedImage creditbuttonIcon = null;
+		BufferedImage hscorebuttonIcon = null;
+		
 		try {
 			startbuttonIcon = ResourceHolder.getImageResource(STARTBUTTON);
 			helpbuttonIcon = ResourceHolder.getImageResource(HELPBUTTON);
 			storybuttonIcon = ResourceHolder.getImageResource(STORYBUTTON);
 			mainLogoIcon = ResourceHolder.getImageResource(MAINLOGO);
+			hscorebuttonIcon = ResourceHolder.getImageResource(HSBUTTON);
+			creditbuttonIcon = ResourceHolder.getImageResource(CREDITSBUTTON);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
-		
+		hscoreButton = new JButton(new ImageIcon(hscorebuttonIcon));
+		creditsButton = new JButton(new ImageIcon(creditbuttonIcon));
+		startButton = new JButton(new ImageIcon(startbuttonIcon));
 		startButton = new JButton(new ImageIcon(startbuttonIcon));
 		helpButton = new JButton(new ImageIcon(helpbuttonIcon));
 		storyButton = new JButton(new ImageIcon(storybuttonIcon));
@@ -73,6 +85,22 @@ public class MainMenuBuilder implements MenuBuilder{
 			}
 		});
 		
+		creditsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new CreditsMenuBuilder());
+			}
+		});
+		
+		hscoreButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new HighScoreMenuBuilder());
+			}
+		});
+		
 		storyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
@@ -81,20 +109,30 @@ public class MainMenuBuilder implements MenuBuilder{
 			}
 		});
 		
-		startButton.setBounds(960/2-81, 300, 162, 79);
-		helpButton.setBounds(960/2-81, 380, 162, 79);
-		storyButton.setBounds(960/2-81, 460, 162, 79);
+
+		startButton.setBounds(960/2-81, 180, 162, 79);
+		helpButton.setBounds(960/2-81, 260, 162, 79);
+		storyButton.setBounds(960/2-81, 340, 162, 79);
+		creditsButton.setBounds(960/2-81, 420, 162, 79);
+		hscoreButton.setBounds(960/2-81, 500, 162, 79);
 		
 		logolabel.setBounds(960/2-450,30,900,100);
 		
 		startButton.setBorder(BorderFactory.createEmptyBorder());
 		helpButton.setBorder(BorderFactory.createEmptyBorder());
 		storyButton.setBorder(BorderFactory.createEmptyBorder());
+		hscoreButton.setBorder(BorderFactory.createEmptyBorder());
+		creditsButton.setBorder(BorderFactory.createEmptyBorder());
+		
 		
 		helpButton.setContentAreaFilled(false);
 		storyButton.setContentAreaFilled(false);
 		startButton.setContentAreaFilled(false);
+		hscoreButton.setContentAreaFilled(false);
+		creditsButton.setContentAreaFilled(false);
 		
+		parent.add(creditsButton);
+		parent.add(hscoreButton);
 		parent.add(storyButton);
 		parent.add(helpButton);
 		parent.add(startButton);
@@ -113,6 +151,8 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(helpButton);
 		parent.remove(startButton);
 		parent.remove(logolabel);
+		parent.remove(creditsButton);
+		parent.remove(hscoreButton);
 	}
 	
 	public void playSound(String location){

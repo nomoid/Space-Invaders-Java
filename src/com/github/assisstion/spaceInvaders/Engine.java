@@ -625,7 +625,13 @@ public class Engine extends Canvas implements KeyListener {
 
 	
 	private void nextLevel() {
-		// STUFF TO DO HERE: display info to player.
+		rightOn=false;
+		leftOn=false;
+		spaceOn=false;
+		
+		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
+		player1.currentDirection = Player.Direction.NONE;
+
 		if (currentLevel > 5) {
 			gameCleanup();
 			state = "game_won";
@@ -639,6 +645,7 @@ public class Engine extends Canvas implements KeyListener {
 			
 			state="paused";
 			MainCanvas.menu.remove(this);
+			// STUFF TO DO HERE: display info to player.
 			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 			shotsFired=0;
 			shotsHit=0;	
@@ -682,7 +689,6 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void playerUpdate() {
-		// Changes the player location depending on the current direction
 		int extraSpeed = 1;
 		if (player1.powerups.containsKey(PowerupType.SPEED)) {
 			extraSpeed = 3;
@@ -1094,7 +1100,6 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		} else if (state.equals("nametaking")) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				// fix this. in case tempname=""
 				System.out.println("Enter Pressed");
 				if (!tempname.equals("")){
 				startGame();
