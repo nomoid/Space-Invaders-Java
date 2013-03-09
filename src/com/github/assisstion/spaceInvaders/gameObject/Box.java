@@ -1,6 +1,6 @@
 package com.github.assisstion.spaceInvaders.gameObject;
 
-public class Box{
+public class Box implements Comparable<Box>{
 	
 	protected int x1;
 	protected int x2;
@@ -24,10 +24,11 @@ public class Box{
 	
 	/*
 	 * Creates a box
-	 * The variable a is not used, just to determine the difference
-	 * between this constructor and the other constructor
 	 */
-	public Box(int x, int y, int width, int height, boolean a){
+	public Box(int x, int y, int width, int height, boolean relative){
+		if(!relative){
+			setPos(x, y, width, height);
+		}
 		x1 = x;
 		x2 = x + Math.abs(width);
 		y1 = y;
@@ -82,7 +83,10 @@ public class Box{
 		this.y2 = y2 >= y1 ? y2 : y1;
 	}
 	
-	public void setPos(int x, int y, int width, int height, boolean a){
+	public void setPos(int x, int y, int width, int height, boolean relative){
+		if(!relative){
+			setPos(x, y, width, height);
+		}
 		x1 = x;
 		x2 = x + Math.abs(width);
 		y1 = y;
@@ -119,5 +123,10 @@ public class Box{
 		char[] x = {(char) this.x1, (char) this.x2, (char) this.y1, (char) this.y2};
 		String s = String.copyValueOf(x);
 		return s.hashCode();
+	}
+
+	@Override
+	public int compareTo(Box box){
+		return new Integer(hashCode()).compareTo(box.hashCode());
 	}
 }

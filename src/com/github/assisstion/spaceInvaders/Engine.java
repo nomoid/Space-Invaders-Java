@@ -743,9 +743,7 @@ public class Engine extends Canvas implements KeyListener {
 			if (player1.powerups.containsKey(PowerupType.SPEED) && (b.owner instanceof Player)) {
 				extraBulletSpeed = 1.75;
 			}
-			b.tempX += b.movementSpeed * Math.sin(Math.toRadians(b.rotation)) * extraBulletSpeed;
-			b.tempY -= b.movementSpeed * Math.cos(Math.toRadians(b.rotation)) * extraBulletSpeed;
-			b.updateLocation();
+			b.move(extraBulletSpeed);
 			Helper.updateHitbox(b);
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {

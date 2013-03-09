@@ -3,6 +3,8 @@ package com.github.assisstion.spaceInvaders;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import com.github.assisstion.spaceInvaders.gameObject.Box;
+import com.github.assisstion.spaceInvaders.gameObject.IrregularHitbox;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Helper{
@@ -16,7 +18,24 @@ public class Helper{
 	}
 	
 	public static void updateHitbox(Sprite s){
-		s.hitBox.setPos(s.x, s.y, s.getImage().getWidth(),s.getImage().getHeight(), true);
+		if(s instanceof IrregularHitbox){
+			IrregularHitbox ih = (IrregularHitbox) s;
+			ih.updateHitbox();
+		}
+		else{
+			s.hitBox.setPos(s.x, s.y, s.getImage().getWidth(),s.getImage().getHeight(), true);
+		}
+	}
+	
+	public static boolean overlapsIrregularHitbox(Box[] a, Box[] b){
+		for(Box box : a){
+			for(Box boxTwo : b){
+				if(box.overLaps(boxTwo)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static <E> int getIndex(E[] array, E object){

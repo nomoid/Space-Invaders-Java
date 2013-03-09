@@ -4,8 +4,15 @@ import java.util.Set;
 
 public abstract class AbstractBulletFormation implements BulletFormation, Comparable<BulletFormation>{
 
+	private static int formationCounter = 0;
+	private int id;
 	private int updateCounter = 0;
 	private Set<Bullet> bullets;
+	private boolean isDone;
+	
+	public AbstractBulletFormation(){
+		id = formationCounter++;
+	}
 	
 	@Override
 	public Set<Bullet> createBulletFormation(int x, int y){
@@ -20,6 +27,11 @@ public abstract class AbstractBulletFormation implements BulletFormation, Compar
 		return newBullets;
 	}
 	
+	@Override
+	public boolean isDone(){
+		return isDone;
+	}
+	
 	public abstract Set<Bullet> create(int x, int y);
 	
 	public abstract Set<Bullet> update(int counter, int x, int y);
@@ -32,7 +44,32 @@ public abstract class AbstractBulletFormation implements BulletFormation, Compar
 		updateCounter = 0;
 	}
 	
+	protected void finish(){
+		isDone = true;
+	}
+	
+	@Override
 	public int compareTo(BulletFormation formation){
 		return new Integer(hashCode()).compareTo(formation.hashCode());
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof AbstractBulletFormation){
+			AbstractBulletFormation abf = (AbstractBulletFormation) o;
+			if(getID() == abf.getID()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+		return getID();
+	}
+	
+	public int getID(){
+		return id;
 	}
 }
