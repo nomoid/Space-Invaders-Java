@@ -15,6 +15,7 @@ import com.github.assisstion.spaceInvaders.ResourceHolder;
 public class Sprite implements Comparable<Sprite>{
 	
 	private static int entityIDCounter = 0;
+	private static Object entityIDLock = new Object();
 	
 	/*
 	 * These are public so they can be easily used or modified from other sources
@@ -53,7 +54,9 @@ public class Sprite implements Comparable<Sprite>{
 	}
 	
 	protected Sprite(){
-		entityID = entityIDCounter++;
+		synchronized(entityIDLock){
+			entityID = entityIDCounter++;
+		}
 	}
 	
 	public BufferedImage getImage() {
@@ -86,15 +89,6 @@ public class Sprite implements Comparable<Sprite>{
 
 	@Override
 	public int compareTo(Sprite s){
-		int iD = s.getEntityID();
-		if(iD > getEntityID()){
-			return -1;
-		}
-		else if(iD == getEntityID()){
-			return 0;
-		}
-		else{
-			return 1;
-		}
+		return new Integer(getEntityID()).compareTo(s.getEntityID());
 	}
 }

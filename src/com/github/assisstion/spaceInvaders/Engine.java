@@ -1048,7 +1048,6 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER
 				&& (state.equals("game_over") 
 				|| state.equals("game_won"))){
@@ -1279,7 +1278,7 @@ public class Engine extends Canvas implements KeyListener {
 		if(bossOn){
 			boss.updateLocation();
 			updateHitbox(boss);
-			if(boss.readyForFormation){
+			if(boss.formationCount < 1){
 				Set<Bullet> added = boss.addBulletFormation(
 						BulletFormations.getNewBulletFormation(MainCanvas.rand.nextInt(
 						BulletFormations.BULLET_FORMATION_AMOUNT)));

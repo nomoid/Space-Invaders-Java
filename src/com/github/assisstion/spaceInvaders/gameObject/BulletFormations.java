@@ -11,7 +11,7 @@ public final class BulletFormations{
 		
 	}
 	
-	public static final int BULLET_FORMATION_AMOUNT = 2;
+	public static final int BULLET_FORMATION_AMOUNT = 3;
 	
 	public static class BulletFormationZero extends AbstractBulletFormation{
 
@@ -56,7 +56,7 @@ public final class BulletFormations{
 		public HashSet<Bullet> update(int counter, int x, int y){
 			HashSet<Bullet> newBullets = new HashSet<Bullet>();
 			if(counter % 30 == 0){
-				if(counter == 210){
+				if(counter == 180 + 30){
 					finish();
 					return newBullets;
 				}
@@ -68,10 +68,38 @@ public final class BulletFormations{
 		
 	}
 	
+	public static class BulletFormationTwo extends AbstractBulletFormation{
+
+		@Override
+		public HashSet<Bullet> create(int x, int y){
+			HashSet<Bullet> bullets = new HashSet<Bullet>();
+			Bullet b = new Bullet(RED, x, y, 250, 8, 90);
+			bullets.add(b);
+			return bullets;
+		}
+
+		@Override
+		public HashSet<Bullet> update(int counter, int x, int y){
+			HashSet<Bullet> newBullets = new HashSet<Bullet>();
+			if(counter % 15 == 0){
+				if(counter == 180 + 15){
+					finish();
+					return newBullets;
+				}
+				Bullet b = new Bullet(RED, x, y, 250, 8, 90 + counter);
+				newBullets.add(b);
+			}
+			return newBullets;
+		}
+		
+	}
+	
+	
 	public static BulletFormation getNewBulletFormation(int id){
 		switch(id){
 			case 0: return new BulletFormationZero();
 			case 1: return new BulletFormationOne();
+			case 2: return new BulletFormationTwo();
 			default: throw new IllegalArgumentException("Illegal bullet formation id: " + id);
 		}
 	}

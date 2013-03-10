@@ -18,7 +18,7 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	public CopyOnWriteArraySet<Box> hitBox;
 	protected ConcurrentSkipListSet<BulletFormation> formations
 		= new ConcurrentSkipListSet<BulletFormation>();
-	public boolean readyForFormation = true;
+	public int formationCount = 0;
 	/*
 	 * Note: boss actually appears to move left
 	 * when the Direction is 90 (right) as it moves
@@ -45,7 +45,7 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 
 	public Boss(int x, int y) throws GameException {
 		super(BOSS_IMAGE, x, y);
-		health = 10000;
+		health = 1000;
 		rotation = 180;
 		movementSpeed = 2;
 		tempX = x;
@@ -54,7 +54,7 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	}
 	
 	public Set<Bullet> addBulletFormation(BulletFormation formation){
-		readyForFormation = false;
+		formationCount++;
 		Set<Bullet> bullets = formation.createBulletFormation(x, y);
 		for(Bullet b : bullets){
 			b.owner = this;
@@ -67,11 +67,15 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 		HashSet<Bullet> bullets = new HashSet<Bullet>();
 		boolean done = false;
 		for(BulletFormation formation : formations){
-			bullets.addAll(formation.updateBulletFormation(x, y));
+			Set<Bullet> newBullets = formation.updateBulletFormation(x, y);
+			for(Bullet b : newBullets){
+				b.owner = this;
+			}
+			bullets.addAll(newBullets);
 			if(formation.isDone()){
 				formations.remove(formation);
 				done = true;
-				readyForFormation = true;
+				formationCount--;
 			}
 		}
 		return new Pair<Boolean, Set<Bullet>>(new Boolean(done), bullets);
