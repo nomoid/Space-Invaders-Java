@@ -80,7 +80,7 @@ public class LevelMenuBuilder implements MenuBuilder {
 		
 
 		
-		double accuracyBonus = (double) shotsHitNo/ (double) totalShotsNo;
+		double accuracyBonus = (double) shotsHitNo/ (double) totalShotsNo==0 ? 1 : totalShotsNo;
 		double accuracyPercentage = Math.round(accuracyBonus * 10000)/100;
 		
 		System.out.println(accuracyPercentage);

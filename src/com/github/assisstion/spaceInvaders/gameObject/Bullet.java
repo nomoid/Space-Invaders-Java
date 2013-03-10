@@ -6,7 +6,7 @@ public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
 			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png","resources/EggBullet.png"};
 		
-		public static final int[] BULLET_MOVEMENT_SPEED = 
+		public static final double[] BULLET_MOVEMENT_SPEED = 
 			{8, 4,4,4,8};
 		public static final double[] BULLET_DIRECTION = 
 			{0, 180, 180, 180,0};
@@ -15,7 +15,7 @@ public class Bullet extends Sprite {
 		//True means moves one pixel EVERY movementSpeed ticks
 		//False means moves movementSpeed pixels EVERY tick
 		public boolean movementMode;
-		public int movementSpeed;
+		public double movementSpeed;
 		public int movementCounter;
 		public int damage;
 		public double tempX;
@@ -42,7 +42,7 @@ public class Bullet extends Sprite {
 		}
 		
 		
-		public Bullet(BulletType bulletType, int x, int y, int damage, int movementSpeed, double direction) throws GameException{
+		public Bullet(BulletType bulletType, int x, int y, int damage, double movementSpeed, double direction) throws GameException{
 			//Calls the superclass constructor to automatically set up the player image
 			super(BULLET_SHOT[bulletType.ordinal()]);
 			this.x=x;

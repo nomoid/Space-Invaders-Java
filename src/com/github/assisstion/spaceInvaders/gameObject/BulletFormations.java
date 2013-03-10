@@ -13,8 +13,7 @@ public class BulletFormations{
 		@Override
 		public HashSet<Bullet> create(int x, int y){
 			HashSet<Bullet> bullets = new HashSet<Bullet>();
-			Bullet b = new Bullet(BLUE, x, y);
-			b.rotation = 150;
+			Bullet b = new Bullet(BLUE, x, y, 250, 8, 150);
 			bullets.add(b);
 			return bullets;
 		}
@@ -23,13 +22,11 @@ public class BulletFormations{
 		public HashSet<Bullet> update(int counter, int x, int y){
 			HashSet<Bullet> newBullets = new HashSet<Bullet>();
 			if(counter == 30){
-				Bullet b = new Bullet(BLUE, x, y);
-				b.rotation = 180;
+				Bullet b = new Bullet(BLUE, x, y, 250, 8, 180);
 				newBullets.add(b);
 			}
 			else if(counter == 60){
-				Bullet b = new Bullet(BLUE, x, y);
-				b.rotation = 210;
+				Bullet b = new Bullet(BLUE, x, y, 250, 8, 210);
 				newBullets.add(b);
 			}
 			else if(counter == 90){
@@ -45,8 +42,7 @@ public class BulletFormations{
 		@Override
 		public HashSet<Bullet> create(int x, int y){
 			HashSet<Bullet> bullets = new HashSet<Bullet>();
-			Bullet b = new Bullet(BLUE, x, y);
-			b.rotation = 90;
+			Bullet b = new Bullet(RED, x, y, 250, 8, 90);
 			bullets.add(b);
 			return bullets;
 		}
@@ -59,8 +55,7 @@ public class BulletFormations{
 					finish();
 					return newBullets;
 				}
-				Bullet b = new Bullet(BLUE, x, y);
-				b.rotation = 90 + counter;
+				Bullet b = new Bullet(RED, x, y, 250, 8, 90 + counter);
 				newBullets.add(b);
 			}
 			return newBullets;

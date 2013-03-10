@@ -11,9 +11,9 @@ import com.github.assisstion.spaceInvaders.Pair;
 
 public class Boss extends Sprite implements Hostile, IrregularHitbox{
 	
-	private int tempX;
-	private int tempY;
-	public int movementSpeed;
+	private double tempX;
+	private double tempY;
+	public double movementSpeed;
 	public int health;
 	public CopyOnWriteArraySet<Box> hitBox;
 	protected ConcurrentSkipListSet<BulletFormation> formations
@@ -47,7 +47,7 @@ public class Boss extends Sprite implements Hostile, IrregularHitbox{
 		super(BOSS_IMAGE, x, y);
 		health = 10000;
 		rotation = 180;
-		movementSpeed = 4;
+		movementSpeed = 2;
 		tempX = x;
 		tempY = y;
 		createHitbox();
