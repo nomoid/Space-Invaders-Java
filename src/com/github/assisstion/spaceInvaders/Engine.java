@@ -802,7 +802,7 @@ public class Engine extends Canvas implements KeyListener {
 			}
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
-				if ((b.owner instanceof Hostile) && !godmodeOn) {
+				if (b.owner.getClass().getAnnotation(Hostile.class) != null && !godmodeOn) {
 					player1.health -= b.damage;		
 					hitSpree = 0;
 					rewardAvailable = false;

@@ -1,9 +1,15 @@
 package com.github.assisstion.spaceInvaders.gameObject;
 
-public interface Hostile{
-	/*
-	 * Empty interface
-	 * Used in type checking (instanceof) to see
-	 * if a bullet's owner is hostile or not
-	 */
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.RetentionPolicy.*;
+import static java.lang.annotation.ElementType.*;
+
+@Documented
+@Retention(RUNTIME)
+@Target(TYPE)
+public @interface Hostile{
+
 }

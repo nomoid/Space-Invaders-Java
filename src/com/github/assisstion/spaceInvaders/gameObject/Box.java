@@ -1,6 +1,10 @@
 package com.github.assisstion.spaceInvaders.gameObject;
 
-public class Box implements Comparable<Box>{
+import java.io.Serializable;
+
+public class Box implements Comparable<Box>, Serializable{
+	
+	private static final long serialVersionUID = 4714367856671148021L;
 	
 	protected int x1;
 	protected int x2;

@@ -3,7 +3,8 @@ package com.github.assisstion.spaceInvaders.gameObject;
 import com.github.assisstion.spaceInvaders.GameException;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
-public class Enemy extends Sprite implements Hostile{
+@Hostile
+public class Enemy extends Sprite{
 
 	private static final int[] ENEMY_HEALTH = { 100, 200, 300, 100 };
 	private static final String[] ENEMY_IMAGE = {

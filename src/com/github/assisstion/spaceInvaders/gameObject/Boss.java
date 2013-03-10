@@ -9,7 +9,8 @@ import com.github.assisstion.spaceInvaders.GameException;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.Pair;
 
-public class Boss extends Sprite implements Hostile, IrregularHitbox{
+@Hostile
+public class Boss extends Sprite implements IrregularHitbox{
 	
 	private double tempX;
 	private double tempY;
