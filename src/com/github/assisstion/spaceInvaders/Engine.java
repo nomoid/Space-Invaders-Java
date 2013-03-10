@@ -653,7 +653,7 @@ public class Engine extends Canvas implements KeyListener {
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
 
-		currentLevel+=5;
+		currentLevel++;
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
