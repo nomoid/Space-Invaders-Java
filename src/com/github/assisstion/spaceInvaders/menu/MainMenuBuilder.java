@@ -31,7 +31,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	private JLabel logolabel;
 	private JButton creditsButton;
 	private JButton hscoreButton;
-	private AudioLooper looper;
+	private static AudioLooper looper;
 	
 	public MainMenuBuilder(){
 		instance = this;
@@ -74,6 +74,10 @@ public class MainMenuBuilder implements MenuBuilder{
 				CutsceneBuilder cutscenebuilder = new CutsceneBuilder(CutsceneData.Cutscene1.SCENE);
 				parent.addMenuBuilder(cutscenebuilder);	
 				new Thread(new CutsceneUpdater(cutscenebuilder, Cutscene.DEFAULT_DELAY)).start();
+				if(looper.on){
+					System.out.println("Chauncey is very epic!");
+					looper.stop();
+				}
 			}
 		});
 		
@@ -153,13 +157,13 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(logolabel);
 		parent.remove(creditsButton);
 		parent.remove(hscoreButton);
-		
-		looper.stop();
 	}
 	
 	public void playSound(String location){
-		looper = this.new AudioLooper(location);
-		new Thread(looper).start();
+		if(looper == null || !looper.on){
+			looper = this.new AudioLooper(location);
+			new Thread(looper).start();
+		}
 	}
 	
 	/*
