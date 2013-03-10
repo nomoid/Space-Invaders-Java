@@ -90,9 +90,6 @@ public class LevelMenuBuilder implements MenuBuilder {
 		accuracy.setBounds(temp1,y+60,temp2,temp3);
 		
 		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
-		System.out.println(accuracyPercentage);
-		System.out.println(accuracyBonus);
-		
 		bonusScore = new JLabel("Bonus: " + (!godModeOn ? (int) accuracyBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
 		bonusScore.setFont(basefont);
