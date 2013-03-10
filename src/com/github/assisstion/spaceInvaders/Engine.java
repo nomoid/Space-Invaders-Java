@@ -665,6 +665,7 @@ public class Engine extends Canvas implements KeyListener {
 			MainCanvas.menu.remove(this);
 			nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn);
 			player1.score= (int)(player1.score*(1.0 + (double)(shotsHit)/shotsFired));
+			System.out.println("SCORE AS CALCULATED BY ENGINE" + player1.score);
 			// STUFF TO DO HERE: display info to player.
 			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 			shotsFired=0;

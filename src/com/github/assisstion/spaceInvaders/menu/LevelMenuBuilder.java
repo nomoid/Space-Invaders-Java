@@ -68,28 +68,30 @@ public class LevelMenuBuilder implements MenuBuilder {
  	 	topLogo.setBounds(30,20,960,65);
  	 	
 		int temp1=100;
-		int y=200;
-		int temp2=500;
+		int y=170;
+		int temp2=600;
 		int temp3=150;
 		
-		Font basefont = new Font("Impact", Font.BOLD, 60);
+		Font basefont = new Font("Impact", Font.BOLD, 50);
 		baseScore = new JLabel("Score: " + (godModeOn ? "°" : baseScoreNo));
 		baseScore.setForeground(Color.WHITE);
 		baseScore.setFont(basefont);
 		baseScore.setBounds(temp1,y,temp2,temp3);
 		
-
+// NEED TO ADD LIFE BONUS THINGY
 		
-		double accuracyBonus = (double) shotsHitNo/ (double) totalShotsNo==0 ? 1 : totalShotsNo;
+		double accuracyBonus = (double) shotsHitNo/ (double)(totalShotsNo==0 ? 1 : totalShotsNo);
 		double accuracyPercentage = Math.round(accuracyBonus * 10000)/100;
 		
-		System.out.println(accuracyPercentage);
-		System.out.println(accuracyBonus);
-		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
+
 		accuracy = new JLabel("Accuracy: " + (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " (" + (int) accuracyPercentage + "%)"): "N/A"));
 		accuracy.setForeground(Color.WHITE);
 		accuracy.setFont(basefont);
 		accuracy.setBounds(temp1,y+60,temp2,temp3);
+		
+		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
+		System.out.println(accuracyPercentage);
+		System.out.println(accuracyBonus);
 		
 		bonusScore = new JLabel("Bonus: " + (!godModeOn ? (int) accuracyBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
