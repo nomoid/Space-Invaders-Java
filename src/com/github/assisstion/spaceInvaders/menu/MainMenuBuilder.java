@@ -165,11 +165,11 @@ public class MainMenuBuilder implements MenuBuilder{
 	/*
 	 * Note: this inner class is NOT static
 	 */
-	public class AudioLooper implements Runnable{
+	public class AudioLooper implements Runnable, Looper{
 
 		private String location;
 		private boolean on = true;
-		public boolean ready = true;
+		private boolean ready = true;
 		
 		public AudioLooper(String location){
 			this.location = location;
@@ -192,8 +192,14 @@ public class MainMenuBuilder implements MenuBuilder{
 			on = false;
 		}
 		
+		@Override
 		public boolean isOn(){
 			return on;
+		}
+
+		@Override
+		public void ready(){
+			ready = true;
 		}
 	}
 }

@@ -16,7 +16,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.github.assisstion.spaceInvaders.gameObject.Box;
 import com.github.assisstion.spaceInvaders.gameObject.IrregularHitbox;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
-import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
+import com.github.assisstion.spaceInvaders.menu.Looper;
 
 public final class Helper{
 	
@@ -88,24 +88,46 @@ public final class Helper{
        }
     }
 	
-	public static void streamSound(String location, MainMenuBuilder.AudioLooper looper){
-		    new Thread(new SoundStreamer(location, looper)).start();
+	//Plays a sound controlled by the Looper
+	public static void streamSound(String location, Looper looper){
+		   new Thread(new SoundStreamer(location, looper)).start();
+	}
+	
+	//Plays a sound once, without Looper control
+	public static void streamSound(String location){
+	    new Thread(new SoundStreamer(location)).start();
 	}
 	
 	private static class SoundStreamer implements Runnable{
 		private String location;
-		private MainMenuBuilder.AudioLooper looper;
+		private Looper looper;
 		
-		public SoundStreamer(String location, MainMenuBuilder.AudioLooper looper){
+		public SoundStreamer(String location, Looper looper){
 			this.location = location;
 			this.looper = looper;
+		}
+		
+		public SoundStreamer(String location){
+			this.location = location;
+			this.looper = new Looper(){
+				@Override
+				public void ready(){
+					//Empty method
+				}
+
+				@Override
+				public boolean isOn(){
+					return true;
+				}
+				
+			};
 		}
 		
 		@Override
 		public void run(){
 			synchronized(MainCanvas.audioLock){
 			    try {
-			    	int bufferSize = 65536;
+			    	int bufferSize = 4096;
 			    	AudioFormat format = AudioSystem.getAudioFileFormat(new File(location)).getFormat();
 					SourceDataLine sdl = AudioSystem.getSourceDataLine(format);
 					sdl.open(format, bufferSize);
@@ -129,10 +151,10 @@ public final class Helper{
 					e.printStackTrace();
 				}
 				catch(LineUnavailableException e){
-					// TODO Auto-generated catch block
+					// TODO placeholder
 					e.printStackTrace();
 				}
-			    looper.ready = true;
+			    looper.ready();
 			}
 		}
 		

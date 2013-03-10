@@ -22,6 +22,12 @@ public final class MainCanvas {
 	public static boolean isOn;
 	public static Menu menu;
 	
+	/*
+	 * There can only be one audio stream
+	 * running at a time due to this lock, 
+	 * and it can only run when the system
+	 * is ready.
+	 */
 	public static Object audioLock = new Object();
 	
 	//This class should not be instantiated
