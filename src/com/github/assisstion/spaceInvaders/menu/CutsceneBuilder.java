@@ -35,6 +35,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private String leText = "";
 	private Font[] fonts;
 	private Color[] colors;
+	private Object finishLock = new Object();
+	private boolean done = false;
 
 	public CutsceneBuilder(Cutscene cutscene) {
 		instance = this;
@@ -168,9 +170,16 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			fullUnBuildText();
-			parent.closeMenu(instance);
-			parent.startGame();
+			boolean b;
+			synchronized(finishLock){
+				b = done;
+				done = true;
+			}
+			if(!b){
+				fullUnBuildText();
+				parent.closeMenu(instance);
+				parent.startGame();
+			}
 		}
 
 	}
