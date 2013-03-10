@@ -56,7 +56,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-	private static final String BULLETSOUND = "resources/bulletsound.wav";
+	private static final String BULLET_SOUND = "resources/bulletsound.wav";
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -698,7 +698,7 @@ public class Engine extends Canvas implements KeyListener {
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()], 0);
 				shotsFired++;
-				playSound(BULLETSOUND);
+				playSound(BULLET_SOUND);
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);

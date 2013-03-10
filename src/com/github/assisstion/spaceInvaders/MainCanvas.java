@@ -12,7 +12,7 @@ import com.github.assisstion.spaceInvaders.menu.Menu;
  * @author Markus Feng
  * @author Michael Man
  */
-public class MainCanvas {
+public final class MainCanvas {
 	public static final int FRAME_WIDTH = 960;
 	public static final int FRAME_HEIGHT = 740;
 	
@@ -21,6 +21,11 @@ public class MainCanvas {
 	public static Random rand;
 	public static boolean isOn;
 	public static Menu menu;
+	
+	//This class should not be instantiated
+	private MainCanvas(){
+		
+	}
 	
 	public static void main(String[] args) {
 		if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){

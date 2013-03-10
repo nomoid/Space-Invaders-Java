@@ -7,6 +7,12 @@ import com.github.assisstion.spaceInvaders.gameObject.Player;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public final class CutsceneData{
+	
+	//This class should not be instantiated
+	private CutsceneData(){
+		
+	}
+	
 	public static final class Cutscene1{
 		
 		private static final String PAGE_1 = "<Somewhere deep in uncharted space...>";

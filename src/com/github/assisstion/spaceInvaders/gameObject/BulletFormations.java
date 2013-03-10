@@ -4,7 +4,12 @@ import java.util.HashSet;
 
 import static com.github.assisstion.spaceInvaders.gameObject.Bullet.BulletType.*;
 
-public class BulletFormations{
+public final class BulletFormations{
+	
+	//This class should not be instantiated
+	private BulletFormations(){
+		
+	}
 	
 	public static final int BULLET_FORMATION_AMOUNT = 2;
 	

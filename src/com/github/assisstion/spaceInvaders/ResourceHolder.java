@@ -18,6 +18,11 @@ public final class ResourceHolder{
 	private static ConcurrentSkipListMap<String, Clip>
 		loadedAudioResources = new ConcurrentSkipListMap<String, Clip>();
 	
+	//This class should not be instantiated
+	private ResourceHolder(){
+		
+	}
+	
 	public static BufferedImage getImageResource(String location) throws IOException{
 		BufferedImage image;
 		if(loadedImageResources.containsKey(location)){

@@ -7,7 +7,13 @@ import com.github.assisstion.spaceInvaders.gameObject.Box;
 import com.github.assisstion.spaceInvaders.gameObject.IrregularHitbox;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
-public class Helper{
+public final class Helper{
+	
+	//This class should not be instantiated
+	private Helper(){
+		
+	}
+	
 	public static void renderSprite(Graphics2D g, Sprite s){
 		//Draws the Sprite s to the Graphics2D g
 		AffineTransform imageRender = new AffineTransform();

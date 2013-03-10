@@ -6,6 +6,12 @@ import com.github.assisstion.spaceInvaders.gameObject.Enemy;
 import com.github.assisstion.spaceInvaders.gameObject.Powerup;
 
 public final class Data {
+	
+	//This class should not be instantiated
+	private Data(){
+		
+	}
+	
 	public static final int MOTHERSHIP_CHANCE = 5000;
 	public static final int MOTHERSHIP_SPEED = 4;
 	public static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD, 33);

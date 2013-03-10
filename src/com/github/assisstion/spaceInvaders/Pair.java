@@ -1,6 +1,11 @@
 package com.github.assisstion.spaceInvaders;
 
-public class Pair<T, S> {
+import java.io.Serializable;
+
+public class Pair<T, S> implements Serializable{
+	
+	private static final long serialVersionUID = -8411360706274767599L;
+	
 	protected T valueOne;
 	protected S valueTwo;
 	
@@ -23,7 +28,9 @@ public class Pair<T, S> {
 	
 	@Override
 	public String toString(){
-		return "Pair: [" + valueOne.toString() + "," + valueTwo.toString() + "]";
+		String valueOneString = valueOne == null ? "null" : valueOne.toString();
+		String valueTwoString = valueTwo == null ? "null" : valueTwo.toString();
+		return "Pair: [" + valueOneString + "," + valueTwoString + "]";
 	}
 	
 	@Override
