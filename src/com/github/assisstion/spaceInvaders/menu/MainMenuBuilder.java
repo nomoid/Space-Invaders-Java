@@ -181,14 +181,20 @@ public class MainMenuBuilder implements MenuBuilder{
 		
 		@Override
 		public void run(){
-			while(on){
-				if(ready){
-					synchronized(MainCanvas.audioLock){
-						System.out.println("Audio Loop");
-						Helper.streamSound(location, this);
-						ready = false;
+			try{
+				while(on){
+					if(ready){
+						synchronized(MainCanvas.audioLock){
+							System.out.println("Audio Loop");
+							Helper.streamSound(location, this);
+							ready = false;
+						}
 					}
 				}
+			}
+			catch(Exception e){
+				//TODO placeholder
+				e.printStackTrace();
 			}
 		}
 		

@@ -169,19 +169,24 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			boolean b;
-			synchronized(finishLock){
-				b = done;
-				done = true;
-			}
-			if(!b){
-				fullUnBuildText();
-				parent.closeMenu(instance);
-				parent.startGame();
+		try{
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				boolean b;
+				synchronized(finishLock){
+					b = done;
+					done = true;
+				}
+				if(!b){
+					fullUnBuildText();
+					parent.closeMenu(instance);
+					parent.startGame();
+				}
 			}
 		}
-
+		catch(Exception ex){
+			//TODO placeholder
+			ex.printStackTrace();
+		}
 	}
 
 	@Override

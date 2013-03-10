@@ -23,6 +23,11 @@ public class MovementClock implements Runnable {
 			}
 		}
 		catch(InterruptedException e){
+			//TODO placeholder
+			e.printStackTrace();
+		}
+		catch(Exception e){
+			//TODO placeholder
 			e.printStackTrace();
 		}
 	}

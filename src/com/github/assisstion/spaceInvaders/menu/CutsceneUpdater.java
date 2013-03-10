@@ -1,7 +1,6 @@
 package com.github.assisstion.spaceInvaders.menu;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
-import com.github.assisstion.spaceInvaders.MovementClock;
 
 public class CutsceneUpdater implements Runnable {
 	
@@ -27,7 +26,12 @@ public class CutsceneUpdater implements Runnable {
 			}
 		}
 		catch(InterruptedException e){
-			new Thread(new MovementClock()).start();
+			//TODO placeholder
+			e.printStackTrace();
+		}
+		catch(Exception e){
+			//TODO placeholder
+			e.printStackTrace();
 		}
 	}
 	

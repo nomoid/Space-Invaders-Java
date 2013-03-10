@@ -155,11 +155,9 @@ public class Engine extends Canvas implements KeyListener {
 		} catch (GameException e) {
 			// TODO placeholder
 			e.printStackTrace();
-			System.exit(1);
 		} catch (Exception e) {
 			// TODO placeholder
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
@@ -1048,146 +1046,158 @@ public class Engine extends Canvas implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER
-				&& (state.equals("game_over") 
-				|| state.equals("game_won"))){
-			MainCanvas.menu.remove(this);
-			MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
-			MainCanvas.engine = null;
-		}
-		if ((e.getKeyCode() == KeyEvent.VK_ENTER)
-				&& state.equals("justfinished")) {
-			state = "ready";
-			g = null;
-		} else if (state.equals("main")) {
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				if (godmode.equals("god")) {
-					godmodeOn = true;
-					godmode = "";
-					System.out.println("God Mode is starting!");
-				} else {
-					godmode = "";
-				}
-			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				// tells the update loop to allow bullet firing
-				spaceOn = true;
-			} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvailable) {
-				redeem();
-			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				// sets the direction to Right
-				rightOn = true;
-				player1.currentDirection = Player.Direction.RIGHT;
-			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				// sets the direction to Left
-				if (state.equals("main")) {
-					leftOn = true;
-					player1.currentDirection = Player.Direction.LEFT;
-				}
+		try {
+			if(e.getKeyCode() == KeyEvent.VK_ENTER
+					&& (state.equals("game_over") 
+					|| state.equals("game_won"))){
+				MainCanvas.menu.remove(this);
+				MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
+				MainCanvas.engine = null;
 			}
-
-			else if (e.getKeyCode() == KeyEvent.VK_G) {
-				if (godmode.equals("")) {
-					godmode = "g";
-				} else {
-					godmode = "";
-				}
-			}
-
-			else if (e.getKeyCode() == KeyEvent.VK_O) {
-				if (godmode.equals("g")) {
-					godmode = "go";
-				} else {
-					godmode = "";
-				}
-			} else if (e.getKeyCode() == KeyEvent.VK_D) {
-				if (godmode.equals("go")) {
-					godmode = "god";
-					// Added God Mode
-				} else {
-					godmode = "";
-				}
-
-			} else if(e.getKeyCode() == KeyEvent.VK_K){
-				player1.livesRemaining = 0;
-				playerDeath();
-			}
-			else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
-					if (!minigameOn){
-						redeem();
+			if ((e.getKeyCode() == KeyEvent.VK_ENTER)
+					&& state.equals("justfinished")) {
+				state = "ready";
+				g = null;
+			} else if (state.equals("main")) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (godmode.equals("god")) {
+						godmodeOn = true;
+						godmode = "";
+						System.out.println("God Mode is starting!");
+					} else {
+						godmode = "";
 					}
-			} else {
-				godmode = "";
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					// tells the update loop to allow bullet firing
+					spaceOn = true;
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvailable) {
+					redeem();
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					// sets the direction to Right
+					rightOn = true;
+					player1.currentDirection = Player.Direction.RIGHT;
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					// sets the direction to Left
+					if (state.equals("main")) {
+						leftOn = true;
+						player1.currentDirection = Player.Direction.LEFT;
+					}
+				}
+	
+				else if (e.getKeyCode() == KeyEvent.VK_G) {
+					if (godmode.equals("")) {
+						godmode = "g";
+					} else {
+						godmode = "";
+					}
+				}
+	
+				else if (e.getKeyCode() == KeyEvent.VK_O) {
+					if (godmode.equals("g")) {
+						godmode = "go";
+					} else {
+						godmode = "";
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_D) {
+					if (godmode.equals("go")) {
+						godmode = "god";
+						// Added God Mode
+					} else {
+						godmode = "";
+					}
+	
+				} else if(e.getKeyCode() == KeyEvent.VK_K){
+					player1.livesRemaining = 0;
+					playerDeath();
+				}
+				else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
+						if (!minigameOn){
+							redeem();
+						}
+				} else {
+					godmode = "";
+				}
+			} else if (state.equals("nametaking")) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					System.out.println("Enter Pressed");
+					if (!tempname.equals("")){
+					startGame();
+					state = "main";
+					}
+	
+				} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					if (nameLength > 0) {
+						nameLength--;
+						leName[nameLength] = '-';
+					}
+				} else if (Character.isLetterOrDigit(e.getKeyChar())) {
+					if (nameLength < NAME_MAX_LENGTH) {
+						nameLength++;
+						leName[nameLength - 1] = e.getKeyChar();
+					}
+				} else {
+					System.out.println("Action Key");
+				}
 			}
-		} else if (state.equals("nametaking")) {
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				System.out.println("Enter Pressed");
-				if (!tempname.equals("")){
-				startGame();
-				state = "main";
-				}
-
-			} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				if (nameLength > 0) {
-					nameLength--;
-					leName[nameLength] = '-';
-				}
-			} else if (Character.isLetterOrDigit(e.getKeyChar())) {
-				if (nameLength < NAME_MAX_LENGTH) {
-					nameLength++;
-					leName[nameLength - 1] = e.getKeyChar();
-				}
-			} else {
-				System.out.println("Action Key");
-			}
+		}
+		catch(Exception ex){
+			//TODO placeholder
+			ex.printStackTrace();
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			// sets the direction to None
-			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
-				rightOn = false;
-				if (player1.currentDirection == Player.Direction.RIGHT) {
-					player1.currentDirection = Player.Direction.NONE;
-					// Sees whether leftarrow is still being pressed.
-					if (leftOn) {
-						// If it is, change direction back to left
-						player1.currentDirection = Player.Direction.LEFT;
+		try{
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				// sets the direction to None
+				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+					rightOn = false;
+					if (player1.currentDirection == Player.Direction.RIGHT) {
+						player1.currentDirection = Player.Direction.NONE;
+						// Sees whether leftarrow is still being pressed.
+						if (leftOn) {
+							// If it is, change direction back to left
+							player1.currentDirection = Player.Direction.LEFT;
+						}
 					}
 				}
-			}
-
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			// sets the direction to None
-			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
-				leftOn = false;
-				if (player1.currentDirection == Player.Direction.LEFT) {
-					player1.currentDirection = Player.Direction.NONE;
-					// Sees whether rightarrow is still being pressed.
-					if (rightOn) {
-						player1.currentDirection = Player.Direction.RIGHT;
-					}
-					player1.currentDirection = Player.Direction.NONE;
-					// Sees whether rightarrow is still being pressed.
-					if (rightOn) {
-						// If it is, change direction back to Right
-						player1.currentDirection = Player.Direction.RIGHT;
+	
+			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				// sets the direction to None
+				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+					leftOn = false;
+					if (player1.currentDirection == Player.Direction.LEFT) {
+						player1.currentDirection = Player.Direction.NONE;
+						// Sees whether rightarrow is still being pressed.
+						if (rightOn) {
+							player1.currentDirection = Player.Direction.RIGHT;
+						}
+						player1.currentDirection = Player.Direction.NONE;
+						// Sees whether rightarrow is still being pressed.
+						if (rightOn) {
+							// If it is, change direction back to Right
+							player1.currentDirection = Player.Direction.RIGHT;
+						}
 					}
 				}
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				// tells the update loop to stop bullet firing
+				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+					spaceOn = false;
+				}
+			} else if (e.getKeyCode() == KeyEvent.VK_P) {
+				if (state.equals("main") || state.equals("just_died")) {
+					state = "pause";
+					MainCanvas.menu.remove(this);
+					MainCanvas.menu.addMenuBuilder(pauseMenu);
+	
+				} 
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			// tells the update loop to stop bullet firing
-			if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
-				spaceOn = false;
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_P) {
-			if (state.equals("main") || state.equals("just_died")) {
-				state = "pause";
-				MainCanvas.menu.remove(this);
-				MainCanvas.menu.addMenuBuilder(pauseMenu);
-
-			} 
+		}
+		catch(Exception ex){
+			//TODO placeholder
+			ex.printStackTrace();
 		}
 	}
 

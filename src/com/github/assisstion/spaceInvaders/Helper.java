@@ -126,35 +126,41 @@ public final class Helper{
 		@Override
 		public void run(){
 			synchronized(MainCanvas.audioLock){
-			    try {
-			    	int bufferSize = 4096;
-			    	AudioFormat format = AudioSystem.getAudioFileFormat(new File(location)).getFormat();
-					SourceDataLine sdl = AudioSystem.getSourceDataLine(format);
-					sdl.open(format, bufferSize);
-			        BufferedInputStream bis = new BufferedInputStream(AudioSystem.getAudioInputStream(new File(location)));
-			        byte[] buffer = new byte[bufferSize];
-			        int b = 0;
-			        sdl.start();
-			        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
-			        	sdl.write(buffer, 0, b);
-			        }
-			        sdl.drain();
-			        sdl.stop();
-			        sdl.close();
-			    } 
-				catch(IOException e){
-					// TODO placeholder
-					e.printStackTrace();
+				try{
+				    try {
+				    	int bufferSize = 4096;
+				    	AudioFormat format = AudioSystem.getAudioFileFormat(new File(location)).getFormat();
+						SourceDataLine sdl = AudioSystem.getSourceDataLine(format);
+						sdl.open(format, bufferSize);
+				        BufferedInputStream bis = new BufferedInputStream(AudioSystem.getAudioInputStream(new File(location)));
+				        byte[] buffer = new byte[bufferSize];
+				        int b = 0;
+				        sdl.start();
+				        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
+				        	sdl.write(buffer, 0, b);
+				        }
+				        sdl.drain();
+				        sdl.stop();
+				        sdl.close();
+				    } 
+					catch(IOException e){
+						// TODO placeholder
+						e.printStackTrace();
+					}
+					catch(UnsupportedAudioFileException e){
+						// TODO placeholder
+						e.printStackTrace();
+					}
+					catch(LineUnavailableException e){
+						// TODO placeholder
+						e.printStackTrace();
+					}
+				    looper.ready();
 				}
-				catch(UnsupportedAudioFileException e){
-					// TODO placeholder
-					e.printStackTrace();
+				catch(Exception ex){
+					//TODO placeholder
+					ex.printStackTrace();
 				}
-				catch(LineUnavailableException e){
-					// TODO placeholder
-					e.printStackTrace();
-				}
-			    looper.ready();
 			}
 		}
 		
