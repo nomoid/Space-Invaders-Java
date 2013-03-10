@@ -5,14 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.Helper;
+import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceHolder;
 
 public class MainMenuBuilder implements MenuBuilder{
@@ -32,6 +31,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	private JLabel logolabel;
 	private JButton creditsButton;
 	private JButton hscoreButton;
+	private AudioLooper looper;
 	
 	public MainMenuBuilder(){
 		instance = this;
@@ -153,19 +153,47 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(logolabel);
 		parent.remove(creditsButton);
 		parent.remove(hscoreButton);
+		
+		looper.stop();
 	}
 	
 	public void playSound(String location){
-	      try {
-	          Clip clip = ResourceHolder.getAudioResource(location);
-	          clip.start();
-	          clip.loop(Clip.LOOP_CONTINUOUSLY);
-	       } catch (UnsupportedAudioFileException e) {
-	          e.printStackTrace();
-	       } catch (IOException e) {
-	          e.printStackTrace();
-	       } catch (LineUnavailableException e) {
-	          e.printStackTrace();
-	       }
-	    }
+		looper = this.new AudioLooper(location);
+		new Thread(looper).start();
+	}
+	
+	/*
+	 * Note: this inner class is NOT static
+	 */
+	public class AudioLooper implements Runnable{
+
+		private String location;
+		private boolean on = true;
+		public boolean ready = true;
+		
+		public AudioLooper(String location){
+			this.location = location;
+		}
+		
+		@Override
+		public void run(){
+			while(on){
+				if(ready){
+					synchronized(MainCanvas.audioLock){
+						System.out.println("Audio Loop");
+						Helper.streamSound(location, this);
+						ready = false;
+					}
+				}
+			}
+		}
+		
+		public void stop(){
+			on = false;
+		}
+		
+		public boolean isOn(){
+			return on;
+		}
+	}
 }

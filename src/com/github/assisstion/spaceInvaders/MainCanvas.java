@@ -22,6 +22,8 @@ public final class MainCanvas {
 	public static boolean isOn;
 	public static Menu menu;
 	
+	public static Object audioLock = new Object();
+	
 	//This class should not be instantiated
 	private MainCanvas(){
 		
@@ -56,15 +58,16 @@ public final class MainCanvas {
 		 * Pack the frame, position it in the center of the screen, and then display
 		 * it, and add the menu.
 		 */
-		
-		menu = new Menu();
-		menu.addMenuBuilder(new MainMenuBuilder());
-		frame.setContentPane(menu);
-		
-		frame.setLocationRelativeTo(null);
-		frame.pack();
-		frame.setVisible(true);
-		frame.validate();
+		synchronized(audioLock){
+			menu = new Menu();
+			menu.addMenuBuilder(new MainMenuBuilder());
+			frame.setContentPane(menu);
+			
+			frame.setLocationRelativeTo(null);
+			frame.pack();
+			frame.setVisible(true);
+			frame.validate();
+		}
 
 		System.out.println("Frame created");
 	}

@@ -2,10 +2,21 @@ package com.github.assisstion.spaceInvaders;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.github.assisstion.spaceInvaders.gameObject.Box;
 import com.github.assisstion.spaceInvaders.gameObject.IrregularHitbox;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
+import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 
 public final class Helper{
 	
@@ -59,5 +70,71 @@ public final class Helper{
 			ca[i] = c;
 		}
 		return ca;
+	}
+	
+	public static void playSound(String location){
+      try {
+          Clip clip = ResourceHolder.getAudioResource(location);
+          clip.start();
+       } catch (UnsupportedAudioFileException e) {
+    	// TODO placeholder
+          e.printStackTrace();
+       } catch (IOException e) {
+    	// TODO placeholder
+          e.printStackTrace();
+       } catch (LineUnavailableException e) {
+    	// TODO placeholder
+          e.printStackTrace();
+       }
+    }
+	
+	public static void streamSound(String location, MainMenuBuilder.AudioLooper looper){
+		    new Thread(new SoundStreamer(location, looper)).start();
+	}
+	
+	private static class SoundStreamer implements Runnable{
+		private String location;
+		private MainMenuBuilder.AudioLooper looper;
+		
+		public SoundStreamer(String location, MainMenuBuilder.AudioLooper looper){
+			this.location = location;
+			this.looper = looper;
+		}
+		
+		@Override
+		public void run(){
+			synchronized(MainCanvas.audioLock){
+			    try {
+			    	int bufferSize = 65536;
+			    	AudioFormat format = AudioSystem.getAudioFileFormat(new File(location)).getFormat();
+					SourceDataLine sdl = AudioSystem.getSourceDataLine(format);
+					sdl.open(format, bufferSize);
+			        BufferedInputStream bis = new BufferedInputStream(AudioSystem.getAudioInputStream(new File(location)));
+			        byte[] buffer = new byte[bufferSize];
+			        int b = 0;
+			        sdl.start();
+			        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
+			        	sdl.write(buffer, 0, b);
+			        }
+			        sdl.drain();
+			        sdl.stop();
+			        sdl.close();
+			    } 
+				catch(IOException e){
+					// TODO placeholder
+					e.printStackTrace();
+				}
+				catch(UnsupportedAudioFileException e){
+					// TODO placeholder
+					e.printStackTrace();
+				}
+				catch(LineUnavailableException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    looper.ready = true;
+			}
+		}
+		
 	}
 }

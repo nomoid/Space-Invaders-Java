@@ -11,14 +11,9 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
-
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.github.assisstion.spaceInvaders.gameObject.Boss;
 import com.github.assisstion.spaceInvaders.gameObject.Box;
@@ -41,6 +36,7 @@ import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 
 import static com.github.assisstion.spaceInvaders.Data.*;
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
+import static com.github.assisstion.spaceInvaders.Helper.*;
 
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
@@ -69,7 +65,7 @@ public class Engine extends Canvas implements KeyListener {
 	private String tempname = "";
 	private static final long serialVersionUID = 21816248595432439L;
 	private int hitSpree = 0;
-	private char[] leName = Helper.createEmptyName('-', NAME_MAX_LENGTH);
+	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
 	
 	/*
@@ -157,11 +153,11 @@ public class Engine extends Canvas implements KeyListener {
 						+ state);
 			}
 		} catch (GameException e) {
-			// placeholder
+			// TODO placeholder
 			e.printStackTrace();
 			System.exit(1);
 		} catch (Exception e) {
-			// placeholder
+			// TODO placeholder
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -309,7 +305,7 @@ public class Engine extends Canvas implements KeyListener {
 					mothership = new Enemy(Enemy.EnemyType.MOTHERSHIP, 10, 80);
 					for (EnemySquad enemies : enemySquads) {
 						enemies.add(mothership);
-						Helper.updateHitbox(mothership);
+						updateHitbox(mothership);
 					}
 					gameObjects.add(mothership);
 					System.out.println("Mothership Deployed!");
@@ -317,17 +313,17 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			} else {
 				mothership.x += MOTHERSHIP_SPEED;
-				Helper.updateHitbox(mothership);
+				updateHitbox(mothership);
 			}
 		}
 	}
 
 	private void render(Graphics2D g) {
 		for (Sprite object : gameObjects) {
-			Helper.renderSprite(g, object);
+			renderSprite(g, object);
 		}
 		for (Sprite object : overlay) {
-			Helper.renderSprite(g, object);
+			renderSprite(g, object);
 		}
 		drawMenu(g);
 	}
@@ -719,10 +715,10 @@ public class Engine extends Canvas implements KeyListener {
 		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
 			player1.x -= 4 * extraSpeed;
-			Helper.updateHitbox(player1);
+			updateHitbox(player1);
 		} else if (player1.currentDirection.equals(Player.Direction.RIGHT)) {
 			player1.x += 4 * extraSpeed;
-			Helper.updateHitbox(player1);
+			updateHitbox(player1);
 		}
 		if (player1.firingCooldown > 0) {
 			if (godmodeOn) {
@@ -774,7 +770,7 @@ public class Engine extends Canvas implements KeyListener {
 				extraBulletSpeed = 1.75;
 			}
 			b.move(extraBulletSpeed);
-			Helper.updateHitbox(b);
+			updateHitbox(b);
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {
 					gameObjects.remove(b);
@@ -891,7 +887,7 @@ public class Engine extends Canvas implements KeyListener {
 					for (Enemy a : enemies) {
 						a.x = a.startingX;
 						a.y = a.startingY;
-						Helper.updateHitbox(a);
+						updateHitbox(a);
 					}
 					*/
 				} if (e.x>getWidth()){
@@ -913,7 +909,7 @@ public class Engine extends Canvas implements KeyListener {
 	private void powerupUpdate() {
 		for (Powerup p : powerups) {
 			p.y += p.movementSpeed;
-			Helper.updateHitbox(p);
+			updateHitbox(p);
 			if (p.hitBox.overLaps(player1.hitBox)) {
 				processPowerup(player1, p.type);
 				gameObjects.remove(p);
@@ -935,7 +931,7 @@ public class Engine extends Canvas implements KeyListener {
 	private void dropPowerup(Enemy e, int x, int y) {
 		int randint = MainCanvas.rand.nextInt(1000);
 		PowerupType fillerType = null;
-		int numeral = Helper.getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
+		int numeral = getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
 		if (randint < Powerup.POWERUP_CHANCES[numeral][0]) {
 			int type = MainCanvas.rand
 					.nextInt(Powerup.POWERUP_CHANCES[numeral][Powerup.POWERUP_CHANCES[numeral].length - 1]);
@@ -1141,7 +1137,7 @@ public class Engine extends Canvas implements KeyListener {
 					leName[nameLength - 1] = e.getKeyChar();
 				}
 			} else {
-				System.out.println("action key");
+				System.out.println("Action Key");
 			}
 		}
 	}
@@ -1243,7 +1239,7 @@ public class Engine extends Canvas implements KeyListener {
 						}
 					}
 				}
-				Helper.updateHitbox(e);
+				updateHitbox(e);
 			}
 		}
 	}
@@ -1263,7 +1259,7 @@ public class Engine extends Canvas implements KeyListener {
 			System.out.println("You're Dead!");
 			player1.x = MainCanvas.frame.getWidth();
 			player1.y = MainCanvas.frame.getHeight();
-			Helper.updateHitbox(player1);
+			updateHitbox(player1);
 			gameCleanup();
 			state = "game_over";
 		}
@@ -1281,7 +1277,7 @@ public class Engine extends Canvas implements KeyListener {
 	public void bossUpdate(){
 		if(bossOn){
 			boss.updateLocation();
-			Helper.updateHitbox(boss);
+			updateHitbox(boss);
 			if(boss.readyForFormation){
 				Set<Bullet> added = boss.addBulletFormation(
 						BulletFormations.getNewBulletFormation(MainCanvas.rand.nextInt(
@@ -1300,7 +1296,7 @@ public class Engine extends Canvas implements KeyListener {
 			}
 			for(Bullet b : bullets){
 				if(b.owner instanceof Player){
-					if(Helper.overlapsIrregularHitbox(
+					if(overlapsIrregularHitbox(
 						new Box[]{b.hitBox}, boss.hitBox.toArray(new Box[]{}))){
 						shotsHit++;
 						boss.health -= b.damage;
@@ -1321,18 +1317,4 @@ public class Engine extends Canvas implements KeyListener {
 			}
 		}
 	}
-	
-	
-	public static void playSound(String location){
-	      try {
-	          Clip clip = ResourceHolder.getAudioResource(location);
-	          clip.start();
-	       } catch (UnsupportedAudioFileException e) {
-	          e.printStackTrace();
-	       } catch (IOException e) {
-	          e.printStackTrace();
-	       } catch (LineUnavailableException e) {
-	          e.printStackTrace();
-	       }
-	    }
 }
