@@ -52,7 +52,8 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-	private static final String BULLET_SOUND = "resources/bulletsound.wav";
+	private static final long serialVersionUID = 21816248595432439L;
+	
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -63,7 +64,6 @@ public class Engine extends Canvas implements KeyListener {
 	private boolean rewardAvailable = false;
 	private Powerup.PowerupType openReward;
 	private String tempname = "";
-	private static final long serialVersionUID = 21816248595432439L;
 	private int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;

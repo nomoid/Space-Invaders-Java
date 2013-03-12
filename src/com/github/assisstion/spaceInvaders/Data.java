@@ -58,4 +58,6 @@ public final class Data {
 			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
 			Powerup.PowerupType.STEROIDS };
 	public static final int[] REWARDS_REQUIREMENTS = { 5, 8, 11, 15, 20, 23, 30 };
+	
+	public static final String BULLET_SOUND = "resources/bulletsound.wav";
 }
