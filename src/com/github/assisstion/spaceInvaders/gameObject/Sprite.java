@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import com.github.assisstion.spaceInvaders.GameException;
-import com.github.assisstion.spaceInvaders.ResourceHolder;
+import com.github.assisstion.spaceInvaders.ResourceManager;
 
 /**
  * A sprite class for loading and keeping track of images
@@ -41,7 +41,7 @@ public class Sprite implements Comparable<Sprite>{
 		this();
 		this.imageLink = imageLink;
 		try{
-			image = ResourceHolder.getImageResource(imageLink);
+			image = ResourceManager.getImageResource(imageLink);
 		}
 		catch(IOException e){
 			throw new GameException("Error creating " + getClass().getName() + ": " + getEntityID(), e);

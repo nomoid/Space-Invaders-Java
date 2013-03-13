@@ -74,8 +74,12 @@ public final class Helper{
 	
 	public static void playSound(String location){
       try {
-          Clip clip = ResourceHolder.getAudioResource(location);
-          clip.start();
+    	  if(!ResourceManager.getMuted()){
+    		  Clip clip = ResourceManager.getAudioResource(location);
+    		  ClipWrapper cw = new ClipWrapper(clip);
+    		  clip.start();
+    		  ResourceManager.addAudioPlayer(cw);
+    	  }
        } catch (UnsupportedAudioFileException e) {
     	// TODO placeholder
           e.printStackTrace();
@@ -90,12 +94,12 @@ public final class Helper{
 	
 	//Plays a sound controlled by the Looper
 	public static void streamSound(String location, Looper looper){
-		   new Thread(new SoundStreamer(location, looper)).start();
+		new Thread(new SoundStreamer(location, looper)).start();
 	}
 	
 	//Plays a sound once, without Looper control
 	public static void streamSound(String location){
-	    new Thread(new SoundStreamer(location)).start();
+		new Thread(new SoundStreamer(location)).start();
 	}
 	
 	private static class SoundStreamer implements Runnable{
@@ -110,14 +114,35 @@ public final class Helper{
 		public SoundStreamer(String location){
 			this.location = location;
 			this.looper = new Looper(){
+				private boolean paused;
+				
+				{
+					ResourceManager.addAudioPlayer(this);
+				}
+				
 				@Override
 				public void ready(){
-					//Empty method
+					ResourceManager.removeAudioPlayer(this);
 				}
 
 				@Override
 				public boolean isOn(){
 					return true;
+				}
+
+				@Override
+				public void setPaused(boolean paused){
+					this.paused = paused;
+				}
+
+				@Override
+				public boolean isPaused(){
+					return paused;
+				}
+
+				@Override
+				public int compareTo(AudioPlayable ap){
+					return new Integer(hashCode()).compareTo(ap.hashCode());
 				}
 				
 			};
@@ -137,6 +162,9 @@ public final class Helper{
 				        int b = 0;
 				        sdl.start();
 				        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
+				        	while(looper.isPaused()){
+				        		MainCanvas.audioLock.wait();
+				        	}
 				        	sdl.write(buffer, 0, b);
 				        }
 				        sdl.drain();

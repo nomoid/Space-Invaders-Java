@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.ResourceManager;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener {
@@ -169,6 +170,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		try{
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				boolean b;
@@ -187,16 +193,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 			//TODO placeholder
 			ex.printStackTrace();
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}

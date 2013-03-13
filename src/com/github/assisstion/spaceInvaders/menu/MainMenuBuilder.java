@@ -2,6 +2,8 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -10,11 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.AudioPlayable;
 import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
-import com.github.assisstion.spaceInvaders.ResourceHolder;
+import com.github.assisstion.spaceInvaders.ResourceManager;
 
-public class MainMenuBuilder implements MenuBuilder{
+public class MainMenuBuilder implements MenuBuilder, KeyListener{
 
 	private final static String MENUSONG = "resources/Menu Song (.wav).wav";
 	private final static String STARTBUTTON = "resources/startButton.png";
@@ -40,6 +43,11 @@ public class MainMenuBuilder implements MenuBuilder{
 	@Override
 	public void build(Menu menu){
 		parent = menu;
+		parent.addKeyListener(this);
+		parent.requestFocus();
+		parent.revalidate();
+		parent.repaint();
+		
 		BufferedImage startbuttonIcon = null;
 		BufferedImage helpbuttonIcon = null;
 		BufferedImage storybuttonIcon = null;
@@ -48,12 +56,12 @@ public class MainMenuBuilder implements MenuBuilder{
 		BufferedImage hscorebuttonIcon = null;
 		
 		try {
-			startbuttonIcon = ResourceHolder.getImageResource(STARTBUTTON);
-			helpbuttonIcon = ResourceHolder.getImageResource(HELPBUTTON);
-			storybuttonIcon = ResourceHolder.getImageResource(STORYBUTTON);
-			mainLogoIcon = ResourceHolder.getImageResource(MAINLOGO);
-			hscorebuttonIcon = ResourceHolder.getImageResource(HSBUTTON);
-			creditbuttonIcon = ResourceHolder.getImageResource(CREDITSBUTTON);
+			startbuttonIcon = ResourceManager.getImageResource(STARTBUTTON);
+			helpbuttonIcon = ResourceManager.getImageResource(HELPBUTTON);
+			storybuttonIcon = ResourceManager.getImageResource(STORYBUTTON);
+			mainLogoIcon = ResourceManager.getImageResource(MAINLOGO);
+			hscorebuttonIcon = ResourceManager.getImageResource(HSBUTTON);
+			creditbuttonIcon = ResourceManager.getImageResource(CREDITSBUTTON);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,7 +83,6 @@ public class MainMenuBuilder implements MenuBuilder{
 				parent.addMenuBuilder(cutscenebuilder);	
 				new Thread(new CutsceneUpdater(cutscenebuilder, Cutscene.DEFAULT_DELAY)).start();
 				if(looper.on){
-					System.out.println("Chauncey is very epic!");
 					looper.stop();
 				}
 			}
@@ -151,6 +158,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	@Override
 	public void unBuild(Menu menu){
 		parent = menu;
+		parent.removeKeyListener(this);
 		parent.remove(storyButton);
 		parent.remove(helpButton);
 		parent.remove(startButton);
@@ -174,9 +182,11 @@ public class MainMenuBuilder implements MenuBuilder{
 		private String location;
 		private boolean on = true;
 		private boolean ready = true;
+		private boolean paused = false;
 		
 		public AudioLooper(String location){
 			this.location = location;
+			ResourceManager.addAudioPlayer(this);
 		}
 		
 		@Override
@@ -185,8 +195,11 @@ public class MainMenuBuilder implements MenuBuilder{
 				while(on){
 					if(ready){
 						synchronized(MainCanvas.audioLock){
+							while(paused){
+								MainCanvas.audioLock.wait();
+							}
+							Helper.streamSound(location);
 							System.out.println("Audio Loop");
-							Helper.streamSound(location, this);
 							ready = false;
 						}
 					}
@@ -195,6 +208,9 @@ public class MainMenuBuilder implements MenuBuilder{
 			catch(Exception e){
 				//TODO placeholder
 				e.printStackTrace();
+			}
+			finally{
+				ResourceManager.removeAudioPlayer(looper);
 			}
 		}
 		
@@ -211,5 +227,56 @@ public class MainMenuBuilder implements MenuBuilder{
 		public void ready(){
 			ready = true;
 		}
+		
+		@Override
+		public boolean isPaused(){
+			return paused;
+		}
+
+		@Override
+		public void setPaused(boolean paused){
+			this.paused = paused;
+			if(!paused){
+				synchronized(MainCanvas.audioLock){
+					MainCanvas.audioLock.notify();
+				}
+				
+				
+			}
+		}
+
+		@Override
+		public int compareTo(AudioPlayable ap){
+			return new Integer(hashCode()).compareTo(ap.hashCode());
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e){
+		
+		if (e.getKeyCode() == KeyEvent.VK_M) {
+			
+			if(!ResourceManager.getMuted()){
+				System.out.println("Mute");
+				ResourceManager.setMuted(true);
+			}
+			else{
+				System.out.println("Unmute");
+				ResourceManager.setMuted(false);
+			}
+			
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e){
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e){
+		// TODO Auto-generated method stub
+		
 	}
 }

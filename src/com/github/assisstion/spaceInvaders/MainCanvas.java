@@ -67,13 +67,14 @@ public final class MainCanvas {
 			 */
 			synchronized(audioLock){
 				menu = new Menu();
-				menu.addMenuBuilder(new MainMenuBuilder());
+				
 				frame.setContentPane(menu);
 				
 				frame.setLocationRelativeTo(null);
 				frame.pack();
 				frame.setVisible(true);
 				frame.validate();
+				menu.addMenuBuilder(new MainMenuBuilder());
 			}
 	
 			System.out.println("Frame created");

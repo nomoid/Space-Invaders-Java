@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import com.github.assisstion.spaceInvaders.ResourceHolder;
+import com.github.assisstion.spaceInvaders.ResourceManager;
 
 public class PlotMenuBuilder implements MenuBuilder {
 	
@@ -53,7 +53,7 @@ public class PlotMenuBuilder implements MenuBuilder {
 	private BufferedImage getReturnImage(){
 		BufferedImage returnIcon = null;
 		try {
-			returnIcon = ResourceHolder.getImageResource("resources/returnButton.png");
+			returnIcon = ResourceManager.getImageResource("resources/returnButton.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading image!");

@@ -11,7 +11,6 @@ public class Clock implements Runnable{
 		try{
 			while(true){
 				if(MainCanvas.engine == null){
-					System.out.println("clockend");
 					break;
 				}
 				if(MainCanvas.isOn){

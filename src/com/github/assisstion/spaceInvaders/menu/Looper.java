@@ -1,6 +1,8 @@
 package com.github.assisstion.spaceInvaders.menu;
 
-public interface Looper{
+import com.github.assisstion.spaceInvaders.AudioPlayable;
+
+public interface Looper extends AudioPlayable{
 	void ready();
 	boolean isOn();
 }

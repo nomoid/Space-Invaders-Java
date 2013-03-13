@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -12,14 +13,16 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public final class ResourceHolder{
+public final class ResourceManager{
 	private static ConcurrentSkipListMap<String, BufferedImage>
 		loadedImageResources = new ConcurrentSkipListMap<String, BufferedImage>();
 	private static ConcurrentSkipListMap<String, Clip>
 		loadedAudioResources = new ConcurrentSkipListMap<String, Clip>();
+	private static boolean muted = false;
+	private static ConcurrentSkipListSet<AudioPlayable> audioPlayers = new ConcurrentSkipListSet<AudioPlayable>();
 	
 	//This class should not be instantiated
-	private ResourceHolder(){
+	private ResourceManager(){
 		
 	}
 	
@@ -46,6 +49,38 @@ public final class ResourceHolder{
 			loadedAudioResources.put(location, audio);
 		}
 		return audio;
+	}
+	
+	public synchronized static void setMuted(boolean b){
+		if(muted && !b){
+			for(AudioPlayable ap : audioPlayers){
+				ap.setPaused(false);
+			}
+		}
+		else if(!muted && b){
+			for(AudioPlayable ap : audioPlayers){
+				ap.setPaused(true);
+			}
+		}
+		muted = b;
+	}
+	
+	public static void addAudioPlayer(AudioPlayable ap){
+		audioPlayers.add(ap);
+		if(muted){
+			ap.setPaused(true);
+		}
+		else{
+			ap.setPaused(false);
+		}
+	}
+	
+	public static void removeAudioPlayer(AudioPlayable ap){
+		audioPlayers.remove(ap);
+	}
+	
+	public static boolean getMuted(){
+		return muted;
 	}
 	
 }
