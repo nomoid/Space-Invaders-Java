@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import com.github.assisstion.spaceInvaders.ResourceManager;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener {
