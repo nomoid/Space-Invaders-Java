@@ -1001,7 +1001,7 @@ public class Engine extends Canvas implements KeyListener {
 		
 		new Thread(new MovementClock()).start();
 		int type = 0;
-		if (tempname.equalsIgnoreCase("god")) {
+		if (tempname.equalsIgnoreCase("god") || tempname.equalsIgnoreCase("allah") || tempname.equalsIgnoreCase("shiva")){
 			godmodeOn = true;
 		} else if (tempname.equalsIgnoreCase("easter")
 				|| tempname.equalsIgnoreCase("egg")) {
