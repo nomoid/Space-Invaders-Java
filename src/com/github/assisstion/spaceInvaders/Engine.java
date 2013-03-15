@@ -109,6 +109,7 @@ public class Engine extends Canvas implements KeyListener {
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 	private LevelMenuBuilder nextLevelMenu;
 	private boolean bossOn;
+	private int livesLost=0;
 	
 
 	/*
@@ -662,8 +663,8 @@ public class Engine extends Canvas implements KeyListener {
 			
 			state="paused";
 			MainCanvas.menu.remove(this);
-			nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn);
-			player1.score= (int)(player1.score*(1.0 + (double)(shotsHit)/shotsFired));
+			nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn, livesLost);
+			player1.score= nextLevelMenu.totalScoreNo;
 			// STUFF TO DO HERE: display info to player.
 			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 			shotsFired=0;
@@ -1265,6 +1266,7 @@ public class Engine extends Canvas implements KeyListener {
 	private void playerDeath() {
 		state = "just_died";
 		player1.livesRemaining--;
+		livesLost++;
 		if (player1.livesRemaining <= 0) {
 			System.out.println("You're Dead!");
 			player1.x = MainCanvas.frame.getWidth();

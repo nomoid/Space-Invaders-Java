@@ -165,6 +165,9 @@ public class MainMenuBuilder implements MenuBuilder, KeyListener{
 		parent.remove(logolabel);
 		parent.remove(creditsButton);
 		parent.remove(hscoreButton);
+		ResourceManager.removeAudioPlayer(looper);
+	// WORK On ENDING THE MENU MUSIC WHEN GAME STARTS
+
 	}
 	
 	public void playSound(String location){

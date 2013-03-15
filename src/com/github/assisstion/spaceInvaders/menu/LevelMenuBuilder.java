@@ -27,16 +27,20 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private JLabel accuracy;
 	private JLabel bonusScore;
 	private JLabel totalScore;
+	private JLabel lifeBonus;
 	private int baseScoreNo;
 	private int shotsHitNo;
 	private int totalShotsNo;
 	private boolean godModeOn;
+	public int totalScoreNo;
+	private int livesLost;
 	
-	public LevelMenuBuilder(int baseScore,int shotsHit,int totalShots,boolean godModeOn){
+	public LevelMenuBuilder(int baseScore,int shotsHit,int totalShots,boolean godModeOn, int livesLost){
 		baseScoreNo = baseScore;
 		shotsHitNo = shotsHit;
 		totalShotsNo = totalShots;
 		this.godModeOn=godModeOn;
+		this.livesLost = livesLost;
 		
 		instance = this;
 	}
@@ -67,38 +71,53 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		topLogo.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 90));
  	 	topLogo.setBounds(30,20,960,65);
  	 	
-		int temp1=100;
-		int y=170;
-		int temp2=600;
-		int temp3=150;
+
 		
 		Font basefont = new Font("Impact", Font.BOLD, 50);
 		baseScore = new JLabel("Score: " + (godModeOn ? "°" : baseScoreNo));
 		baseScore.setForeground(Color.WHITE);
 		baseScore.setFont(basefont);
-		baseScore.setBounds(temp1,y,temp2,temp3);
+		Menu.centerLabel(baseScore,100);
 		
 // NEED TO ADD LIFE BONUS THINGY
 		
 		double accuracyBonus = (double) shotsHitNo/ (double)(totalShotsNo==0 ? 1 : totalShotsNo);
 		double accuracyPercentage = Math.round(accuracyBonus * 10000)/100;
 		
-
 		accuracy = new JLabel("Accuracy: " + (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " (" + (int) accuracyPercentage + "%)"): "N/A"));
 		accuracy.setForeground(Color.WHITE);
 		accuracy.setFont(basefont);
-		accuracy.setBounds(temp1,y+60,temp2,temp3);
+		Menu.centerLabel(accuracy, 160);
 		
+
 		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
 		bonusScore = new JLabel("Bonus: " + (!godModeOn ? (int) accuracyBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
 		bonusScore.setFont(basefont);
-		bonusScore.setBounds(temp1,y+120,temp2,temp3);
+		Menu.centerLabel(bonusScore, 220);
+		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
+		String leMessage = null;
+		if (livesLost == 0){
+			totalScoreNo= (int)(totalScoreNo* 1.5);
+			leMessage = "Survival Boost: 1.5x";
+		} else if (livesLost == 2) {
+			totalScoreNo= (int)(totalScoreNo* 0.8);
+			leMessage = "Survival Boost: 0.8x";
+		} else if (livesLost >= 3){
+			totalScoreNo= (int)(totalScoreNo* 0.5);
+			leMessage = "Survival Boost: 0.5x";
+		}
+		
+		lifeBonus = new JLabel(godModeOn ? "°": leMessage);
+		lifeBonus.setForeground(Color.WHITE);
+		lifeBonus.setFont(basefont);
+		Menu.centerLabel(lifeBonus,290);
+		
 		
 		totalScore = new JLabel("Total Score: " + (!godModeOn ? (accuracyBonus+ (int) baseScoreNo): "°" ));
 		totalScore.setForeground(Color.WHITE);
 		totalScore.setFont(basefont);
-		totalScore.setBounds(temp1,y+180,temp2,temp3);
+		Menu.centerLabel(totalScore,360);
 		
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
@@ -106,6 +125,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.add(accuracy);
 		parent.add(bonusScore);
 		parent.add(totalScore);
+		parent.add(lifeBonus);
 	}
 
 	@Override
@@ -118,6 +138,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.remove(accuracy);
 		parent.remove(bonusScore);
 		parent.remove(totalScore);
+		parent.remove(lifeBonus);
 	
 	}
 

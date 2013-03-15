@@ -2,7 +2,6 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -47,10 +46,10 @@ public class PauseMenuBuilder implements MenuBuilder, KeyListener{
 		
 		
 		titleLabel = new JLabel("Game Paused");
-		titleLabel.setForeground(Color.WHITE);
-		titleLabel.setFont(new Font("Copperplate", Font.BOLD,50));
-		centerLabel(titleLabel, MainCanvas.FRAME_WIDTH, MainCanvas.FRAME_HEIGHT);
-		//Dear markus, how do you center a JLabel in a JFrame? Thanks. - Mick
+		titleLabel.setForeground(Color.GREEN);
+		titleLabel.setFont(new Font("Copperplate", Font.BOLD, 100));
+		
+		Menu.centerLabel(titleLabel, 100);
 		
 		parent.add(titleLabel);
 		//parent.add(pauseButton);
@@ -61,6 +60,7 @@ public class PauseMenuBuilder implements MenuBuilder, KeyListener{
 		parent.remove(titleLabel);
 		parent.remove(pauseButton);
 		parent.removeKeyListener(this);
+		
 	}
 
 	@Override
@@ -86,9 +86,6 @@ public class PauseMenuBuilder implements MenuBuilder, KeyListener{
 		
 	}
 	
-	private static void centerLabel(JLabel label, int width, int height){
-		System.out.println(label.getWidth());
-		label.setBounds(new Rectangle(width/2 - label.getWidth(), height/2 - label.getHeight(), label.getWidth(), label.getHeight()));
-	}
+
 
 }

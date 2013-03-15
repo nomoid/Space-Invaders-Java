@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.github.assisstion.spaceInvaders.Clock;
@@ -53,6 +54,9 @@ public class Menu extends JPanel{
 	 * Starts the game engine
 	 */
 	
+	public static void centerLabel(JLabel label, int height){
+		label.setBounds( (int) (MainCanvas.FRAME_WIDTH/2 - label.getPreferredSize().getWidth()/2), height, (int) label.getPreferredSize().getWidth(), (int) label.getPreferredSize().getHeight());
+	}
 	
 	public void startGame() {
 		MainCanvas.engine = new Engine();

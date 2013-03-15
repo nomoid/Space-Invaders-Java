@@ -42,7 +42,7 @@ public final class CutsceneData{
 		private static final String PAGE_25 = "You: Crap. Can this day get any worse?";
 		private static final String PAGE_26 = "Tofu: You know those subships? They're SUBSHIPS 17-19!&THE WORST ONES!";
 		private static final String PAGE_27 = "[Unidentified voice]: (Placeholder for alien language)";
-		private static final String PAGE_28 = "You: Siri! Translate that bugger-speak into English.";
+		private static final String PAGE_28 = "You: Siri! Translate that bugger-speak into Englmish.";
 		private static final String PAGE_29 = "<Initializing Alien Language Translation System>";
 		private static final String PAGE_30 = "[Unidentified voice]: Drop any weapons you&are carrying on your personnel at&the moment. You are trespassing on&Tofite space. Surrender all ships&at once or we will gladly&send our Tofites fleet to exterminate you.";
 		private static final String PAGE_31 = "Tofu: Who's that?";
