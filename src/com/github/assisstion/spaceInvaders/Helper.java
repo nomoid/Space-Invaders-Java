@@ -144,7 +144,6 @@ public final class Helper{
 				public int compareTo(AudioPlayable ap){
 					return new Integer(hashCode()).compareTo(ap.hashCode());
 				}
-				
 			};
 		}
 		

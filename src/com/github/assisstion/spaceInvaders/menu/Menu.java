@@ -24,19 +24,16 @@ public class Menu extends JPanel{
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(960, 740));
 		System.out.println("Menu built");
-		MenuKeyListener keyListener = new MenuKeyListener(this);
-		addKeyListener(keyListener);
-		requestFocus();
-		revalidate();
-        repaint();
-        
         MainCanvas.frame.pack();
+        MenuKeyListener keyListener = new MenuKeyListener(this);
+		addKeyListener(keyListener);
 	}
 	
 	public void addMenuBuilder(MenuBuilder builder){
 		currentMenu = builder;
 		builders.add(builder);
 		builder.build(this);
+		requestFocus();
 		revalidate();
         repaint();
 	}
@@ -44,6 +41,7 @@ public class Menu extends JPanel{
 	public void closeMenu(MenuBuilder builder){
 		builders.remove(builder);
 		builder.unBuild(this);
+		requestFocus();
 		revalidate();
         repaint();
 	}

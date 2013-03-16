@@ -158,6 +158,7 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(logolabel);
 		parent.remove(creditsButton);
 		parent.remove(hscoreButton);
+		looper.stop();
 		ResourceManager.removeAudioPlayer(looper);
 	// WORK On ENDING THE MENU MUSIC WHEN GAME STARTS
 
@@ -194,7 +195,7 @@ public class MainMenuBuilder implements MenuBuilder{
 							while(paused){
 								MainCanvas.audioLock.wait();
 							}
-							Helper.streamSound(location);
+							Helper.streamSound(location, this);
 							System.out.println("Audio Loop");
 							ready = false;
 						}

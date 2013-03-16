@@ -16,11 +16,9 @@ public class MenuKeyListener implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			if (parent.currentMenu.getClass().getAnnotation(ReturnableMenu.class) != null){
 				parent.closeMenu(parent.currentMenu);
-				System.out.println("affhjasdlkfha");
-			}
-			
+				parent.addMenuBuilder(new MainMenuBuilder());
+			}	
 		}
-		System.out.println("nongescjasdlkfha");
 	}
 
 	@Override
