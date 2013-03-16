@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -9,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
 public class HelpMenuBuilder implements MenuBuilder {
@@ -25,10 +28,13 @@ public class HelpMenuBuilder implements MenuBuilder {
 	public void build(Menu menu) {
 		
 		parent=menu;
-		helplabel = new JLabel(new ImageIcon("resources/Spaceship.png"));
-		helplabel.setBounds(960/2,100,100,100);
-		parent.add(helplabel);
 		
+		helplabel = new JLabel("Help");
+		helplabel.setFont(new Font("Copperplate", Font.BOLD, 80));
+		helplabel.setForeground(Color.WHITE);
+		Menu.centerLabel(helplabel, 0);
+		
+
 		
 		returnButton = new JButton(new ImageIcon(getReturnImage()));
 		returnButton.addActionListener(new ActionListener() {
@@ -40,8 +46,9 @@ public class HelpMenuBuilder implements MenuBuilder {
 		});
 		
 		returnButton.setBounds(0,740-94,162,94);
-		parent.add(returnButton);
 		
+		parent.add(returnButton);
+		parent.add(helplabel);
 	}
 
 	@Override
