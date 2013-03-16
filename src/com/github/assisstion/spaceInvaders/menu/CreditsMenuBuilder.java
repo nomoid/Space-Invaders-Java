@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+
+@ReturnableMenu
 public class CreditsMenuBuilder implements MenuBuilder{
 //will be made later
 	@Override

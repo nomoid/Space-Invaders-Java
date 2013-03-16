@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
-
+@ReturnableMenu
 public class HighScoreMenuBuilder implements MenuBuilder{
 
 	private JTabbedPane tabbedPane;

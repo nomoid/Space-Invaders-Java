@@ -10,16 +10,21 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
+@ReturnableMenu
 public class HelpMenuBuilder implements MenuBuilder {
 	private HelpMenuBuilder instance;
 	private Menu parent;
 	private JLabel helplabel;
 	private JButton returnButton;
 
+	private JTabbedPane tabbedPane;
+	
 	public HelpMenuBuilder(){
 		instance = this;
 	}
@@ -44,9 +49,36 @@ public class HelpMenuBuilder implements MenuBuilder {
 				parent.addMenuBuilder(new MainMenuBuilder());
 			}
 		});
+		returnButton.setBounds(0,0,162,94);
 		
-		returnButton.setBounds(0,740-94,162,94);
 		
+		tabbedPane = new JTabbedPane();
+		tabbedPane.setBounds(50, 100, MainCanvas.FRAME_WIDTH - 100, MainCanvas.FRAME_HEIGHT - 125);
+		System.out.println(tabbedPane.getWidth() + " " + tabbedPane.getHeight());
+		
+		JLabel label = new JLabel("YO SUP HOMIE BRO");
+		label.setForeground(Color.WHITE);
+		
+		tabbedPane.insertTab("General", null, label, "General", 0);
+		JLabel label2 = new JLabel("NI HAO HOMIE BRO");
+		label2.setForeground(Color.WHITE);
+		
+		
+		tabbedPane.insertTab("Boosts", null, label2, "Boosts", 1);
+		
+		JLabel label3 = new JLabel("YOYOYOYOY");
+		JPanel panel1 = new JPanel();
+		panel1.setLayout( null );
+		panel1.add(label3);
+		
+		label3.setForeground(Color.WHITE);
+		tabbedPane.insertTab("Enemies", null, panel1, "Boosts", 2);
+		
+		tabbedPane.setBackgroundAt(2, Color.orange);
+		tabbedPane.setForegroundAt(2, Color.black);
+		
+		
+		parent.add(tabbedPane);	
 		parent.add(returnButton);
 		parent.add(helplabel);
 	}
@@ -55,6 +87,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 	public void unBuild(Menu menu) {
 		parent.remove(helplabel);
 		parent.remove(returnButton);
+		parent.remove(tabbedPane);
 	}
 
 	private BufferedImage getReturnImage(){

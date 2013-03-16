@@ -108,7 +108,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 			leMessage = "Survival Boost: 0.5x";
 		}
 		
-		lifeBonus = new JLabel(godModeOn ? "°": leMessage);
+		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °": leMessage);
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
 		Menu.centerLabel(lifeBonus,290);

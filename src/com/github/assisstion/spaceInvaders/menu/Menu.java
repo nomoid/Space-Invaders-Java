@@ -15,6 +15,7 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 public class Menu extends JPanel{
 	
 	
+	public MenuBuilder currentMenu;
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
 	
@@ -23,9 +24,17 @@ public class Menu extends JPanel{
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(960, 740));
 		System.out.println("Menu built");
+		MenuKeyListener keyListener = new MenuKeyListener(this);
+		addKeyListener(keyListener);
+		requestFocus();
+		revalidate();
+        repaint();
+        
+        MainCanvas.frame.pack();
 	}
 	
 	public void addMenuBuilder(MenuBuilder builder){
+		currentMenu = builder;
 		builders.add(builder);
 		builder.build(this);
 		revalidate();

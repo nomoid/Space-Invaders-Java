@@ -2,8 +2,6 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
-public class MainMenuBuilder implements MenuBuilder, KeyListener{
+public class MainMenuBuilder implements MenuBuilder{
 
 	private final static String MENUSONG = "resources/Menu Song (.wav).wav";
 	private final static String STARTBUTTON = "resources/startButton.png";
@@ -43,10 +41,6 @@ public class MainMenuBuilder implements MenuBuilder, KeyListener{
 	@Override
 	public void build(Menu menu){
 		parent = menu;
-		parent.addKeyListener(this);
-		parent.requestFocus();
-		parent.revalidate();
-		parent.repaint();
 		
 		BufferedImage startbuttonIcon = null;
 		BufferedImage helpbuttonIcon = null;
@@ -158,7 +152,6 @@ public class MainMenuBuilder implements MenuBuilder, KeyListener{
 	@Override
 	public void unBuild(Menu menu){
 		parent = menu;
-		parent.removeKeyListener(this);
 		parent.remove(storyButton);
 		parent.remove(helpButton);
 		parent.remove(startButton);
@@ -254,12 +247,8 @@ public class MainMenuBuilder implements MenuBuilder, KeyListener{
 		}
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e){
-		
-		if (e.getKeyCode() == KeyEvent.VK_M) {
-			
-			if(!ResourceManager.getMuted()){
+	/*
+ 			if(!ResourceManager.getMuted()){
 				System.out.println("Mute");
 				ResourceManager.setMuted(true);
 			}
@@ -268,18 +257,5 @@ public class MainMenuBuilder implements MenuBuilder, KeyListener{
 				ResourceManager.setMuted(false);
 			}
 			
-		}
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e){
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e){
-		// TODO Auto-generated method stub
-		
-	}
+	 */
 }

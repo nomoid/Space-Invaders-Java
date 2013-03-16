@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.ResourceManager;
-
+@ReturnableMenu
 public class PlotMenuBuilder implements MenuBuilder {
 	
 	private PlotMenuBuilder instance;
@@ -24,7 +24,6 @@ public class PlotMenuBuilder implements MenuBuilder {
 	
 	@Override
 	public void build(Menu menu) {
-		System.out.println("asdfasdfasdf");
 		parent=menu;
 		mainlabel = new JLabel(new ImageIcon("resources/Spaceship.png"));
 		mainlabel.setBounds(960/2,100,100,100);

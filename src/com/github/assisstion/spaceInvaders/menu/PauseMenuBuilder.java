@@ -11,8 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
-
-public class PauseMenuBuilder implements MenuBuilder, KeyListener{
+@ReturnableMenu
+public class PauseMenuBuilder implements MenuBuilder{
 
 	private PauseMenuBuilder instance;
 	private Menu parent;
@@ -27,7 +27,6 @@ public class PauseMenuBuilder implements MenuBuilder, KeyListener{
 	@Override
 	public void build(Menu menu){
 		parent = menu;
-		parent.addKeyListener(instance);
 		parent.requestFocus();
 		parent.revalidate();
 		
@@ -59,32 +58,9 @@ public class PauseMenuBuilder implements MenuBuilder, KeyListener{
 	public void unBuild(Menu menu){
 		parent.remove(titleLabel);
 		parent.remove(pauseButton);
-		parent.removeKeyListener(this);
 		
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			parent.closeMenu(instance);
-			MainCanvas.menu.add(MainCanvas.engine);
-			MainCanvas.engine.state="main";
-			MainCanvas.frame.pack();
-		}
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 
 
