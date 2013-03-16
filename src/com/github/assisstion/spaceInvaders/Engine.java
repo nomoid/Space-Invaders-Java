@@ -652,7 +652,8 @@ public class Engine extends Canvas implements KeyListener {
 		
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
-
+		player1.health = Player.PLAYER_DEFAULT_HEALTH;
+		
 		currentLevel+=1;
 		
 		if (currentLevel > 7) {

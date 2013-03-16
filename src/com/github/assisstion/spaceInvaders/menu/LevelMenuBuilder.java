@@ -72,12 +72,12 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
  	 	topLogo.setBounds(30,20,960,65);
  	 	
 
-		
+		int x = 250;
 		Font basefont = new Font("Impact", Font.BOLD, 50);
 		baseScore = new JLabel("Score: " + (godModeOn ? "°" : baseScoreNo));
 		baseScore.setForeground(Color.WHITE);
 		baseScore.setFont(basefont);
-		Menu.centerLabel(baseScore,100);
+		Menu.centerLabel(baseScore,x);
 		
 // NEED TO ADD LIFE BONUS THINGY
 		
@@ -87,14 +87,14 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		accuracy = new JLabel("Accuracy: " + (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " (" + (int) accuracyPercentage + "%)"): "N/A"));
 		accuracy.setForeground(Color.WHITE);
 		accuracy.setFont(basefont);
-		Menu.centerLabel(accuracy, 160);
+		Menu.centerLabel(accuracy, x+60);
 		
 
 		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
 		bonusScore = new JLabel("Bonus: " + (!godModeOn ? (int) accuracyBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
 		bonusScore.setFont(basefont);
-		Menu.centerLabel(bonusScore, 220);
+		Menu.centerLabel(bonusScore, x+120);
 		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
 		String leMessage = null;
 		if (livesLost == 0){
@@ -111,13 +111,13 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °": leMessage);
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
-		Menu.centerLabel(lifeBonus,290);
+		Menu.centerLabel(lifeBonus,x+180);
 		
 		
-		totalScore = new JLabel("Total Score: " + (!godModeOn ? (accuracyBonus+ (int) baseScoreNo): "°" ));
+		totalScore = new JLabel("Total Score: " + (!godModeOn ? (int) (accuracyBonus + baseScoreNo): "°" ));
 		totalScore.setForeground(Color.WHITE);
 		totalScore.setFont(basefont);
-		Menu.centerLabel(totalScore,360);
+		Menu.centerLabel(totalScore,x+240);
 		
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
