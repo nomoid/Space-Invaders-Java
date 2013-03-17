@@ -247,16 +247,4 @@ public class MainMenuBuilder implements MenuBuilder{
 			return new Integer(hashCode()).compareTo(ap.hashCode());
 		}
 	}
-
-	/*
- 			if(!ResourceManager.getMuted()){
-				System.out.println("Mute");
-				ResourceManager.setMuted(true);
-			}
-			else{
-				System.out.println("Unmute");
-				ResourceManager.setMuted(false);
-			}
-			
-	 */
 }

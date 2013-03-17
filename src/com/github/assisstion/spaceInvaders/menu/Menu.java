@@ -18,6 +18,7 @@ public class Menu extends JPanel{
 	public MenuBuilder currentMenu;
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
+	MenuKeyListener keyListener;
 	
 	public Menu() {
 		setLayout(null);
@@ -25,11 +26,15 @@ public class Menu extends JPanel{
 		setPreferredSize(new Dimension(960, 740));
 		System.out.println("Menu built");
         MainCanvas.frame.pack();
-        MenuKeyListener keyListener = new MenuKeyListener(this);
+        keyListener = new MenuKeyListener(this);
 		addKeyListener(keyListener);
 	}
 	
 	public void addMenuBuilder(MenuBuilder builder){
+		if(keyListener == null){
+			keyListener = new MenuKeyListener(this);
+			addKeyListener(keyListener);
+		}
 		currentMenu = builder;
 		builders.add(builder);
 		builder.build(this);
@@ -66,6 +71,8 @@ public class Menu extends JPanel{
 	}
 	
 	public void startGame() {
+		removeKeyListener(keyListener);
+		keyListener = null;
 		MainCanvas.engine = new Engine();
 		add(MainCanvas.engine);
 		MainCanvas.frame.pack();

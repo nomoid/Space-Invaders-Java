@@ -3,6 +3,8 @@ package com.github.assisstion.spaceInvaders.menu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.github.assisstion.spaceInvaders.ResourceManager;
+
 public class MenuKeyListener implements KeyListener {
 
 	Menu parent;
@@ -18,6 +20,16 @@ public class MenuKeyListener implements KeyListener {
 				parent.closeMenu(parent.currentMenu);
 				parent.addMenuBuilder(new MainMenuBuilder());
 			}	
+		}
+		if(e.getKeyCode() == KeyEvent.VK_M){
+			if(!ResourceManager.getMuted()){
+				System.out.println("Mute");
+				ResourceManager.setMuted(true);
+			}
+			else{
+				System.out.println("Unmute");
+				ResourceManager.setMuted(false);
+			}
 		}
 	}
 
