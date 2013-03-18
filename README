@@ -2,12 +2,13 @@ Space Invaders (Java)
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
-Last Updated: Mar. 13, 2013
+Last Updated: Mar. 18, 2013
 
 Status:
-Under progress
+Pre-Alpha
 
 Tasks:
+TO SEE UP TO DATE TASKLIST, PLEASE GO TO OFFICIAL TASKLIST
 Create Frame: DONE
 Create Updating Engine: DONE
 Create Player Mechanics: DONE
@@ -17,7 +18,7 @@ Collision Testing: DONE
 Menu Screen/UI: BASICALLY DONE - add high score rankings
 Music: IN PROGRESS - main menu music done
 Graphics: IN PROGRESS - add bg, change sprites (possibly)
-Story: BARELY STARTED - added cutscenes
+Story: IN PROGRESS- added cutscenes, writing script
 Opening Screen: DONE
 Closing Screen: BASICALLY DONE - missing high score rankings
 Levels: DONE
@@ -62,3 +63,4 @@ assisstion - Programmer
 michael99man - Programmer
 LunacyEcho - Sound Manager
 Transfordete - Graphics Manager
+dysprosium - Editor
