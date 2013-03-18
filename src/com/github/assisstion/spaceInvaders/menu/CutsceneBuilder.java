@@ -35,7 +35,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private String leText = "";
 	private Font[] fonts;
 	private Color[] colors;
-	private Object finishLock = new Object();
 	private boolean done = false;
 
 	public CutsceneBuilder(Cutscene cutscene) {
@@ -57,8 +56,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		advancementLabel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
 		advancementLabel.setForeground(Color.WHITE);
 		advancementLabel.setBounds(750, 650, 200, 100);
-		parent.add(advancementLabel);
-		labelList.add(advancementLabel);
+		addLabel(advancementLabel);
 	}
 
 	public void update(Menu menu) {
@@ -148,23 +146,16 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		label.setFont(tempfont);
 		label.setForeground(tempcolor);
 		label.setBounds(x, y, width, height);
-
-		parent.add(label);
-		labelList.add(label);
+		addLabel(label);
 		notYetCreated = false;
 		return label;
-	}
-
-	private void updateLabel(JLabel lelabel, String text) {
-		lastlabel.setText(text);
 	}
 
 	@SuppressWarnings("unused")
 	private void buildIcon(BufferedImage image, int x, int y) {
 		JLabel label = new JLabel(new ImageIcon(image));
 		label.setBounds(x, y, image.getWidth(), image.getHeight());
-		parent.add(label);
-		labelList.add(label);
+		addLabel(label);
 	}
 
 	@Override
@@ -177,7 +168,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		try{
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				boolean b;
-				synchronized(finishLock){
+				synchronized(this){
 					b = done;
 					done = true;
 				}
@@ -199,5 +190,20 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public synchronized void addLabel(JLabel label){
+		if(done){
+			return;
+		}
+		parent.add(label);
+		labelList.add(label);
+	}
+	
+	private synchronized void updateLabel(JLabel lelabel, String text) {
+		if(done){
+			return;
+		}
+		lastlabel.setText(text);
 	}
 }

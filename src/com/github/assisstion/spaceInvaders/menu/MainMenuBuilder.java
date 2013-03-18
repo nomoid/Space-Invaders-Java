@@ -232,14 +232,14 @@ public class MainMenuBuilder implements MenuBuilder{
 
 		@Override
 		public void setPaused(boolean paused){
-			this.paused = paused;
-			if(!paused){
+			if(this.paused && !paused){
 				synchronized(MainCanvas.audioLock){
 					MainCanvas.audioLock.notify();
 				}
 				
 				
 			}
+			this.paused = paused;
 		}
 
 		@Override

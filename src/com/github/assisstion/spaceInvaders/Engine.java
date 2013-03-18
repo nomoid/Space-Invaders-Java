@@ -70,8 +70,14 @@ public class Engine extends Canvas implements KeyListener {
 	
 	/*
 	 * Update code runs according to current state of the code Possible states:
-	 * not_ready: not ready to start ready: ready to start but not started yet
+	 * not_ready: not ready to start 
+	 * ready: ready to start but not started yet
 	 * main: started
+	 * nametaking: menu for inputting name
+	 * game_over: game over screen
+	 * game_won: game win screen
+	 * pause: game pausing screen
+	 * just_died: player death
 	 */
 	private int shotsFired=0;
 	private int shotsHit=0;
@@ -79,7 +85,6 @@ public class Engine extends Canvas implements KeyListener {
 	public String state = "not_ready";
 	private Graphics2D g;
 	private String godmode = "";
-	// Unused for now
 	private boolean godmodeOn = false;
 	private Player player1;
 	// true if right arrow key down
@@ -226,7 +231,7 @@ public class Engine extends Canvas implements KeyListener {
 		return returnArray;
 	}
 
-	public void startGame(Graphics2D g) {
+	private void startGame(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_OFF);
 		g.setColor(Color.BLUE);
@@ -1028,7 +1033,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	// Constructs a bunker formation with the top left corner at (x, y)
-	public void constructBunkerFormation(int x, int y) {
+	private void constructBunkerFormation(int x, int y) {
 		int bunkerSize = Bunker.BUNKER_SIZE;
 		constructBunker(4, x + bunkerSize * 3, y + bunkerSize);
 		constructBunker(0, x, y + bunkerSize * 3);
@@ -1286,7 +1291,7 @@ public class Engine extends Canvas implements KeyListener {
 		gameObjects.remove(player1);
 	}
 	
-	public void bossUpdate(){
+	private void bossUpdate(){
 		if(bossOn){
 			boss.updateLocation();
 			updateHitbox(boss);
