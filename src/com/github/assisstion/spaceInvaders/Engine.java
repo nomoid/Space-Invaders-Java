@@ -830,6 +830,7 @@ public class Engine extends Canvas implements KeyListener {
 				for (Enemy e : enemies) {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
+							nextLevel();
 							shotsHit++;
 							e.health -= b.damage;
 							hitSpree ++;

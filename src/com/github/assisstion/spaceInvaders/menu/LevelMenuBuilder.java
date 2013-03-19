@@ -34,6 +34,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private boolean godModeOn;
 	public int totalScoreNo;
 	private int livesLost;
+	private JButton upgradeButton;
 	
 	public LevelMenuBuilder(int baseScore,int shotsHit,int totalShots,boolean godModeOn, int livesLost){
 		baseScoreNo = baseScore;
@@ -64,6 +65,16 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		
 		nextLevelButton.setBorder(BorderFactory.createEmptyBorder());
 		nextLevelButton.setContentAreaFilled(false);
+		
+		upgradeButton = new JButton("UPGRADES");
+		upgradeButton.setBounds(0,400,150,150);
+		
+		upgradeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new UpgradesMenuBuilder(instance));
+			}
+		});
 		
 		
 		topLogo = new JLabel("Level Completed!");
@@ -126,6 +137,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.add(bonusScore);
 		parent.add(totalScore);
 		parent.add(lifeBonus);
+		parent.add(upgradeButton);
 	}
 
 	@Override
@@ -139,6 +151,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.remove(bonusScore);
 		parent.remove(totalScore);
 		parent.remove(lifeBonus);
+		parent.remove(upgradeButton);
 	
 	}
 

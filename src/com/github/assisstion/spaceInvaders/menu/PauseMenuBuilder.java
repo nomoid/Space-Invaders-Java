@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
-@ReturnableMenu
 public class PauseMenuBuilder implements MenuBuilder{
 
 	private PauseMenuBuilder instance;
@@ -48,7 +47,7 @@ public class PauseMenuBuilder implements MenuBuilder{
 		Menu.centerLabel(titleLabel, 100);
 		
 		parent.add(titleLabel);
-		//parent.add(pauseButton);
+		parent.add(pauseButton);
 	}
 
 	@Override
