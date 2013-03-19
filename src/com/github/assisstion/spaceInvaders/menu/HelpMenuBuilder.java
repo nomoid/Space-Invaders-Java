@@ -35,7 +35,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 		parent=menu;
 		
 		helplabel = new JLabel("Help");
-		helplabel.setFont(new Font("Copperplate", Font.BOLD, 95));
+		helplabel.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 95));
 		helplabel.setForeground(Color.WHITE);
 		Menu.centerLabel(helplabel, 0);
 		
@@ -56,21 +56,16 @@ public class HelpMenuBuilder implements MenuBuilder {
 		tabbedPane.setBounds(50, 100, MainCanvas.FRAME_WIDTH - 100, MainCanvas.FRAME_HEIGHT - 125);
 		System.out.println(tabbedPane.getWidth() + " " + tabbedPane.getHeight());
 		
-		JLabel label = new JLabel("YO SUP HOMIE BRO");
-		label.setForeground(Color.WHITE);
-		
-		tabbedPane.insertTab("General", null, label, "General", 0);
-		
 		JLabel label4 = new JLabel("YO SasdfasdfasdfadfUP HOMIE BRO");
 		label4.setForeground(Color.WHITE);
 		
-		tabbedPane.insertTab("Controls", null, label4, "General", 1);
+		tabbedPane.insertTab("Controls", null, label4, "General", 0);
 		
 		JLabel label2 = new JLabel("NI HAO HOMIE BRO");
 		label2.setForeground(Color.WHITE);
 		
 		
-		tabbedPane.insertTab("Boosts", null, label2, "Boosts", 2);
+		tabbedPane.insertTab("Boosts", null, label2, "Boosts", 1);
 		
 		JLabel label3 = new JLabel("YOYOYOYOY");
 		JPanel panel1 = new JPanel();
@@ -78,7 +73,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 		panel1.add(label3);
 		
 		label3.setForeground(Color.WHITE);
-		tabbedPane.insertTab("Enemies", null, panel1, "Boosts", 3);
+		tabbedPane.insertTab("Enemies", null, panel1, "Boosts", 2);
 		
 		
 		
