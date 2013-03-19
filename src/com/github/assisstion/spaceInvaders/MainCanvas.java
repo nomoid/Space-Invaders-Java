@@ -1,6 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -29,7 +30,7 @@ public final class MainCanvas {
 	 * and it can only run when the system
 	 * is ready.
 	 */
-	public static Object audioLock = new Object();
+	public static ReentrantLock audioLock = new ReentrantLock();
 	
 	//This class should not be instantiated
 	private MainCanvas(){
@@ -73,7 +74,8 @@ public final class MainCanvas {
 				 * Pack the frame, position it in the center of the screen, and then display
 				 * it, and add the menu.
 				 */
-				synchronized(audioLock){
+				audioLock.lock();
+				{
 					menu = new Menu();
 					
 					frame.setContentPane(menu);
@@ -84,6 +86,7 @@ public final class MainCanvas {
 					frame.validate();
 					menu.addMenuBuilder(new MainMenuBuilder());
 				}
+				audioLock.unlock();
 		
 				System.out.println("Frame created");
 			}

@@ -160,6 +160,7 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(hscoreButton);
 		looper.stop();
 		ResourceManager.removeAudioPlayer(looper);
+		looper = null;
 	// WORK On ENDING THE MENU MUSIC WHEN GAME STARTS
 
 	}
@@ -180,6 +181,8 @@ public class MainMenuBuilder implements MenuBuilder{
 		private boolean on = true;
 		private boolean ready = true;
 		private boolean paused = false;
+		private Object pauseLock = new Object();
+		private Object onLock = new Object();
 		
 		public AudioLooper(String location){
 			this.location = location;
@@ -191,14 +194,20 @@ public class MainMenuBuilder implements MenuBuilder{
 			try{
 				while(on){
 					if(ready){
-						synchronized(MainCanvas.audioLock){
+						MainCanvas.audioLock.lock();
+						{
 							while(paused){
-								MainCanvas.audioLock.wait();
+								MainCanvas.audioLock.unlock();
+								synchronized(this){
+									wait();
+								}
+								MainCanvas.audioLock.lock();
 							}
 							Helper.streamSound(location, this);
 							System.out.println("Audio Loop");
 							ready = false;
 						}
+						MainCanvas.audioLock.unlock();
 					}
 				}
 			}
@@ -212,12 +221,16 @@ public class MainMenuBuilder implements MenuBuilder{
 		}
 		
 		public void stop(){
-			on = false;
+			synchronized(onLock){
+				on = false;
+			}
 		}
 		
 		@Override
 		public boolean isOn(){
-			return on;
+			synchronized(onLock){
+				return on;
+			}
 		}
 
 		@Override
@@ -227,17 +240,26 @@ public class MainMenuBuilder implements MenuBuilder{
 		
 		@Override
 		public boolean isPaused(){
-			return paused;
+			synchronized(pauseLock){
+				return paused;
+			}
 		}
 
 		@Override
 		public void setPaused(boolean paused){
-			if(this.paused && !paused){
-				synchronized(MainCanvas.audioLock){
-					MainCanvas.audioLock.notify();
+			boolean tempPaused;
+			synchronized(pauseLock){
+				tempPaused = this.paused;
+				this.paused = paused;
+			}
+			if(tempPaused && !paused){
+				MainCanvas.audioLock.lock();
+				{
+					synchronized(this){
+						notify();
+					}
 				}
-				
-				
+				MainCanvas.audioLock.unlock();
 			}
 			this.paused = paused;
 		}

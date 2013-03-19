@@ -149,7 +149,8 @@ public final class Helper{
 		
 		@Override
 		public void run(){
-			synchronized(MainCanvas.audioLock){
+			MainCanvas.audioLock.lock();
+			{
 				try{
 				    try {
 				    	int bufferSize = 4096;
@@ -161,9 +162,13 @@ public final class Helper{
 				        int b = 0;
 				        sdl.start();
 				        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
-				        	while(looper.isPaused()){
-				        		MainCanvas.audioLock.wait();
+				        	MainCanvas.audioLock.unlock();
+				        	synchronized(looper){
+				        		while(looper.isPaused()){
+				        			looper.wait();
+				        		}
 				        	}
+				        	MainCanvas.audioLock.lock();
 				        	sdl.write(buffer, 0, b);
 				        }
 				        sdl.drain();
@@ -189,7 +194,7 @@ public final class Helper{
 					ex.printStackTrace();
 				}
 			}
+			MainCanvas.audioLock.unlock();
 		}
-		
 	}
 }
