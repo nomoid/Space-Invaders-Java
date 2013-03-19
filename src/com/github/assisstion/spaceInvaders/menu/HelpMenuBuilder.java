@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.plaf.TabbedPaneUI;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
@@ -23,6 +24,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 	private JLabel helplabel;
 	private JButton returnButton;
 
+	private String[] panelLinks = {"resources/Controls.jpg","resources/Enemies.jpg","resources/Controls.jpg"};
 	private JTabbedPane tabbedPane;
 	
 	public HelpMenuBuilder(){
@@ -41,7 +43,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 		
 
 		
-		returnButton = new JButton(new ImageIcon(getReturnImage()));
+		returnButton = new JButton(new ImageIcon(getImage("resources/returnButton.png")));
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
@@ -54,34 +56,25 @@ public class HelpMenuBuilder implements MenuBuilder {
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(50, 100, MainCanvas.FRAME_WIDTH - 100, MainCanvas.FRAME_HEIGHT - 125);
-		System.out.println(tabbedPane.getWidth() + " " + tabbedPane.getHeight());
-		
-		JLabel label4 = new JLabel("YO SasdfasdfasdfadfUP HOMIE BRO");
-		label4.setForeground(Color.WHITE);
-		
-		tabbedPane.insertTab("Controls", null, label4, "General", 0);
-		
-		JLabel label2 = new JLabel("NI HAO HOMIE BRO");
-		label2.setForeground(Color.WHITE);
-		
-		
-		tabbedPane.insertTab("Boosts", null, label2, "Boosts", 1);
-		
-		JLabel label3 = new JLabel("YOYOYOYOY");
-		JPanel panel1 = new JPanel();
-		panel1.setLayout( null );
-		panel1.add(label3);
-		
-		label3.setForeground(Color.WHITE);
-		tabbedPane.insertTab("Enemies", null, panel1, "Boosts", 2);
-		
-		
+	
+		tabbedPane.insertTab("Controls", null, makePanel(0), "General", 0);
+		tabbedPane.insertTab("Enemies", null, makePanel(1), "Enemies", 1);
+		tabbedPane.insertTab("Boosts", null, makePanel(2), "Boosts", 2);
+
 		
 		parent.add(tabbedPane);	
 		parent.add(returnButton);
 		parent.add(helplabel);
 	}
 
+	private JPanel makePanel(int panelNo){
+		JPanel lepanel = new JPanel();
+		lepanel.setLayout(null);
+		JLabel lelabel = new JLabel(new ImageIcon(getImage(panelLinks[panelNo])));
+		lelabel.setBounds(-1,0,841,570);
+		lepanel.add(lelabel);
+		return lepanel;
+	}
 	@Override
 	public void unBuild(Menu menu) {
 		parent.remove(helplabel);
@@ -89,14 +82,14 @@ public class HelpMenuBuilder implements MenuBuilder {
 		parent.remove(tabbedPane);
 	}
 
-	private BufferedImage getReturnImage(){
-		BufferedImage returnIcon = null;
+	private BufferedImage getImage(String filepath){
+		BufferedImage leIcon = null;
 		try {
-			returnIcon = ResourceManager.getImageResource("resources/returnButton.png");
+			leIcon = ResourceManager.getImageResource(filepath);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
-		return returnIcon;
+		return leIcon;
 	}
 }
