@@ -11,3 +11,4 @@
 # Eclipse Files #
 .classpath
 .project
+.settings/*
