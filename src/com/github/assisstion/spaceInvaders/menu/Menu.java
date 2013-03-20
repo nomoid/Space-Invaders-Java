@@ -18,7 +18,7 @@ public class Menu extends JPanel{
 	public MenuBuilder currentMenu;
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
-	MenuKeyListener keyListener;
+	private MenuKeyListener keyListener;
 	
 	public Menu() {
 		setLayout(null);
@@ -60,6 +60,14 @@ public class Menu extends JPanel{
 		}
 		revalidate();
         repaint();
+	}
+	
+	public void enableMenuKeyListener(){
+		addKeyListener(keyListener);
+	}
+	
+	public void disableMenuKeyListener(){
+		removeKeyListener(keyListener);
 	}
 	
 	/*

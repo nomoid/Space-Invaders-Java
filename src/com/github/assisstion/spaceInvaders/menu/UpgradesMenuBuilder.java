@@ -1,7 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.Canvas;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -9,18 +9,16 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
-import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
+@ReturnableMenu
 public class UpgradesMenuBuilder implements MenuBuilder {
 	private UpgradesMenuBuilder instance;
 	private Menu parent;
 	private LevelMenuBuilder levelScreen;
-	private JButton buyButton;
 	private JButton returnButton;
-	private JLabel titleLabel;
+	private UpgradesCanvas canvas;
 	
 	public UpgradesMenuBuilder(LevelMenuBuilder leScreen){
 		levelScreen = leScreen;
@@ -30,28 +28,12 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 	@Override
 	public void build(Menu menu) {
 		parent = menu;
+		parent.enableMenuKeyListener();
 		parent.requestFocus();
 		parent.revalidate();
 		
-		buyButton = new JButton("BUY");
-		buyButton.setBounds(960/2,500,100,100);
+		canvas = new UpgradesCanvas();
 		
-		buyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
-				parent.closeMenu(instance);
-				MainCanvas.menu.add(MainCanvas.engine);
-				MainCanvas.engine.state="main";
-				MainCanvas.frame.pack();
-			}
-		});
-		
-		
-		titleLabel = new JLabel("UPGRADES");
-		titleLabel.setForeground(Color.GREEN);
-		titleLabel.setFont(new Font("Copperplate", Font.BOLD, 100));
-		
-		Menu.centerLabel(titleLabel, 100);
 		
 		returnButton = new JButton(new ImageIcon(getImage("resources/returnButton.png")));
 		returnButton.addActionListener(new ActionListener() {
@@ -63,19 +45,16 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		});
 		
 		returnButton.setBounds(0,0,162,94);
-		parent.add(titleLabel);
 		parent.add(returnButton);
-		parent.add(buyButton);
-		parent.add(returnButton);
+		parent.add(canvas);
 
 	}
 
 	@Override
 	public void unBuild(Menu menu) {
-		parent.remove(titleLabel);
+		parent.disableMenuKeyListener();
 		parent.remove(returnButton);
-		parent.remove(buyButton);
-		parent.remove(returnButton);
+		parent.remove(canvas);
 
 	}
 
@@ -88,5 +67,15 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 			System.out.println("Error loading image!");
 		}
 		return leIcon;
+	}
+	
+	private static class UpgradesCanvas extends Canvas{
+		
+		private static final long serialVersionUID = 5897847762185790426L;
+
+		@Override
+		public void paint(Graphics g){
+			
+		}
 	}
 }
