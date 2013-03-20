@@ -10,12 +10,14 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private CutsceneBuilder instance;
 	private Menu parent;
 
+	public boolean spaceOn;
 	private String lastString;
 	private int y = 10;
 	public boolean isOn;
@@ -67,6 +69,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		if (pageNumber >= text.length) {
 			parent.closeMenu(instance);
 			parent.startGame();
+			AchievementMethods.redeemAchievement("Dedication");
 		} else if (i < text[x].length) {
 			leText += text[x][i];
 			buildText(leText);
@@ -160,7 +163,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			CutsceneUpdater.updater.delay = 22; 
+		}
 	}
 
 	@Override
@@ -177,6 +182,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					parent.closeMenu(instance);
 					parent.startGame();
 				}
+			}
+			else if (e.getKeyCode() == KeyEvent.VK_SPACE){
+				CutsceneUpdater.updater.delay = Cutscene.DEFAULT_DELAY; 
 			}
 		}
 		catch(Exception ex){

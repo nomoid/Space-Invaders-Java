@@ -5,11 +5,13 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 public class CutsceneUpdater implements Runnable {
 	
 	private CutsceneBuilder instance;
-	private int delay;
+	public static CutsceneUpdater updater;
+	public int delay;
 	
 	public CutsceneUpdater(CutsceneBuilder builder, int delay){
 		instance=builder;
 		this.delay = delay;
+		updater = this;
 	}
 	@Override
 	public void run(){

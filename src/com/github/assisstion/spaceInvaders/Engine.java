@@ -985,6 +985,9 @@ public class Engine extends Canvas implements KeyListener {
 			break;
 		case STEROIDS:
 			AchievementMethods.redeemAchievement("Lance Armstrong");
+			if (godmodeOn){
+				AchievementMethods.redeemAchievement("Genocide");
+			}
 			processPowerup(player, Powerup.PowerupType.HEALTH);
 			processPowerup(player, Powerup.PowerupType.SPEED);
 			processPowerup(player, Powerup.PowerupType.FIRERATE);
