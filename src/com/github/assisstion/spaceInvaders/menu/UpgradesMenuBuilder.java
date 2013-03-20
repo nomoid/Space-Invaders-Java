@@ -1,8 +1,6 @@
 package com.github.assisstion.spaceInvaders.menu;
 
-<<<<<<< HEAD
 import java.awt.Canvas;
-=======
 import static com.github.assisstion.spaceInvaders.MainCanvas.FRAME_HEIGHT;
 import static com.github.assisstion.spaceInvaders.MainCanvas.FRAME_WIDTH;
 
@@ -68,11 +66,6 @@ public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 		
 		canvas = new UpgradesCanvas();
 		
-		buyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Something was bought!");
-			}
-		});
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(50, 100, MainCanvas.FRAME_WIDTH - 100, MainCanvas.FRAME_HEIGHT - 125);

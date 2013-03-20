@@ -37,7 +37,7 @@ import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 import static com.github.assisstion.spaceInvaders.Data.*;
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 import static com.github.assisstion.spaceInvaders.Helper.*;
-
+import com.github.assisstion.spaceInvaders.AchievementMethods.*;
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
  * the paint() method so it can be directly used to paint objects.
@@ -57,8 +57,8 @@ public class Engine extends Canvas implements KeyListener {
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
-	private boolean eggOn;
-	private boolean pixarOn;
+	public boolean eggOn;
+	public boolean pixarOn;
 	private int deathCounter;
 	private int nextReward;
 	private boolean rewardAvailable = false;
@@ -85,7 +85,7 @@ public class Engine extends Canvas implements KeyListener {
 	public String state = "not_ready";
 	private Graphics2D g;
 	private String godmode = "";
-	private boolean godmodeOn = false;
+	public boolean godmodeOn = false;
 	private Player player1;
 	// true if right arrow key down
 	private boolean rightOn = false;
@@ -121,6 +121,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
 	public Engine() {
+		AchievementMethods.setEngine(this);
 		addKeyListener(this);
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -832,10 +833,10 @@ public class Engine extends Canvas implements KeyListener {
 				for (Enemy e : enemies) {
 					if (b.hitBox.overLaps(e.hitBox)) {
 						if (b.owner instanceof Player) {
-							nextLevel();
 							shotsHit++;
 							e.health -= b.damage;
 							hitSpree ++;
+							AchievementMethods.checkHitstreak(hitSpree);
 							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
@@ -983,6 +984,7 @@ public class Engine extends Canvas implements KeyListener {
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case STEROIDS:
+			AchievementMethods.redeemAchievement("Lance Armstrong");
 			processPowerup(player, Powerup.PowerupType.HEALTH);
 			processPowerup(player, Powerup.PowerupType.SPEED);
 			processPowerup(player, Powerup.PowerupType.FIRERATE);
@@ -1011,15 +1013,12 @@ public class Engine extends Canvas implements KeyListener {
 		
 		new Thread(new MovementClock()).start();
 		int type = 0;
-		if (tempname.equalsIgnoreCase("god") || tempname.equalsIgnoreCase("allah") || tempname.equalsIgnoreCase("shiva")){
-			godmodeOn = true;
-		} else if (tempname.equalsIgnoreCase("easter")
-				|| tempname.equalsIgnoreCase("egg")) {
-			eggOn = true;
-			type = 1;
-		} else if (tempname.equalsIgnoreCase("A113")) {
-			pixarOn = true;
-			type = 2;
+		AchievementMethods.checkName(tempname);
+		type=0;
+		if (eggOn){
+			type=1;
+		} else if (pixarOn){
+			type=2;
 		}
 		// Creates a new player
 		player1 = new Player(type, tempname);
