@@ -10,7 +10,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,13 +18,10 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-<<<<<<< HEAD
 
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
-@ReturnableMenu
-public class UpgradesMenuBuilder implements MenuBuilder {
-=======
+	
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -37,14 +33,11 @@ import com.github.assisstion.spaceInvaders.ResourceManager;
 public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 	//btw wht the hell is this:
 	private static final long serialVersionUID = 218162485931432439L;
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
 	private UpgradesMenuBuilder instance;
 	private Menu parent;
 	private LevelMenuBuilder levelScreen;
 	private JButton returnButton;
-<<<<<<< HEAD
 	private UpgradesCanvas canvas;
-=======
 	private JLabel titleLabel;
 	private JTabbedPane tabbedPane;
 	private Canvas canvas1;
@@ -54,7 +47,6 @@ public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 	private Graphics graphics2;
 	private Graphics graphics3;
 	public boolean isOn; 
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
 	
 	public UpgradesMenuBuilder(LevelMenuBuilder leScreen){
 		levelScreen = leScreen;
@@ -76,8 +68,6 @@ public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 		
 		canvas = new UpgradesCanvas();
 		
-<<<<<<< HEAD
-=======
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Something was bought!");
@@ -98,28 +88,6 @@ public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 		Menu.centerLabel(titleLabel, 20);
 		
 		
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
-		
-		returnButton = new JButton(new ImageIcon(getImage("resources/returnButton.png")));
-		returnButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
-				parent.closeMenu(instance);
-				parent.addMenuBuilder(levelScreen);
-			}
-		});
-		
-		returnButton.setBounds(0,0,162,94);
-<<<<<<< HEAD
-=======
-		
-		
-		parent.add(tabbedPane);
-		parent.add(titleLabel);
-		parent.add(returnButton);
-		parent.add(buyButton);
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
-		parent.add(returnButton);
 		parent.add(canvas);
 
 	}
@@ -130,18 +98,10 @@ public class UpgradesMenuBuilder extends Canvas implements MenuBuilder{
 	
 	@Override
 	public void unBuild(Menu menu) {
-<<<<<<< HEAD
 		parent.disableMenuKeyListener();
 		parent.remove(returnButton);
 		parent.remove(canvas);
 
-=======
-		parent.remove(tabbedPane);
-		parent.remove(titleLabel);
-		parent.remove(returnButton);
-		parent.remove(buyButton);
-		parent.remove(returnButton);
->>>>>>> Added framework for canvases in Upgrades menu. Markus, you fix my trail of failure :D. Repainting does NOT work.
 	}
 	
 	private JPanel makePanel(int panelNo){
