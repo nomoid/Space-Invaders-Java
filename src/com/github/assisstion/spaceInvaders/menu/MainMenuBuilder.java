@@ -167,7 +167,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	
 	public void playSound(String location){
 		if(looper == null || !looper.on){
-			looper = this.new AudioLooper(location);
+			looper = new AudioLooper(location);
 			new Thread(looper).start();
 		}
 	}
@@ -175,7 +175,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	/*
 	 * Note: this inner class is NOT static
 	 */
-	public class AudioLooper implements Runnable, Looper{
+	public static class AudioLooper implements Runnable, Looper{
 
 		private String location;
 		private boolean on = true;
@@ -196,13 +196,13 @@ public class MainMenuBuilder implements MenuBuilder{
 					if(ready){
 						MainCanvas.audioLock.lock();
 						{
-							while(paused){
-								MainCanvas.audioLock.unlock();
-								synchronized(this){
+							MainCanvas.audioLock.unlock();
+							synchronized(this){
+								while(paused){
 									wait();
 								}
-								MainCanvas.audioLock.lock();
 							}
+							MainCanvas.audioLock.lock();
 							Helper.streamSound(location, this);
 							System.out.println("Audio Loop");
 							ready = false;
@@ -253,13 +253,9 @@ public class MainMenuBuilder implements MenuBuilder{
 				this.paused = paused;
 			}
 			if(tempPaused && !paused){
-				MainCanvas.audioLock.lock();
-				{
-					synchronized(this){
-						notify();
-					}
+				synchronized(this){
+					notify();
 				}
-				MainCanvas.audioLock.unlock();
 			}
 			this.paused = paused;
 		}

@@ -152,10 +152,11 @@ public final class Helper{
 			MainCanvas.audioLock.lock();
 			{
 				try{
+					SourceDataLine sdl = null;
 				    try {
 				    	int bufferSize = 4096;
 				    	AudioFormat format = AudioSystem.getAudioFileFormat(new File(location)).getFormat();
-						SourceDataLine sdl = AudioSystem.getSourceDataLine(format);
+						sdl = AudioSystem.getSourceDataLine(format);
 						sdl.open(format, bufferSize);
 				        BufferedInputStream bis = new BufferedInputStream(AudioSystem.getAudioInputStream(new File(location)));
 				        byte[] buffer = new byte[bufferSize];
@@ -173,7 +174,6 @@ public final class Helper{
 				        }
 				        sdl.drain();
 				        sdl.stop();
-				        sdl.close();
 				    } 
 					catch(IOException e){
 						// TODO placeholder
@@ -187,6 +187,11 @@ public final class Helper{
 						// TODO placeholder
 						e.printStackTrace();
 					}
+				    finally{
+				    	if(sdl != null){
+				    		sdl.close();
+				    	}
+				    }
 				    looper.ready();
 				}
 				catch(Exception ex){
