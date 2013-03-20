@@ -30,7 +30,7 @@ public class Menu extends JPanel{
 		addKeyListener(keyListener);
 	}
 	
-	public void addMenuBuilder(MenuBuilder builder){
+	public synchronized void addMenuBuilder(MenuBuilder builder){
 		if(keyListener == null){
 			keyListener = new MenuKeyListener(this);
 			addKeyListener(keyListener);
@@ -43,7 +43,7 @@ public class Menu extends JPanel{
         repaint();
 	}
 
-	public void closeMenu(MenuBuilder builder){
+	public synchronized void closeMenu(MenuBuilder builder){
 		builders.remove(builder);
 		builder.unBuild(this);
 		requestFocus();
@@ -51,7 +51,7 @@ public class Menu extends JPanel{
         repaint();
 	}
 	
-	public void closeAllMenus(){
+	public synchronized void closeAllMenus(){
 		MenuBuilder builder = builders.pollLast();
 		while(builder != null){
 			builders.remove(builder);

@@ -660,21 +660,23 @@ public class Engine extends Canvas implements KeyListener {
 			gameCleanup();
 			state = "game_won";
 		} else {
-
-			
-			levelCleanup();
-			constructEnemyFormation(currentLevel);
-			MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
-			readyForMothership=false;
-			
-			state="paused";
-			MainCanvas.menu.remove(this);
-			nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn, livesLost);
-			player1.score= nextLevelMenu.totalScoreNo;
-			// STUFF TO DO HERE: display info to player.
-			MainCanvas.menu.addMenuBuilder(nextLevelMenu);
-			shotsFired=0;
-			shotsHit=0;	
+			if(state != "paused"){
+				state="paused";
+				levelCleanup();
+				constructEnemyFormation(currentLevel);
+				MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
+				readyForMothership=false;
+				
+				
+				MainCanvas.menu.remove(this);
+				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn, livesLost);
+				player1.score= nextLevelMenu.totalScoreNo;
+				// STUFF TO DO HERE: display info to player.
+				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
+				
+				shotsFired=0;
+				shotsHit=0;	
+			}
 		}
 		
 		

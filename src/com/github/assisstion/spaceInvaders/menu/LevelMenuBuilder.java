@@ -142,6 +142,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void unBuild(Menu menu) {
+		
 		parent = menu;
 		parent.removeKeyListener(this);
 		parent.remove(nextLevelButton);

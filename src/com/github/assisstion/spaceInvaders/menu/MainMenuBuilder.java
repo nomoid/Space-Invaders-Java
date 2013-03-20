@@ -76,9 +76,6 @@ public class MainMenuBuilder implements MenuBuilder{
 				CutsceneBuilder cutscenebuilder = new CutsceneBuilder(CutsceneData.Cutscene1.SCENE);
 				parent.addMenuBuilder(cutscenebuilder);	
 				new Thread(new CutsceneUpdater(cutscenebuilder, Cutscene.DEFAULT_DELAY)).start();
-				if(looper.on){
-					looper.stop();
-				}
 			}
 		});
 		
@@ -171,10 +168,7 @@ public class MainMenuBuilder implements MenuBuilder{
 			new Thread(looper).start();
 		}
 	}
-	
-	/*
-	 * Note: this inner class is NOT static
-	 */
+
 	public static class AudioLooper implements Runnable, Looper{
 
 		private String location;
