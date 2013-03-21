@@ -49,19 +49,26 @@ public final class AchievementMethods {
 			redeemAchievement("Abstinence");
 		} if (SecondAmendment){
 			redeemAchievement("Second Amendment");
-		} if (Untouchable){
-			redeemAchievement("Untouchable");
-		}
+		} 
 	}
 	
 	//checks booleans for the whole game
-	public static void checkFinalBooleans(){
+	public static void checkWinBooleans(){
 		if (thisIsSparta){
 			redeemAchievement("THIS IS SPARTA!");
 		} if (SecondAmendment){
 			redeemAchievement("Second Amendment");
 		} 
 	}
+	
+	public static void checkFinishBooleans(){
+		if (Untouchable){
+			redeemAchievement("Untouchable");
+		} 
+	}
+	
+	
+	
 	//clears booleans associated with a single level
 	public static void clearBooleans(){
 		Abstinence = true;

@@ -328,6 +328,8 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void gameLost(Graphics2D g) {
+		AchievementMethods.checkFinishBooleans();
+		
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
 		String yourScore = new String("Final Score: "
@@ -343,6 +345,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void gameWon(Graphics2D g) {
+		AchievementMethods.checkWinBooleans();
 		g.fillRect(0, 0, 960, 740);
 		String gameWon = new String("You've Won!");
 		String yourScore = new String("Final Score: "
