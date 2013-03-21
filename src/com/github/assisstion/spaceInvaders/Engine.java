@@ -37,7 +37,6 @@ import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 import static com.github.assisstion.spaceInvaders.Data.*;
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 import static com.github.assisstion.spaceInvaders.Helper.*;
-import com.github.assisstion.spaceInvaders.AchievementMethods.*;
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
  * the paint() method so it can be directly used to paint objects.
