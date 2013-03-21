@@ -37,6 +37,7 @@ import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
 import static com.github.assisstion.spaceInvaders.Data.*;
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 import static com.github.assisstion.spaceInvaders.Helper.*;
+
 /**
  * Engine class for rendering the game. This class extends Canvas and overrides
  * the paint() method so it can be directly used to paint objects.
@@ -52,7 +53,7 @@ public class Engine extends Canvas implements KeyListener {
 	 * Serializable
 	 */
 	private static final long serialVersionUID = 21816248595432439L;
-	
+
 	private boolean mothershipOn = false;
 	private Enemy mothership = null;
 	private boolean readyForMothership = false;
@@ -66,20 +67,16 @@ public class Engine extends Canvas implements KeyListener {
 	private int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
-	
+
 	/*
 	 * Update code runs according to current state of the code Possible states:
-	 * not_ready: not ready to start 
-	 * ready: ready to start but not started yet
-	 * main: started
-	 * nametaking: menu for inputting name
-	 * game_over: game over screen
-	 * game_won: game win screen
-	 * pause: game pausing screen
-	 * just_died: player death
+	 * not_ready: not ready to start ready: ready to start but not started yet
+	 * main: started nametaking: menu for inputting name game_over: game over
+	 * screen game_won: game win screen pause: game pausing screen just_died:
+	 * player death
 	 */
-	private int shotsFired=0;
-	private int shotsHit=0;
+	private int shotsFired = 0;
+	private int shotsHit = 0;
 	private boolean minigameOn = false;
 	public String state = "not_ready";
 	private Graphics2D g;
@@ -113,8 +110,7 @@ public class Engine extends Canvas implements KeyListener {
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 	private LevelMenuBuilder nextLevelMenu;
 	private boolean bossOn;
-	private int livesLost=0;
-	
+	private int livesLost = 0;
 
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -285,7 +281,7 @@ public class Engine extends Canvas implements KeyListener {
 		g = (Graphics2D) graphics;
 		// Renders the game objects, make sure to call this first
 		render(g);
-		//Make sure to call this second
+		// Make sure to call this second
 		inputUpdate();
 		bulletUpdate();
 		playerUpdate();
@@ -295,9 +291,8 @@ public class Engine extends Canvas implements KeyListener {
 		explosionUpdate();
 		motherShipUpdate();
 		bossUpdate();
-		//Make sure to call this last
+		// Make sure to call this last
 		endUpdate();
-		
 
 	}
 
@@ -333,6 +328,8 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void gameLost(Graphics2D g) {
+		AchievementMethods.checkFinishBooleans();
+		
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
 		String yourScore = new String("Final Score: "
@@ -348,6 +345,7 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void gameWon(Graphics2D g) {
+		AchievementMethods.checkWinBooleans();
 		g.fillRect(0, 0, 960, 740);
 		String gameWon = new String("You've Won!");
 		String yourScore = new String("Final Score: "
@@ -365,18 +363,18 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void levelCleanup() {
-		for(EnemySquad enemies : enemySquads){
+		for (EnemySquad enemies : enemySquads) {
 			enemySquads.remove(enemies);
-			for(Enemy e : enemies){
+			for (Enemy e : enemies) {
 				enemies.remove(e);
 				gameObjects.remove(e);
 			}
 		}
-		for(Bullet b : bullets){
+		for (Bullet b : bullets) {
 			gameObjects.remove(b);
 			bullets.remove(b);
 		}
-		for(Powerup p : powerups){
+		for (Powerup p : powerups) {
 			gameObjects.remove(p);
 			powerups.remove(p);
 		}
@@ -387,10 +385,11 @@ public class Engine extends Canvas implements KeyListener {
 			overlay.remove(ex);
 			explosions.remove(ex);
 		}
-		
-		player1.x=432;
-		player1.y=680;
+
+		player1.x = 432;
+		player1.y = 680;
 	}
+
 	private void gameCleanup() {
 		if (state.equalsIgnoreCase("game_won")) {
 			player1.score += player1.livesRemaining
@@ -399,22 +398,22 @@ public class Engine extends Canvas implements KeyListener {
 		for (Sprite s : gameObjects) {
 			gameObjects.remove(s);
 		}
-		for(EnemySquad enemies : enemySquads){
+		for (EnemySquad enemies : enemySquads) {
 			enemySquads.remove(enemies);
-			for(Enemy e : enemies){
+			for (Enemy e : enemies) {
 				enemies.remove(e);
 				gameObjects.remove(e);
 			}
 		}
-		for(Bullet b : bullets){
+		for (Bullet b : bullets) {
 			gameObjects.remove(b);
 			bullets.remove(b);
 		}
-		for(Bunker k : bunkers){
+		for (Bunker k : bunkers) {
 			gameObjects.remove(k);
 			bunkers.remove(k);
 		}
-		for(Powerup p : powerups){
+		for (Powerup p : powerups) {
 			gameObjects.remove(p);
 			powerups.remove(p);
 		}
@@ -486,11 +485,11 @@ public class Engine extends Canvas implements KeyListener {
 
 		g.setColor(Color.BLACK);
 		String message5 = new String("Level: " + currentLevel + "/5");
-		
-		if (minigameOn){
+
+		if (minigameOn) {
 			message5 = new String("Level: Bonus");
 		}
-		if(bossOn){
+		if (bossOn) {
 			message5 = new String("Level: BOSS");
 		}
 		g.drawString(message5, 710, 60);
@@ -503,9 +502,9 @@ public class Engine extends Canvas implements KeyListener {
 		Font lefont = new Font("Copperplate", Font.BOLD, 30);
 		g.setFont(lefont);
 		String hi = "Hitstreak: " + hitSpree + "/" + nextReward;
-		if (minigameOn){
+		if (minigameOn) {
 			hi = "Hitstreak: N/A";
-			rewardAvailable=false;
+			rewardAvailable = false;
 		}
 		g.drawString(hi, 355, 27);
 		g.drawString("Reward: " + (rewardAvailable ? openReward : "N/A"), 355,
@@ -572,12 +571,13 @@ public class Engine extends Canvas implements KeyListener {
 				gameObjects.add(boss);
 				bossOn = true;
 				return;
-			case 7: 
+			case 7:
 				EnemyData = MINIGAMEDATA;
 				minigameOn = true;
 				break;
 			default:
-				throw new IllegalArgumentException("Level Number Error: " + lvlnum);
+				throw new IllegalArgumentException("Level Number Error: "
+						+ lvlnum);
 			}
 			enemies.direction = EnemySquad.Direction.RIGHT;
 
@@ -644,42 +644,42 @@ public class Engine extends Canvas implements KeyListener {
 		}
 	}
 
-	
 	private void nextLevel() {
-		rightOn=false;
-		leftOn=false;
-		spaceOn=false;
-		
+		rightOn = false;
+		leftOn = false;
+		spaceOn = false;
+
+		AchievementMethods.clearBooleans();
+
 		player1.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
-		
-		currentLevel+=1;
-		
+
+		currentLevel += 1;
+
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
 		} else {
-			if(state != "paused"){
-				state="paused";
+			if (state != "paused") {
+				state = "paused";
 				levelCleanup();
 				constructEnemyFormation(currentLevel);
 				MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
-				readyForMothership=false;
-				
-				
+				readyForMothership = false;
+
 				MainCanvas.menu.remove(this);
-				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit, shotsFired, godmodeOn, livesLost);
-				player1.score= nextLevelMenu.totalScoreNo;
+				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit,
+						shotsFired, godmodeOn, livesLost);
+				player1.score = nextLevelMenu.totalScoreNo;
 				// STUFF TO DO HERE: display info to player.
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
-				
-				shotsFired=0;
-				shotsHit=0;	
+
+				shotsFired = 0;
+				shotsHit = 0;
 			}
 		}
-		
-		
+
 	}
 
 	private void inputUpdate() {
@@ -774,7 +774,8 @@ public class Engine extends Canvas implements KeyListener {
 
 		for (Bullet b : bullets) {
 			double extraBulletSpeed = 1;
-			if (player1.powerups.containsKey(PowerupType.SPEED) && (b.owner instanceof Player)) {
+			if (player1.powerups.containsKey(PowerupType.SPEED)
+					&& (b.owner instanceof Player)) {
 				extraBulletSpeed = 1.75;
 			}
 			b.move(extraBulletSpeed);
@@ -800,6 +801,9 @@ public class Engine extends Canvas implements KeyListener {
 				if (k.health <= 0) {
 					gameObjects.remove(k);
 					bunkers.remove(k);
+					if (AchievementMethods.Untouchable){
+						AchievementMethods.redeemAchievement("LEEROY");
+					}
 				} else if ((k.health % 100) == 0
 						&& k.lastImageUpdate > k.health) {
 					int x = k.getBunkerNum() + 10;
@@ -809,21 +813,20 @@ public class Engine extends Canvas implements KeyListener {
 			}
 
 			if (b.hitBox.overLaps(player1.hitBox)) {
-				if (b.owner.getClass().getAnnotation(Hostile.class) != null && !godmodeOn) {
-					player1.health -= b.damage;		
+				if (b.owner.getClass().getAnnotation(Hostile.class) != null
+						&& !godmodeOn) {
+					player1.health -= b.damage;
 					hitSpree = 0;
 					rewardAvailable = false;
 					bullets.remove(b);
 					gameObjects.remove(b);
-					if (player1.health <=0) {
-						
-						
+					if (player1.health <= 0) {
+
 						playerDeath();
 
 					}
-					
-					
-					if (minigameOn){
+
+					if (minigameOn) {
 						nextLevel();
 					}
 				}
@@ -834,25 +837,25 @@ public class Engine extends Canvas implements KeyListener {
 						if (b.owner instanceof Player) {
 							shotsHit++;
 							e.health -= b.damage;
-							hitSpree ++;
+							hitSpree++;
 							AchievementMethods.checkHitstreak(hitSpree);
 							if (!godmodeOn) {
 								bullets.remove(b);
 								gameObjects.remove(b);
 							}
 							if (e.health <= 0 || godmodeOn || minigameOn) {
-								if (!minigameOn){
+								if (!minigameOn) {
 									dropPowerup(e, e.x, e.y);
 								}
-								removeEnemy(enemies, e);								
+								removeEnemy(enemies, e);
 								if (e.equals(mothership)) {
 									System.out.println("Mothership Destroyed!");
 									mothershipOn = false;
 								}
-								if (minigameOn){
-									player1.score+= 500;
+								if (minigameOn) {
+									player1.score += 500;
 								} else {
-								player1.score += e.scoreReward;
+									player1.score += e.scoreReward;
 								}
 
 							}
@@ -889,21 +892,20 @@ public class Engine extends Canvas implements KeyListener {
 					if (!godmodeOn) {
 						playerDeath();
 						removeEnemy(enemies, e);
-					} if (minigameOn){
+					}
+					if (minigameOn) {
 						nextLevel();
 					}
 					/*
-					for (Enemy a : enemies) {
-						a.x = a.startingX;
-						a.y = a.startingY;
-						updateHitbox(a);
-					}
-					*/
-				} if (e.x>getWidth()){
+					 * for (Enemy a : enemies) { a.x = a.startingX; a.y =
+					 * a.startingY; updateHitbox(a); }
+					 */
+				}
+				if (e.x > getWidth()) {
 					System.out.println("Annddd it's gone!");
 					removeEnemy(enemies, e);
-					mothershipOn=false;
-					mothership=null;     
+					mothershipOn = false;
+					mothership = null;
 				}
 				for (Bunker k : bunkers) {
 					if (e.hitBox.overLaps(k.hitBox)) {
@@ -960,6 +962,8 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void processPowerup(Player player, PowerupType p) {
+		AchievementMethods.Abstinence = false;
+		AchievementMethods.thisIsSparta = false;
 		switch (p) {
 		case HEALTH:
 			player.health += Player.PLAYER_DEFAULT_HEALTH / 2;
@@ -984,7 +988,7 @@ public class Engine extends Canvas implements KeyListener {
 			break;
 		case STEROIDS:
 			AchievementMethods.redeemAchievement("Lance Armstrong");
-			if (godmodeOn){
+			if (godmodeOn) {
 				AchievementMethods.redeemAchievement("Genocide");
 			}
 			processPowerup(player, Powerup.PowerupType.HEALTH);
@@ -1000,7 +1004,7 @@ public class Engine extends Canvas implements KeyListener {
 			constructBunkerFormation(252, 600);
 			constructBunkerFormation(440, 600);
 			constructBunkerFormation(628, 600);
-			constructBunkerFormation(816, 600);	
+			constructBunkerFormation(816, 600);
 			break;
 		}
 	}
@@ -1012,15 +1016,15 @@ public class Engine extends Canvas implements KeyListener {
 	public void startGame() {
 		// Starts the game
 		System.out.println("It's starting!");
-		
+
 		new Thread(new MovementClock()).start();
 		int type = 0;
 		AchievementMethods.checkName(tempname);
-		type=0;
-		if (eggOn){
-			type=1;
-		} else if (pixarOn){
-			type=2;
+		type = 0;
+		if (eggOn) {
+			type = 1;
+		} else if (pixarOn) {
+			type = 2;
 		}
 		// Creates a new player
 		player1 = new Player(type, tempname);
@@ -1058,9 +1062,8 @@ public class Engine extends Canvas implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		try {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER
-					&& (state.equals("game_over") 
-					|| state.equals("game_won"))){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER
+					&& (state.equals("game_over") || state.equals("game_won"))) {
 				MainCanvas.menu.remove(this);
 				MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
 				MainCanvas.engine = null;
@@ -1081,7 +1084,8 @@ public class Engine extends Canvas implements KeyListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					// tells the update loop to allow bullet firing
 					spaceOn = true;
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE && rewardAvailable) {
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE
+						&& rewardAvailable) {
 					redeem();
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					// sets the direction to Right
@@ -1094,7 +1098,7 @@ public class Engine extends Canvas implements KeyListener {
 						player1.currentDirection = Player.Direction.LEFT;
 					}
 				}
-	
+
 				else if (e.getKeyCode() == KeyEvent.VK_G) {
 					if (godmode.equals("")) {
 						godmode = "g";
@@ -1102,7 +1106,7 @@ public class Engine extends Canvas implements KeyListener {
 						godmode = "";
 					}
 				}
-	
+
 				else if (e.getKeyCode() == KeyEvent.VK_O) {
 					if (godmode.equals("g")) {
 						godmode = "go";
@@ -1116,26 +1120,25 @@ public class Engine extends Canvas implements KeyListener {
 					} else {
 						godmode = "";
 					}
-	
-				} else if(e.getKeyCode() == KeyEvent.VK_K){
+
+				} else if (e.getKeyCode() == KeyEvent.VK_K) {
 					player1.livesRemaining = 0;
 					playerDeath();
-				}
-				else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
-						if (!minigameOn){
-							redeem();
-						}
+				} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
+					if (!minigameOn) {
+						redeem();
+					}
 				} else {
 					godmode = "";
 				}
 			} else if (state.equals("nametaking")) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					System.out.println("Enter Pressed");
-					if (!tempname.equals("")){
-					startGame();
-					state = "main";
+					if (!tempname.equals("")) {
+						startGame();
+						state = "main";
 					}
-	
+
 				} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 					if (nameLength > 0) {
 						nameLength--;
@@ -1150,19 +1153,19 @@ public class Engine extends Canvas implements KeyListener {
 					System.out.println("Action Key");
 				}
 			}
-		}
-		catch(Exception ex){
-			//TODO placeholder
+		} catch (Exception ex) {
+			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		try{
+		try {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				// sets the direction to None
-				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+				if (state.equals("main") || state.equals("just_died")
+						|| state.equals("pause")) {
 					rightOn = false;
 					if (player1.currentDirection == Player.Direction.RIGHT) {
 						player1.currentDirection = Player.Direction.NONE;
@@ -1173,10 +1176,11 @@ public class Engine extends Canvas implements KeyListener {
 						}
 					}
 				}
-	
+
 			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 				// sets the direction to None
-				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+				if (state.equals("main") || state.equals("just_died")
+						|| state.equals("pause")) {
 					leftOn = false;
 					if (player1.currentDirection == Player.Direction.LEFT) {
 						player1.currentDirection = Player.Direction.NONE;
@@ -1194,20 +1198,21 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				// tells the update loop to stop bullet firing
-				if (state.equals("main") || state.equals("just_died") || state.equals("pause")) {
+				if (state.equals("main") || state.equals("just_died")
+						|| state.equals("pause")) {
 					spaceOn = false;
+					AchievementMethods.SecondAmendment = false;
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_P) {
 				if (state.equals("main") || state.equals("just_died")) {
 					state = "pause";
 					MainCanvas.menu.remove(this);
 					MainCanvas.menu.addMenuBuilder(pauseMenu);
-	
-				} 
+
+				}
 			}
-		}
-		catch(Exception ex){
-			//TODO placeholder
+		} catch (Exception ex) {
+			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
@@ -1267,6 +1272,8 @@ public class Engine extends Canvas implements KeyListener {
 
 	private void removeEnemy(EnemySquad enemies, Enemy e) {
 		gameObjects.remove(e);
+		AchievementMethods.Untouchable = false;
+		AchievementMethods.enemyKilled = true;
 		enemies.remove(e);
 		Explosion ex = new Explosion(e, 0);
 		overlay.add(ex);
@@ -1275,6 +1282,9 @@ public class Engine extends Canvas implements KeyListener {
 
 	private void playerDeath() {
 		state = "just_died";
+		if (!AchievementMethods.enemyKilled) {
+			AchievementMethods.redeemAchievement("Tofu Hull");
+		}
 		player1.livesRemaining--;
 		livesLost++;
 		if (player1.livesRemaining <= 0) {
@@ -1295,34 +1305,33 @@ public class Engine extends Canvas implements KeyListener {
 		explosions.add(ex);
 		gameObjects.remove(player1);
 	}
-	
-	private void bossUpdate(){
-		if(bossOn){
+
+	private void bossUpdate() {
+		if (bossOn) {
 			boss.updateLocation();
 			updateHitbox(boss);
-			if(boss.formationCount < 1){
-				Set<Bullet> added = boss.addBulletFormation(
-						BulletFormations.getNewBulletFormation(MainCanvas.rand.nextInt(
-						BulletFormations.BULLET_FORMATION_AMOUNT)));
+			if (boss.formationCount < 1) {
+				Set<Bullet> added = boss
+						.addBulletFormation(BulletFormations.getNewBulletFormation(MainCanvas.rand
+								.nextInt(BulletFormations.BULLET_FORMATION_AMOUNT)));
 				bullets.addAll(added);
 				gameObjects.addAll(added);
 			}
 			Pair<Boolean, Set<Bullet>> pair = boss.update();
-			if(!pair.getValueOne()){
+			if (!pair.getValueOne()) {
 				bullets.addAll(pair.getValueTwo());
 				gameObjects.addAll(pair.getValueTwo());
-			}
-			else{
+			} else {
 				bullets.removeAll(pair.getValueTwo());
 				gameObjects.removeAll(pair.getValueTwo());
 			}
-			for(Bullet b : bullets){
-				if(b.owner instanceof Player){
-					if(overlapsIrregularHitbox(
-						new Box[]{b.hitBox}, boss.hitBox.toArray(new Box[]{}))){
+			for (Bullet b : bullets) {
+				if (b.owner instanceof Player) {
+					if (overlapsIrregularHitbox(new Box[] { b.hitBox },
+							boss.hitBox.toArray(new Box[] {}))) {
 						shotsHit++;
 						boss.health -= b.damage;
-						hitSpree ++;
+						hitSpree++;
 						if (!godmodeOn) {
 							bullets.remove(b);
 							gameObjects.remove(b);

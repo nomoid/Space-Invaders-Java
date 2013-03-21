@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
@@ -94,6 +95,8 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		
 		double accuracyBonus = (double) shotsHitNo/ (double)(totalShotsNo==0 ? 1 : totalShotsNo);
 		double accuracyPercentage = Math.round(accuracyBonus * 10000)/100;
+		
+		AchievementMethods.checkAccuracy((int) accuracyPercentage);
 		
 		accuracy = new JLabel("Accuracy: " + (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " (" + (int) accuracyPercentage + "%)"): "N/A"));
 		accuracy.setForeground(Color.WHITE);
