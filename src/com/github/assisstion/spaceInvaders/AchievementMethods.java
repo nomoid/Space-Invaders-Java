@@ -5,6 +5,18 @@ import com.github.assisstion.spaceInvaders.Engine.*;
 public final class AchievementMethods {
 	private static Engine instance;
 	
+	
+	
+	//Booleans for achievements
+	
+	public static boolean Headhunter = false;
+	public static boolean SecondAmendment = true; 
+	public static boolean Abstinence = true;
+	public static boolean firstLevel = true;
+	public static boolean enemyKilled = false;
+	public static boolean thisIsSparta = true;
+	public static boolean Untouchable = true;
+	
 	public static void setEngine(Engine engine){
 		instance = engine;
 	}
@@ -31,17 +43,51 @@ public final class AchievementMethods {
 		} 
 		
 	}
-
 	
+	public static void checkBooleans(){
+		if (Abstinence){
+			redeemAchievement("Abstinence");
+		} if (SecondAmendment){
+			redeemAchievement("Second Amendment");
+		} if (Untouchable){
+			redeemAchievement("Untouchable");
+		}
+	}
 	
+	//checks booleans for the whole game
+	public static void checkFinalBooleans(){
+		if (thisIsSparta){
+			redeemAchievement("THIS IS SPARTA!");
+		} if (SecondAmendment){
+			redeemAchievement("Second Amendment");
+		} 
+	}
+	//clears booleans associated with a single level
+	public static void clearBooleans(){
+		Abstinence = true;
+		firstLevel=false;
+		enemyKilled = false;
+		
+	}
+	
+	public static void checkAccuracy(int accuracy){
+		if (accuracy>= 90){
+			redeemAchievement("Marksman");
+		} if (accuracy>= 95){
+			redeemAchievement("Merida");
+		} if (accuracy>= 100){
+			redeemAchievement("Annie Oakley");
+		}
+		
+	}
 	public static void checkHitstreak(int hitstreak){
 		if (hitstreak >= 30){
 			redeemAchievement("Streaker");
-		} else if (hitstreak >= 40){
+		} if (hitstreak >= 40){
 			redeemAchievement("Streakaholic");
-		} else if (hitstreak >= 50){
+		} if (hitstreak >= 50){
 			redeemAchievement("Streak Master");
-		} else if (hitstreak >= 100){
+		} if (hitstreak >= 100){
 			redeemAchievement("Some Kind of Sadistic Monster");
 		}
 	}

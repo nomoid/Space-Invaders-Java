@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
@@ -32,7 +33,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 	
 	@Override
 	public void build(Menu menu) {
-		
+		AchievementMethods.redeemAchievement("Modesty");
 		parent=menu;
 		
 		helplabel = new JLabel("Help");
