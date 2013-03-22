@@ -1,5 +1,9 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.util.concurrent.ConcurrentSkipListSet;
+
+import com.github.assisstion.spaceInvaders.gameObject.EnemySquad;
+
 
 public final class AchievementMethods {
 	private static Engine instance;
@@ -15,6 +19,7 @@ public final class AchievementMethods {
 	public static boolean enemyKilled = false;
 	public static boolean thisIsSparta = true;
 	public static boolean Untouchable = true;
+	private static ConcurrentSkipListSet<achievementList> achievements = new ConcurrentSkipListSet<achievementList>();
 	
 	public static void setEngine(Engine engine){
 		instance = engine;
@@ -23,46 +28,78 @@ public final class AchievementMethods {
 		
 		if (tempname.equalsIgnoreCase("god") || tempname.equalsIgnoreCase("allah") || tempname.equalsIgnoreCase("shiva") || tempname.equalsIgnoreCase("mallah")){
 			instance.godmodeOn = true;
-			redeemAchievement("I Gots the Power!");
+			redeemAchievement("I Gots the Power!", achievementList.IGotsThePower);
 		} else if (tempname.equalsIgnoreCase("easter")
 				|| tempname.equalsIgnoreCase("egg")) {
 			instance.eggOn = true;
-			redeemAchievement("Bunny Hop");
+			redeemAchievement("Bunny Hop", achievementList.BunnyHop);
 		} else if (tempname.equalsIgnoreCase("A113")) {
 			instance.pixarOn = true;
-			redeemAchievement("Save Me, Wall-E");
+			redeemAchievement("Save Me, Wall-E", achievementList.SaveMeWallE);
 		} else if (tempname.equalsIgnoreCase("You")){
-			redeemAchievement("Inception");
+			redeemAchievement("Inception", achievementList.Inception);
 		} else if (tempname.equalsIgnoreCase("Tofu")){
-			redeemAchievement("Tofuception");
+			redeemAchievement("Tofuception", achievementList.Tofuception);
 		} else if (tempname.equalsIgnoreCase("Mick")){
-			redeemAchievement("Mickception");
+			redeemAchievement("Mickception", achievementList.Mickception);
 		} else if (tempname.equalsIgnoreCase("Markus")){
-			redeemAchievement("Assisception");
+			redeemAchievement("Assisception", achievementList.Assisception);
 		} 
+		
+	}
+	
+	public static enum achievementList{
+		IGotsThePower,
+		BunnyHop,
+		SaveMeWallE,
+		Inception,
+		Tofuception,
+		Mickception,
+		Assisception,
+		
+		Abstinence,
+		SecondAmendment,
+		ThisIsSparta,
+		Untouchable,
+		Marksman,
+		Merida,
+		AnnieOakley,
+		Streaker,
+		Streakaholic,
+		StreakMaster,
+		SomeKindOfSadisticMonster,
+		
+		
+		//things found in engine class
+		Leeroy,
+		Genocide,
+		LanceArmstrong,
+		TofuHull,
+		
+		//things found elsewhere
+		Dedication,
+		Modesty
 		
 	}
 	
 	public static void checkBooleans(){
 		if (Abstinence){
-			redeemAchievement("Abstinence");
+			redeemAchievement("Abstinence", achievementList.Abstinence);
 		} if (SecondAmendment){
-			redeemAchievement("Second Amendment");
+			redeemAchievement("Second Amendment", achievementList.SecondAmendment);
 		} 
 	}
 	
 	//checks booleans for the whole game
 	public static void checkWinBooleans(){
 		if (thisIsSparta){
-			redeemAchievement("THIS IS SPARTA!");
-		} if (SecondAmendment){
-			redeemAchievement("Second Amendment");
+			redeemAchievement("THIS IS SPARTA!", achievementList.ThisIsSparta);
 		} 
 	}
 	
 	public static void checkFinishBooleans(){
 		if (Untouchable){
-			redeemAchievement("Untouchable");
+			redeemAchievement("Untouchable", achievementList.Untouchable);
 		} 
 	}
 	
@@ -78,29 +115,32 @@ public final class AchievementMethods {
 	
 	public static void checkAccuracy(int accuracy){
 		if (accuracy>= 90){
-			redeemAchievement("Marksman");
+			redeemAchievement("Marksman", achievementList.Marksman);
 		} if (accuracy>= 95){
-			redeemAchievement("Merida");
+			redeemAchievement("Merida", achievementList.Merida);
 		} if (accuracy>= 100){
-			redeemAchievement("Annie Oakley");
+			redeemAchievement("Annie Oakley", achievementList.AnnieOakley);
 		}
 		
 	}
 	public static void checkHitstreak(int hitstreak){
 		if (hitstreak >= 30){
-			redeemAchievement("Streaker");
+			redeemAchievement("Streaker", achievementList.Streaker);
 		} if (hitstreak >= 40){
-			redeemAchievement("Streakaholic");
+			redeemAchievement("Streakaholic", achievementList.Streakaholic);
 		} if (hitstreak >= 50){
-			redeemAchievement("Streak Master");
+			redeemAchievement("Streak Master", achievementList.StreakMaster);
 		} if (hitstreak >= 100){
-			redeemAchievement("Some Kind of Sadistic Monster");
+			redeemAchievement("Some Kind of Sadistic Monster", achievementList.SomeKindOfSadisticMonster);
 		}
 	}
 	
 	
 	
-	public static void redeemAchievement(String leName){
-		System.out.println("Achievement Unlocked: " + leName);
+	public static void redeemAchievement(String leName, achievementList leAchievement){
+		if (!achievements.contains(leAchievement)){
+			System.out.println("Achievement Unlocked: " + leName);
+			achievements.add(leAchievement);
+		}
 	}
 }

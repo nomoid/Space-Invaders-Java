@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.AchievementMethods.achievementList;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener {
@@ -69,7 +70,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		if (pageNumber >= text.length) {
 			parent.closeMenu(instance);
 			parent.startGame();
-			AchievementMethods.redeemAchievement("Dedication");
+			AchievementMethods.redeemAchievement("Dedication", achievementList.Dedication);
 		} else if (i < text[x].length) {
 			leText += text[x][i];
 			buildText(leText);

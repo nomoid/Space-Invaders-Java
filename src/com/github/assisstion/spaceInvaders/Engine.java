@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods.achievementList;
 import com.github.assisstion.spaceInvaders.gameObject.Boss;
 import com.github.assisstion.spaceInvaders.gameObject.Box;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet;
@@ -802,7 +803,7 @@ public class Engine extends Canvas implements KeyListener {
 					gameObjects.remove(k);
 					bunkers.remove(k);
 					if (AchievementMethods.Untouchable){
-						AchievementMethods.redeemAchievement("LEEROY");
+						AchievementMethods.redeemAchievement("LEEROY", achievementList.Leeroy);
 					}
 				} else if ((k.health % 100) == 0
 						&& k.lastImageUpdate > k.health) {
@@ -987,9 +988,9 @@ public class Engine extends Canvas implements KeyListener {
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case STEROIDS:
-			AchievementMethods.redeemAchievement("Lance Armstrong");
+			AchievementMethods.redeemAchievement("Lance Armstrong", achievementList.LanceArmstrong);
 			if (godmodeOn) {
-				AchievementMethods.redeemAchievement("Genocide");
+				AchievementMethods.redeemAchievement("Genocide", achievementList.Genocide);
 			}
 			processPowerup(player, Powerup.PowerupType.HEALTH);
 			processPowerup(player, Powerup.PowerupType.SPEED);
@@ -1283,7 +1284,7 @@ public class Engine extends Canvas implements KeyListener {
 	private void playerDeath() {
 		state = "just_died";
 		if (!AchievementMethods.enemyKilled) {
-			AchievementMethods.redeemAchievement("Tofu Hull");
+			AchievementMethods.redeemAchievement("Tofu Hull", achievementList.TofuHull);
 		}
 		player1.livesRemaining--;
 		livesLost++;
