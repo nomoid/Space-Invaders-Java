@@ -69,6 +69,12 @@ public final class AchievementMethods {
 		StreakMaster,
 		SomeKindOfSadisticMonster,
 		
+		OhtheHugeManatee,
+		OhtheUnhumanity, 
+		OhtheHumanity, 
+		BlindFaith, 
+		FernandoTorres,
+		
 		
 		//things found in engine class
 		Leeroy,
@@ -78,7 +84,8 @@ public final class AchievementMethods {
 		
 		//things found elsewhere
 		Dedication,
-		Modesty
+		Modesty,
+		
 		
 	}
 	
@@ -114,31 +121,45 @@ public final class AchievementMethods {
 	}
 	
 	public static void checkAccuracy(int accuracy){
-		if (accuracy>= 90){
-			redeemAchievement("Marksman", achievementList.Marksman);
-		} if (accuracy>= 95){
-			redeemAchievement("Merida", achievementList.Merida);
-		} if (accuracy>= 100){
+		if (accuracy>= 100){
 			redeemAchievement("Annie Oakley", achievementList.AnnieOakley);
+		} else if (accuracy>= 95){
+			redeemAchievement("Merida", achievementList.Merida);
+		} else if (accuracy>= 90){
+			redeemAchievement("Marksman", achievementList.Marksman);
+		} else if (accuracy<=10){
+			redeemAchievement("Blind Faith", achievementList.BlindFaith);
+		} else if (accuracy<=5){
+			redeemAchievement("Fernando Torres", achievementList.FernandoTorres);
 		}
 		
 	}
 	public static void checkHitstreak(int hitstreak){
-		if (hitstreak >= 30){
-			redeemAchievement("Streaker", achievementList.Streaker);
-		} if (hitstreak >= 40){
-			redeemAchievement("Streakaholic", achievementList.Streakaholic);
-		} if (hitstreak >= 50){
-			redeemAchievement("Streak Master", achievementList.StreakMaster);
-		} if (hitstreak >= 100){
+		if (hitstreak >= 100){
 			redeemAchievement("Some Kind of Sadistic Monster", achievementList.SomeKindOfSadisticMonster);
-		}
+		} else if (hitstreak >= 50){
+			redeemAchievement("Streak Master", achievementList.StreakMaster);
+		} else if (hitstreak >= 40){
+			redeemAchievement("Streakaholic", achievementList.Streakaholic);
+		} else if (hitstreak >= 30){
+			redeemAchievement("Streaker", achievementList.Streaker);
+		} 
 	}
+	
+	public static void lostHitstreak(int hitstreak){
+		if (hitstreak >= 50){
+			redeemAchievement("Oh the Huge Manatee", achievementList.OhtheHugeManatee);
+		} else if (hitstreak >= 40){
+			redeemAchievement("Oh the Unhumanity", achievementList.OhtheUnhumanity);
+		} else if (hitstreak >= 30){
+			redeemAchievement("Oh the Humanity", achievementList.OhtheHumanity);
+		} 
+	}	
 	
 	
 	
 	public static void redeemAchievement(String leName, achievementList leAchievement){
-		if (!achievements.contains(leAchievement)){
+		if (!achievements.contains(leAchievement) && !instance.godmodeOn){
 			System.out.println("Achievement Unlocked: " + leName);
 			achievements.add(leAchievement);
 		}

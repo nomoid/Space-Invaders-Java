@@ -568,7 +568,7 @@ public class Engine extends Canvas implements KeyListener {
 				EnemyData = LEVEL5DATA;
 				break;
 			case 6:
-				boss = new Boss(400, 100);
+				boss = new Boss(400, 130);
 				gameObjects.add(boss);
 				bossOn = true;
 				return;
@@ -795,6 +795,7 @@ public class Engine extends Canvas implements KeyListener {
 					}
 
 					if (b.owner instanceof Player) {
+						AchievementMethods.lostHitstreak(hitSpree);
 						hitSpree = 0;
 						rewardAvailable = false;
 					}
@@ -817,6 +818,7 @@ public class Engine extends Canvas implements KeyListener {
 				if (b.owner.getClass().getAnnotation(Hostile.class) != null
 						&& !godmodeOn) {
 					player1.health -= b.damage;
+					AchievementMethods.lostHitstreak(hitSpree);
 					hitSpree = 0;
 					rewardAvailable = false;
 					bullets.remove(b);
@@ -876,6 +878,7 @@ public class Engine extends Canvas implements KeyListener {
 					|| b.x > MainCanvas.frame.getWidth()
 					|| b.y > MainCanvas.frame.getHeight()) {
 				if (b.owner instanceof Player) {
+					AchievementMethods.lostHitstreak(hitSpree);
 					hitSpree = 0;
 					rewardAvailable = false;
 				}
