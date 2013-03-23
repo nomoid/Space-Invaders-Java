@@ -16,7 +16,7 @@ public class Enemy extends Sprite{
 	// The first value is the min, the second value is the max
 	private static final int[][] ENEMY_SHOOTING_COOLDOWN = { { 1600, 2400 },
 			{ 1800, 2600 }, { 2000, 2800 } };
-	private static final int[] ENEMY_DEATH_VALUES = { 100, 200, 400, 4000 };
+	private static final int[] ENEMY_DEATH_VALUES = { 100, 200, 400, 10000 };
 	public int health;
 	public int shootingCounter;
 	public int shootingCooldownMin;

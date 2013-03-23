@@ -2,7 +2,6 @@ package com.github.assisstion.spaceInvaders;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import com.github.assisstion.spaceInvaders.gameObject.EnemySquad;
 
 
 public final class AchievementMethods {
@@ -12,13 +11,13 @@ public final class AchievementMethods {
 	
 	//Booleans for achievements
 	
-	public static boolean Headhunter = false;
-	public static boolean SecondAmendment = true; 
-	public static boolean Abstinence = true;
-	public static boolean firstLevel = true;
-	public static boolean enemyKilled = false;
-	public static boolean thisIsSparta = true;
-	public static boolean Untouchable = true;
+	public static boolean Headhunter;
+	public static boolean SecondAmendment; 
+	public static boolean Abstinence;
+	public static boolean firstLevel;
+	public static boolean enemyKilled;
+	public static boolean thisIsSparta;
+	public static boolean Untouchable;
 	private static ConcurrentSkipListSet<achievementList> achievements = new ConcurrentSkipListSet<achievementList>();
 	
 	public static void setEngine(Engine engine){
@@ -29,8 +28,7 @@ public final class AchievementMethods {
 		if (tempname.equalsIgnoreCase("god") || tempname.equalsIgnoreCase("allah") || tempname.equalsIgnoreCase("shiva") || tempname.equalsIgnoreCase("mallah")){
 			instance.godmodeOn = true;
 			redeemAchievement("I Gots the Power!", achievementList.IGotsThePower);
-		} else if (tempname.equalsIgnoreCase("easter")
-				|| tempname.equalsIgnoreCase("egg")) {
+		} else if (tempname.equalsIgnoreCase("easter")	|| tempname.equalsIgnoreCase("egg")) {
 			instance.eggOn = true;
 			redeemAchievement("Bunny Hop", achievementList.BunnyHop);
 		} else if (tempname.equalsIgnoreCase("A113")) {
@@ -85,7 +83,6 @@ public final class AchievementMethods {
 		//things found elsewhere
 		Dedication,
 		Modesty,
-		
 		
 	}
 	
@@ -163,5 +160,15 @@ public final class AchievementMethods {
 			System.out.println("Achievement Unlocked: " + leName);
 			achievements.add(leAchievement);
 		}
+	}
+	public static void reset() {
+		Headhunter = false;
+		SecondAmendment = true; 
+		Abstinence = true;
+		firstLevel = true;
+		enemyKilled = false;
+		thisIsSparta = true;
+		Untouchable = true;
+		
 	}
 }

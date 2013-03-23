@@ -110,17 +110,14 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		bonusScore.setFont(basefont);
 		Menu.centerLabel(bonusScore, x+120);
 		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
+		
 		String leMessage = null;
 		if (livesLost == 0){
 			totalScoreNo= (int)(totalScoreNo* 1.5);
 			leMessage = "Survival Boost: 1.5x";
-		} else if (livesLost == 2) {
-			totalScoreNo= (int)(totalScoreNo* 0.8);
-			leMessage = "Survival Boost: 0.8x";
-		} else if (livesLost >= 3){
-			totalScoreNo= (int)(totalScoreNo* 0.5);
-			leMessage = "Survival Boost: 0.5x";
-		}
+		} else {
+			leMessage = "Survival Boost: 1x";
+		} 
 		
 		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °": leMessage);
 		lifeBonus.setForeground(Color.WHITE);
@@ -128,7 +125,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		Menu.centerLabel(lifeBonus,x+180);
 		
 		
-		totalScore = new JLabel("Total Score: " + (!godModeOn ? (int) (accuracyBonus + baseScoreNo): "°" ));
+		totalScore = new JLabel("Total Score: " + (!godModeOn ? ((int) totalScoreNo): "°" ));
 		totalScore.setForeground(Color.WHITE);
 		totalScore.setFont(basefont);
 		Menu.centerLabel(totalScore,x+240);

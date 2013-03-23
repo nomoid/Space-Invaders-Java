@@ -118,6 +118,7 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	public Engine() {
 		AchievementMethods.setEngine(this);
+		AchievementMethods.reset();
 		addKeyListener(this);
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -672,9 +673,10 @@ public class Engine extends Canvas implements KeyListener {
 				MainCanvas.menu.remove(this);
 				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit,
 						shotsFired, godmodeOn, livesLost);
-				player1.score = nextLevelMenu.totalScoreNo;
-				// STUFF TO DO HERE: display info to player.
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
+				
+				player1.score = nextLevelMenu.totalScoreNo;
+				System.out.println("Level Completed! Score: " + player1.score);
 
 				shotsFired = 0;
 				shotsHit = 0;
@@ -1071,6 +1073,7 @@ public class Engine extends Canvas implements KeyListener {
 				MainCanvas.menu.remove(this);
 				MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
 				MainCanvas.engine = null;
+				AchievementMethods.reset();
 			}
 			if ((e.getKeyCode() == KeyEvent.VK_ENTER)
 					&& state.equals("justfinished")) {
