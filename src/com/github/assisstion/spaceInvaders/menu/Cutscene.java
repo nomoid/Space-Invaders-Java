@@ -1,33 +1,30 @@
 package com.github.assisstion.spaceInvaders.menu;
 
-import java.awt.Color;
-import java.awt.Font;
-
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Cutscene{
 	
 	public static final int DEFAULT_DELAY = 45;
 	
-	public char[][] pages;
-	public Sprite[][] sprites;
-	public double[] delays;
-	public Font[] fonts;
-	public Color[] colors;
+	private Sprite[][] sprites;
 	
-	public Cutscene(char[][] pages, Sprite[][] sprites, Font[] fontlist,Color[] colorlist){
-		this(pages, sprites, null,fontlist,colorlist);
-	}
+	private CutsceneTextResource[] textRes;
 	
-	public Cutscene(char[][] pages, Sprite[][] sprites, double[] delays, Font[] fontlist, Color[] colorlist){
-		this.pages = pages;
+	public Cutscene(Sprite[][] sprites, CutsceneTextResource[] textRes){
 		this.sprites = sprites;
-		this.delays = delays;
-		this.fonts = fontlist;
-		this.colors = colorlist;
+		this.textRes = textRes;
 	}
-	
-	protected Cutscene(){
-		
+
+	public static int getDefaultDelay() {
+		return DEFAULT_DELAY;
 	}
+
+	public Sprite[][] getSprites() {
+		return sprites;
+	}
+
+	public CutsceneTextResource[] getTextRes() {
+		return textRes;
+	}
+
 }

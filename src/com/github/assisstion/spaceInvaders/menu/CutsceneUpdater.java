@@ -5,26 +5,41 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 public class CutsceneUpdater implements Runnable {
 	
 	private CutsceneBuilder instance;
-	public static CutsceneUpdater updater;
-	public int delay;
+	private int delay;
+	private int delayNormal;
 	
 	public CutsceneUpdater(CutsceneBuilder builder, int delay){
+		delayNormal = delay;
 		instance=builder;
+		instance.setCutsceneUpdater(this);
 		this.delay = delay;
-		updater = this;
+	}
+	
+	public void speedUp(){
+		delay = delay/2;
+	}
+	
+	public void speedNormal(){
+		delay = delayNormal;
 	}
 	@Override
 	public void run(){
 		try{
 			while(instance.isOn){
 				if(instance.justFinishedLine){
-					Thread.sleep((int) (instance.pageDelays[instance.pageNumber] * 100));
-					instance.unBuildText();
+					try {
+					Thread.sleep((int) (instance.getTextRes()[instance.pageNumber].getDelay() * 100));
+					}catch (Exception ex) {}
+					synchronized(instance) {
+						instance.unBuildText();
+					}
 				}
 				else{
 					Thread.sleep(delay);
 				}
-				instance.update(MainCanvas.menu);
+				synchronized(instance) {
+					instance.update(MainCanvas.menu);
+				}
 			}
 		}
 		catch(InterruptedException e){
