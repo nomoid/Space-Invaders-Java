@@ -134,7 +134,6 @@ public class Engine extends Canvas implements KeyListener {
 		try {
 			requestFocus();
 			if (state.equalsIgnoreCase("not_ready")) {
-				return;
 			} else if (state.equalsIgnoreCase("ready")) {
 				startGame((Graphics2D) g);
 			} else if (state.equalsIgnoreCase("nametaking")) {

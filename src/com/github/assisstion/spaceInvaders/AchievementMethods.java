@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 
 public final class AchievementMethods {
-	private static Engine instance;
+	private static Engine instance = null;
 	
 	
 	
@@ -156,7 +156,7 @@ public final class AchievementMethods {
 	
 	
 	public static void redeemAchievement(String leName, achievementList leAchievement){
-		if (!achievements.contains(leAchievement) && !instance.godmodeOn){
+		if (instance==null && !achievements.contains(leAchievement)|| !achievements.contains(leAchievement) && !instance.godmodeOn){
 			System.out.println("Achievement Unlocked: " + leName);
 			achievements.add(leAchievement);
 		}

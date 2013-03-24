@@ -60,7 +60,9 @@ public class HelpMenuBuilder implements MenuBuilder {
 	
 		tabbedPane.insertTab("Controls", null, makePanel(0), "General", 0);
 		tabbedPane.insertTab("Enemies", null, makePanel(1), "Enemies", 1);
-		tabbedPane.insertTab("Boosts", null, makePanel(2), "Boosts", 2);
+		tabbedPane.insertTab("Powerups", null, makePanel(2), "Powerups", 2);
+		tabbedPane.insertTab("Hitstreaks", null, makePanel(2), "Hitstreaks", 3);
+		tabbedPane.insertTab("OMFG", null, makePanel(4), "OMFG", 4);
 
 		
 		parent.add(tabbedPane);	
@@ -69,11 +71,20 @@ public class HelpMenuBuilder implements MenuBuilder {
 	}
 
 	private JPanel makePanel(int panelNo){
-		JPanel lepanel = new JPanel();
+		JPanel lepanel = null;
+		if (panelNo<=3){
+		lepanel = new JPanel();
 		lepanel.setLayout(null);
 		JLabel lelabel = new JLabel(new ImageIcon(getImage(panelLinks[panelNo])));
 		lelabel.setBounds(-1,0,841,570);
 		lepanel.add(lelabel);
+		} else {
+			lepanel = new JPanel();
+			lepanel.setLayout(null);
+			JLabel lelabel = new JLabel("WHEN THE HELL ARE WE EVER GONNA FINISH THIS DAMN PAGE?");
+			lelabel.setBounds(-1,0,841,570);
+			lepanel.add(lelabel);
+		}
 		return lepanel;
 	}
 	@Override
