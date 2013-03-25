@@ -47,9 +47,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private String leText = "";
 	private CutsceneTextResource[] textRes;
 	private boolean done = false;
-	private boolean done1 = false;
-	private boolean done2 = false;
-	private boolean done3 = false;
+	private boolean inUse = false;
 	
 	private CutsceneUpdater updater = null;
 	
@@ -215,7 +213,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				boolean b;
 				synchronized(this){
-					b = done;
+					b = inUse;
+					inUse = true;
 					done = true;
 				}
 				if(!b){
@@ -226,8 +225,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 			}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 				boolean b;
 				synchronized(this){
-					b = done1;
-					done1 = true;
+					b = inUse;
+					inUse = true;
 				}
 				if(!b){
 					for(int i = 0; i<textRes.length; i++){
@@ -238,16 +237,16 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					fastforwardLabel2.setVisible(true);
 					speedNormalLabel.setVisible(true);
 					System.out.println("STUFF");
-					done1 = false;
-					counter = counter*2;
 					
+					counter = counter*2;
+					inUse = false;
 				}
 
 			}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 				boolean b;
 				synchronized(this){
-					b = done2;
-					done2 = true;
+					b = inUse;
+					inUse = true;
 				}
 				if(!b){
 					updater.speedNormal();
@@ -260,20 +259,18 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 						textRes[i].speedNormal();
 					}
 				}
-				done2 = false;
+				inUse = false;
 			}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
 				boolean b;
 				synchronized(this){
-					b = done3;
-					done3 = true;
+					b = inUse;
+					inUse = true;
 				}
 				if(!b){
-					synchronized(this) {
-						updatePage();
-						unBuildText();		
-					}
+					updatePage();
+					unBuildText();		
 				}
-				done3 = false;
+				inUse = false;
 
 			}
 		}

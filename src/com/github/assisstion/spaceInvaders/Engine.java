@@ -1071,6 +1071,7 @@ public class Engine extends Canvas implements KeyListener {
 					&& (state.equals("game_over") || state.equals("game_won"))) {
 				MainCanvas.menu.remove(this);
 				MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
+				MainCanvas.menu.done();
 				MainCanvas.engine = null;
 				AchievementMethods.reset();
 			}

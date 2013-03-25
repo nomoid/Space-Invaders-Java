@@ -19,6 +19,7 @@ public class Menu extends JPanel{
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
 	private MenuKeyListener keyListener;
+	private boolean started;
 	
 	public Menu() {
 		setLayout(null);
@@ -78,7 +79,13 @@ public class Menu extends JPanel{
 		label.setBounds( (int) (MainCanvas.FRAME_WIDTH/2 - label.getPreferredSize().getWidth()/2), height, (int) label.getPreferredSize().getWidth(), (int) label.getPreferredSize().getHeight());
 	}
 	
-	public void startGame() {
+	public synchronized void startGame() {
+		synchronized(this){
+			if(started){
+				return;
+			}
+			started = true;
+		}
 		removeKeyListener(keyListener);
 		keyListener = null;
 		MainCanvas.engine = new Engine();
@@ -89,5 +96,9 @@ public class Menu extends JPanel{
 		MainCanvas.engine.state = "ready";
 		System.out.println("Engine starting");
 		new Thread(new Clock()).start();
+	}
+	
+	public synchronized void done(){
+		started = false;
 	}
 }
