@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class CutsceneBuilder implements MenuBuilder, KeyListener {
@@ -25,7 +27,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private static final String SPEEDNORMAL = "Press space to return speed to normal";
 	private static final String SKIPPAGE = "Press down arrow to skip page";
 
-
 	JLabel advancementLabel = new JLabel(ADVANCEMENTTEXT);
 	JLabel fastforwardLabel = new JLabel(FASTFORWARDTEXT);
 	JLabel fastforwardLabel2 = new JLabel(FASTFORWARD);
@@ -40,7 +41,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	public int pageNumber = 0;
 	@SuppressWarnings("unused")
 	private Sprite[][] sprites;
-	
+
 	public boolean justFinishedLine = false;
 	private int i = 0;
 	private int x = 0;
@@ -48,11 +49,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private CutsceneTextResource[] textRes;
 	private boolean done = false;
 	private boolean inUse = false;
-	
+
 	private CutsceneUpdater updater = null;
-	
+
 	int counter = 2;
-	
+
 	public void setCutsceneUpdater(CutsceneUpdater cu) {
 		this.updater = cu;
 	}
@@ -77,41 +78,43 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		advancementLabel.setForeground(Color.WHITE);
 		advancementLabel.setBounds(650, 620, 200, 100);
 		addLabel(advancementLabel);
-		
+
 		fastforwardLabel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
 		fastforwardLabel.setForeground(Color.WHITE);
 		fastforwardLabel.setBounds(650, 650, 300, 100);
 		addLabel(fastforwardLabel);
-		
+
 		skipPageLabel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
 		skipPageLabel.setForeground(Color.WHITE);
 		skipPageLabel.setBounds(650, 590, 300, 100);
 		addLabel(skipPageLabel);
-		
+
 		fastforwardLabel2.setFont(new Font("Arial", Font.ITALIC, 40));
 		fastforwardLabel2.setForeground(Color.WHITE);
 		fastforwardLabel2.setBounds(100, 645, 300, 100);
 		fastforwardLabel2.setVisible(false);
 		addLabel(fastforwardLabel2);
-		
+
 		speedNormalLabel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
 		speedNormalLabel.setForeground(Color.WHITE);
 		speedNormalLabel.setBounds(200, 650, 400, 100);
 		speedNormalLabel.setVisible(false);
 		addLabel(speedNormalLabel);
 	}
-	public void updatePage(){
+
+	public void updatePage() {
 		notYetCreated = true;
 		y = 10;
 		i = 0;
 		x++;
 		leText = "";
 		pageNumber++;
-		if (pageNumber == 10){
+		if (pageNumber == 10) {
 			deleteLabels();
 		}
 		justFinishedLine = true;
 	}
+
 	public void update(Menu menu) {
 
 		justFinishedLine = false;
@@ -120,16 +123,17 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		if (pageNumber >= textRes.length) {
 			parent.closeMenu(instance);
 			parent.startGame();
+			AchievementMethods.redeemAchievement(new Achievement("Dedication"));
 		} else if (i < textRes[x].getText().length) {
 			leText += textRes[x].getText()[i];
 			buildText(leText);
 			// Sprite[] array = sprites[pageNumber];
 			// for(Sprite s : array){
 			// buildIcon(s.getImage(), s.x, s.y);
-			// } 
+			// }
 			i++;
 
-		} else {			
+		} else {
 			updatePage();
 		}
 	}
@@ -144,7 +148,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	public void unBuildText() {
 		for (JLabel label : labelList) {
-			if (!label.getText().equals(ADVANCEMENTTEXT) && !label.getText().equals(FASTFORWARDTEXT) && !label.equals(fastforwardLabel2) && !label.equals(speedNormalLabel) && !label.equals(skipPageLabel)) {
+			if (!label.getText().equals(ADVANCEMENTTEXT)
+					&& !label.getText().equals(FASTFORWARDTEXT)
+					&& !label.equals(fastforwardLabel2)
+					&& !label.equals(speedNormalLabel)
+					&& !label.equals(skipPageLabel)) {
 				if (justFinishedLine) {
 					parent.remove(label);
 				}
@@ -160,23 +168,22 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		parent.revalidate();
 		parent.repaint();
 	}
-	
-	private void deleteLabels(){
+
+	private void deleteLabels() {
 		hidden = true;
 		advancementLabel.setVisible(false);
 		fastforwardLabel.setVisible(false);
 		skipPageLabel.setVisible(false);
 
 	}
-	
-	private void readdLabels(){
-		hidden=false;
+
+	private void readdLabels() {
+		hidden = false;
 		advancementLabel.setVisible(true);
 		fastforwardLabel.setVisible(true);
 		skipPageLabel.setVisible(true);
 
 	}
-
 
 	public void fullUnBuildText() {
 		for (JLabel label : labelList) {
@@ -197,8 +204,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		lastString = labels[labels.length - 1];
 
 		if (notYetCreated) {
-			lastlabel = constructLabel(textRes[x].getColor(), textRes[x].getFont(), lastString, 25, y,
-					960, 40);
+			lastlabel = constructLabel(textRes[x].getColor(),
+					textRes[x].getFont(), lastString, 25, y, 960, 40);
 			y += 40;
 		} else {
 			updateLabel(lastlabel, lastString);
@@ -230,54 +237,54 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		try{
+		try {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				boolean b;
-				synchronized(this){
+				synchronized (this) {
 					b = inUse;
 					inUse = true;
 					done = true;
 				}
-				if(!b){
+				if (!b) {
 					fullUnBuildText();
 					parent.closeMenu(instance);
 					parent.startGame();
 				}
-			}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				boolean b;
-				synchronized(this){
+				synchronized (this) {
 					b = inUse;
 					inUse = true;
 				}
-				if(!b){
-					if (hidden){
+				if (!b) {
+					if (hidden) {
 						readdLabels();
 					}
-					
-					//TO PRESERVE PAGE DELAYS
-					//for(int i = 0; i<textRes.length; i++){
-						//textRes[i].speedUp();
-					
-					//}
-					
-					if (counter<32){
-					updater.speedUp();
-					fastforwardLabel2.setText("x" + counter);
-					fastforwardLabel2.setVisible(true);
-					speedNormalLabel.setVisible(true);
-					counter = counter*2;
-					inUse = false;
+
+					// TO PRESERVE PAGE DELAYS
+					// for(int i = 0; i<textRes.length; i++){
+					// textRes[i].speedUp();
+
+					// }
+
+					if (counter < 32) {
+						updater.speedUp();
+						fastforwardLabel2.setText("x" + counter);
+						fastforwardLabel2.setVisible(true);
+						speedNormalLabel.setVisible(true);
+						counter = counter * 2;
+						inUse = false;
 					}
 				}
 
-			}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				boolean b;
-				synchronized(this){
+				synchronized (this) {
 					b = inUse;
 					inUse = true;
 				}
-				if(!b){
-					if (hidden){
+				if (!b) {
+					if (hidden) {
 						readdLabels();
 					}
 					updater.speedNormal();
@@ -285,27 +292,26 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					speedNormalLabel.setVisible(false);
 
 					counter = 2;
-					
-					//for(int i = 0; i<textRes.length; i++){
-						//textRes[i].speedNormal();
-					//}
+
+					// for(int i = 0; i<textRes.length; i++){
+					// textRes[i].speedNormal();
+					// }
 				}
 				inUse = false;
-			}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				boolean b;
-				synchronized(this){
+				synchronized (this) {
 					b = inUse;
 					inUse = true;
 				}
-				if(!b){
+				if (!b) {
 					updatePage();
-					unBuildText();		
+					unBuildText();
 				}
 				inUse = false;
 			}
-		}
-		catch(Exception ex){
-			//TODO placeholder
+		} catch (Exception ex) {
+			// TODO placeholder
 			ex.printStackTrace();
 		}
 
@@ -316,17 +322,17 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public synchronized void addLabel(JLabel label){
-		if(done){
+
+	public synchronized void addLabel(JLabel label) {
+		if (done) {
 			return;
 		}
 		parent.add(label);
 		labelList.add(label);
 	}
-	
+
 	private synchronized void updateLabel(JLabel lelabel, String text) {
-		if(done){
+		if (done) {
 			return;
 		}
 		lastlabel.setText(text);

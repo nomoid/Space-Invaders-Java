@@ -16,7 +16,7 @@ import javax.swing.JTabbedPane;
 import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
-import com.github.assisstion.spaceInvaders.AchievementMethods.achievementList;
+import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 
 @ReturnableMenu
 public class HelpMenuBuilder implements MenuBuilder {
@@ -34,7 +34,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 	
 	@Override
 	public void build(Menu menu) {
-		AchievementMethods.redeemAchievement("Modesty", achievementList.Modesty);
+		AchievementMethods.redeemAchievement(new Achievement("Modesty"));
 		parent=menu;
 		
 		helplabel = new JLabel("Help");
