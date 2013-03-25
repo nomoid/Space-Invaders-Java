@@ -21,7 +21,7 @@ public class UpgradesCanvas extends AbstractCanvas{
 			super.paint(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.WHITE);
-			g2d.drawString("hi", 100, 100);
+			g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
 		}
 
 		@Override

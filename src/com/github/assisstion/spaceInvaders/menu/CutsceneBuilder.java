@@ -286,9 +286,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 					counter = 2;
 					
-					for(int i = 0; i<textRes.length; i++){
-						textRes[i].speedNormal();
-					}
+					//for(int i = 0; i<textRes.length; i++){
+						//textRes[i].speedNormal();
+					//}
 				}
 				inUse = false;
 			}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
