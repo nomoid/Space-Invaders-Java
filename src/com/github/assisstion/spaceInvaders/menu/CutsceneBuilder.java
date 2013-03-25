@@ -32,7 +32,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	JLabel speedNormalLabel = new JLabel(SPEEDNORMAL);
 	JLabel skipPageLabel = new JLabel(SKIPPAGE);
 
-
+	private boolean hidden;
 	private JLabel lastlabel;
 	private boolean notYetCreated = true;
 	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
@@ -107,6 +107,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		x++;
 		leText = "";
 		pageNumber++;
+		if (pageNumber == 10){
+			deleteLabels();
+		}
 		justFinishedLine = true;
 	}
 	public void update(Menu menu) {
@@ -128,6 +131,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 		} else {			
 			updatePage();
+			
 		}
 	}
 
@@ -159,13 +163,21 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	}
 	
 	private void deleteLabels(){
-		parent.remove(advancementLabel);
-		parent.remove(fastforwardLabel);
-		parent.remove(skipPageLabel);
-		parent.remove(fastforwardLabel2);
-		parent.remove(speedNormalLabel);
-		
+		hidden = true;
+		advancementLabel.setVisible(false);
+		fastforwardLabel.setVisible(false);
+		skipPageLabel.setVisible(false);
+
 	}
+	
+	private void readdLabels(){
+		hidden=false;
+		advancementLabel.setVisible(true);
+		fastforwardLabel.setVisible(true);
+		skipPageLabel.setVisible(true);
+
+	}
+
 
 	public void fullUnBuildText() {
 		for (JLabel label : labelList) {
@@ -239,6 +251,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					inUse = true;
 				}
 				if(!b){
+					if (hidden){
+						readdLabels();
+					}
 					for(int i = 0; i<textRes.length; i++){
 						textRes[i].speedUp();
 					}
@@ -257,6 +272,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					inUse = true;
 				}
 				if(!b){
+					if (hidden){
+						readdLabels();
+					}
 					updater.speedNormal();
 					fastforwardLabel2.setVisible(false);
 					speedNormalLabel.setVisible(false);

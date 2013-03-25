@@ -19,7 +19,7 @@ public final class CutsceneData{
 		private static final String PAGE_2 = "<MISSION LOG: 0800, June 9th, 2320>";
 		private static final String PAGE_3 = "<MISSION BRIEFING: CLASSIFIED>";
 		private static final String PAGE_4 = "<MISSION MEMBERS: Tofu, You>";
-		private static final String PAGE_5 = "You: I can't believe NASA-TD is sending us on another&mission. Haven't we fulfilled our exploration quota for&the past month?";
+		private static final String PAGE_5 = "You: I can't believe NASA-TD is sending us on another&mission. Haven't we fulfilled our exploration quota&for the past month?";
 		private static final String PAGE_6 = "Tofu: I hear you. Apparently the Tofuland Division&of NASA is the strictest. Just our luck.";
 		private static final String PAGE_7 = "You: Watch where you're driving.";
 		private static final String PAGE_8 = "Tofu: Oh shut up. Where the heck are we?";
