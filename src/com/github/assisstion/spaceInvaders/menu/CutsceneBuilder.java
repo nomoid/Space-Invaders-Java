@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.Engine;
+import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
@@ -121,9 +123,9 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		parent = menu;
 		parent.requestFocus();
 		if (pageNumber >= textRes.length) {
-			parent.closeMenu(instance);
-			parent.startGame();
-			AchievementMethods.redeemAchievement(new Achievement("Dedication"));
+			fullUnBuildText();
+			finishCutscene();
+			
 		} else if (i < textRes[x].getText().length) {
 			leText += textRes[x].getText()[i];
 			buildText(leText);
@@ -235,6 +237,18 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		// TODO Auto-generated method stub
 	}
 
+	private void finishCutscene(){
+		if (Engine.currentLevel == 6){
+			parent.closeMenu(instance);
+			MainCanvas.menu.add(MainCanvas.engine);
+			MainCanvas.engine.state = "main";
+			MainCanvas.frame.pack();
+		} else {
+			parent.closeMenu(instance);
+			parent.startGame();
+			AchievementMethods.redeemAchievement(new Achievement("Dedication"));
+		} 
+	}
 	@Override
 	public void keyReleased(KeyEvent e) {
 		try {
@@ -247,8 +261,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 				}
 				if (!b) {
 					fullUnBuildText();
-					parent.closeMenu(instance);
-					parent.startGame();
+					finishCutscene();
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				boolean b;

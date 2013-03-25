@@ -87,4 +87,54 @@ public final class CutsceneData{
 		}
 		
 	}
+	
+	
+	public static final class Cutscene2{
+		
+		private static final String PAGE_1 = "<MISSION LOG: 0800, June 9th, 2320>";
+		private static final String PAGE_2 = "<MISSION LOCATION: Deep Within Tofuite Space. At Temporary Base>";
+		private static final String PAGE_3 = "You: Tofu! Tofu! I'm back!";
+		private static final String PAGE_4 = "Tofu: That's great...";
+		private static final String PAGE_5 = "You: You sound strange... is something wrong?";
+		private static final String PAGE_6 = "Tofu: I think I might know why the Tofites retreated.";
+		private static final String PAGE_7 = "You: Really? That's great! Why do you think- Wait... how do you know they've retreated?";
+		private static final String PAGE_8 = "Tofu: Simple. You, as the lolmany others who invaded our territory have been, are a trespasser. And as we have stated before, trespassers must be executed.";
+		private static final String PAGE_9 = "You: Tofu... Hold on. You're not Tofu...";
+		private static final String PAGE_10 = "Possessed Tofu: Do not refer to me by that ridiculous name anymore. I am the Supreme Lord of the Tofites, a manifestation of the most developed psychic and athletic prowess on this side of the galaxy, the master and controller of all in this vicinity! I! AM! SHERIDAN!";
+		private static final String PAGE_11 = "You: What the... Sheridan? That's a dumber name than Tofu!";
+		private static final String PAGE_12 = "Sheridan: Wha- No it's not! I'll have you know, 'Sheridan' is a name accepted and revered in intergalactic proportions! From the Michael Sheridan of Earth to Blitzkreig Sheridan of the Blitzkreig Quadrant (they're so creative at naming things), the name Sheridan commands respect throughout all corners of the universe! Which is a very large feat because the universe, as it exists now, does not actually have corners.";
+		private static final String PAGE_13 = "You: *yawns* That's cool. But... can you EAT a Sheridan?";
+		private static final String PAGE_14 = "Sheridan: IRRELEVANT!";
+		private static final String PAGE_15 = "You: Well, you can eat tofu, which gives you nutrition, which then helps sustain life. Without the sustainment of life, a thriving ecosystem, such as the one you currently live in, cannot hope to exist, rendering your argument null and void.";
+		private static final String PAGE_16 = "Sheridan: Wha... no... who... THAT'S IT! PREPARE TO BE EXECUTED!";
+		private static final String PAGE_17 = "<Siri: Sir, enemy weapons systems warming. Cation advised>";
+		private static final String PAGE_18 = "You: Suit yourself, Your Inedibleness.";
+		
+		private static final Font DEFAULTFONT = new Font("Bank Gothic", Font.BOLD, 30);
+		private static final Font SYSTEMFONT = new Font("BlairMdlTC TT", Font.BOLD, 30);
+		private static final Font ALIENFONT = new Font("Wingdings 2", Font.PLAIN, 30);
+		private static final Font[] FONTLIST =  {SYSTEMFONT, SYSTEMFONT, DEFAULTFONT, DEFAULTFONT, DEFAULTFONT, DEFAULTFONT, DEFAULTFONT, DEFAULTFONT, DEFAULTFONT, ALIENFONT, DEFAULTFONT, ALIENFONT, DEFAULTFONT, ALIENFONT, DEFAULTFONT, ALIENFONT, SYSTEMFONT, DEFAULTFONT};
+		
+		private static final Color DEFAULTCOLOR=Color.GREEN; 
+		private static final Color SYSTEMCOLOR=Color.WHITE; 
+		private static final Color FRIENDCOLOR=Color.YELLOW;
+		private static final Color ALIENCOLOR=Color.RED;
+		private static final Color[] COLORLIST = {SYSTEMCOLOR, SYSTEMCOLOR, DEFAULTCOLOR, FRIENDCOLOR, DEFAULTCOLOR, FRIENDCOLOR, DEFAULTCOLOR, FRIENDCOLOR, DEFAULTCOLOR, ALIENCOLOR, DEFAULTCOLOR, ALIENCOLOR, DEFAULTCOLOR, ALIENCOLOR, DEFAULTCOLOR, ALIENCOLOR, SYSTEMCOLOR, DEFAULTCOLOR};
+		
+		
+		private static final char[][] PAGES = {PAGE_1.toCharArray(), PAGE_2.toCharArray(), PAGE_3.toCharArray(), PAGE_4.toCharArray(), PAGE_5.toCharArray(), PAGE_6.toCharArray(), PAGE_7.toCharArray(), PAGE_8.toCharArray(), PAGE_9.toCharArray(), PAGE_10.toCharArray(), PAGE_11.toCharArray(), PAGE_12.toCharArray(), PAGE_13.toCharArray(), PAGE_14.toCharArray(), PAGE_15.toCharArray(), PAGE_16.toCharArray(), PAGE_17.toCharArray(), PAGE_18.toCharArray()};
+		private static final Sprite[][] SPRITES = {{new Player(0, "hi")},{}};
+		
+		private static final double[] DELAYLIST = {10,10,10,10,10,10,15,20,10,30,15,50,15,10,25,10,15,10};	
+		public static Cutscene SCENE = null;
+		
+		public static CutsceneTextResource[] textRes;
+		static {
+			textRes = new CutsceneTextResource[17];
+			for (int i = 0; i < textRes.length; i ++) {
+				textRes[i] = new CutsceneTextResource(PAGES[i], FONTLIST[i], COLORLIST[i], DELAYLIST[i]);
+			}
+			SCENE = new Cutscene(SPRITES, textRes);
+		}
+	}
 }

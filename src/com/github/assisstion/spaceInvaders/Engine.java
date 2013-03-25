@@ -31,6 +31,10 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet.BulletType;
 import com.github.assisstion.spaceInvaders.gameObject.EnemySquad.Direction;
 import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
+import com.github.assisstion.spaceInvaders.menu.Cutscene;
+import com.github.assisstion.spaceInvaders.menu.CutsceneBuilder;
+import com.github.assisstion.spaceInvaders.menu.CutsceneData;
+import com.github.assisstion.spaceInvaders.menu.CutsceneUpdater;
 import com.github.assisstion.spaceInvaders.menu.LevelMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
@@ -107,7 +111,7 @@ public class Engine extends Canvas implements KeyListener {
 	// The boss
 	private Boss boss;
 	// Current level
-	private int currentLevel = 1;
+	public static int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 	private LevelMenuBuilder nextLevelMenu;
 	private boolean bossOn;
@@ -675,7 +679,6 @@ public class Engine extends Canvas implements KeyListener {
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 				
 				player1.score = nextLevelMenu.totalScoreNo;
-				System.out.println("Level Completed!     Score: " + player1.score);
 
 				shotsFired = 0;
 				shotsHit = 0;
@@ -684,6 +687,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
+	
 	private void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
