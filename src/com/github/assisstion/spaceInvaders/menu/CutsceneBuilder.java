@@ -20,7 +20,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	private int y = 10;
 	public boolean isOn;
 	private static final String ADVANCEMENTTEXT = "Press Enter to skip";
-	private static final String FASTFORWARDTEXT = "Press right arrow to fastforward";
+	private static final String FASTFORWARDTEXT = "Press right arrow to fast-forward";
 	private static String FASTFORWARD = "";
 	private static final String SPEEDNORMAL = "Press space to return speed to normal";
 	private static final String SKIPPAGE = "Press down arrow to skip page";
@@ -157,6 +157,15 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		parent.revalidate();
 		parent.repaint();
 	}
+	
+	private void deleteLabels(){
+		parent.remove(advancementLabel);
+		parent.remove(fastforwardLabel);
+		parent.remove(skipPageLabel);
+		parent.remove(fastforwardLabel2);
+		parent.remove(speedNormalLabel);
+		
+	}
 
 	public void fullUnBuildText() {
 		for (JLabel label : labelList) {
@@ -237,6 +246,11 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					fastforwardLabel2.setText("x" + counter);
 					fastforwardLabel2.setVisible(true);
 					speedNormalLabel.setVisible(true);
+<<<<<<< HEAD
+=======
+					System.out.println("Speed has been increased");
+					done1 = false;
+>>>>>>> Getting Mahkooz's update
 					counter = counter*2;
 					inUse = false;
 				}
