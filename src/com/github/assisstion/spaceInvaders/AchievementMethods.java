@@ -1,6 +1,6 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.LinkedList;
 
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 
@@ -20,7 +20,12 @@ public final class AchievementMethods {
 	public static boolean enemyKilled;
 	public static boolean thisIsSparta;
 	public static boolean Untouchable;
-	private static ConcurrentSkipListSet<Achievement> achievements = new ConcurrentSkipListSet<Achievement>();
+	private static LinkedList<Achievement> achievements = new LinkedList<Achievement>();
+	private static LinkedList<String> achievementChecker = new LinkedList<String>();
+	
+	public static LinkedList<Achievement> getAchievementList(){
+		return achievements;
+	}
 	
 	public static void setEngine(Engine engine){
 		instance = engine;
@@ -158,12 +163,16 @@ public final class AchievementMethods {
 	
 	
 	public static void redeemAchievement(Achievement leAchievement){
-		if (instance==null && !achievements.contains(leAchievement)|| !achievements.contains(leAchievement) && !instance.godmodeOn){
-			System.out.println("Achievement Unlocked: " + leAchievement.name);
+		
+		if (instance==null && !achievementChecker.contains(leAchievement.name)|| !achievementChecker.contains(leAchievement.name) && !instance.godmodeOn){
+			System.out.println("Achievement Unlocked: " + leAchievement.name + "!");
+			
 			achievements.add(leAchievement);
+			achievementChecker.add(leAchievement.name);
 			achievementUnlocked = true; 
 		}
 	}
+	
 	public static void reset() {
 		Headhunter = false;
 		SecondAmendment = true; 
@@ -174,4 +183,5 @@ public final class AchievementMethods {
 		Untouchable = true;
 		
 	}
+
 }

@@ -18,7 +18,6 @@ import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
-
 public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private LevelMenuBuilder instance;
 	private Menu parent;
@@ -36,105 +35,116 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	public int totalScoreNo;
 	private int livesLost;
 	private JButton upgradeButton;
-	
-	public LevelMenuBuilder(int baseScore,int shotsHit,int totalShots,boolean godModeOn, int livesLost){
+	private JButton achievementButton;
+
+	public LevelMenuBuilder(int baseScore, int shotsHit, int totalShots,
+			boolean godModeOn, int livesLost) {
 		baseScoreNo = baseScore;
 		shotsHitNo = shotsHit;
 		totalShotsNo = totalShots;
-		this.godModeOn=godModeOn;
+		this.godModeOn = godModeOn;
 		this.livesLost = livesLost;
-		
+
 		instance = this;
 	}
+
 	@Override
 	public void build(Menu menu) {
-		
+
 		parent = menu;
 		parent.addKeyListener(this);
 		parent.requestFocus();
 		parent.revalidate();
-		
+
 		nextLevelButton = new JButton(new ImageIcon(getImage()));
-		nextLevelButton.setBounds(0,640,960,100);
-		
+		nextLevelButton.setBounds(0, 640, 960, 100);
+
 		nextLevelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
+				AchievementMethods.achievementUnlocked = false;
 				finish();
 			}
 		});
-		
+
 		nextLevelButton.setBorder(BorderFactory.createEmptyBorder());
 		nextLevelButton.setContentAreaFilled(false);
-		
+
 		upgradeButton = new JButton("UPGRADES");
-		upgradeButton.setBounds(0,400,150,150);
-		
+		upgradeButton.setBounds(0, 400, 150, 150);
+
 		upgradeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new UpgradesMenuBuilder(instance));
 			}
 		});
-		
-		
+
+		achievementButton = new JButton("ACHIEVEMENTS");
+		achievementButton.setBounds(400, 100, 150, 150);
+
+		achievementButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new AchievementsMenuBuilder(instance));
+			}
+		});
+
 		topLogo = new JLabel("Level Completed!");
 		topLogo.setForeground(Color.GREEN);
 		topLogo.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 90));
- 	 	topLogo.setBounds(30,20,960,65);
- 	 	
+		topLogo.setBounds(30, 20, 960, 65);
 
 		int x = 250;
 		Font basefont = new Font("Impact", Font.BOLD, 50);
 		baseScore = new JLabel("Score: " + (godModeOn ? "°" : baseScoreNo));
 		baseScore.setForeground(Color.WHITE);
 		baseScore.setFont(basefont);
-		Menu.centerLabel(baseScore,x);
-		
-// NEED TO ADD LIFE BONUS THINGY
-		
-		double accuracyBonus = (double) shotsHitNo/ (double)(totalShotsNo==0 ? 1 : totalShotsNo);
-		double accuracyPercentage = Math.round(accuracyBonus * 10000)/100;
-		
+		Menu.centerLabel(baseScore, x);
+
+		// NEED TO ADD LIFE BONUS THINGY
+
+		double accuracyBonus = (double) shotsHitNo
+				/ (double) (totalShotsNo == 0 ? 1 : totalShotsNo);
+		double accuracyPercentage = Math.round(accuracyBonus * 10000) / 100;
+
 		AchievementMethods.checkAccuracy((int) accuracyPercentage);
-		
-		accuracy = new JLabel("Accuracy: " + (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " (" + (int) accuracyPercentage + "%)"): "N/A"));
+
+		accuracy = new JLabel("Accuracy: "
+				+ (!godModeOn ? (shotsHitNo + "/" + totalShotsNo + " ("
+						+ (int) accuracyPercentage + "%)") : "N/A"));
 		accuracy.setForeground(Color.WHITE);
 		accuracy.setFont(basefont);
-		Menu.centerLabel(accuracy, x+60);
-		
+		Menu.centerLabel(accuracy, x + 60);
 
 		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
-		bonusScore = new JLabel("Bonus: " + (!godModeOn ? (int) accuracyBonus : "N/A"));
+		bonusScore = new JLabel("Bonus: "
+				+ (!godModeOn ? (int) accuracyBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
 		bonusScore.setFont(basefont);
-		Menu.centerLabel(bonusScore, x+120);
+		Menu.centerLabel(bonusScore, x + 120);
 		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
-		
+
 		String leMessage = null;
-		if (livesLost == 0){
-			totalScoreNo= (int)(totalScoreNo* 1.5);
+		if (livesLost == 0) {
+			totalScoreNo = (int) (totalScoreNo * 1.5);
 			leMessage = "Survival Boost: 1.5x";
 		} else {
 			leMessage = "Survival Boost: 1x";
-		} 
-		
-		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °": leMessage);
+		}
+
+		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °" : leMessage);
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
-		Menu.centerLabel(lifeBonus,x+180);
-		
-		
-		totalScore = new JLabel("Total Score: " + (!godModeOn ? ((int) totalScoreNo): "°" ));
+		Menu.centerLabel(lifeBonus, x + 180);
+
+		totalScore = new JLabel("Total Score: "
+				+ (!godModeOn ? ((int) totalScoreNo) : "°"));
 		totalScore.setForeground(Color.WHITE);
 		totalScore.setFont(basefont);
-		Menu.centerLabel(totalScore,x+240);
-		
-		
-		if (AchievementMethods.achievementUnlocked){
-			System.out.println("ACHIEVEMENT(s) UNLOCKED IN THIS LEVEL");
-		}
-		
+		Menu.centerLabel(totalScore, x + 240);
+
+
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
 		parent.add(baseScore);
@@ -143,11 +153,14 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.add(totalScore);
 		parent.add(lifeBonus);
 		parent.add(upgradeButton);
+		if (AchievementMethods.achievementUnlocked) {
+			parent.add(achievementButton);
+		}
 	}
 
 	@Override
 	public void unBuild(Menu menu) {
-		
+
 		parent = menu;
 		parent.removeKeyListener(this);
 		parent.remove(nextLevelButton);
@@ -158,47 +171,53 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.remove(totalScore);
 		parent.remove(lifeBonus);
 		parent.remove(upgradeButton);
-	
+
+		if (AchievementMethods.achievementUnlocked) {
+			parent.remove(achievementButton);
+		}
 	}
 
-	private BufferedImage getImage(){
+	private BufferedImage getImage() {
 		BufferedImage returnIcon = null;
 		try {
-			returnIcon = ResourceManager.getImageResource("resources/nextlevelButton.png");
+			returnIcon = ResourceManager
+					.getImageResource("resources/nextlevelButton.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
 		return returnIcon;
 	}
+
 	@Override
-	public void keyPressed(KeyEvent e){
+	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
-	public void keyReleased(KeyEvent e){
-		try{
-			if(e.getKeyCode() == KeyEvent.VK_ENTER){
+	public void keyReleased(KeyEvent e) {
+		try {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				finish();
 				System.out.println("Finish");
 			}
-		}
-		catch(Exception ex){
-			//TODO placeholder
+		} catch (Exception ex) {
+			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
+
 	@Override
-	public void keyTyped(KeyEvent e){
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	private void finish(){
+
+	private void finish() {
 		parent.closeMenu(instance);
 		MainCanvas.menu.add(MainCanvas.engine);
-		MainCanvas.engine.state="main";
+		MainCanvas.engine.state = "main";
 		MainCanvas.frame.pack();
 	}
 }

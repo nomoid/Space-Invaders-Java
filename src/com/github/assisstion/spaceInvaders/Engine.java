@@ -675,11 +675,10 @@ public class Engine extends Canvas implements KeyListener {
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
 				
 				player1.score = nextLevelMenu.totalScoreNo;
-				System.out.println("Level Completed! Score: " + player1.score);
+				System.out.println("Level Completed!     Score: " + player1.score);
 
 				shotsFired = 0;
 				shotsHit = 0;
-				AchievementMethods.achievementUnlocked= false;
 			}
 		}
 

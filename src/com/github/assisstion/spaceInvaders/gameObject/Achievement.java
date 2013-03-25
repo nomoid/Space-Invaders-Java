@@ -1,6 +1,6 @@
 package com.github.assisstion.spaceInvaders.gameObject;
 
-public class Achievement {
+public class Achievement implements Comparable<Achievement> {
 	public String name;
 	//I did this for MOAR FUNCTIONALITY
 	//e.g. public Sprite image;
@@ -9,5 +9,11 @@ public class Achievement {
 	
 	public Achievement(String name){
 		this.name = name;
+	}
+
+	@Override
+	public int compareTo(Achievement arg0) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
