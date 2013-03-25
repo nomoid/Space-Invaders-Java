@@ -79,7 +79,7 @@ public final class CutsceneData{
 		
 		public static CutsceneTextResource[] textRes;
 		static {
-			textRes = new CutsceneTextResource[41];
+			textRes = new CutsceneTextResource[40];
 			for (int i = 0; i < textRes.length; i ++) {
 				textRes[i] = new CutsceneTextResource(PAGES[i], FONTLIST[i], COLORLIST[i], DELAYLIST[i]);
 			}

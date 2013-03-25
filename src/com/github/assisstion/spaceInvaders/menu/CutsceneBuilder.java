@@ -131,7 +131,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 		} else {			
 			updatePage();
-			
 		}
 	}
 
@@ -254,15 +253,21 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					if (hidden){
 						readdLabels();
 					}
-					for(int i = 0; i<textRes.length; i++){
-						textRes[i].speedUp();
-					}
+					
+					//TO PRESERVE PAGE DELAYS
+					//for(int i = 0; i<textRes.length; i++){
+						//textRes[i].speedUp();
+					
+					//}
+					
+					if (counter<32){
 					updater.speedUp();
 					fastforwardLabel2.setText("x" + counter);
 					fastforwardLabel2.setVisible(true);
 					speedNormalLabel.setVisible(true);
 					counter = counter*2;
 					inUse = false;
+					}
 				}
 
 			}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
@@ -297,7 +302,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					unBuildText();		
 				}
 				inUse = false;
-
 			}
 		}
 		catch(Exception ex){
