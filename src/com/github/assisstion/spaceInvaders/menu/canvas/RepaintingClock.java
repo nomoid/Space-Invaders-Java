@@ -1,4 +1,5 @@
-package com.github.assisstion.spaceInvaders.menu;
+package com.github.assisstion.spaceInvaders.menu.canvas;
+
 
 public class RepaintingClock implements Runnable{
 	

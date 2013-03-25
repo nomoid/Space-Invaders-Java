@@ -1,8 +1,9 @@
-package com.github.assisstion.spaceInvaders.menu;
+package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 
 public class UpgradesCanvas extends AbstractCanvas{
 		
@@ -11,12 +12,13 @@ public class UpgradesCanvas extends AbstractCanvas{
 		public UpgradesCanvas(){
 			RepaintingClock clock = new RepaintingClock(this);
 			new Thread(clock).start();
-			setBackground(Color.BLACK);
+			setBackground(Color.BLUE);
 		}
 		
 		
 		@Override
 		public void paint(Graphics g){
+			super.paint(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("hi", 100, 100);

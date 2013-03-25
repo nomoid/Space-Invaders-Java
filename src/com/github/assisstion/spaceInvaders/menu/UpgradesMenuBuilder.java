@@ -1,27 +1,29 @@
 package com.github.assisstion.spaceInvaders.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.awt.image.BufferedImage;
+//import java.io.IOException;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import com.github.assisstion.spaceInvaders.menu.canvas.UpgradesCanvas;
+
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
-import com.github.assisstion.spaceInvaders.ResourceManager;
+//import com.github.assisstion.spaceInvaders.ResourceManager;
 
 @ReturnableMenu
 public class UpgradesMenuBuilder implements MenuBuilder {
-	private UpgradesMenuBuilder instance;
+	//private UpgradesMenuBuilder instance;
 	private Menu parent;
-	private LevelMenuBuilder levelScreen;
+	//private LevelMenuBuilder levelScreen;
 	private JButton returnButton;
 	private UpgradesCanvas canvas;
 	
 	public UpgradesMenuBuilder(LevelMenuBuilder leScreen){
-		levelScreen = leScreen;
-		instance = this;
+		//levelScreen = leScreen;
+		//instance = this;
 	}
 	
 	@Override
@@ -33,7 +35,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		
 		canvas = new UpgradesCanvas();
 		canvas.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-		
+		/*
 		returnButton = new JButton(new ImageIcon(getImage("resources/returnButton.png")));
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -44,8 +46,11 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		});
 		
 		returnButton.setBounds(0,0,162,94);
+		*/
 		parent.add(canvas);
 		parent.add(returnButton);
+		
+		
 
 	}
 
@@ -57,6 +62,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 
 	}
 
+	/*
 	private BufferedImage getImage(String filepath){
 		BufferedImage leIcon = null;
 		try {
@@ -67,4 +73,5 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		}
 		return leIcon;
 	}
+	*/
 }
