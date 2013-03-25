@@ -134,6 +134,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	@Override
 	public void unBuild(Menu menu) {
 		parent = menu;
+		parent.removeKeyListener(this);
 		isOn = false;
 		fullUnBuildText();
 	}
@@ -236,8 +237,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					fastforwardLabel2.setText("x" + counter);
 					fastforwardLabel2.setVisible(true);
 					speedNormalLabel.setVisible(true);
-					System.out.println("STUFF");
-					
 					counter = counter*2;
 					inUse = false;
 				}

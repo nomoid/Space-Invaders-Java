@@ -101,4 +101,8 @@ public class Menu extends JPanel{
 	public synchronized void done(){
 		started = false;
 	}
+	
+	public synchronized boolean started(){
+		return started;
+	}
 }
