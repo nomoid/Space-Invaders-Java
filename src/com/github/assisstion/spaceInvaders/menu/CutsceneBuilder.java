@@ -246,11 +246,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 					fastforwardLabel2.setText("x" + counter);
 					fastforwardLabel2.setVisible(true);
 					speedNormalLabel.setVisible(true);
-<<<<<<< HEAD
-=======
-					System.out.println("Speed has been increased");
-					done1 = false;
->>>>>>> Getting Mahkooz's update
 					counter = counter*2;
 					inUse = false;
 				}
