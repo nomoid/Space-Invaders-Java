@@ -679,6 +679,7 @@ public class Engine extends Canvas implements KeyListener {
 
 				shotsFired = 0;
 				shotsHit = 0;
+				AchievementMethods.achievementUnlocked= false;
 			}
 		}
 

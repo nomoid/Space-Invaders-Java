@@ -8,7 +8,7 @@ public final class AchievementMethods {
 	private static Engine instance = null;
 	
 	
-	
+	public static boolean achievementUnlocked;
 	//Booleans for achievements
 	
 	public static boolean Headhunter;
@@ -159,6 +159,7 @@ public final class AchievementMethods {
 		if (instance==null && !achievements.contains(leAchievement)|| !achievements.contains(leAchievement) && !instance.godmodeOn){
 			System.out.println("Achievement Unlocked: " + leName);
 			achievements.add(leAchievement);
+			achievementUnlocked = true;
 		}
 	}
 	public static void reset() {

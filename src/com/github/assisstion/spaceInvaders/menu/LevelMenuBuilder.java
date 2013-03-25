@@ -130,6 +130,11 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		totalScore.setFont(basefont);
 		Menu.centerLabel(totalScore,x+240);
 		
+		
+		if (AchievementMethods.achievementUnlocked){
+			System.out.println("ACHIEVEMENT(s) UNLOCKED IN THIS LEVEL");
+		}
+		
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
 		parent.add(baseScore);
