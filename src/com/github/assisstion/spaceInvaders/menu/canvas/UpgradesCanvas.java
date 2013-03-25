@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 
-public class UpgradesCanvas extends AbstractCanvas{
+public class UpgradesCanvas extends MSAbstractCanvas{
 		
 		private static final long serialVersionUID = 5897847762185790426L;
 

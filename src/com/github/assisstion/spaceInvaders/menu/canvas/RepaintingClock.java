@@ -3,8 +3,8 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 public class RepaintingClock implements Runnable{
 	
-	private AbstractCanvas canvas; 
-	public RepaintingClock(AbstractCanvas canvas){
+	private MSAbstractCanvas canvas; 
+	public RepaintingClock(MSAbstractCanvas canvas){
 		this.canvas = canvas;
 	}
 	

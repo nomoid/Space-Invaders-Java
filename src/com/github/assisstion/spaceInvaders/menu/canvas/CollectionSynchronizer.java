@@ -8,8 +8,7 @@ public class CollectionSynchronizer<T>{
 		private Object lock;
 		
 		public CollectionSynchronizer(Collection<T> collection){
-			lock = new Object();
-			this.collection = collection;
+			this(collection, new Object());
 		}
 		
 		public CollectionSynchronizer(Collection<T> collection, Object lock){
@@ -17,26 +16,42 @@ public class CollectionSynchronizer<T>{
 			this.collection = collection;
 		}
 		
-		public void add(T object){
-			new Thread(new CollectionAdder(object)).start();
+		public ConcurrentObject<Boolean> add(T object){
+			CollectionAdder ca = new CollectionAdder(object);
+			new Thread(ca).start();
+			return ca.getReturnValue();
 		}
 		
-		public void remove(T object){
-			new Thread(new CollectionRemover(object)).start();
+		public ConcurrentObject<Boolean> remove(T object){
+			CollectionRemover cr = new CollectionRemover(object);
+			new Thread(cr).start();
+			return cr.getReturnValue();
+		}
+		
+		public ConcurrentObject<Boolean> contains(T object){
+			CollectionContainer cc = new CollectionContainer(object);
+			new Thread(cc).start();
+			return cc.getReturnValue();
 		}
 		
 		private class CollectionAdder implements Runnable{
 			
 			private T object;
+			private ConcurrentObject<Boolean> returnValue;
 
 			public CollectionAdder(T object){
 				this.object = object;
+				returnValue = new ConcurrentObject<Boolean>();
+			}
+			
+			public ConcurrentObject<Boolean> getReturnValue(){
+				return returnValue;
 			}
 			
 			@Override
 			public void run(){
 				synchronized(lock){
-					collection.add(object);
+					returnValue.put(new Boolean(collection.add(object)));
 				}
 			}
 			
@@ -45,15 +60,43 @@ public class CollectionSynchronizer<T>{
 		private class CollectionRemover implements Runnable{
 
 			private T object;
+			private ConcurrentObject<Boolean> returnValue;
 			
 			public CollectionRemover(T object){
 				this.object = object;
+				returnValue = new ConcurrentObject<Boolean>();
+			}
+			
+			public ConcurrentObject<Boolean> getReturnValue(){
+				return returnValue;
 			}
 			
 			@Override
 			public void run(){
 				synchronized(lock){
-					collection.remove(object);
+					returnValue.put(new Boolean(collection.remove(object)));
+				}
+			}
+		}	
+		
+		private class CollectionContainer implements Runnable{
+
+			private T object;
+			private ConcurrentObject<Boolean> returnValue;
+			
+			public CollectionContainer(T object){
+				this.object = object;
+				returnValue = new ConcurrentObject<Boolean>();
+			}
+			
+			public ConcurrentObject<Boolean> getReturnValue(){
+				return returnValue;
+			}
+			
+			@Override
+			public void run(){
+				synchronized(lock){
+					returnValue.put(new Boolean(collection.contains(object)));
 				}
 			}
 		}	

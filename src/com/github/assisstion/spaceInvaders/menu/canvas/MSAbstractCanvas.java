@@ -6,18 +6,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public abstract class AbstractCanvas extends Canvas implements CContainer{
+public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 
 	private static final long serialVersionUID = -8804355855785678123L;
 	private boolean on = true;
 	private int delay = 16;
-	private LinkedList<CComponent> components;
+	private LinkedList<MSComponent> components;
 	private Object listLock = new Object();
-	private CollectionSynchronizer<CComponent> cs;
+	private CollectionSynchronizer<MSComponent> cs;
+	private MSComponent parent;
 	
-	public AbstractCanvas(){
-		components = new LinkedList<CComponent>();
-		cs = new CollectionSynchronizer<CComponent>(components, listLock);
+	public MSAbstractCanvas(){
+		components = new LinkedList<MSComponent>();
+		cs = new CollectionSynchronizer<MSComponent>(components, listLock);
 	}
 	
 	public boolean isOn(){
@@ -41,7 +42,7 @@ public abstract class AbstractCanvas extends Canvas implements CContainer{
 	 */
 	@Override
 	public void paint(Graphics g){
-		for(CComponent component : components){
+		for(MSComponent component : components){
 			component.paint(g);
 		}
 	}
@@ -58,25 +59,48 @@ public abstract class AbstractCanvas extends Canvas implements CContainer{
 	public abstract boolean interrupted(InterruptedException e);
 	
 	@Override
-	public Collection<CComponent> getComponentView(){
+	public Collection<MSComponent> getComponentView(){
 		synchronized(listLock){
 			return Collections.unmodifiableCollection(components);
 		}
 	}
 	
-	public void addComponent(CComponent component){
-		cs.add(component);
+	public void addComponent(MSComponent component){
 		component.addTo(this);
+		cs.add(component);
+		component.setComponentParent(this);
 		requestFocus();
 		validate();
 		repaint();
 	}
 	
-	public void removeComponent(CComponent component){
-		cs.remove(component);
-		component.removeFrom(this);
-		requestFocus();
-		validate();
-		repaint();
+	public void removeComponent(MSComponent component){
+		if(component.removeFrom(this)){
+			cs.remove(component);
+			component.setComponentParent(null);
+			requestFocus();
+			validate();
+			repaint();
+		}
+	}
+	
+	@Override
+	public boolean addTo(MSContainer container){
+		return true;
+	}
+	
+	@Override
+	public boolean removeFrom(MSContainer container){
+		return true;
+	}
+	
+	@Override
+	public void setComponentParent(MSComponent component){
+		parent = component;
+	}
+	
+	@Override
+	public MSComponent getComponentParent(){
+		return parent;
 	}
 }
