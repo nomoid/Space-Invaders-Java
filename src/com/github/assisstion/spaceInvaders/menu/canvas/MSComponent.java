@@ -2,8 +2,9 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Graphics;
 
-public interface MSComponent{
-	void paint(Graphics g);
+public interface MSComponent extends MSRenderable{
+	
+	void render(Graphics g);
 	
 	/*
 	 * Note:

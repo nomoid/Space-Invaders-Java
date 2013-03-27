@@ -38,12 +38,25 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	}
 	
 	/*
-	 * Subclasses of this should call super.paint();
+	 * Subclasses of this should call super.paint(g);
 	 */
 	@Override
 	public void paint(Graphics g){
+		render(g);
+	}
+	
+	@Override
+	public void render(Graphics g){
+		render(g, getX(), getY());
+	}
+	
+	/*
+	 * Subclasses of this should call super.render(g);
+	 */
+	@Override
+	public void render(Graphics g, int x, int y){
 		for(MSComponent component : components){
-			component.paint(g);
+			component.render(g, x, y);
 		}
 	}
 	
@@ -101,6 +114,6 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	
 	@Override
 	public MSComponent getComponentParent(){
-		return parent;
+		return parent;	
 	}
 }
