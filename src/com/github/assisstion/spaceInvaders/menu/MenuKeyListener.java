@@ -17,17 +17,16 @@ public class MenuKeyListener implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			if (parent.currentMenu.getClass().getAnnotation(ReturnableMenu.class) != null){
-				parent.closeMenu(parent.currentMenu);
-				parent.addMenuBuilder(new MainMenuBuilder());
+				parent.currentMenu.exitMenu();
 			}	
 		}
 		if(e.getKeyCode() == KeyEvent.VK_M){
 			if(!ResourceManager.getMuted()){
-				System.out.println("Mute");
+				System.out.println("Gmae Muted");
 				ResourceManager.setMuted(true);
 			}
 			else{
-				System.out.println("Unmute");
+				System.out.println("Game Unmuted");
 				ResourceManager.setMuted(false);
 			}
 		}

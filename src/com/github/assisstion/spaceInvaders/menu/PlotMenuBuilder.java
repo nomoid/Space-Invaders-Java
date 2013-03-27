@@ -60,4 +60,10 @@ public class PlotMenuBuilder implements MenuBuilder {
 		return returnIcon;
 	}
 
+	@Override
+	public void exitMenu() {
+		parent.closeMenu(instance);
+		parent.addMenuBuilder(new MainMenuBuilder());	
+	}
+
 }

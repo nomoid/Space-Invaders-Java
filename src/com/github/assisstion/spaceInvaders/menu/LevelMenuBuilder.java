@@ -232,4 +232,11 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	
 	}
+
+	@Override
+	public void exitMenu() {
+		System.out.println("Button pressed");
+		AchievementMethods.achievementUnlocked = false;
+		finish();
+	}
 }

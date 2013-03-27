@@ -15,15 +15,15 @@ import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 
 @ReturnableMenu
 public class UpgradesMenuBuilder implements MenuBuilder {
-	//private UpgradesMenuBuilder instance;
 	private Menu parent;
-	//private LevelMenuBuilder levelScreen;
+	private LevelMenuBuilder levelScreen;
 	private JButton returnButton;
 	private UpgradesCanvas canvas;
+	private UpgradesMenuBuilder instance;
 	
 	public UpgradesMenuBuilder(LevelMenuBuilder leScreen){
-		//levelScreen = leScreen;
-		//instance = this;
+		instance = this;
+		levelScreen = leScreen;
 	}
 	
 	@Override
@@ -60,6 +60,12 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		parent.remove(returnButton);
 		parent.remove(canvas);
 
+	}
+
+	@Override
+	public void exitMenu() {
+		parent.closeMenu(instance);
+		parent.addMenuBuilder(levelScreen);		
 	}
 
 	/*

@@ -11,9 +11,11 @@ public class HighScoreMenuBuilder implements MenuBuilder{
 
 	private JTabbedPane tabbedPane;
 	private Menu parent;
+	private HighScoreMenuBuilder instance;
 	
 	@Override
 	public void build(Menu menu) {
+		instance = this;
 		parent = menu;
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(10, 10, MainCanvas.FRAME_WIDTH - 20, MainCanvas.FRAME_HEIGHT - 20);
@@ -30,6 +32,12 @@ public class HighScoreMenuBuilder implements MenuBuilder{
 	public void unBuild(Menu menu) {
 		parent.remove(tabbedPane);
 		
+	}
+
+	@Override
+	public void exitMenu() {
+		parent.closeMenu(instance);
+		parent.addMenuBuilder(new MainMenuBuilder());		
 	}
 
 }

@@ -259,4 +259,10 @@ public class MainMenuBuilder implements MenuBuilder{
 			return new Integer(hashCode()).compareTo(ap.hashCode());
 		}
 	}
+
+	@Override
+	public void exitMenu() {
+		// TODO Auto-generated method stub
+		
+	}
 }

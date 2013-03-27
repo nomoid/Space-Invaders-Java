@@ -350,4 +350,10 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		}
 		lastlabel.setText(text);
 	}
+
+	@Override
+	public void exitMenu() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -104,4 +104,11 @@ public class HelpMenuBuilder implements MenuBuilder {
 		}
 		return leIcon;
 	}
+
+	@Override
+	public void exitMenu() {
+		parent.closeMenu(instance);
+		parent.addMenuBuilder(new MainMenuBuilder());
+		
+	}
 }

@@ -72,4 +72,11 @@ public class AchievementsMenuBuilder implements MenuBuilder {
 		}
 	}
 
+	@Override
+	public void exitMenu() {
+		parent.closeMenu(instance);
+		parent.addMenuBuilder(menubuilderparent);
+		
+	}
+
 }

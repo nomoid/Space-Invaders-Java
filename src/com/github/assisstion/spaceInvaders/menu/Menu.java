@@ -19,7 +19,7 @@ public class Menu extends JPanel{
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
 	private MenuKeyListener keyListener;
-	private boolean started;
+	public boolean started;
 	
 	public Menu() {
 		setLayout(null);
@@ -82,6 +82,7 @@ public class Menu extends JPanel{
 	public synchronized void startGame() {
 		synchronized(this){
 			if(started){
+				System.out.println("Engine already created");
 				return;
 			}
 			started = true;
