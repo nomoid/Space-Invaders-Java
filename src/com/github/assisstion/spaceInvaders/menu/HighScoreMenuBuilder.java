@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import com.github.assisstion.spaceInvaders.MainCanvas;
+
 @ReturnableMenu
 public class HighScoreMenuBuilder implements MenuBuilder{
 
@@ -19,12 +20,12 @@ public class HighScoreMenuBuilder implements MenuBuilder{
 		parent = menu;
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(10, 10, MainCanvas.FRAME_WIDTH - 20, MainCanvas.FRAME_HEIGHT - 20);
-		JLabel label = new JLabel("hi");
+		JLabel label = new JLabel("High Scores: " + HighScoreDataHandler.formString(HighScoreDataHandler.scoreArray));
 		label.setForeground(Color.WHITE);
-		tabbedPane.insertTab("hi", null, label, "epic", 0);
-		JLabel label2 = new JLabel("bye");
+		tabbedPane.insertTab("High Scores", null, label, "High Scores", 0);
+		JLabel label2 = new JLabel("Other Crap Here");
 		label2.setForeground(Color.WHITE);
-		tabbedPane.insertTab("bye", null, label2, "moreEpic", 0);
+		tabbedPane.insertTab("Other Crap", null, label2, "Other Crap", 1);
 		parent.add(tabbedPane);
 	}
 

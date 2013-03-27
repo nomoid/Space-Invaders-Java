@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.Menu;
 
@@ -61,6 +62,8 @@ public final class MainCanvas {
 				
 				System.out.println("Program launch");
 				frame = new JFrame("Space Invaders");
+				HighScoreDataHandler.clearData();
+				
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setResizable(false);
 				 

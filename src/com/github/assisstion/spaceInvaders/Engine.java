@@ -31,10 +31,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 import com.github.assisstion.spaceInvaders.gameObject.Bullet.BulletType;
 import com.github.assisstion.spaceInvaders.gameObject.EnemySquad.Direction;
 import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
-import com.github.assisstion.spaceInvaders.menu.Cutscene;
-import com.github.assisstion.spaceInvaders.menu.CutsceneBuilder;
-import com.github.assisstion.spaceInvaders.menu.CutsceneData;
-import com.github.assisstion.spaceInvaders.menu.CutsceneUpdater;
+import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
 import com.github.assisstion.spaceInvaders.menu.LevelMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
@@ -347,6 +344,9 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
+		if (!godmodeOn){
+			HighScoreDataHandler.logScore(player1.score);
+		}
 	}
 
 	private void gameWon(Graphics2D g) {
@@ -660,11 +660,16 @@ public class Engine extends Canvas implements KeyListener {
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
-		currentLevel += 1;
+		currentLevel ++;
 
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
+			
+			if (!godmodeOn){
+				HighScoreDataHandler.logScore(player1.score);
+			}
+			
 		} else {
 			if (state != "paused") {
 				state = "paused";
@@ -873,6 +878,9 @@ public class Engine extends Canvas implements KeyListener {
 						if (e.y > player1.y) {
 							gameCleanup();
 							state = "game_over";
+							if (!godmodeOn){
+								HighScoreDataHandler.logScore(player1.score);
+							}
 							System.out.println("Game Over!");
 						}
 					}
@@ -1307,6 +1315,9 @@ public class Engine extends Canvas implements KeyListener {
 			updateHitbox(player1);
 			gameCleanup();
 			state = "game_over";
+			if (!godmodeOn){
+				HighScoreDataHandler.logScore(player1.score);
+			}
 		}
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 		deathCounter = 188;
@@ -1318,6 +1329,7 @@ public class Engine extends Canvas implements KeyListener {
 		explosions.add(ex);
 		gameObjects.remove(player1);
 	}
+
 
 	private void bossUpdate() {
 		if (bossOn) {
