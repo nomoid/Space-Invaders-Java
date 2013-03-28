@@ -660,13 +660,13 @@ public class Engine extends Canvas implements KeyListener {
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
-		currentLevel +=9;
+		currentLevel ++;
 
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
 			
-			if (godmodeOn){
+			if (!godmodeOn){
 				HighScoreDataHandler.logScore(player1.score);
 			}
 			
