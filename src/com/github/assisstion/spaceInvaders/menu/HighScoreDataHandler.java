@@ -1,93 +1,103 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public final class HighScoreDataHandler {
 
-	//array for scores
+	// array for scores
 	public static final int SAVELENGTH = 10;
-	public static int[] scoreArray = new int[SAVELENGTH];
-	//public static int[] scoreArray = {7000,6500,6200,6000,5000,3000,2000,1000,500,20};
-	
-	
-	
-	public static void clearData(){
-		for (int score : scoreArray){
-			score = 0;
-		}		
-		
+	public static Score[] scoreArray = new Score[SAVELENGTH];
+	// public static int[] scoreArray =
+	// {7000,6500,6200,6000,5000,3000,2000,1000,500,20};
+
+	private static final String DATE_FORMAT = "MM/dd/yy (HH a)";
+
+	public static void clearData() {
+
+		for (int i = 0; i < SAVELENGTH; i++) {
+			scoreArray[i] = new Score(0, null);
+		}
+
 	}
+
+	//WORK ON POTENTIAL BONUSES.
 	
-	public static void logScore(int score){
-		
-		for (int i=0; i<=SAVELENGTH; i++){
-			if (score>scoreArray[i]){
-				System.out.println(score + " is larger than " + scoreArray[i] + " which is currently ranked at number " + (i+1));
-				
-				if (scoreArray[i] == 0){
-					scoreArray[i] = score;
+	private static String getTime() {
+		return (new SimpleDateFormat(DATE_FORMAT).format(Calendar.getInstance()
+				.getTime()));
+	}
+
+	public static void logScore(int score) {
+
+		for (int i = 0; i <= SAVELENGTH; i++) {
+			if (score > scoreArray[i].score) {
+				System.out.println(score + " is larger than "
+						+ scoreArray[i].score
+						+ " which is currently ranked at number " + (i + 1));
+
+				if (scoreArray[i].score == 0) {
+					scoreArray[i] = new Score(score, getTime());
 				} else {
 					shiftArray(i, score);
+					scoreArray[i] = new Score(score, getTime());
+
 				}
-				
+
 				System.out.println(formString(scoreArray));
-				
+
 				break;
-				
-			} else if (score == scoreArray[i]){
-				//score already exists. no point in adding a new entry
+
+			} else if (score == scoreArray[i].score) {
+				// score already exists. no point in adding a new entry
 				break;
 			}
 		}
-		
-		
+
 	}
-	
-	public static String formString(int[] array){
-		System.out.println("Length of Array: " + array.length);
+
+	public static String formString(Score[] array) {
 		String theString = "{";
-		
-		for (int i: array){
-			if (theString.equals("{")){
-				theString = theString + i;
-			} else {
-				theString = theString + "," + i;
+
+		for (Score i : array) {
+
+			if (i.score > 0) {
+
+				if (theString.equals("{")) {
+					theString = theString + i.score;
+				} else {
+					theString = theString + "," + i.score;
+				}
+				theString += " at " + i.date;
 			}
+
 		}
-		
-		
+
 		theString = theString + "}";
 		return theString;
 	}
-	
-	private static int[] duplicateArray(){
-		int[] newArray = new int[SAVELENGTH];
-		
-		for (int i=0; i<SAVELENGTH; i++){
-			newArray[i] = scoreArray[i];
+
+	private static Score[] duplicateArray() {
+		Score[] newArray = new Score[SAVELENGTH];
+
+		for (int i = 0; i < SAVELENGTH; i++) {
+			newArray[i] = new Score(scoreArray[i].score, scoreArray[i].date);
 		}
-		
+
 		return newArray;
-		
-	}
-	
-	private static void shiftArray(int index, int newScore){
-		System.out.println("Index: " + index);
-		int[] newArray = duplicateArray();
-		
-		
 
-		for (int i=index; i<SAVELENGTH-1; i++){
-			newArray[i+1] = scoreArray[i];	
+	}
+
+	private static void shiftArray(int index, int newScore) {
+		System.out.println("Index: " + index);
+		Score[] newArray = duplicateArray();
+
+		for (int i = index; i < SAVELENGTH - 1; i++) {
+			newArray[i + 1].score = scoreArray[i].score;
 		}
 
-		newArray[index] = newScore;
-		
 		scoreArray = newArray;
-		
-		
 
-		
 	}
-	
-	
-	
+
 }
