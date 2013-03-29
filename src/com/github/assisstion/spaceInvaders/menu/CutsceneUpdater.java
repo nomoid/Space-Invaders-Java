@@ -29,7 +29,6 @@ public class CutsceneUpdater implements Runnable {
 				if(instance.justFinishedLine){
 					try {
 						Thread.sleep((int) (instance.getTextRes()[instance.pageNumber].getDelay() * 100));
-						System.out.println("Page delayed");
 					}catch (Exception ex) {
 						ex.printStackTrace();
 					}

@@ -124,7 +124,6 @@ public class Engine extends Canvas implements KeyListener {
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-		
 
 	}
 
@@ -333,7 +332,7 @@ public class Engine extends Canvas implements KeyListener {
 
 	private void gameLost(Graphics2D g) {
 		AchievementMethods.checkFinishBooleans();
-		
+
 		g.clearRect(0, 0, 960, 740);
 		String gameOver = new String("Game Over!");
 		String yourScore = new String("Final Score: "
@@ -346,7 +345,7 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-		if (!godmodeOn){
+		if (!godmodeOn) {
 			HighScoreDataHandler.logScore(player1.score);
 		}
 	}
@@ -662,16 +661,16 @@ public class Engine extends Canvas implements KeyListener {
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
-		currentLevel ++;
+		currentLevel++;
 
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
-			
-			if (!godmodeOn){
+
+			if (!godmodeOn) {
 				HighScoreDataHandler.logScore(player1.score);
 			}
-			
+
 		} else {
 			if (state != "paused") {
 				state = "paused";
@@ -682,9 +681,9 @@ public class Engine extends Canvas implements KeyListener {
 
 				MainCanvas.menu.remove(this);
 				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit,
-						shotsFired, godmodeOn, livesLost);
+						shotsFired, godmodeOn, livesLost, player1.levelScore);
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
-				
+
 				player1.score = nextLevelMenu.totalScoreNo;
 
 				shotsFired = 0;
@@ -694,7 +693,6 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 
-	
 	private void inputUpdate() {
 		// Bullet creation code
 		if (spaceOn) {
@@ -815,8 +813,9 @@ public class Engine extends Canvas implements KeyListener {
 				if (k.health <= 0) {
 					gameObjects.remove(k);
 					bunkers.remove(k);
-					if (AchievementMethods.Untouchable){
-						AchievementMethods.redeemAchievement(new Achievement("LEEROY"));
+					if (AchievementMethods.Untouchable) {
+						AchievementMethods.redeemAchievement(new Achievement(
+								"LEEROY"));
 					}
 				} else if ((k.health % 100) == 0
 						&& k.lastImageUpdate > k.health) {
@@ -869,8 +868,10 @@ public class Engine extends Canvas implements KeyListener {
 								}
 								if (minigameOn) {
 									player1.score += 500;
+									player1.levelScore +=500;
 								} else {
 									player1.score += e.scoreReward;
+									player1.levelScore += e.scoreReward;
 								}
 
 							}
@@ -880,7 +881,7 @@ public class Engine extends Canvas implements KeyListener {
 						if (e.y > player1.y) {
 							gameCleanup();
 							state = "game_over";
-							if (!godmodeOn){
+							if (!godmodeOn) {
 								HighScoreDataHandler.logScore(player1.score);
 							}
 							System.out.println("Game Over!");
@@ -1006,9 +1007,11 @@ public class Engine extends Canvas implements KeyListener {
 					Powerup.DEFAULT_POWERUP_FRAMES);
 			break;
 		case STEROIDS:
-			AchievementMethods.redeemAchievement(new Achievement("Lance Armstrong"));
+			AchievementMethods.redeemAchievement(new Achievement(
+					"Lance Armstrong"));
 			if (godmodeOn) {
-				AchievementMethods.redeemAchievement(new Achievement("Genocide"));
+				AchievementMethods
+						.redeemAchievement(new Achievement("Genocide"));
 			}
 			processPowerup(player, Powerup.PowerupType.HEALTH);
 			processPowerup(player, Powerup.PowerupType.SPEED);
@@ -1036,11 +1039,9 @@ public class Engine extends Canvas implements KeyListener {
 		// Starts the game
 		System.out.println("It's starting!");
 
-		
-		
 		new Thread(new MovementClock()).start();
 		new Thread(new TimerClock()).start();
-		 
+
 		int type = 0;
 		AchievementMethods.checkName(tempname);
 		type = 0;
@@ -1087,7 +1088,7 @@ public class Engine extends Canvas implements KeyListener {
 		try {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER
 					&& (state.equals("game_over") || state.equals("game_won"))) {
-				if(MainCanvas.menu.started()){
+				if (MainCanvas.menu.started()) {
 					MainCanvas.menu.remove(this);
 					MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
 					MainCanvas.menu.done();
@@ -1102,9 +1103,13 @@ public class Engine extends Canvas implements KeyListener {
 			} else if (state.equals("main")) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (godmode.equals("god")) {
-						godmodeOn = true;
-						godmode = "";
-						System.out.println("God Mode is starting!");
+						if (godmodeOn) {
+							godmodeOn = false;
+						} else {
+							godmodeOn = true;
+							godmode = "";
+							System.out.println("God Mode is starting!");
+						}
 					} else {
 						godmode = "";
 					}
@@ -1321,7 +1326,7 @@ public class Engine extends Canvas implements KeyListener {
 			updateHitbox(player1);
 			gameCleanup();
 			state = "game_over";
-			if (!godmodeOn){
+			if (!godmodeOn) {
 				HighScoreDataHandler.logScore(player1.score);
 			}
 		}
@@ -1335,7 +1340,6 @@ public class Engine extends Canvas implements KeyListener {
 		explosions.add(ex);
 		gameObjects.remove(player1);
 	}
-
 
 	private void bossUpdate() {
 		if (bossOn) {
@@ -1357,7 +1361,7 @@ public class Engine extends Canvas implements KeyListener {
 				gameObjects.removeAll(pair.getValueTwo());
 			}
 			for (Bullet b : bullets) {
-				if (b.owner instanceof Player) {
+				if (b.owner instanceof Player && bossOn) {
 					if (overlapsIrregularHitbox(new Box[] { b.hitBox },
 							boss.hitBox.toArray(new Box[] {}))) {
 						shotsHit++;

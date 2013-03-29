@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
-
+@ReturnableMenu
 public class AchievementsMenuBuilder implements MenuBuilder {
 
 	private Menu parent;

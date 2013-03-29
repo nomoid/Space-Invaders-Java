@@ -27,6 +27,7 @@ public class Player extends Sprite {
 	private String name;
 	//Made this public so other classes can easily access it
 	public int score;
+	public int levelScore;
 	public Direction currentDirection=Direction.NONE;
 	public int firingCooldown;
 	public int health=PLAYER_DEFAULT_HEALTH;

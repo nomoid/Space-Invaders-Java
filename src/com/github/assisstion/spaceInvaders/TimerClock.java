@@ -3,6 +3,7 @@ package com.github.assisstion.spaceInvaders;
 public class TimerClock implements Runnable {
 
 	public static int timePassed = 0; 
+	public static int levelTime = 0;
 	
 	public TimerClock() {
 		timePassed = 0;
@@ -11,11 +12,11 @@ public class TimerClock implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while (MainCanvas.isOn) {
+			while (MainCanvas.isOn || !(MainCanvas.engine == null)) {
 				if (MainCanvas.engine.state.equalsIgnoreCase("main")) {
 					Thread.sleep(1000);
 					timePassed++;
-					System.out.println(timePassed + " seconds have passed");			
+					levelTime++;	
 				}
 
 			}

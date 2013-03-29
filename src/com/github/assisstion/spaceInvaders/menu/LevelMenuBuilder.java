@@ -18,6 +18,7 @@ import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
+import com.github.assisstion.spaceInvaders.TimerClock;
 
 public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private LevelMenuBuilder instance;
@@ -29,6 +30,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private JLabel bonusScore;
 	private JLabel totalScore;
 	private JLabel lifeBonus;
+	private JLabel timeLabel;
 	private int baseScoreNo;
 	private int shotsHitNo;
 	private int totalShotsNo;
@@ -37,14 +39,18 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private int livesLost;
 	private JButton upgradeButton;
 	private JButton achievementButton;
+	private int timeTaken;
+	private int levelScore;
 
 	public LevelMenuBuilder(int baseScore, int shotsHit, int totalShots,
-			boolean godModeOn, int livesLost) {
+			boolean godModeOn, int livesLost, int score) {
 		baseScoreNo = baseScore;
+		levelScore = score;
 		shotsHitNo = shotsHit;
 		totalShotsNo = totalShots;
 		this.godModeOn = godModeOn;
 		this.livesLost = livesLost;
+		timeTaken = TimerClock.levelTime;
 
 		instance = this;
 	}
@@ -97,7 +103,9 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		topLogo.setBounds(30, 20, 960, 65);
 
 		int x = 250;
-		Font basefont = new Font("Impact", Font.BOLD, 50);
+		Font basefont = new Font("Impact", Font.BOLD, 40);
+		Font largefont = new Font("Impact", Font.BOLD, 60);
+
 		baseScore = new JLabel("Score: " + (godModeOn ? "°" : baseScoreNo));
 		baseScore.setForeground(Color.WHITE);
 		baseScore.setFont(basefont);
@@ -116,35 +124,48 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 						+ (int) accuracyPercentage + "%)") : "N/A"));
 		accuracy.setForeground(Color.WHITE);
 		accuracy.setFont(basefont);
-		Menu.centerLabel(accuracy, x + 60);
+		Menu.centerLabel(accuracy, x + 40);
 
-		accuracyBonus = (int) (accuracyBonus * baseScoreNo);
-		bonusScore = new JLabel("Bonus: "
-				+ (!godModeOn ? (int) accuracyBonus : "N/A"));
-		bonusScore.setForeground(Color.WHITE);
-		bonusScore.setFont(basefont);
-		Menu.centerLabel(bonusScore, x + 120);
-		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
+		accuracyBonus = (int) (accuracyBonus * levelScore);
 
 		String leMessage = null;
 		if (livesLost == 0) {
-			totalScoreNo = (int) (totalScoreNo * 1.5);
-			leMessage = "Survival Boost: 1.5x";
-		} else {
-			leMessage = "Survival Boost: 1x";
+			accuracyBonus = (int) (accuracyBonus * 1.5);
+			leMessage = "Survival Reward: 1.5x";
+		} else if (livesLost == 1) {
+			accuracyBonus = (int) (accuracyBonus * 0.85);
+			leMessage = "Death Penalty: 0.85x";
+		} else if (livesLost == 2) {
+			accuracyBonus = (int) (accuracyBonus * 0.65);
+			leMessage = "Death Penalty: 0.65";
+		} else if (livesLost == 3) {
+			accuracyBonus = (int) (accuracyBonus * 0.5);
+			leMessage = "Death Penalty: 0.5x";
 		}
 
 		lifeBonus = new JLabel(godModeOn ? "Survival Boost: °" : leMessage);
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
-		Menu.centerLabel(lifeBonus, x + 180);
+		Menu.centerLabel(lifeBonus, x + 80);
 
+		timeLabel = new JLabel("Time Taken: "
+				+ (!godModeOn ? (int) timeTaken : "N/A"));
+		timeLabel.setForeground(Color.WHITE);
+		timeLabel.setFont(basefont);
+		Menu.centerLabel(timeLabel, x + 120);
+
+		bonusScore = new JLabel("Total Bonus: "
+				+ (!godModeOn ? (int) accuracyBonus : "N/A"));
+		bonusScore.setForeground(Color.WHITE);
+		bonusScore.setFont(basefont);
+		Menu.centerLabel(bonusScore, x + 160);
+
+		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
 		totalScore = new JLabel("Total Score: "
 				+ (!godModeOn ? ((int) totalScoreNo) : "°"));
 		totalScore.setForeground(Color.WHITE);
-		totalScore.setFont(basefont);
-		Menu.centerLabel(totalScore, x + 240);
-
+		totalScore.setFont(largefont);
+		Menu.centerLabel(totalScore, x + 220);
 
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
@@ -154,6 +175,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.add(totalScore);
 		parent.add(lifeBonus);
 		parent.add(upgradeButton);
+		parent.add(timeLabel);
 		if (AchievementMethods.achievementUnlocked) {
 			parent.add(achievementButton);
 		}
@@ -171,11 +193,9 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.remove(bonusScore);
 		parent.remove(totalScore);
 		parent.remove(lifeBonus);
+		parent.remove(timeLabel);
 		parent.remove(upgradeButton);
-
-		if (AchievementMethods.achievementUnlocked) {
-			parent.remove(achievementButton);
-		}
+		parent.remove(achievementButton);
 	}
 
 	private BufferedImage getImage() {
@@ -216,13 +236,15 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	}
 
 	private void finish() {
-		if (Engine.currentLevel == 6){
+		if (Engine.currentLevel == 6) {
 			parent.closeMenu(instance);
-			CutsceneBuilder cutscenebuilder = new CutsceneBuilder(CutsceneData.Cutscene2.SCENE);
-			MainCanvas.menu.addMenuBuilder(cutscenebuilder);	
-			new Thread(new CutsceneUpdater(cutscenebuilder, Cutscene.DEFAULT_DELAY)).start();
+			CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
+					CutsceneData.Cutscene2.SCENE);
+			MainCanvas.menu.addMenuBuilder(cutscenebuilder);
+			new Thread(new CutsceneUpdater(cutscenebuilder,
+					Cutscene.DEFAULT_DELAY)).start();
 			MainCanvas.frame.pack();
-			
+
 		} else {
 			parent.closeMenu(instance);
 			MainCanvas.menu.add(MainCanvas.engine);
@@ -230,7 +252,6 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 			MainCanvas.frame.pack();
 		}
 
-	
 	}
 
 	@Override
