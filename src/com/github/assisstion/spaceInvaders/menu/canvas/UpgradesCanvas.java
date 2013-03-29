@@ -4,15 +4,21 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.github.assisstion.MSToolkit.MSAbstractCanvas;
+import com.github.assisstion.MSToolkit.MSButton;
 
 public class UpgradesCanvas extends MSAbstractCanvas{
 		
 		private static final long serialVersionUID = 5897847762185790426L;
 
+		private MSButton button;
+		
 		public UpgradesCanvas(){
 			RepaintingClock clock = new RepaintingClock(this);
 			new Thread(clock).start();
 			setBackground(Color.BLUE);
+			button = new MSButton("YAY IT WORKS", 100, 100);
+			addComponent(button);
 		}
 		
 		
@@ -21,7 +27,9 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 			super.paint(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.WHITE);
-			g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
+			button.setGraphicsContext(g2d);
+			//g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
+			
 		}
 
 		@Override

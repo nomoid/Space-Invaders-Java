@@ -1,6 +1,7 @@
-package com.github.assisstion.spaceInvaders.menu.canvas;
+package com.github.assisstion.MSToolkit.concurrent;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public class CollectionSynchronizer<T>{
 		
@@ -32,6 +33,16 @@ public class CollectionSynchronizer<T>{
 			CollectionContainer cc = new CollectionContainer(object);
 			new Thread(cc).start();
 			return cc.getReturnValue();
+		}
+		
+		public ConcurrentObject<Iterator<T>> iterator(){
+			CollectionIterator ci = new CollectionIterator();
+			new Thread(ci).start();
+			return ci.getReturnValue();
+		}
+		
+		public Collection<T> getCollection(){
+			return collection;
 		}
 		
 		private class CollectionAdder implements Runnable{
@@ -100,4 +111,20 @@ public class CollectionSynchronizer<T>{
 				}
 			}
 		}	
+		
+		private class CollectionIterator implements Runnable{
+			
+			private ConcurrentObject<Iterator<T>> returnValue;
+			
+			public ConcurrentObject<Iterator<T>> getReturnValue(){
+				return returnValue;
+			}
+			
+			@Override
+			public void run(){
+				synchronized(lock){
+					returnValue.put(collection.iterator());
+				}
+			}
+		}
 	}

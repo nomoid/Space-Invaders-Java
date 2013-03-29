@@ -48,7 +48,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		returnButton.setBounds(0,0,162,94);
 		*/
 		parent.add(canvas);
-		parent.add(returnButton);
+		//parent.add(returnButton);
 		
 		
 

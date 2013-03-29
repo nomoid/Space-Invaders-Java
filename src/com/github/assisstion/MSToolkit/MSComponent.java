@@ -1,8 +1,12 @@
-package com.github.assisstion.spaceInvaders.menu.canvas;
+package com.github.assisstion.MSToolkit;
 
 import java.awt.Graphics;
 
+import com.github.assisstion.MSToolkit.style.MSStyle;
+
 public interface MSComponent extends MSRenderable{
+	
+	MSStyle getStyle();
 	
 	void render(Graphics g);
 	

@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu.canvas;
 
+import com.github.assisstion.MSToolkit.MSAbstractCanvas;
+
 
 public class RepaintingClock implements Runnable{
 	

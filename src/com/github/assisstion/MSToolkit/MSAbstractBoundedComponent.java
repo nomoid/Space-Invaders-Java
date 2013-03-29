@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders.menu.canvas;
+package com.github.assisstion.MSToolkit;
 
 public abstract class MSAbstractBoundedComponent extends MSAbstractComponent implements
 		MSBoundedComponent{

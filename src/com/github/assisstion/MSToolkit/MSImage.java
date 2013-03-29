@@ -1,4 +1,4 @@
-package com.github.assisstion.spaceInvaders.menu.canvas;
+package com.github.assisstion.MSToolkit;
 
 import java.awt.Graphics;
 import java.awt.Image;
