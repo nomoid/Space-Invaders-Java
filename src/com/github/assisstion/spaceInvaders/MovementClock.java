@@ -8,6 +8,7 @@ public class MovementClock implements Runnable {
 	public MovementClock(){
 		
 	}
+	
 	public static int movementSpeed = DEFAULT_SPEED;
 	@Override
 	public void run(){

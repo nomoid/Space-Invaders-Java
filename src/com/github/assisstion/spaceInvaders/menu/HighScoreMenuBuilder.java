@@ -18,6 +18,7 @@ public class HighScoreMenuBuilder implements MenuBuilder {
 	private HighScoreMenuBuilder instance;
 	private JLabel topLabel;
 
+	
 	@Override
 	public void build(Menu menu) {
 		instance = this;
@@ -25,16 +26,10 @@ public class HighScoreMenuBuilder implements MenuBuilder {
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(10, 85, MainCanvas.FRAME_WIDTH - 20,
 				MainCanvas.FRAME_HEIGHT - 20);
-		JLabel label = new JLabel(
-				"High Scores: "
-						+ HighScoreDataHandler
-								.formString(HighScoreDataHandler.scoreArray));
-		label.setForeground(Color.WHITE);
+		
 		tabbedPane.insertTab("High Scores", null, makePanel(1), "High Scores",
 				0);
-		JLabel label2 = new JLabel("Other Crap");
-		label2.setForeground(Color.WHITE);
-		tabbedPane.insertTab("Other Crap", null, makePanel(2), "Other Crap", 1);
+		tabbedPane.insertTab("Time Trials", null, makePanel(2), "Time Trials", 1);
 
 		topLabel = new JLabel("HIGH SCORES");
 		topLabel.setForeground(Color.WHITE);

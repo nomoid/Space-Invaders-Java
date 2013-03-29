@@ -124,6 +124,8 @@ public class Engine extends Canvas implements KeyListener {
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+		
+
 	}
 
 	/*
@@ -1034,7 +1036,11 @@ public class Engine extends Canvas implements KeyListener {
 		// Starts the game
 		System.out.println("It's starting!");
 
+		
+		
 		new Thread(new MovementClock()).start();
+		new Thread(new TimerClock()).start();
+		 
 		int type = 0;
 		AchievementMethods.checkName(tempname);
 		type = 0;

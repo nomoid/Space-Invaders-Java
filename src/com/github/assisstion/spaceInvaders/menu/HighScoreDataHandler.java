@@ -23,6 +23,19 @@ public final class HighScoreDataHandler {
 
 	//WORK ON POTENTIAL BONUSES.
 	
+	public static int[] convertTime(int seconds){
+		int[] timeArray = new int[2];
+				
+		if (seconds % 60 > 0){
+			timeArray[1] = seconds % 60;
+		}
+		
+		timeArray[0] = (seconds-timeArray[1])/60;
+		
+		return timeArray;
+	}
+	
+	
 	private static String getTime() {
 		return (new SimpleDateFormat(DATE_FORMAT).format(Calendar.getInstance()
 				.getTime()));
