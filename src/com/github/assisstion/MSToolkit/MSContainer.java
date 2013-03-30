@@ -2,7 +2,9 @@ package com.github.assisstion.MSToolkit;
 
 import java.util.Collection;
 
-public interface MSContainer extends MSBoundedComponent{
+import com.github.assisstion.MSToolkit.event.MSMouseHandler;
+
+public interface MSContainer extends MSBoundedComponent, MSMouseHandler{
 	
 	/*
 	 * Returns and unmodifiable version of the components

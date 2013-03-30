@@ -1,4 +1,4 @@
-package com.github.assisstion.MSToolkit.events;
+package com.github.assisstion.MSToolkit.event;
 
 public interface MSMouseListener extends MSEventListener{
 	void mousePressed(MSMouseEvent e);

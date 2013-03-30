@@ -1,4 +1,4 @@
-package com.github.assisstion.MSToolkit.events;
+package com.github.assisstion.MSToolkit.event;
 
 import java.awt.event.MouseEvent;
 import java.util.Collections;
@@ -8,14 +8,14 @@ import java.util.Set;
 import com.github.assisstion.MSToolkit.MSComponent;
 import com.github.assisstion.MSToolkit.MSException;
 
-import static com.github.assisstion.MSToolkit.events.MSModifier.*;
+import static com.github.assisstion.MSToolkit.event.MSEventModifier.*;
 
 public class MSMouseEvent{
 	
 	private MSComponent source;
 	private MSMouseEventType type;
 	private long time;
-	private Set<MSModifier> modifiers;
+	private Set<MSEventModifier> modifiers;
 	private int x;
 	private int y;
 	private int screenX;
@@ -28,16 +28,31 @@ public class MSMouseEvent{
 	}
 	
 	public MSMouseEvent(MSComponent source, MouseEvent e){
+		this(source, MSMouseEventType.fromID(e.getID()), e.getWhen(),
+				getModifiersFromMask(e.getModifiersEx()),
+				e.getX(), e.getY(), e.getXOnScreen(),
+				e.getYOnScreen(), e.getClickCount(),
+				MSMouseButtonType.fromID(e.getButton()));
+	}
+	
+	public MSMouseEvent(MSComponent source, MSMouseEvent e, int x, int y){
+		this(source, e.getType(), e.getTime(), e.getModifiers(), x, y, 
+				e.getScreenX(), e.getScreenY(), e.getCount(), e.getButton());
+	}
+	
+	public MSMouseEvent(MSComponent source, MSMouseEventType type, long time, 
+			Set<MSEventModifier> modifiers, int x, int y, int screenX, int screenY,
+			int count, MSMouseButtonType button){
 		this.source = source;
-		type = MSMouseEventType.fromID(e.getID());
-		time = e.getWhen();
-		modifiers = getModifiersFromMask(e.getModifiersEx());
-		x = e.getX();
-		y = e.getY();
-		screenX = e.getXOnScreen();
-		screenY = e.getYOnScreen();
-		count = e.getClickCount();
-		button = MSMouseButtonType.fromID(e.getButton());
+		this.type = type;
+		this.time = time;
+		this.modifiers = modifiers;
+		this.x = x;
+		this.y = y;
+		this.screenX = screenX;
+		this.screenY = screenY;
+		this.count = count;
+		this.button = button;
 	}
 
 	public MSComponent getSource(){
@@ -52,7 +67,7 @@ public class MSMouseEvent{
 		return time;
 	}
 
-	public Set<MSModifier> getModifiers(){
+	public Set<MSEventModifier> getModifiers(){
 		return modifiers;
 	}
 
@@ -80,8 +95,8 @@ public class MSMouseEvent{
 		return button;
 	}
 
-	private Set<MSModifier> getModifiersFromMask(int i){
-		HashSet<MSModifier> modifiers = new HashSet<MSModifier>();
+	private static Set<MSEventModifier> getModifiersFromMask(int i){
+		HashSet<MSEventModifier> modifiers = new HashSet<MSEventModifier>();
 		if((i & MouseEvent.ALT_DOWN_MASK) == i){
 			modifiers.add(ALT);
 		}

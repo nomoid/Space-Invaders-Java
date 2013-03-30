@@ -3,54 +3,54 @@ package com.github.assisstion.MSToolkit.concurrent;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class CollectionSynchronizer<T>{
+public class CollectionSynchronizer<T extends Collection<S>, S>{
 		
-		private Collection<T> collection;
+		private T collection;
 		private Object lock;
 		
-		public CollectionSynchronizer(Collection<T> collection){
+		public CollectionSynchronizer(T collection){
 			this(collection, new Object());
 		}
 		
-		public CollectionSynchronizer(Collection<T> collection, Object lock){
+		public CollectionSynchronizer(T collection, Object lock){
 			this.lock = lock;
 			this.collection = collection;
 		}
 		
-		public ConcurrentObject<Boolean> add(T object){
+		public ConcurrentObject<Boolean> add(S object){
 			CollectionAdder ca = new CollectionAdder(object);
 			new Thread(ca).start();
 			return ca.getReturnValue();
 		}
 		
-		public ConcurrentObject<Boolean> remove(T object){
+		public ConcurrentObject<Boolean> remove(S object){
 			CollectionRemover cr = new CollectionRemover(object);
 			new Thread(cr).start();
 			return cr.getReturnValue();
 		}
 		
-		public ConcurrentObject<Boolean> contains(T object){
+		public ConcurrentObject<Boolean> contains(S object){
 			CollectionContainer cc = new CollectionContainer(object);
 			new Thread(cc).start();
 			return cc.getReturnValue();
 		}
 		
-		public ConcurrentObject<Iterator<T>> iterator(){
+		public ConcurrentObject<Iterator<S>> iterator(){
 			CollectionIterator ci = new CollectionIterator();
 			new Thread(ci).start();
 			return ci.getReturnValue();
 		}
 		
-		public Collection<T> getCollection(){
+		public T getCollection(){
 			return collection;
 		}
 		
 		private class CollectionAdder implements Runnable{
 			
-			private T object;
+			private S object;
 			private ConcurrentObject<Boolean> returnValue;
 
-			public CollectionAdder(T object){
+			public CollectionAdder(S object){
 				this.object = object;
 				returnValue = new ConcurrentObject<Boolean>();
 			}
@@ -70,10 +70,10 @@ public class CollectionSynchronizer<T>{
 		
 		private class CollectionRemover implements Runnable{
 
-			private T object;
+			private S object;
 			private ConcurrentObject<Boolean> returnValue;
 			
-			public CollectionRemover(T object){
+			public CollectionRemover(S object){
 				this.object = object;
 				returnValue = new ConcurrentObject<Boolean>();
 			}
@@ -92,10 +92,10 @@ public class CollectionSynchronizer<T>{
 		
 		private class CollectionContainer implements Runnable{
 
-			private T object;
+			private S object;
 			private ConcurrentObject<Boolean> returnValue;
 			
-			public CollectionContainer(T object){
+			public CollectionContainer(S object){
 				this.object = object;
 				returnValue = new ConcurrentObject<Boolean>();
 			}
@@ -114,9 +114,13 @@ public class CollectionSynchronizer<T>{
 		
 		private class CollectionIterator implements Runnable{
 			
-			private ConcurrentObject<Iterator<T>> returnValue;
+			private ConcurrentObject<Iterator<S>> returnValue;
 			
-			public ConcurrentObject<Iterator<T>> getReturnValue(){
+			public CollectionIterator(){
+				returnValue = new ConcurrentObject<Iterator<S>>();
+			}
+			
+			public ConcurrentObject<Iterator<S>> getReturnValue(){
 				return returnValue;
 			}
 			

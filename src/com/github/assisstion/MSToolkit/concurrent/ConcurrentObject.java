@@ -22,7 +22,7 @@ public class ConcurrentObject<T>{
 		synchronized(lock){
 			object = poll();
 			setBlocked(false);
-			notify();
+			lock.notify();
 		}
 		return object;
 	}

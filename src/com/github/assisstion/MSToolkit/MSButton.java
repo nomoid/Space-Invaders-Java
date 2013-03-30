@@ -4,14 +4,22 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
+import com.github.assisstion.MSToolkit.event.MSMouseEvent;
+import com.github.assisstion.MSToolkit.event.MSMouseHandler;
+import com.github.assisstion.MSToolkit.event.MSMouseListener;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 
-public class MSButton extends MSAbstractBoundedComponent{
+public class MSButton extends MSAbstractBoundedComponent implements MSMouseListener, MSMouseHandler{
 	
 	
 	private String text;
 	private Graphics2D graphicsContext;
+	private Set<MSMouseListener> mouseListeners;
+	private CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
 	
 	protected MSButton(){
 		
@@ -22,6 +30,8 @@ public class MSButton extends MSAbstractBoundedComponent{
 		style = MSStyleManager.getDefaultStyleSystem().getButton();
 		this.text = text;
 		this.graphicsContext = graphicsContext;
+		mouseListeners = new HashSet<MSMouseListener>();
+		mouseListenerSync = new CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener>(mouseListeners);
 	}
 	
 	public MSButton(String text, int x, int y){
@@ -30,11 +40,13 @@ public class MSButton extends MSAbstractBoundedComponent{
 
 	@Override
 	public boolean addTo(MSContainer c){
+		c.addMSMouseListener(this);
 		return true;
 	}
 
 	@Override
 	public boolean removeFrom(MSContainer c){
+		c.removeMSMouseListener(this);
 		return true;
 	}
 
@@ -69,5 +81,44 @@ public class MSButton extends MSAbstractBoundedComponent{
 	
 	public Graphics2D getGraphicsContext(){
 		return graphicsContext;
+	}
+
+	@Override
+	public void mousePressed(MSMouseEvent e){
+		processEvent(e);
+	}
+
+	@Override
+	public void mouseReleased(MSMouseEvent e){
+		processEvent(e);
+	}
+
+	@Override
+	public void mouseClicked(MSMouseEvent e){
+		processEvent(e);
+	}
+
+	@Override
+	public boolean addMSMouseListener(MSMouseListener listener){
+		if(!mouseListeners.contains(listener)){
+			mouseListenerSync.add(listener);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean removeMSMouseListener(MSMouseListener listener){
+		if(mouseListeners.contains(listener)){
+			mouseListenerSync.remove(listener);
+			return true;
+		}
+		return false;
+	}
+	
+	public void processEvent(MSMouseEvent e){
+		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
+			new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, e, e.getX()-x, e.getY()-y), mouseListenerSync)).start();
+		}
 	}
 }
