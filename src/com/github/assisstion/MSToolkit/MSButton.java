@@ -5,12 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.github.assisstion.MSToolkit.style.MSStyleManager;
+
 public class MSButton extends MSAbstractBoundedComponent{
 	
 	
 	private String text;
 	private Graphics2D graphicsContext;
-	private Font font;
 	
 	protected MSButton(){
 		
@@ -18,9 +19,9 @@ public class MSButton extends MSAbstractBoundedComponent{
 	
 	public MSButton(String text, int x, int y, Graphics2D graphicsContext){
 		super(x, y);
+		style = MSStyleManager.getDefaultStyleSystem().getButton();
 		this.text = text;
 		this.graphicsContext = graphicsContext;
-		font = MSHelper.getDefaultFont();
 	}
 	
 	public MSButton(String text, int x, int y){
@@ -40,23 +41,26 @@ public class MSButton extends MSAbstractBoundedComponent{
 	@Override
 	public void render(Graphics g, int x, int y){
 		Color tempColor = g.getColor();
-		g.setColor(getStyle().getForeground());
-		g.drawRect(x, y, getWidth(), getHeight());
+		Font tempFont = g.getFont();
+		g.setFont(getStyle().getFont());
 		g.setColor(getStyle().getFrontBackground());
 		g.fillRect(x, y, getWidth(), getHeight());
 		g.setColor(getStyle().getForeground());
-		g.drawString(text, x + getStyle().getPaddingLeft(), y + getStyle().getPaddingTop() + font.getSize());
+		g.drawRect(x, y, getWidth(), getHeight());
+		g.setColor(getStyle().getForeground());
+		g.drawString(text, x + getStyle().getPaddingLeft(), y + getStyle().getPaddingTop() + getStyle().getFont().getSize());
 		g.setColor(tempColor);
+		g.setFont(tempFont);
 	}
 	
 	@Override
 	public int getWidth(){
-		return MSHelper.getTextWidth(font, text, graphicsContext) + getStyle().getPaddingLeft() + getStyle().getPaddingRight();
+		return MSHelper.getTextWidth(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingLeft() + getStyle().getPaddingRight();
 	}
 	
 	@Override
 	public int getHeight(){
-		return MSHelper.getTextHeight(font, text, graphicsContext) + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
+		return MSHelper.getTextHeight(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
 	}
 	
 	public void setGraphicsContext(Graphics2D graphicsContext){

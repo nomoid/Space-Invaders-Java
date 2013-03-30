@@ -18,7 +18,7 @@ public abstract class MSAbstractComponent implements MSComponent{
 	public MSAbstractComponent(int x, int y){
 		this.x = x;
 		this.y = y;
-		style = MSStyleManager.getEmptyStyle();
+		style = MSStyleManager.getDefaultStyleSystem().getEmpty();
 	}
 	
 	@Override

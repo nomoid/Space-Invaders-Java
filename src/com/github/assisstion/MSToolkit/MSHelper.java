@@ -7,6 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import com.github.assisstion.MSToolkit.style.MSStyleManager;
+import com.github.assisstion.MSToolkit.style.MSStyleSystem;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 
 public final class MSHelper{
@@ -66,5 +68,9 @@ public final class MSHelper{
 	
 	public static Font getDefaultFont(){
 		return new Font("Calibri", Font.PLAIN, 20);
+	}
+
+	public static MSStyleSystem getDefaultStyleSystem(){
+		return MSStyleManager.getStyleSystem("classic");
 	}
 }

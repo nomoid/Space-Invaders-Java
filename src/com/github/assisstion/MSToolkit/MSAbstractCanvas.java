@@ -42,11 +42,11 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer, MS
 		Color foreground = getForeground();
 		Color background = getBackground();
 		if(foreground == null || background == null){
-			style = MSStyleManager.getEmptyStyle();
+			style = MSStyleManager.getDefaultStyleSystem().getFrame();
 		}
 		else{
 			Color frontBackground = getBackground().brighter();
-			style = MSStyleManager.getStyle(0, 0, 0, 0, foreground, frontBackground, background);
+			style = MSStyleManager.getStyle(0, 0, 0, 0, foreground, frontBackground, background, MSHelper.getDefaultFont());
 		}
 		mouseListeners = new HashSet<MSMouseListener>();
 		mouseListenerSync = new CollectionSynchronizer<MSMouseListener>(mouseListeners);
