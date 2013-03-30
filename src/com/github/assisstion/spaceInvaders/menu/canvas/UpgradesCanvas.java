@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 
 import com.github.assisstion.MSToolkit.MSAbstractCanvas;
 import com.github.assisstion.MSToolkit.MSButton;
+import com.github.assisstion.MSToolkit.event.MSActionEvent;
+import com.github.assisstion.MSToolkit.event.MSActionListener;
 
 public class UpgradesCanvas extends MSAbstractCanvas{
 		
@@ -17,7 +19,21 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 			RepaintingClock clock = new RepaintingClock(this);
 			new Thread(clock).start();
 			setBackground(Color.BLUE);
-			button = new MSButton("YAY IT WORKS", 100, 100);
+			button = new MSButton("Upgrade", 100, 100);
+			button.addMSActionListener(new MSActionListener(){
+
+				@Override
+				public void action(MSActionEvent e){
+					
+				}
+
+				@Override
+				public void meaningfulAction(MSActionEvent e){
+					System.out.println("Meaningful action happened");
+				}
+
+				
+			});
 			addComponent(button);
 		}
 		

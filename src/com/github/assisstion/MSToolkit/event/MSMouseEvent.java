@@ -10,9 +10,8 @@ import com.github.assisstion.MSToolkit.MSException;
 
 import static com.github.assisstion.MSToolkit.event.MSEventModifier.*;
 
-public class MSMouseEvent{
+public class MSMouseEvent extends MSEvent{
 	
-	private MSComponent source;
 	private MSMouseEventType type;
 	private long time;
 	private Set<MSEventModifier> modifiers;
@@ -23,10 +22,10 @@ public class MSMouseEvent{
 	private int count;
 	private MSMouseButtonType button;
 	
-	protected MSMouseEvent(){
-		
+	public MSMouseEvent(MSComponent source){
+		super(source);
 	}
-	
+
 	public MSMouseEvent(MSComponent source, MouseEvent e){
 		this(source, MSMouseEventType.fromID(e.getID()), e.getWhen(),
 				getModifiersFromMask(e.getModifiersEx()),
@@ -43,7 +42,7 @@ public class MSMouseEvent{
 	public MSMouseEvent(MSComponent source, MSMouseEventType type, long time, 
 			Set<MSEventModifier> modifiers, int x, int y, int screenX, int screenY,
 			int count, MSMouseButtonType button){
-		this.source = source;
+		this(source);
 		this.type = type;
 		this.time = time;
 		this.modifiers = modifiers;
@@ -53,10 +52,6 @@ public class MSMouseEvent{
 		this.screenY = screenY;
 		this.count = count;
 		this.button = button;
-	}
-
-	public MSComponent getSource(){
-		return source;
 	}
 
 	public MSMouseEventType getType(){
@@ -165,5 +160,10 @@ public class MSMouseEvent{
 					throw new MSException("Illegal Button Type ID: " + id);
 			}
 		}
+	}
+
+	@Override
+	public MSEventType getEventType(){
+		return MSEventType.MOUSE;
 	}
 }

@@ -1,12 +1,10 @@
-package com.github.assisstion.MSToolkit;
+package com.github.assisstion.MSToolkit.event;
 
 import java.util.Iterator;
 import java.util.Set;
 
+import com.github.assisstion.MSToolkit.MSException;
 import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
-import com.github.assisstion.MSToolkit.event.MSAdvancedMouseListener;
-import com.github.assisstion.MSToolkit.event.MSMouseEvent;
-import com.github.assisstion.MSToolkit.event.MSMouseListener;
 
 public class MSMouseEventProcessor implements Runnable{
 	

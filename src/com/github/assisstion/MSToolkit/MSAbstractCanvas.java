@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
 import com.github.assisstion.MSToolkit.event.MSMouseEvent;
+import com.github.assisstion.MSToolkit.event.MSMouseEventProcessor;
 import com.github.assisstion.MSToolkit.event.MSMouseListener;
 import com.github.assisstion.MSToolkit.style.MSStyle;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
