@@ -8,6 +8,8 @@ package com.github.assisstion.spaceInvaders.menu;
 //import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 import com.github.assisstion.spaceInvaders.menu.canvas.UpgradesCanvas;
 
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
@@ -28,6 +30,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 	
 	@Override
 	public void build(Menu menu) {
+		AchievementMethods.redeemAchievement(new Achievement("Vanity"));
 		parent = menu;
 		parent.enableMenuKeyListener();
 		parent.requestFocus();

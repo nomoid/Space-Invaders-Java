@@ -1,5 +1,8 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.gameObject.Achievement;
+
 
 @ReturnableMenu
 public class CreditsMenuBuilder implements MenuBuilder{
@@ -11,6 +14,7 @@ public class CreditsMenuBuilder implements MenuBuilder{
 	public void build(Menu menu) {
 		parent = menu;
 		instance = this;
+		AchievementMethods.redeemAchievement(new Achievement("Givin' Credit")); 
 		// TODO Auto-generated method stub
 		
 	}

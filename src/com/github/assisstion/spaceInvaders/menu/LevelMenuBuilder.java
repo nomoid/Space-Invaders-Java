@@ -15,12 +15,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
-import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 import com.github.assisstion.spaceInvaders.TimerClock;
 
 public class LevelMenuBuilder implements MenuBuilder, KeyListener {
+	private static final int BONUSMAX = 3000;
+	//subtract from it
+	
+	
 	private LevelMenuBuilder instance;
 	private Menu parent;
 	private JButton nextLevelButton;
@@ -29,6 +32,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private JLabel accuracy;
 	private JLabel bonusScore;
 	private JLabel totalScore;
+	private JLabel timeBLabel;
 	private JLabel lifeBonus;
 	private JLabel timeLabel;
 	private int baseScoreNo;
@@ -41,6 +45,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private JButton achievementButton;
 	private int timeTaken;
 	private int levelScore;
+	private int finalBonus;
 
 	public LevelMenuBuilder(int baseScore, int shotsHit, int totalShots,
 			boolean godModeOn, int livesLost, int score) {
@@ -147,25 +152,40 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
 		Menu.centerLabel(lifeBonus, x + 80);
-
+		
+		String fillerText = "";
+		int tempInt = HighScoreDataHandler.convertTime(timeTaken)[1];
+		if (tempInt < 10){
+			fillerText = "0" + tempInt;
+		} else {
+			fillerText = "" + tempInt;
+		}
 		timeLabel = new JLabel("Time Taken: "
-				+ (!godModeOn ? (int) timeTaken : "N/A"));
+				+ (!godModeOn ? HighScoreDataHandler.convertTime(timeTaken)[0] + ":" + fillerText : "N/A"));
 		timeLabel.setForeground(Color.WHITE);
 		timeLabel.setFont(basefont);
 		Menu.centerLabel(timeLabel, x + 120);
 
+		int timeBonus = BONUSMAX - (timeTaken * 10);
+		timeBLabel = new JLabel("Time Bonus: "
+				+ (!godModeOn ? timeBonus : "N/A"));
+		timeBLabel.setForeground(Color.WHITE);
+		timeBLabel.setFont(basefont);
+		Menu.centerLabel(timeBLabel, x + 160);
+		
+		finalBonus = (int) (accuracyBonus + timeBonus);
 		bonusScore = new JLabel("Total Bonus: "
-				+ (!godModeOn ? (int) accuracyBonus : "N/A"));
+				+ (!godModeOn ? finalBonus : "N/A"));
 		bonusScore.setForeground(Color.WHITE);
 		bonusScore.setFont(basefont);
-		Menu.centerLabel(bonusScore, x + 160);
+		Menu.centerLabel(bonusScore, x + 200);
 
-		totalScoreNo = (int) (accuracyBonus + baseScoreNo);
+		totalScoreNo = (int) (finalBonus + baseScoreNo);
 		totalScore = new JLabel("Total Score: "
 				+ (!godModeOn ? ((int) totalScoreNo) : "°"));
 		totalScore.setForeground(Color.WHITE);
 		totalScore.setFont(largefont);
-		Menu.centerLabel(totalScore, x + 220);
+		Menu.centerLabel(totalScore, x + 260);
 
 		parent.add(nextLevelButton);
 		parent.add(topLogo);
@@ -176,6 +196,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.add(lifeBonus);
 		parent.add(upgradeButton);
 		parent.add(timeLabel);
+		parent.add(timeBLabel);
 		if (AchievementMethods.achievementUnlocked) {
 			parent.add(achievementButton);
 		}
@@ -189,6 +210,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		parent.remove(nextLevelButton);
 		parent.remove(topLogo);
 		parent.remove(baseScore);
+		parent.remove(timeBLabel);
 		parent.remove(accuracy);
 		parent.remove(bonusScore);
 		parent.remove(totalScore);
@@ -236,11 +258,13 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	}
 
 	private void finish() {
-		if (Engine.currentLevel == 6) {
+		AchievementMethods.clearLevelAchievements();
+		if (MainCanvas.engine.currentLevel == 6) {
 			parent.closeMenu(instance);
 			CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
 					CutsceneData.Cutscene2.SCENE);
 			MainCanvas.menu.addMenuBuilder(cutscenebuilder);
+			cutscenebuilder.nonStarting = true;
 			new Thread(new CutsceneUpdater(cutscenebuilder,
 					Cutscene.DEFAULT_DELAY)).start();
 			MainCanvas.frame.pack();

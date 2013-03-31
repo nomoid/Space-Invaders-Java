@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class CutsceneTextResource {
-	char[] text;
-	Font font;
-	Color color;
-	double delay;
-	double delayNormal = delay;
+	private char[] text;
+	private Font font;
+	private Color color;
+	private double delay;
+	private double delayNormal = delay;
 	
 	public void speedUp(){
 		delay = delay/5;

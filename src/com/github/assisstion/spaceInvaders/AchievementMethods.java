@@ -7,7 +7,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 
 
 public final class AchievementMethods {
-	private static Engine instance = null;
+	private static Engine instance;
 	
 	
 	public static boolean achievementUnlocked;
@@ -21,10 +21,16 @@ public final class AchievementMethods {
 	public static boolean thisIsSparta;
 	public static boolean Untouchable;
 	private static LinkedList<Achievement> achievements = new LinkedList<Achievement>();
+	private static LinkedList<Achievement> levelAchievements = new LinkedList<Achievement>();
+	
 	private static LinkedList<String> achievementChecker = new LinkedList<String>();
 	
-	public static LinkedList<Achievement> getAchievementList(){
-		return achievements;
+	public static LinkedList<Achievement> getAchievementList(boolean inLevel){
+		if (inLevel){
+			return levelAchievements;
+		} else {
+			return achievements;
+		}
 	}
 	
 	public static void setEngine(Engine engine){
@@ -164,8 +170,18 @@ public final class AchievementMethods {
 	
 	public static void redeemAchievement(Achievement leAchievement){
 		
-		if (instance==null && !achievementChecker.contains(leAchievement.name)|| !achievementChecker.contains(leAchievement.name) && !instance.godmodeOn){
+		if (instance==null && !achievementChecker.contains(leAchievement.name)|| !achievementChecker.contains(leAchievement.name) && !instance.godmodeOn && !instance.bossOn){
 			System.out.println("Achievement Unlocked: " + leAchievement.name + "!");
+			
+			//ODD ERROR HERE WHEN ACCESSED DURING OR AFTER BOSS BATTLE
+			
+			if (instance.currentLevel < 6 && !instance.godmodeOn){
+				try{
+					levelAchievements.add(leAchievement);
+				} catch (NullPointerException e){
+					e.printStackTrace();
+				}
+			}
 			
 			achievements.add(leAchievement);
 			achievementChecker.add(leAchievement.name);
@@ -182,6 +198,10 @@ public final class AchievementMethods {
 		thisIsSparta = true;
 		Untouchable = true;
 		
+	}
+
+	public static void clearLevelAchievements() {
+		levelAchievements = new LinkedList<Achievement>();;
 	}
 
 }

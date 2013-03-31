@@ -79,7 +79,7 @@ public class Engine extends Canvas implements KeyListener {
 	 */
 	private int shotsFired = 0;
 	private int shotsHit = 0;
-	private boolean minigameOn = false;
+	public boolean minigameOn = false;
 	public String state = "not_ready";
 	private Graphics2D g;
 	private String godmode = "";
@@ -108,10 +108,10 @@ public class Engine extends Canvas implements KeyListener {
 	// The boss
 	private Boss boss;
 	// Current level
-	public static int currentLevel = 1;
+	public int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
 	private LevelMenuBuilder nextLevelMenu;
-	private boolean bossOn;
+	public boolean bossOn;
 	private int livesLost = 0;
 
 	/*
@@ -345,9 +345,6 @@ public class Engine extends Canvas implements KeyListener {
 		g.setFont(FONT_LARGE);
 		g.drawString(yourScore, getWidth() / 2
 				- (g.getFontMetrics().stringWidth(yourScore) / 2), 450);
-		if (!godmodeOn) {
-			HighScoreDataHandler.logScore(player1.score);
-		}
 	}
 
 	private void gameWon(Graphics2D g) {
@@ -651,6 +648,8 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	private void nextLevel() {
+		godmodeOn = false;
+		
 		rightOn = false;
 		leftOn = false;
 		spaceOn = false;
@@ -661,16 +660,20 @@ public class Engine extends Canvas implements KeyListener {
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
-		currentLevel++;
+		currentLevel+= 7;
 
+		System.out.println(currentLevel);
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
-
+			currentLevel = 1;
+			
 			if (!godmodeOn) {
-				HighScoreDataHandler.logScore(player1.score);
+				HighScoreDataHandler.logScore(player1.score, player1.getName());
+				HighScoreDataHandler.logTime(TimerClock.timePassed, player1.getName());
 			}
 
+			
 		} else {
 			if (state != "paused") {
 				state = "paused";
@@ -680,6 +683,7 @@ public class Engine extends Canvas implements KeyListener {
 				readyForMothership = false;
 
 				MainCanvas.menu.remove(this);
+				
 				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit,
 						shotsFired, godmodeOn, livesLost, player1.levelScore);
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
@@ -713,7 +717,12 @@ public class Engine extends Canvas implements KeyListener {
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()], 0);
 				shotsFired++;
-				playSound(BULLET_SOUND);
+				
+				if (!godmodeOn || !player1.powerups.containsKey(PowerupType.FIRERATE) && godmodeOn ) {
+					playSound(BULLET_SOUND);		
+				}
+				
+				
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
@@ -793,10 +802,7 @@ public class Engine extends Canvas implements KeyListener {
 			updateHitbox(b);
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {
-					gameObjects.remove(b);
-
 					k.health -= b.damage;
-
 					if (godmodeOn && b.owner instanceof Player) {
 						k.health = 0;
 					} else {
@@ -882,7 +888,7 @@ public class Engine extends Canvas implements KeyListener {
 							gameCleanup();
 							state = "game_over";
 							if (!godmodeOn) {
-								HighScoreDataHandler.logScore(player1.score);
+								HighScoreDataHandler.logScore(player1.score,player1.getName());
 							}
 							System.out.println("Game Over!");
 						}
@@ -922,7 +928,7 @@ public class Engine extends Canvas implements KeyListener {
 					 */
 				}
 				if (e.x > getWidth()) {
-					System.out.println("Annddd it's gone!");
+					System.out.println("And it's gone!");
 					removeEnemy(enemies, e);
 					mothershipOn = false;
 					mothership = null;
@@ -1327,7 +1333,7 @@ public class Engine extends Canvas implements KeyListener {
 			gameCleanup();
 			state = "game_over";
 			if (!godmodeOn) {
-				HighScoreDataHandler.logScore(player1.score);
+				HighScoreDataHandler.logScore(player1.score,player1.getName());
 			}
 		}
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
@@ -1352,6 +1358,7 @@ public class Engine extends Canvas implements KeyListener {
 				bullets.addAll(added);
 				gameObjects.addAll(added);
 			}
+			
 			Pair<Boolean, Set<Bullet>> pair = boss.update();
 			if (!pair.getValueOne()) {
 				bullets.addAll(pair.getValueTwo());

@@ -12,6 +12,7 @@ public final class Data {
 		
 	}
 	
+	
 	public static final int MOTHERSHIP_CHANCE = 5000;
 	public static final int MOTHERSHIP_SPEED = 4;
 	public static final Font FONT_SMALL = new Font("Bank Gothic", Font.BOLD, 33);
@@ -23,7 +24,7 @@ public final class Data {
 	public static final int NAME_MAX_LENGTH = 7;
 
 	public static final int[][] LEVELS = { { 7, 4 }, { 9, 5 }, { 12, 6 },
-			{ 13, 7 }, { 15, 8 }, { 18, 10 }, {20, 10}};
+			{ 13, 7 }, { 15, 8 }, { 18, 10 }, {18, 10}};
 	public static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
@@ -45,7 +46,7 @@ public final class Data {
 	public static final Enemy.EnemyType[] LEVEL5DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED };
+			Enemy.EnemyType.RED, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE };
 	
 	public static final Enemy.EnemyType[] MINIGAMEDATA = { Enemy.EnemyType.RED,
 		Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,

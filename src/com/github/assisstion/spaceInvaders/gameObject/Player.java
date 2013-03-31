@@ -20,7 +20,7 @@ public class Player extends Sprite {
 	public Player(int type,String name) throws GameException{
 		//Calls the superclass constructor to automatically set up the player image
 		super(PLAYER_DEFAULT_IMAGE[type], 432, 680);
-		this.name=name;
+		this.name=name.replaceFirst(name.toCharArray()[0] + "", (name.toCharArray()[0] + "").toUpperCase());
 		this.powerups = new ConcurrentSkipListMap<PowerupType, Integer>();
 	}
 	

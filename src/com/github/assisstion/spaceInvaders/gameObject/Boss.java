@@ -102,6 +102,9 @@ public class Boss extends Sprite implements IrregularHitbox{
 		}
 	}
 	
+	//BOSS HITBOX IS CURRENTLY BROKEN
+	
+	
 	public void updateLocation(){
 		if(x < 0 || x > MainCanvas.FRAME_WIDTH - BOSS_IMAGE_WIDTH){
 			movementDirection = -movementDirection;

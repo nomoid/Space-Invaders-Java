@@ -6,7 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 
 @ReturnableMenu
 public class HighScoreMenuBuilder implements MenuBuilder {
@@ -19,6 +21,8 @@ public class HighScoreMenuBuilder implements MenuBuilder {
 	
 	@Override
 	public void build(Menu menu) {
+		AchievementMethods.redeemAchievement(new Achievement("You Smug Bastard"));
+		
 		instance = this;
 		parent = menu;
 		tabbedPane = new JTabbedPane();
@@ -48,13 +52,27 @@ public class HighScoreMenuBuilder implements MenuBuilder {
 			int y = 40;
 			for (int i = 0; i < HighScoreDataHandler.SAVELENGTH; i++) {
 				if (HighScoreDataHandler.scoreArray[i].score > 0) {
-					JLabel lelabel = new JLabel(
+					JLabel lelabel = new JLabel(HighScoreDataHandler.scoreArray[i].name + " at " +
 							HighScoreDataHandler.scoreArray[i].date + " : "
 									+ HighScoreDataHandler.scoreArray[i].score);
 					lelabel.setFont(new Font("Chalkboard", Font.BOLD, 20));
 					y += 30;
 					lelabel.setForeground(Color.BLUE);
-					lelabel.setBounds(50, y, 300, 30);
+					lelabel.setBounds(50, y, 600, 30);
+					lepanel.add(lelabel);
+				}
+			}
+		} else if (panelNo == 2){
+			int y = 40;
+			for (int i = 0; i < HighScoreDataHandler.SAVELENGTH; i++) {
+				if (HighScoreDataHandler.timeArray[i].time > 0) {
+					JLabel lelabel = new JLabel(HighScoreDataHandler.timeArray[i].name + " at " +
+							HighScoreDataHandler.timeArray[i].date + " : "
+									+ HighScoreDataHandler.convertTime(HighScoreDataHandler.timeArray[i].time)[0] + " minutes " + HighScoreDataHandler.convertTime(HighScoreDataHandler.timeArray[i].time)[1] + " seconds");
+					lelabel.setFont(new Font("Chalkboard", Font.BOLD, 20));
+					y += 30;
+					lelabel.setForeground(Color.BLUE);
+					lelabel.setBounds(50, y, 600, 30);
 					lepanel.add(lelabel);
 				}
 			}

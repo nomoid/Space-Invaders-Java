@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,11 +23,16 @@ public class MainMenuBuilder implements MenuBuilder{
 	private final static String MAINLOGO = "resources/MainLogo.png";
 	private final static String HSBUTTON = "resources/highscoreButton.png";
 	private final static String CREDITSBUTTON = "resources/creditsButton.png";
+	private final static String ACHIEVEMENTSBUTTON = "resources/creditsButton.png";
+	//NEEDED
+	
 	private MainMenuBuilder instance;
 	private Menu parent;
 	private JButton startButton;
 	private JButton storyButton;
 	private JButton helpButton;
+	private JButton achievementsButton;
+	
 	private JLabel logolabel;
 	private JButton creditsButton;
 	private JButton hscoreButton;
@@ -40,6 +44,7 @@ public class MainMenuBuilder implements MenuBuilder{
 	
 	@Override
 	public void build(Menu menu){
+		playSound(MENUSONG);
 		parent = menu;
 		
 		BufferedImage startbuttonIcon = null;
@@ -48,6 +53,7 @@ public class MainMenuBuilder implements MenuBuilder{
 		BufferedImage mainLogoIcon = null;
 		BufferedImage creditbuttonIcon = null;
 		BufferedImage hscorebuttonIcon = null;
+		BufferedImage achievementbuttonIcon = null;
 		
 		try {
 			startbuttonIcon = ResourceManager.getImageResource(STARTBUTTON);
@@ -56,11 +62,14 @@ public class MainMenuBuilder implements MenuBuilder{
 			mainLogoIcon = ResourceManager.getImageResource(MAINLOGO);
 			hscorebuttonIcon = ResourceManager.getImageResource(HSBUTTON);
 			creditbuttonIcon = ResourceManager.getImageResource(CREDITSBUTTON);
+			achievementbuttonIcon = ResourceManager.getImageResource(ACHIEVEMENTSBUTTON);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error loading image!");
 		}
+		
+		achievementsButton = new JButton(new ImageIcon(achievementbuttonIcon));
 		hscoreButton = new JButton(new ImageIcon(hscorebuttonIcon));
 		creditsButton = new JButton(new ImageIcon(creditbuttonIcon));
 		startButton = new JButton(new ImageIcon(startbuttonIcon));
@@ -111,36 +120,31 @@ public class MainMenuBuilder implements MenuBuilder{
 			}
 		});
 		
+		achievementsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Button pressed");
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new AchievementsMenuBuilder(instance));			
+			}
+		});
 
 		startButton.setBounds(960/2-81, 180, 162, 79);
 		helpButton.setBounds(960/2-81, 260, 162, 79);
 		storyButton.setBounds(960/2-81, 340, 162, 79);
 		creditsButton.setBounds(960/2-81, 420, 162, 79);
 		hscoreButton.setBounds(960/2-81, 500, 162, 79);
+		achievementsButton.setBounds(960/2-81, 580, 162, 79);
+		
 		
 		logolabel.setBounds(960/2-450,30,900,100);
-		
-		startButton.setBorder(BorderFactory.createEmptyBorder());
-		helpButton.setBorder(BorderFactory.createEmptyBorder());
-		storyButton.setBorder(BorderFactory.createEmptyBorder());
-		hscoreButton.setBorder(BorderFactory.createEmptyBorder());
-		creditsButton.setBorder(BorderFactory.createEmptyBorder());
-		
-		
-		helpButton.setContentAreaFilled(false);
-		storyButton.setContentAreaFilled(false);
-		startButton.setContentAreaFilled(false);
-		hscoreButton.setContentAreaFilled(false);
-		creditsButton.setContentAreaFilled(false);
-		
+
+		parent.add(achievementsButton);
 		parent.add(creditsButton);
 		parent.add(hscoreButton);
 		parent.add(storyButton);
 		parent.add(helpButton);
 		parent.add(startButton);
 		parent.add(logolabel);
-		playSound(MENUSONG);
-		
 	}
 	
 
@@ -155,11 +159,11 @@ public class MainMenuBuilder implements MenuBuilder{
 		parent.remove(logolabel);
 		parent.remove(creditsButton);
 		parent.remove(hscoreButton);
+		parent.remove(achievementsButton);
+		
 		looper.stop();
 		ResourceManager.removeAudioPlayer(looper);
 		looper = null;
-	// WORK On ENDING THE MENU MUSIC WHEN GAME STARTS
-
 	}
 	
 	public void playSound(String location){

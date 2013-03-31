@@ -12,27 +12,26 @@ import com.github.assisstion.spaceInvaders.Clock;
 import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 
-public class Menu extends JPanel{
-	
-	
+public class Menu extends JPanel {
+
 	public MenuBuilder currentMenu;
 	private static final long serialVersionUID = 8162618142692095178L;
 	private LinkedList<MenuBuilder> builders = new LinkedList<MenuBuilder>();
 	private MenuKeyListener keyListener;
 	public boolean started;
-	
+
 	public Menu() {
 		setLayout(null);
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(960, 740));
 		System.out.println("Menu built");
-        MainCanvas.frame.pack();
-        keyListener = new MenuKeyListener(this);
+		MainCanvas.frame.pack();
+		keyListener = new MenuKeyListener(this);
 		addKeyListener(keyListener);
 	}
-	
-	public synchronized void addMenuBuilder(MenuBuilder builder){
-		if(keyListener == null){
+
+	public synchronized void addMenuBuilder(MenuBuilder builder) {
+		if (keyListener == null) {
 			keyListener = new MenuKeyListener(this);
 			addKeyListener(keyListener);
 		}
@@ -41,47 +40,57 @@ public class Menu extends JPanel{
 		builder.build(this);
 		requestFocus();
 		revalidate();
-        repaint();
+		repaint();
 	}
 
-	public synchronized void closeMenu(MenuBuilder builder){
+	public synchronized void closeMenu(MenuBuilder builder) {
 		builders.remove(builder);
 		builder.unBuild(this);
 		requestFocus();
 		revalidate();
-        repaint();
+		repaint();
 	}
-	
-	public synchronized void closeAllMenus(){
+
+	public synchronized void closeAllMenus() {
 		MenuBuilder builder = builders.pollLast();
-		while(builder != null){
+		while (builder != null) {
 			builders.remove(builder);
 			builder.unBuild(this);
 			builder = builders.pollLast();
 		}
 		revalidate();
-        repaint();
+		repaint();
 	}
-	
-	public void enableMenuKeyListener(){
+
+	public void enableMenuKeyListener() {
 		addKeyListener(keyListener);
 	}
-	
-	public void disableMenuKeyListener(){
+
+	public void disableMenuKeyListener() {
 		removeKeyListener(keyListener);
 	}
-	
+
 	/*
 	 * Starts the game engine
 	 */
-	
-	public static void centerLabel(JLabel label, int height){
-		label.setBounds( (int) (MainCanvas.FRAME_WIDTH/2 - label.getPreferredSize().getWidth()/2), height, (int) label.getPreferredSize().getWidth(), (int) label.getPreferredSize().getHeight());
+
+	public static void centerLabel(JLabel label, int height) {
+		if (label.getFont().isItalic()) {
+			label.setBounds((int) (MainCanvas.FRAME_WIDTH / 2 - label
+					.getPreferredSize().getWidth() / 2), height, (int) label
+					.getPreferredSize().getWidth() + 10, (int) label
+					.getPreferredSize().getHeight());
+		} else {
+			label.setBounds((int) (MainCanvas.FRAME_WIDTH / 2 - label
+					.getPreferredSize().getWidth() / 2), height, (int) label
+					.getPreferredSize().getWidth(), (int) label
+					.getPreferredSize().getHeight());
+		}
 	}
-	
+
 	public synchronized void startGame() {
-		synchronized(this){
-			if(started){
+		synchronized (this) {
+			if (started) {
 				System.out.println("Engine already created");
 				return;
 			}
@@ -98,12 +107,12 @@ public class Menu extends JPanel{
 		System.out.println("Engine starting");
 		new Thread(new Clock()).start();
 	}
-	
-	public synchronized void done(){
+
+	public synchronized void done() {
 		started = false;
 	}
-	
-	public synchronized boolean started(){
+
+	public synchronized boolean started() {
 		return started;
 	}
 }

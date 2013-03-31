@@ -15,18 +15,18 @@ Create Player Mechanics: DONE
 Create Enemy Mechanics: DONE
 Create Bunker Mechanics: DONE
 Collision Testing: DONE
-Menu Screen/UI: BASICALLY DONE - add high score rankings
-Music: IN PROGRESS - main menu music done
+Menu Screen/UI: BASICALLY DONE - Many menus need to be touched up
+Music: IN PROGRESS - main menu music done and bullet sound done
 Graphics: IN PROGRESS - add bg, change sprites (possibly)
 Story: IN PROGRESS- added cutscenes, writing script
 Opening Screen: DONE
-Closing Screen: BASICALLY DONE - missing high score rankings
+Closing Screen: BASICALLY DONE
 Levels: DONE
 Hitstreaks: DONE
-Game Balancing: IN PROGRESS - wait for bosses
+Game Balancing: IN PROGRESS
 Game Testing: BARELY STARTED - 2 testers: LunacyEcho, Seung Ho
-Achievements: NOT STARTED
-Upgrades: NOT STARTED
+Achievements: IN PROGRESS
+Upgrades: IN PROGRESS
 
 POTENTIAL FEATURES:
 Boss battle!
@@ -62,5 +62,4 @@ Credits
 assisstion - Programmer
 michael99man - Programmer
 LunacyEcho - Sound Manager
-Transfordete - Graphics Manager
 dysprosium - Editor

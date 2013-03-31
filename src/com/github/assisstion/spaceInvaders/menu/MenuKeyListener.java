@@ -22,7 +22,7 @@ public class MenuKeyListener implements KeyListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_M){
 			if(!ResourceManager.getMuted()){
-				System.out.println("Gmae Muted");
+				System.out.println("Game Muted");
 				ResourceManager.setMuted(true);
 			}
 			else{

@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
-import com.github.assisstion.spaceInvaders.Engine;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 import com.github.assisstion.spaceInvaders.gameObject.Sprite;
@@ -35,6 +34,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	JLabel speedNormalLabel = new JLabel(SPEEDNORMAL);
 	JLabel skipPageLabel = new JLabel(SKIPPAGE);
 
+	public boolean nonStarting = false;
 	private boolean hidden;
 	private JLabel lastlabel;
 	private boolean notYetCreated = true;
@@ -125,7 +125,7 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		if (pageNumber >= textRes.length) {
 			fullUnBuildText();
 			finishCutscene();
-			
+			AchievementMethods.redeemAchievement(new Achievement("Dedication"));
 		} else if (i < textRes[x].getText().length) {
 			leText += textRes[x].getText()[i];
 			buildText(leText);
@@ -238,7 +238,8 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 	}
 
 	private void finishCutscene(){
-		if (Engine.currentLevel == 6){
+		if (nonStarting){
+			AchievementMethods.clearLevelAchievements();
 			parent.closeMenu(instance);
 			MainCanvas.menu.add(MainCanvas.engine);
 			MainCanvas.engine.state = "main";
@@ -246,7 +247,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 		} else {
 			parent.closeMenu(instance);
 			parent.startGame();
-			AchievementMethods.redeemAchievement(new Achievement("Dedication"));
 		} 
 	}
 	@Override
