@@ -13,6 +13,7 @@ import com.github.assisstion.MSToolkit.event.MSActionEvent;
 import com.github.assisstion.MSToolkit.event.MSActionEventProcessor;
 import com.github.assisstion.MSToolkit.event.MSActionHandler;
 import com.github.assisstion.MSToolkit.event.MSActionListener;
+import com.github.assisstion.MSToolkit.event.MSEvent;
 import com.github.assisstion.MSToolkit.event.MSMouseEvent;
 import com.github.assisstion.MSToolkit.event.MSMouseEventProcessor;
 import com.github.assisstion.MSToolkit.event.MSMouseHandler;
@@ -22,19 +23,19 @@ import com.github.assisstion.MSToolkit.style.MSStyleManager;
 public class MSButton extends MSAbstractBoundedComponent implements MSMouseListener, MSMouseHandler, MSActionHandler{
 	
 	
-	private String text;
+	protected String text;
 	private Graphics2D graphicsContext;
 	private Set<MSMouseListener> mouseListeners;
-	private CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
+	protected CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
 	private AtomicBoolean down = new AtomicBoolean(false);
 	private Set<MSActionListener> actionListeners;
-	private CollectionSynchronizer<Set<MSActionListener>, MSActionListener> actionListenerSync;
+	protected CollectionSynchronizer<Set<MSActionListener>, MSActionListener> actionListenerSync;
 	
 	protected MSButton(){
 		
 	}
 	
-	public MSButton(String text, int x, int y, Graphics2D graphicsContext){
+	public MSButton(int x, int y, String text, Graphics2D graphicsContext){
 		super(x, y);
 		style = MSStyleManager.getDefaultStyleSystem().getButton();
 		this.text = text;
@@ -48,8 +49,8 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	
 	}
 	
-	public MSButton(String text, int x, int y){
-		this(text, x, y, null);
+	public MSButton(int x, int y, String text){
+		this(x, y, text, null);
 	}
 
 	@Override
@@ -99,14 +100,14 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 
 	@Override
 	public void mousePressed(MSMouseEvent e){
-		down.set(true);
+		setDown(true);
 		processActionEvent(new MSActionEvent(e, false));
 		processMouseEvent(e);
 	}
 
 	@Override
 	public void mouseReleased(MSMouseEvent e){
-		down.set(false);
+		setDown(false);
 		processActionEvent(new MSActionEvent(e, false));
 		processMouseEvent(e);
 	}
@@ -137,7 +138,8 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	
 	protected void processMouseEvent(MSMouseEvent e){
 		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
-			new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, e, e.getX()-x, e.getY()-y), mouseListenerSync)).start();
+			String message = e.getMessage();
+			new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, message, e, e.getX()-x, e.getY()-y), mouseListenerSync)).start();
 		}
 	}
 	
@@ -147,6 +149,20 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	
 	public boolean isDown(){
 		return down.get();
+	}
+	
+	protected void setDown(boolean b){
+		down.set(b);
+		processActionEvent(new MSActionEvent(new MSEvent(this, "button state change; new state: " + b), false));
+	}
+	
+	public void setText(String text){
+		this.text = text;
+		processActionEvent(new MSActionEvent(new MSEvent(this, "button text change; new text: " + text), false));
+	}
+	
+	public String getText(){
+		return text;
 	}
 
 	@Override

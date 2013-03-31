@@ -180,6 +180,7 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 		if(e.getID() == MouseEvent.MOUSE_ENTERED || e.getID() == MouseEvent.MOUSE_EXITED){
 			return;
 		}
-		new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, e), mouseListenerSync)).start();
+		String message = MSMouseEvent.getMessageFromEvent(e);
+		new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, message, e), mouseListenerSync)).start();
 	}
 }

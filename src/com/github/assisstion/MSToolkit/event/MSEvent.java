@@ -2,17 +2,43 @@ package com.github.assisstion.MSToolkit.event;
 
 import com.github.assisstion.MSToolkit.MSComponent;
 
-public abstract class MSEvent{
+public class MSEvent{
 	
 	protected MSComponent source;
+	protected String message;
 	
-	public MSEvent(MSComponent source){
-		this.source = source;
+	protected MSEvent(){
+		
 	}
 	
-	public abstract MSEventType getEventType();
+	public MSEvent(MSComponent source){
+		this(source, "");
+	}
+	
+	public MSEvent(MSComponent source, String message){
+		this.source = source;
+		this.message = message;
+	}
+	
+	public MSEventType getEventType(){
+		if(getClass().equals(MSEvent.class)){
+			return MSEventType.GENERIC;
+		}
+		else{
+			return MSEventType.UNDEFINED;
+		}
+	}
 	
 	public MSComponent getSource(){
 		return source;
+	}
+	
+	public String getMessage(){
+		return message;
+	}
+	
+	@Override
+	public String toString(){
+		return source.getClass().getSimpleName() + " " + source.hashCode() + ": " + message;
 	}
 }

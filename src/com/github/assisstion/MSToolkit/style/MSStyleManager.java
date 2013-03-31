@@ -174,11 +174,13 @@ public final class MSStyleManager{
 		}
 		
 		private static final MSStyle BUTTON_STYLE = MSStyleManager.getStyle(
-				5, 5, 5, 5, Color.BLACK, Color.GRAY, Color.WHITE, MSHelper.getDefaultFont());
+				5, 5, 5, 5, Color.BLACK, Color.GRAY, Color.WHITE.brighter().brighter(), MSHelper.getDefaultFont());
+		private static final MSStyle LABEL_STYLE = MSStyleManager.getStyle(
+				0, 0, 0, 0, Color.BLACK, Color.GRAY.brighter(), Color.WHITE, MSHelper.getDefaultFont());
 		private static final MSStyle FRAME_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.WHITE, MSHelper.getDefaultFont());
+				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.GRAY.brighter().brighter(), MSHelper.getDefaultFont());
 		private static final MSStyle SPRITE_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.WHITE, MSHelper.getDefaultFont());
+				0, 0, 0, 0, Color.BLACK, Color.GRAY.brighter(), Color.WHITE, MSHelper.getDefaultFont());
 		private static final MSStyle EMPTY_STYLE = MSStyleManager.getStyle(
 				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.WHITE, MSHelper.getDefaultFont());
 		
@@ -186,6 +188,12 @@ public final class MSStyleManager{
 		public MSStyle getButton(){
 			return getStyle(BUTTON_STYLE);
 		}
+		
+		@Override
+		public MSStyle getLabel(){
+			return getStyle(LABEL_STYLE);
+		}
+		
 		@Override
 		public MSStyle getFrame(){
 			return getStyle(FRAME_STYLE);

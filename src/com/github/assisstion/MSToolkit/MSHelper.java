@@ -80,4 +80,8 @@ public final class MSHelper{
 		}
 		return false;
 	}
+	
+	public static boolean unmeaningfulActionEventsEnabled(){
+		return true;
+	}
 }

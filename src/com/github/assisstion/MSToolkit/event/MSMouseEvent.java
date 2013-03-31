@@ -22,27 +22,31 @@ public class MSMouseEvent extends MSEvent{
 	private int count;
 	private MSMouseButtonType button;
 	
-	public MSMouseEvent(MSComponent source){
-		super(source);
+	protected MSMouseEvent(){
+		
+	}
+	
+	public MSMouseEvent(MSComponent source, String message){
+		super(source, message);
 	}
 
-	public MSMouseEvent(MSComponent source, MouseEvent e){
-		this(source, MSMouseEventType.fromID(e.getID()), e.getWhen(),
+	public MSMouseEvent(MSComponent source, String message, MouseEvent e){
+		this(source, message, MSMouseEventType.fromID(e.getID()), e.getWhen(),
 				getModifiersFromMask(e.getModifiersEx()),
 				e.getX(), e.getY(), e.getXOnScreen(),
 				e.getYOnScreen(), e.getClickCount(),
 				MSMouseButtonType.fromID(e.getButton()));
 	}
 	
-	public MSMouseEvent(MSComponent source, MSMouseEvent e, int x, int y){
-		this(source, e.getType(), e.getTime(), e.getModifiers(), x, y, 
+	public MSMouseEvent(MSComponent source, String message, MSMouseEvent e, int x, int y){
+		this(source, message, e.getType(), e.getTime(), e.getModifiers(), x, y, 
 				e.getScreenX(), e.getScreenY(), e.getCount(), e.getButton());
 	}
 	
-	public MSMouseEvent(MSComponent source, MSMouseEventType type, long time, 
+	public MSMouseEvent(MSComponent source, String message, MSMouseEventType type, long time, 
 			Set<MSEventModifier> modifiers, int x, int y, int screenX, int screenY,
 			int count, MSMouseButtonType button){
-		this(source);
+		this(source, message);
 		this.type = type;
 		this.time = time;
 		this.modifiers = modifiers;
@@ -165,5 +169,17 @@ public class MSMouseEvent extends MSEvent{
 	@Override
 	public MSEventType getEventType(){
 		return MSEventType.MOUSE;
+	}
+	
+	public static String getMessageFromEvent(MouseEvent e){
+		String name = MSMouseEvent.MSMouseEventType.fromID(e.getID()).name().replace("_", " ");
+		String[] parts = name.split("_");
+		String message = "";
+		for(String part : parts){
+			 message += part.substring(0, 1).toUpperCase() + part.substring(1).toLowerCase() + " ";
+		}
+		message = message.substring(0, message.length() > 0 ? message.length() - 1 : 0);
+		message += "; x: " + e.getX() + ", y: " + e.getY();
+		return message;
 	}
 }

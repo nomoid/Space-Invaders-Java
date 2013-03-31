@@ -8,7 +8,7 @@ public class MSActionEvent extends MSEvent{
 	private boolean meaningful;
 	
 	public MSActionEvent(MSEvent actualEvent, boolean meaningful){
-		super(actualEvent.getSource());
+		super(actualEvent.getSource(), actualEvent.getMessage());
 		this.actualEvent = actualEvent;
 		this.meaningful = meaningful;
 	}

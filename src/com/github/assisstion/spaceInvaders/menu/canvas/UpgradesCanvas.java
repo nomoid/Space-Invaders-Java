@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 
 import com.github.assisstion.MSToolkit.MSAbstractCanvas;
 import com.github.assisstion.MSToolkit.MSButton;
+import com.github.assisstion.MSToolkit.MSTextLabel;
 import com.github.assisstion.MSToolkit.event.MSActionEvent;
 import com.github.assisstion.MSToolkit.event.MSActionListener;
 
@@ -14,12 +15,13 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 		private static final long serialVersionUID = 5897847762185790426L;
 
 		private MSButton button;
+		private MSTextLabel label;
 		
 		public UpgradesCanvas(){
 			RepaintingClock clock = new RepaintingClock(this);
 			new Thread(clock).start();
 			setBackground(Color.BLUE);
-			button = new MSButton("Upgrade", 100, 100);
+			button = new MSButton(100, 100, "Upgrade");
 			button.addMSActionListener(new MSActionListener(){
 
 				@Override
@@ -34,7 +36,9 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 
 				
 			});
+			label = new MSTextLabel(200, 100, "hi");
 			addComponent(button);
+			addComponent(label);
 		}
 		
 		
@@ -44,6 +48,7 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.WHITE);
 			button.setGraphicsContext(g2d);
+			label.setGraphicsContext(g2d);
 			//g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
 			
 		}

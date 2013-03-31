@@ -3,6 +3,7 @@ package com.github.assisstion.MSToolkit.event;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.github.assisstion.MSToolkit.MSHelper;
 import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
 
 public class MSActionEventProcessor implements Runnable{
@@ -17,6 +18,9 @@ public class MSActionEventProcessor implements Runnable{
 
 	@Override
 	public void run(){
+		if(!e.isMeaningful() && !MSHelper.unmeaningfulActionEventsEnabled()){
+			return;
+		}
 		Iterator<MSActionListener> listeners = listenerSync.iterator().get();
 		while(listeners.hasNext()){
 			MSActionListener listener = listeners.next();
