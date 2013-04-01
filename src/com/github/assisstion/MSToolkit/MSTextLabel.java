@@ -1,25 +1,23 @@
 package com.github.assisstion.MSToolkit;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
+import com.github.assisstion.MSToolkit.impl.MSHelper;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 
-public class MSTextLabel extends MSAbstractBoundedComponent{
+public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphicContextual{
 	
 	protected String text;
-	private Graphics2D graphicsContext;
+	private MSGraphicalContext graphicsContext;
+	private boolean filled;
 	
 	protected MSTextLabel(){
 		
 	}
 	
-	public MSTextLabel(int x, int y, String text){
+	public MSTextLabel(int x, int y, String text, boolean filled){
 		super(x, y);
 		style = MSStyleManager.getDefaultStyleSystem().getLabel();
 		this.text = text;
+		this.filled = filled;
 	}
 
 	@Override
@@ -33,14 +31,14 @@ public class MSTextLabel extends MSAbstractBoundedComponent{
 	}
 
 	@Override
-	public void render(Graphics g, int x, int y){
-		Color tempColor = g.getColor();
-		Font tempFont = g.getFont();
+	public void render(MSGraphicalContext g, int x, int y){
+		MSColor tempColor = g.getColor();
+		MSFont tempFont = g.getFont();
 		g.setFont(getStyle().getFont());
-		/*
-		g.setColor(getStyle().getFrontBackground());
-		g.fillRect(x, y, getWidth(), getHeight());
-		*/
+		if(filled){
+			g.setColor(getStyle().getFrontBackground());
+			g.fillRect(x, y, getWidth(), getHeight());
+		}
 		g.setColor(getStyle().getForeground());
 		g.drawString(text, x + getStyle().getPaddingLeft(), y + getStyle().getPaddingTop() + getStyle().getFont().getSize());
 		g.setColor(tempColor);
@@ -57,11 +55,21 @@ public class MSTextLabel extends MSAbstractBoundedComponent{
 		return MSHelper.getTextHeight(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
 	}
 	
-	public void setGraphicsContext(Graphics2D graphicsContext){
+	public void setText(String text){
+		this.text = text;
+	}
+	
+	public String getText(){
+		return text;
+	}
+	
+	@Override
+	public void setGraphicsContext(MSGraphicalContext graphicsContext){
 		this.graphicsContext = graphicsContext;
 	}
 	
-	public Graphics2D getGraphicsContext(){
+	@Override
+	public MSGraphicalContext getGraphicsContext(){
 		return graphicsContext;
 	}
 }

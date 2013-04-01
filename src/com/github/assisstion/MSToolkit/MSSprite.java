@@ -1,7 +1,8 @@
 package com.github.assisstion.MSToolkit;
 
-import java.awt.Graphics;
 import java.io.IOException;
+
+import com.github.assisstion.MSToolkit.impl.MSHelper;
 
 public class MSSprite extends MSAbstractBoundedComponent{
 	
@@ -32,14 +33,13 @@ public class MSSprite extends MSAbstractBoundedComponent{
 		return true;
 	}
 
-	
 	@Override
-	public void render(Graphics g, int x, int y){
+	public void render(MSGraphicalContext g, int x, int y){
 		image.render(g, x, y);
 	}
 
 	@Override
-	public void render(Graphics g){
+	public void render(MSGraphicalContext g){
 		image.render(g, x, y);
 	}
 

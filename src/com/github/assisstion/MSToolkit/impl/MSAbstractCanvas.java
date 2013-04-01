@@ -1,9 +1,10 @@
-package com.github.assisstion.MSToolkit;
+package com.github.assisstion.MSToolkit.impl;
 
 import java.awt.AWTEvent;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,8 +13,11 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.assisstion.MSToolkit.MSComponent;
+import com.github.assisstion.MSToolkit.MSContainer;
+import com.github.assisstion.MSToolkit.MSGraphicContextual;
+import com.github.assisstion.MSToolkit.MSGraphicalContext;
 import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
-import com.github.assisstion.MSToolkit.event.MSMouseEvent;
 import com.github.assisstion.MSToolkit.event.MSMouseEventProcessor;
 import com.github.assisstion.MSToolkit.event.MSMouseListener;
 import com.github.assisstion.MSToolkit.style.MSStyle;
@@ -28,7 +32,6 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	private LinkedList<MSComponent> components;
 	private Object listLock = new Object();
 	private CollectionSynchronizer<LinkedList<MSComponent>, MSComponent> cs;
-	private MSComponent parent;
 	protected MSStyle style;
 	private Set<MSMouseListener> mouseListeners;
 	private CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
@@ -44,7 +47,11 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 		}
 		else{
 			Color frontBackground = getBackground().brighter();
-			style = MSStyleManager.getStyle(0, 0, 0, 0, foreground, frontBackground, background, MSHelper.getDefaultFont());
+			style = MSStyleManager.getStyle(0, 0, 0, 0, 
+					MSConverter.fromColor(foreground), 
+					MSConverter.fromColor(frontBackground), 
+					MSConverter.fromColor(background), 
+					MSHelper.getDefaultFont());
 		}
 		mouseListeners = new HashSet<MSMouseListener>();
 		mouseListenerSync = new CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener>(mouseListeners);
@@ -71,11 +78,11 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	 */
 	@Override
 	public void paint(Graphics g){
-		render(g);
+		render(new MSGraphicImpl((Graphics2D)g));
 	}
 	
 	@Override
-	public void render(Graphics g){
+	public void render(MSGraphicalContext g){
 		render(g, getX(), getY());
 	}
 	
@@ -83,8 +90,11 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	 * Subclasses of this should call super.render(g);
 	 */
 	@Override
-	public void render(Graphics g, int x, int y){
+	public void render(MSGraphicalContext g, int x, int y){
 		for(MSComponent component : components){
+			if(component instanceof MSGraphicContextual){
+				((MSGraphicContextual) component).setGraphicsContext(g);
+			}
 			component.render(g, component.getX() + x, component.getY() + y);
 		}
 	}
@@ -108,18 +118,17 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	}
 	
 	public void addComponent(MSComponent component){
-		component.addTo(this);
-		cs.add(component);
-		component.setComponentParent(this);
-		requestFocus();
-		validate();
-		repaint();
+		if(component.addTo(this)){
+			cs.add(component);
+			requestFocus();
+			validate();
+			repaint();
+		}
 	}
 	
 	public void removeComponent(MSComponent component){
 		if(component.removeFrom(this)){
 			cs.remove(component);
-			component.setComponentParent(null);
 			requestFocus();
 			validate();
 			repaint();
@@ -134,16 +143,6 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	@Override
 	public boolean removeFrom(MSContainer container){
 		return true;
-	}
-	
-	@Override
-	public void setComponentParent(MSComponent component){
-		parent = component;
-	}
-	
-	@Override
-	public MSComponent getComponentParent(){
-		return parent;	
 	}
 	
 	@Override
@@ -180,7 +179,7 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 		if(e.getID() == MouseEvent.MOUSE_ENTERED || e.getID() == MouseEvent.MOUSE_EXITED){
 			return;
 		}
-		String message = MSMouseEvent.getMessageFromEvent(e);
-		new Thread(new MSMouseEventProcessor(new MSMouseEvent(this, message, e), mouseListenerSync)).start();
+		String message = MSConverter.getMessageFromEvent(e);
+		new Thread(new MSMouseEventProcessor(MSConverter.fromMouseEvent(this, message, e), mouseListenerSync)).start();
 	}
 }

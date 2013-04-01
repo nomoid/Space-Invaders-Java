@@ -2,13 +2,13 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 
-import com.github.assisstion.MSToolkit.MSAbstractCanvas;
 import com.github.assisstion.MSToolkit.MSButton;
 import com.github.assisstion.MSToolkit.MSTextLabel;
 import com.github.assisstion.MSToolkit.event.MSActionEvent;
 import com.github.assisstion.MSToolkit.event.MSActionListener;
+import com.github.assisstion.MSToolkit.impl.MSAbstractCanvas;
 
 public class UpgradesCanvas extends MSAbstractCanvas{
 		
@@ -16,6 +16,7 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 
 		private MSButton button;
 		private MSTextLabel label;
+		private int i = 0;
 		
 		public UpgradesCanvas(){
 			RepaintingClock clock = new RepaintingClock(this);
@@ -31,12 +32,12 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 
 				@Override
 				public void meaningfulAction(MSActionEvent e){
-					System.out.println("Meaningful action happened");
+					System.out.println("Meaningful action happened: " + i++);
 				}
 
 				
 			});
-			label = new MSTextLabel(200, 100, "hi");
+			label = new MSTextLabel(200, 100, "hi", false);
 			addComponent(button);
 			addComponent(label);
 		}
@@ -45,10 +46,8 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 		@Override
 		public void paint(Graphics g){
 			super.paint(g);
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.setColor(Color.WHITE);
-			button.setGraphicsContext(g2d);
-			label.setGraphicsContext(g2d);
+			//Graphics2D g2d = (Graphics2D) g;
+			//System.out.println("aha");
 			//g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
 			
 		}

@@ -1,9 +1,5 @@
 package com.github.assisstion.MSToolkit;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,13 +14,14 @@ import com.github.assisstion.MSToolkit.event.MSMouseEvent;
 import com.github.assisstion.MSToolkit.event.MSMouseEventProcessor;
 import com.github.assisstion.MSToolkit.event.MSMouseHandler;
 import com.github.assisstion.MSToolkit.event.MSMouseListener;
+import com.github.assisstion.MSToolkit.impl.MSHelper;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 
-public class MSButton extends MSAbstractBoundedComponent implements MSMouseListener, MSMouseHandler, MSActionHandler{
+public class MSButton extends MSAbstractBoundedComponent implements MSMouseListener, MSMouseHandler, MSActionHandler, MSGraphicContextual{
 	
 	
 	protected String text;
-	private Graphics2D graphicsContext;
+	private MSGraphicalContext graphicsContext;
 	private Set<MSMouseListener> mouseListeners;
 	protected CollectionSynchronizer<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
 	private AtomicBoolean down = new AtomicBoolean(false);
@@ -35,11 +32,10 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 		
 	}
 	
-	public MSButton(int x, int y, String text, Graphics2D graphicsContext){
+	public MSButton(int x, int y, String text){
 		super(x, y);
 		style = MSStyleManager.getDefaultStyleSystem().getButton();
 		this.text = text;
-		this.graphicsContext = graphicsContext;
 		mouseListeners = new HashSet<MSMouseListener>();
 		mouseListenerSync = new CollectionSynchronizer<Set<MSMouseListener>, 
 				MSMouseListener>(mouseListeners);
@@ -49,10 +45,6 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	
 	}
 	
-	public MSButton(int x, int y, String text){
-		this(x, y, text, null);
-	}
-
 	@Override
 	public boolean addTo(MSContainer c){
 		c.addMSMouseListener(this);
@@ -66,9 +58,9 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	}
 
 	@Override
-	public void render(Graphics g, int x, int y){
-		Color tempColor = g.getColor();
-		Font tempFont = g.getFont();
+	public void render(MSGraphicalContext g, int x, int y){
+		MSColor tempColor = g.getColor();
+		MSFont tempFont = g.getFont();
 		g.setFont(getStyle().getFont());
 		g.setColor(down.get()?getStyle().getFrontBackground().darker():getStyle().getFrontBackground());
 		g.fillRect(x, y, getWidth(), getHeight());
@@ -90,32 +82,40 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 		return MSHelper.getTextHeight(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
 	}
 	
-	public void setGraphicsContext(Graphics2D graphicsContext){
+	@Override
+	public void setGraphicsContext(MSGraphicalContext graphicsContext){
 		this.graphicsContext = graphicsContext;
 	}
 	
-	public Graphics2D getGraphicsContext(){
+	@Override
+	public MSGraphicalContext getGraphicsContext(){
 		return graphicsContext;
 	}
 
 	@Override
 	public void mousePressed(MSMouseEvent e){
-		setDown(true);
-		processActionEvent(new MSActionEvent(e, false));
-		processMouseEvent(e);
+		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
+			setDown(true);
+			processActionEvent(new MSActionEvent(e, false));
+			processMouseEvent(e);
+		}
 	}
 
 	@Override
 	public void mouseReleased(MSMouseEvent e){
-		setDown(false);
-		processActionEvent(new MSActionEvent(e, false));
-		processMouseEvent(e);
+		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
+			setDown(false);
+			processActionEvent(new MSActionEvent(e, false));
+			processMouseEvent(e);
+		}
 	}
 
 	@Override
 	public void mouseClicked(MSMouseEvent e){
-		processActionEvent(new MSActionEvent(e, true));
-		processMouseEvent(e);
+		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
+			processActionEvent(new MSActionEvent(e, true));
+			processMouseEvent(e);
+		}
 	}
 
 	@Override

@@ -34,13 +34,13 @@ public class MenuKeyListener implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// TODO Empty
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// TODO Empty
 
 	}
 

@@ -1,4 +1,4 @@
-package com.github.assisstion.MSToolkit;
+package com.github.assisstion.MSToolkit.impl;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -7,6 +7,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import com.github.assisstion.MSToolkit.MSBasicFont;
+import com.github.assisstion.MSToolkit.MSException;
+import com.github.assisstion.MSToolkit.MSFont;
+import com.github.assisstion.MSToolkit.MSGraphicalContext;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 import com.github.assisstion.MSToolkit.style.MSStyleSystem;
 import com.github.assisstion.spaceInvaders.ResourceManager;
@@ -16,14 +20,16 @@ public final class MSHelper{
 	
 	}
 	
-	public static int getTextWidth(Font font, String text, Graphics2D g){
+	public static int getTextWidth(MSFont f, String text, MSGraphicalContext graphicsContext){
 		FontRenderContext frc = null;
+		Graphics2D g2d = null;
 		boolean b = false;
-		if(g == null){
+		if(graphicsContext == null || !(graphicsContext instanceof MSGraphicImpl)){
 			b = true;
 		}
 		else{
-			if(g.getFontRenderContext() == null){
+			g2d = ((MSGraphicImpl)graphicsContext).getGraphics();
+			if(g2d.getFontRenderContext() == null){
 				b = true;
 			}
 		}
@@ -31,19 +37,22 @@ public final class MSHelper{
 			frc = new FontRenderContext(new AffineTransform(), false, false);
 		}
 		else{
-			frc = g.getFontRenderContext();
+			frc = g2d.getFontRenderContext();
 		}
+		Font font = new Font(f.getName(), MSConverter.getFontModFromModifiers(f.getModifiers()), f.getSize());
 		return (int) font.getStringBounds(text, frc).getWidth();
 	}
 	
-	public static int getTextHeight(Font font, String text, Graphics2D g){
+	public static int getTextHeight(MSFont f, String text, MSGraphicalContext graphicsContext){
 		FontRenderContext frc = null;
+		Graphics2D g2d = null;
 		boolean b = false;
-		if(g == null){
+		if(graphicsContext == null || !(graphicsContext instanceof MSGraphicImpl)){
 			b = true;
 		}
 		else{
-			if(g.getFontRenderContext() == null){
+			g2d = ((MSGraphicImpl)graphicsContext).getGraphics();
+			if(g2d.getFontRenderContext() == null){
 				b = true;
 			}
 		}
@@ -51,8 +60,9 @@ public final class MSHelper{
 			frc = new FontRenderContext(new AffineTransform(), false, false);
 		}
 		else{
-			frc = g.getFontRenderContext();
+			frc = g2d.getFontRenderContext();
 		}
+		Font font = new Font(f.getName(), MSConverter.getFontModFromModifiers(f.getModifiers()), f.getSize());
 		return (int) font.getStringBounds(text, frc).getHeight();
 	}
 
@@ -66,10 +76,6 @@ public final class MSHelper{
 	}
 	
 	
-	public static Font getDefaultFont(){
-		return new Font("Calibri", Font.PLAIN, 20);
-	}
-
 	public static MSStyleSystem getDefaultStyleSystem(){
 		return MSStyleManager.getStyleSystem("classic");
 	}
@@ -83,5 +89,9 @@ public final class MSHelper{
 	
 	public static boolean unmeaningfulActionEventsEnabled(){
 		return true;
+	}
+
+	public static MSFont getDefaultFont(){
+		return new MSBasicFont("Calibri", 20);
 	}
 }

@@ -234,7 +234,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Empty
 
 	}
 
@@ -253,7 +253,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Empty
 
 	}
 

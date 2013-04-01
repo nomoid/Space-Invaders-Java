@@ -1,12 +1,13 @@
 package com.github.assisstion.MSToolkit.style;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.github.assisstion.MSToolkit.MSBasicColor;
+import com.github.assisstion.MSToolkit.MSColor;
 import com.github.assisstion.MSToolkit.MSException;
-import com.github.assisstion.MSToolkit.MSHelper;
+import com.github.assisstion.MSToolkit.MSFont;
+import com.github.assisstion.MSToolkit.impl.MSHelper;
 
 public final class MSStyleManager{
 	
@@ -50,7 +51,7 @@ public final class MSStyleManager{
 	}
 	
 	public static MSStyle getStyle(int paddingLeft, int paddingRight, int paddingTop, int paddingBottom,
-			Color foreground, Color frontBackground, Color background, Font font){
+			MSColor foreground, MSColor frontBackground, MSColor background, MSFont font){
 		return new MSBasicStyle(paddingLeft, paddingRight, paddingTop, paddingBottom, 
 				foreground, frontBackground, background, font);
 	}
@@ -68,13 +69,13 @@ public final class MSStyleManager{
 		private int paddingRight;
 		private int paddingTop;
 		private int paddingBottom;
-		private Color foreground;
-		private Color frontBackground;
-		private Color background;
-		private Font font;
-
+		private MSColor foreground;
+		private MSColor frontBackground;
+		private MSColor background;
+		private MSFont font;
+		
 		public MSBasicStyle(int paddingLeft, int paddingRight, int paddingTop, int paddingBottom,
-				Color foreground, Color frontBackground, Color background, Font font){
+				MSColor foreground, MSColor frontBackground, MSColor background, MSFont font){
 			this.paddingLeft = paddingLeft;
 			this.paddingRight = paddingRight;
 			this.paddingTop = paddingTop;
@@ -106,23 +107,23 @@ public final class MSStyleManager{
 		}
 
 		@Override
-		public Color getForeground(){
+		public MSColor getForeground(){
 			return foreground;
 		}
 		
 		@Override
-		public Color getFrontBackground(){
+		public MSColor getFrontBackground(){
 			return frontBackground;
 		}
 
 		@Override
-		public Color getBackground(){
+		public MSColor getBackground(){
 			return background;
 		}
 		
 
 		@Override
-		public Font getFont(){
+		public MSFont getFont(){
 			return font;
 		}
 
@@ -148,22 +149,22 @@ public final class MSStyleManager{
 		}
 
 		@Override
-		public void setForeground(Color foreground){
+		public void setForeground(MSColor foreground){
 			this.foreground = foreground;
 		}
 		
 		@Override
-		public void setFrontBackground(Color frontBackground){
+		public void setFrontBackground(MSColor frontBackground){
 			this.frontBackground = frontBackground;
 		}
 
 		@Override
-		public void setBackground(Color background){
+		public void setBackground(MSColor background){
 			this.background = background;
 		}
 
 		@Override
-		public void setFont(Font font){
+		public void setFont(MSFont font){
 			this.font = font;
 		}
 	}
@@ -174,15 +175,15 @@ public final class MSStyleManager{
 		}
 		
 		private static final MSStyle BUTTON_STYLE = MSStyleManager.getStyle(
-				5, 5, 5, 5, Color.BLACK, Color.GRAY, Color.WHITE.brighter().brighter(), MSHelper.getDefaultFont());
+				5, 5, 5, 5, MSBasicColor.getColor("black"),  MSBasicColor.getColor("gray"),  MSBasicColor.getColor("light-light-gray"), MSHelper.getDefaultFont());
 		private static final MSStyle LABEL_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY.brighter(), Color.WHITE, MSHelper.getDefaultFont());
+				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("light-gray"),  MSBasicColor.getColor("white"), MSHelper.getDefaultFont());
 		private static final MSStyle FRAME_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.GRAY.brighter().brighter(), MSHelper.getDefaultFont());
+				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("gray"),  MSBasicColor.getColor("light-light-gray"), MSHelper.getDefaultFont());
 		private static final MSStyle SPRITE_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY.brighter(), Color.WHITE, MSHelper.getDefaultFont());
+				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("light-gray"),  MSBasicColor.getColor("white"), MSHelper.getDefaultFont());
 		private static final MSStyle EMPTY_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, Color.BLACK, Color.GRAY, Color.WHITE, MSHelper.getDefaultFont());
+				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("gray"),  MSBasicColor.getColor("light-light-gray"), MSHelper.getDefaultFont());
 		
 		@Override
 		public MSStyle getButton(){

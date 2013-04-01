@@ -13,7 +13,6 @@ public class Achievement implements Comparable<Achievement> {
 
 	@Override
 	public int compareTo(Achievement arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+		return new Integer(hashCode()).compareTo(arg0.hashCode());
 	}
 }

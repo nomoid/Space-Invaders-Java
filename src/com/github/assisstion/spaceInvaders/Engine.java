@@ -660,7 +660,7 @@ public class Engine extends Canvas implements KeyListener {
 		player1.currentDirection = Player.Direction.NONE;
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
-		currentLevel+= 7;
+		currentLevel++;
 
 		System.out.println(currentLevel);
 		if (currentLevel > 7) {
