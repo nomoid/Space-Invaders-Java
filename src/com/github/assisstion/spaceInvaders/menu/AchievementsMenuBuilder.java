@@ -49,7 +49,7 @@ public class AchievementsMenuBuilder implements MenuBuilder {
 		returnButton = new JButton("Return");
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+				
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(menubuilderparent);
 			}

@@ -81,19 +81,17 @@ public final class Helper{
     		  ResourceManager.addAudioPlayer(cw);
     	  }
        } catch (UnsupportedAudioFileException e) {
-    	// TODO placeholder
           e.printStackTrace();
        } catch (IOException e) {
-    	// TODO placeholder
           e.printStackTrace();
        } catch (LineUnavailableException e) {
-    	// TODO placeholder
           e.printStackTrace();
        }
     }
 	
 	//Plays a sound controlled by the Looper
 	public static void streamSound(String location, Looper looper){
+		System.out.println("bob");
 		new Thread(new SoundStreamer(location, looper)).start();
 	}
 	
@@ -176,15 +174,12 @@ public final class Helper{
 				        sdl.stop();
 				    } 
 					catch(IOException e){
-						// TODO placeholder
 						e.printStackTrace();
 					}
 					catch(UnsupportedAudioFileException e){
-						// TODO placeholder
 						e.printStackTrace();
 					}
 					catch(LineUnavailableException e){
-						// TODO placeholder
 						e.printStackTrace();
 					}
 				    finally{
@@ -195,7 +190,6 @@ public final class Helper{
 				    looper.ready();
 				}
 				catch(Exception ex){
-					//TODO placeholder
 					ex.printStackTrace();
 				}
 			}

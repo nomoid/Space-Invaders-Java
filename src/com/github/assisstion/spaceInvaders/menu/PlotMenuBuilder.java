@@ -35,7 +35,7 @@ public class PlotMenuBuilder implements MenuBuilder {
 		returnButton = new JButton(new ImageIcon(getReturnImage()));
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+				
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new MainMenuBuilder());
 			}

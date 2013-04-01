@@ -15,13 +15,13 @@ public class CreditsMenuBuilder implements MenuBuilder{
 		parent = menu;
 		instance = this;
 		AchievementMethods.redeemAchievement(new Achievement("Givin' Credit")); 
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void unBuild(Menu menu) {
-		// TODO Auto-generated method stub
+
 		
 	}
 

@@ -21,9 +21,8 @@ import com.github.assisstion.spaceInvaders.TimerClock;
 
 public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 	private static final int BONUSMAX = 3000;
-	//subtract from it
-	
-	
+	// subtract from it
+
 	private LevelMenuBuilder instance;
 	private Menu parent;
 	private JButton nextLevelButton;
@@ -73,7 +72,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 		nextLevelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+
 				AchievementMethods.achievementUnlocked = false;
 				finish();
 			}
@@ -152,16 +151,17 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		lifeBonus.setForeground(Color.WHITE);
 		lifeBonus.setFont(basefont);
 		Menu.centerLabel(lifeBonus, x + 80);
-		
+
 		String fillerText = "";
 		int tempInt = HighScoreDataHandler.convertTime(timeTaken)[1];
-		if (tempInt < 10){
+		if (tempInt < 10) {
 			fillerText = "0" + tempInt;
 		} else {
 			fillerText = "" + tempInt;
 		}
 		timeLabel = new JLabel("Time Taken: "
-				+ (!godModeOn ? HighScoreDataHandler.convertTime(timeTaken)[0] + ":" + fillerText : "N/A"));
+				+ (!godModeOn ? HighScoreDataHandler.convertTime(timeTaken)[0]
+						+ ":" + fillerText : "N/A"));
 		timeLabel.setForeground(Color.WHITE);
 		timeLabel.setFont(basefont);
 		Menu.centerLabel(timeLabel, x + 120);
@@ -172,7 +172,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		timeBLabel.setForeground(Color.WHITE);
 		timeBLabel.setFont(basefont);
 		Menu.centerLabel(timeBLabel, x + 160);
-		
+
 		finalBonus = (int) (accuracyBonus + timeBonus);
 		bonusScore = new JLabel("Total Bonus: "
 				+ (!godModeOn ? finalBonus : "N/A"));
@@ -234,8 +234,11 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+<<<<<<< HEAD
 		// TODO Empty
 
+=======
+>>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 
 	@Override
@@ -243,31 +246,41 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 		try {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				finish();
-				System.out.println("Finish");
 			}
 		} catch (Exception ex) {
-			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+<<<<<<< HEAD
 		// TODO Empty
 
+=======
+>>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 
 	private void finish() {
 		AchievementMethods.clearLevelAchievements();
 		if (MainCanvas.engine.currentLevel == 6) {
-			parent.closeMenu(instance);
-			CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
-					CutsceneData.Cutscene2.SCENE);
-			MainCanvas.menu.addMenuBuilder(cutscenebuilder);
-			cutscenebuilder.nonStarting = true;
-			new Thread(new CutsceneUpdater(cutscenebuilder,
-					Cutscene.DEFAULT_DELAY)).start();
-			MainCanvas.frame.pack();
+
+			if (Cutscene.enabled) {
+				parent.closeMenu(instance);
+				CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
+						CutsceneData.Cutscene2.SCENE);
+				MainCanvas.menu.addMenuBuilder(cutscenebuilder);
+				cutscenebuilder.nonStarting = true;
+				new Thread(new CutsceneUpdater(cutscenebuilder,
+						Cutscene.DEFAULT_DELAY)).start();
+				MainCanvas.frame.pack();
+			} else {
+				AchievementMethods.clearLevelAchievements();
+				parent.closeMenu(instance);
+				MainCanvas.menu.add(MainCanvas.engine);
+				MainCanvas.engine.state = "main";
+				MainCanvas.frame.pack();
+			}
 
 		} else {
 			parent.closeMenu(instance);
@@ -280,7 +293,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void exitMenu() {
-		System.out.println("Button pressed");
+
 		AchievementMethods.achievementUnlocked = false;
 		finish();
 	}

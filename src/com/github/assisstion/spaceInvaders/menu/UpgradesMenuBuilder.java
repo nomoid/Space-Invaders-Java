@@ -53,8 +53,6 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		parent.add(canvas);
 		//parent.add(returnButton);
 		
-		
-
 	}
 
 	@Override

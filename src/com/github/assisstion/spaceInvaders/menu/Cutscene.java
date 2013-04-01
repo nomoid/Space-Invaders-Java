@@ -4,6 +4,8 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 
 public class Cutscene{
 	
+	public static boolean enabled = true;
+	
 	public static final int DEFAULT_DELAY = 45;
 	
 	private Sprite[][] sprites;

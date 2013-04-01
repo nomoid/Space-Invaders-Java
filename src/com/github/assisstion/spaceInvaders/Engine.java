@@ -158,10 +158,8 @@ public class Engine extends Canvas implements KeyListener {
 						+ state);
 			}
 		} catch (GameException e) {
-			// TODO placeholder
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO placeholder
 			e.printStackTrace();
 		}
 	}
@@ -459,7 +457,7 @@ public class Engine extends Canvas implements KeyListener {
 		if (godmodeOn) {
 			g.setColor(Color.RED);
 			g.setFont(FONT_MEDIUM);
-			String message4 = new String("GOD MODE ON");
+			String message4 = new String("MALLAH MODE");
 			g.drawString(message4, getWidth() / 2
 					- (g.getFontMetrics().stringWidth(message4) / 2), 570);
 			g.setFont(FONT_SMALL);
@@ -661,8 +659,11 @@ public class Engine extends Canvas implements KeyListener {
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
 		currentLevel++;
+<<<<<<< HEAD
 
 		System.out.println(currentLevel);
+=======
+>>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
@@ -819,7 +820,8 @@ public class Engine extends Canvas implements KeyListener {
 				if (k.health <= 0) {
 					gameObjects.remove(k);
 					bunkers.remove(k);
-					if (AchievementMethods.Untouchable) {
+					
+					if (AchievementMethods.Untouchable && b.owner instanceof Player) {
 						AchievementMethods.redeemAchievement(new Achievement(
 								"LEEROY"));
 					}
@@ -1242,7 +1244,7 @@ public class Engine extends Canvas implements KeyListener {
 					AchievementMethods.SecondAmendment = false;
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_P) {
-				if (state.equals("main") || state.equals("just_died")) {
+				if (state.equals("main")) {
 					state = "pause";
 					MainCanvas.menu.remove(this);
 					MainCanvas.menu.addMenuBuilder(pauseMenu);
@@ -1250,7 +1252,6 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			}
 		} catch (Exception ex) {
-			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}

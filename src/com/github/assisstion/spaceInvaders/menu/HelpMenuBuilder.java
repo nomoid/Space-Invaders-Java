@@ -47,7 +47,7 @@ public class HelpMenuBuilder implements MenuBuilder {
 				getImage("resources/returnButton.png")));
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+				
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new MainMenuBuilder());
 			}
@@ -111,6 +111,5 @@ public class HelpMenuBuilder implements MenuBuilder {
 	public void exitMenu() {
 		parent.closeMenu(instance);
 		parent.addMenuBuilder(new MainMenuBuilder());
-
 	}
 }

@@ -16,6 +16,8 @@ public class PauseMenuBuilder implements MenuBuilder{
 	
 	private JButton pauseButton;
 	private JButton quitButton;
+	private JButton optionsButton;
+	
 	private JLabel titleLabel;
 
 	public PauseMenuBuilder(){
@@ -28,12 +30,24 @@ public class PauseMenuBuilder implements MenuBuilder{
 		parent.requestFocus();
 		parent.revalidate();
 		
-		pauseButton = new JButton("RESUME");
-		pauseButton.setBounds(960/2-150,200,300,100);
+		optionsButton = new JButton("OPTIONS");
+		optionsButton.setBounds(960/2-150,300,300,100);
 		
+		optionsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new OptionsMenuBuilder(instance));
+			}
+		});
+		
+		
+		
+		
+		pauseButton = new JButton("RESUME");
+		pauseButton.setBounds(960/2-150,150,300,100);
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+				
 				parent.closeMenu(instance);
 				MainCanvas.menu.add(MainCanvas.engine);
 				MainCanvas.engine.state="main";
@@ -42,11 +56,11 @@ public class PauseMenuBuilder implements MenuBuilder{
 		});
 		
 		quitButton = new JButton("RETURN TO MENU");
-		quitButton.setBounds(960/2-150,500,300,100);
+		quitButton.setBounds(960/2-150,450,300,100);
 		
 		quitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
+				
 				parent.closeMenu(instance);
 				MainCanvas.menu.addMenuBuilder(new MainMenuBuilder());
 				MainCanvas.engine = null;
@@ -66,6 +80,7 @@ public class PauseMenuBuilder implements MenuBuilder{
 		parent.add(quitButton);
 		parent.add(titleLabel);
 		parent.add(pauseButton);
+		parent.add(optionsButton);
 	}
 
 	@Override
@@ -73,6 +88,7 @@ public class PauseMenuBuilder implements MenuBuilder{
 		parent.remove(titleLabel);
 		parent.remove(pauseButton);
 		parent.remove(quitButton);
+		parent.remove(optionsButton);
 		
 	}
 
