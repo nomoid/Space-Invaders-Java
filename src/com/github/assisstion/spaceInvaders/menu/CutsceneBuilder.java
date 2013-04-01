@@ -332,11 +332,6 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-<<<<<<< HEAD
-		// TODO Empty
-
-=======
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 
 	public synchronized void addLabel(JLabel label) {
@@ -356,11 +351,5 @@ public class CutsceneBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void exitMenu() {
-<<<<<<< HEAD
-		// TODO Empty
-		
-=======
-	
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 }

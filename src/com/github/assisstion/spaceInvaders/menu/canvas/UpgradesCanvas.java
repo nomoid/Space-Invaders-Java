@@ -2,6 +2,7 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 //import java.awt.Graphics2D;
 
 import com.github.assisstion.MSToolkit.MSButton;
@@ -46,18 +47,9 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 		@Override
 		public void paint(Graphics g){
 			super.paint(g);
-<<<<<<< HEAD
 			//Graphics2D g2d = (Graphics2D) g;
 			//System.out.println("aha");
 			//g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);
-			
-=======
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.setColor(Color.WHITE);
-			button.setGraphicsContext(g2d);
-			label.setGraphicsContext(g2d);
-			//g2d.drawString("HELLO. BUY UPGRADES HERE", 100, 100);	
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 		}
 
 		@Override

@@ -234,11 +234,6 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-<<<<<<< HEAD
-		// TODO Empty
-
-=======
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 
 	@Override
@@ -254,11 +249,6 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-<<<<<<< HEAD
-		// TODO Empty
-
-=======
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 
 	private void finish() {

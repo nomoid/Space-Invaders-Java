@@ -257,10 +257,5 @@ public class MainMenuBuilder implements MenuBuilder {
 
 	@Override
 	public void exitMenu() {
-<<<<<<< HEAD
-		// TODO Empty
-		
-=======
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 	}
 }

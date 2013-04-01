@@ -659,11 +659,6 @@ public class Engine extends Canvas implements KeyListener {
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
 
 		currentLevel++;
-<<<<<<< HEAD
-
-		System.out.println(currentLevel);
-=======
->>>>>>> Many Many Many Updates. Main thing: added options menu and redesigned main page
 		if (currentLevel > 7) {
 			gameCleanup();
 			state = "game_won";
