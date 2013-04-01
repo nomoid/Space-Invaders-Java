@@ -2,6 +2,7 @@ package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -114,7 +115,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		optionsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new OptionsMenuBuilder(instance));
 			}
@@ -178,7 +178,6 @@ public class MainMenuBuilder implements MenuBuilder {
 		public AudioLooper(String location) {
 			this.location = location;
 			ResourceManager.addAudioPlayer(this);
-			//mb this is creating an infinite loop of crap
 		}
 
 		@Override

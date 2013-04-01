@@ -91,7 +91,6 @@ public final class Helper{
 	
 	//Plays a sound controlled by the Looper
 	public static void streamSound(String location, Looper looper){
-		System.out.println("bob");
 		new Thread(new SoundStreamer(location, looper)).start();
 	}
 	

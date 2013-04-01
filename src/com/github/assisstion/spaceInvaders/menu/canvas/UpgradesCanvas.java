@@ -43,7 +43,7 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 			addComponent(label);
 		}
 		
-		//MARKUS THE BUTTON SUMTIMES SITLL WORKS AFTER U PRESS IT ONCE, THEN MOVE YOUR MOUSE THEN PRESS AGAIN
+	
 		@Override
 		public void paint(Graphics g){
 			super.paint(g);
