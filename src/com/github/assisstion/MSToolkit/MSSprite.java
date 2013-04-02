@@ -3,6 +3,7 @@ package com.github.assisstion.MSToolkit;
 import java.io.IOException;
 
 import com.github.assisstion.MSToolkit.impl.MSHelper;
+import com.github.assisstion.MSToolkit.style.MSStyleManager;
 
 public class MSSprite extends MSAbstractBoundedComponent{
 	
@@ -18,6 +19,7 @@ public class MSSprite extends MSAbstractBoundedComponent{
 	
 	public MSSprite(int x, int y, MSImage image){
 		super(x, y);
+		style = MSStyleManager.getDefaultStyleSystem().getSprite();
 		width = image.getImage().getWidth();
 		height = image.getImage().getHeight();
 		this.image = image;
@@ -40,7 +42,7 @@ public class MSSprite extends MSAbstractBoundedComponent{
 
 	@Override
 	public void render(MSGraphicalContext g){
-		image.render(g, x, y);
+		render(g, x, y);
 	}
 
 }

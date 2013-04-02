@@ -37,5 +37,10 @@ public abstract class MSAbstractComponent implements MSComponent{
 	public MSStyle getStyle(){
 		return style;
 	}
+	
+	@Override
+	public void setStyle(MSStyle style){
+		this.style = style;
+	}
 
 }

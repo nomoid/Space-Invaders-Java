@@ -96,16 +96,16 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	public void mousePressed(MSMouseEvent e){
 		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
 			setDown(true);
-			processActionEvent(new MSActionEvent(e, false));
+			processActionEvent(new MSActionEvent(this, e, false));
 			processMouseEvent(e);
 		}
 	}
 
 	@Override
 	public void mouseReleased(MSMouseEvent e){
+		setDown(false);
 		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
-			setDown(false);
-			processActionEvent(new MSActionEvent(e, false));
+			processActionEvent(new MSActionEvent(this, e, false));
 			processMouseEvent(e);
 		}
 	}
@@ -113,7 +113,7 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	@Override
 	public void mouseClicked(MSMouseEvent e){
 		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
-			processActionEvent(new MSActionEvent(e, true));
+			processActionEvent(new MSActionEvent(this, e, true));
 			processMouseEvent(e);
 		}
 	}
@@ -153,12 +153,12 @@ public class MSButton extends MSAbstractBoundedComponent implements MSMouseListe
 	
 	protected void setDown(boolean b){
 		down.set(b);
-		processActionEvent(new MSActionEvent(new MSEvent(this, "button state change; new state: " + b), false));
+		processActionEvent(new MSActionEvent(this, new MSEvent(this, "button state change; new state: " + b), false));
 	}
 	
 	public void setText(String text){
 		this.text = text;
-		processActionEvent(new MSActionEvent(new MSEvent(this, "button text change; new text: " + text), false));
+		processActionEvent(new MSActionEvent(this, new MSEvent(this, "button text change; new text: " + text), false));
 	}
 	
 	public String getText(){

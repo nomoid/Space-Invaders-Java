@@ -2,14 +2,21 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.IOException;
 //import java.awt.Graphics2D;
 
+import com.github.assisstion.MSToolkit.MSBasicFont;
 import com.github.assisstion.MSToolkit.MSButton;
+import com.github.assisstion.MSToolkit.MSSelectableSprite;
+import com.github.assisstion.MSToolkit.MSSingleSelectionGroup;
 import com.github.assisstion.MSToolkit.MSTextLabel;
 import com.github.assisstion.MSToolkit.event.MSActionEvent;
 import com.github.assisstion.MSToolkit.event.MSActionListener;
 import com.github.assisstion.MSToolkit.impl.MSAbstractCanvas;
+import com.github.assisstion.MSToolkit.impl.MSHelper;
+import com.github.assisstion.MSToolkit.style.MSMutableStyle;
+import com.github.assisstion.MSToolkit.style.MSStyleManager;
+import com.github.assisstion.spaceInvaders.MainCanvas;
 
 public class UpgradesCanvas extends MSAbstractCanvas{
 		
@@ -17,13 +24,17 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 
 		private MSButton button;
 		private MSTextLabel label;
-		private int i = 0;
+		private MSSelectableSprite upgrade1;
+		private MSSingleSelectionGroup<MSSelectableSprite> group;
 		
 		public UpgradesCanvas(){
 			RepaintingClock clock = new RepaintingClock(this);
 			new Thread(clock).start();
 			setBackground(Color.BLUE);
-			button = new MSButton(100, 100, "Upgrade");
+			int width;
+			MSBasicFont buttonFont = new MSBasicFont("Calibri", 20);
+			width = MSHelper.getTextWidth(buttonFont, "Upgrade", null);
+			button = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*9/10, "Upgrade");
 			button.addMSActionListener(new MSActionListener(){
 
 				@Override
@@ -33,12 +44,29 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 
 				@Override
 				public void meaningfulAction(MSActionEvent e){
-					System.out.println("Meaningful action happened: " + i++);
+					if(group.currentlySelected()){
+						if(group.getCurrentlySelected().equals(upgrade1)){
+							System.out.println("Upgrade Complete!");
+						}
+					}
 				}
 
 				
 			});
-			label = new MSTextLabel(200, 100, "hi", false);
+			MSBasicFont titleFont = new MSBasicFont("Calibri", 100);
+			width = MSHelper.getTextWidth(titleFont, "Upgrades", null);
+			label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT/50, "Upgrades", false);
+			MSMutableStyle newStyle = MSStyleManager.getMutableStyle(style);
+			newStyle.setFont(titleFont);
+			label.setStyle(newStyle);
+			group = new MSSingleSelectionGroup<MSSelectableSprite>();
+			try{
+				upgrade1 = new MSSelectableSprite(group, 100, 100, "resources/SpaceShip.png");
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			addComponent(upgrade1);
 			addComponent(button);
 			addComponent(label);
 		}

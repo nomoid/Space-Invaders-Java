@@ -1159,6 +1159,12 @@ public class Engine extends Canvas implements KeyListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
 					player1.livesRemaining = 0;
 					playerDeath();
+				} else if (e.getKeyCode() == KeyEvent.VK_L){
+					//TODO TEST CODE, TO BE REMOVED
+					nextLevel();
+				} else if (e.getKeyCode() == KeyEvent.VK_M){
+					//TODO TEST CODE, TO BE REMOVED
+					ResourceManager.setMuted(true);
 				} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
 					if (!minigameOn) {
 						redeem();

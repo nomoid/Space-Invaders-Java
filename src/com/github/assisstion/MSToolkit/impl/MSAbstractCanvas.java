@@ -151,6 +151,11 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	}
 	
 	@Override
+	public void setStyle(MSStyle style){
+		this.style = style;
+	}
+	
+	@Override
 	public boolean addMSMouseListener(MSMouseListener listener){
 		if(!mouseListeners.contains(listener)){
 			listeners.incrementAndGet();

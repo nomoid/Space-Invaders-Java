@@ -56,7 +56,20 @@ public final class MSStyleManager{
 				foreground, frontBackground, background, font);
 	}
 	
+	public static MSMutableStyle getMutableStyle(int paddingLeft, int paddingRight, int paddingTop, int paddingBottom,
+			MSColor foreground, MSColor frontBackground, MSColor background, MSFont font){
+		return new MSBasicStyle(paddingLeft, paddingRight, paddingTop, paddingBottom, 
+				foreground, frontBackground, background, font);
+	}
+	
 	public static MSStyle getStyle(MSStyle style){
+		return new MSBasicStyle(style.getPaddingLeft(), style.getPaddingRight(),
+				style.getPaddingTop(), style.getPaddingBottom(),
+				style.getForeground(), style.getFrontBackground(),
+				style.getBackground(), style.getFont());
+	}
+	
+	public static MSMutableStyle getMutableStyle(MSStyle style){
 		return new MSBasicStyle(style.getPaddingLeft(), style.getPaddingRight(),
 				style.getPaddingTop(), style.getPaddingBottom(),
 				style.getForeground(), style.getFrontBackground(),
@@ -181,7 +194,7 @@ public final class MSStyleManager{
 		private static final MSStyle FRAME_STYLE = MSStyleManager.getStyle(
 				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("gray"),  MSBasicColor.getColor("light-light-gray"), MSHelper.getDefaultFont());
 		private static final MSStyle SPRITE_STYLE = MSStyleManager.getStyle(
-				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("light-gray"),  MSBasicColor.getColor("white"), MSHelper.getDefaultFont());
+				2, 2, 2, 2, MSBasicColor.getColor("black"),  MSBasicColor.getColor("light-gray"),  MSBasicColor.getColor("white"), MSHelper.getDefaultFont());
 		private static final MSStyle EMPTY_STYLE = MSStyleManager.getStyle(
 				0, 0, 0, 0, MSBasicColor.getColor("black"),  MSBasicColor.getColor("gray"),  MSBasicColor.getColor("light-light-gray"), MSHelper.getDefaultFont());
 		

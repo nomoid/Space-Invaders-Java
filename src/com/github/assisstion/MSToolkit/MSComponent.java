@@ -6,6 +6,8 @@ public interface MSComponent extends MSRenderable{
 	
 	MSStyle getStyle();
 	
+	void setStyle(MSStyle style);
+	
 	void render(MSGraphicalContext g);
 	
 	/*
