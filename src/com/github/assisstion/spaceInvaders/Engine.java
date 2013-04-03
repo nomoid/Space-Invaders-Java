@@ -14,6 +14,8 @@ import java.awt.event.KeyListener;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
 import com.github.assisstion.spaceInvaders.gameObject.Boss;
@@ -113,11 +115,13 @@ public class Engine extends Canvas implements KeyListener {
 	private LevelMenuBuilder nextLevelMenu;
 	public boolean bossOn;
 	private int livesLost = 0;
+	private ScheduledExecutorService service;
 
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
-	public Engine() {
+	public Engine(ScheduledExecutorService service) {
+		this.service = service;
 		AchievementMethods.setEngine(this);
 		AchievementMethods.reset();
 		addKeyListener(this);
@@ -675,7 +679,7 @@ public class Engine extends Canvas implements KeyListener {
 				state = "paused";
 				levelCleanup();
 				constructEnemyFormation(currentLevel);
-				MovementClock.movementSpeed = MovementClock.DEFAULT_SPEED;
+				MovementClock.setMovementSpeed(MovementClock.DEFAULT_SPEED, false);
 				readyForMothership = false;
 
 				MainCanvas.menu.remove(this);
@@ -1041,10 +1045,15 @@ public class Engine extends Canvas implements KeyListener {
 	public void startGame() {
 		// Starts the game
 		System.out.println("It's starting!");
-
+		/* Changed the implementation of the timers to
+		 * use ScheduledExcecutorServices, which automatically
+		 * execute tasks with a given delay.
+		 */
+		startTimers(service);
+		/*
 		new Thread(new MovementClock()).start();
 		new Thread(new TimerClock()).start();
-
+		*/
 		int type = 0;
 		AchievementMethods.checkName(tempname);
 		type = 0;
@@ -1066,6 +1075,12 @@ public class Engine extends Canvas implements KeyListener {
 		constructBunkerFormation(816, 600);
 		state = "main";
 
+	}
+	
+	private void startTimers(ScheduledExecutorService ses){
+		MovementClock.setService(ses);
+		MovementClock.setMovementSpeed(MovementClock.getMovementSpeed());
+		ses.scheduleAtFixedRate(new TimerClock(), 1, 1, TimeUnit.SECONDS);
 	}
 
 	// Constructs a bunker formation with the top left corner at (x, y)
@@ -1277,16 +1292,16 @@ public class Engine extends Canvas implements KeyListener {
 				if (e.x + 50 >= MainCanvas.frame.getWidth()
 						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.movementSpeed * (4.0 / 5.0));
-					MovementClock.movementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
-							: MovementClock.MINIMUM_SPEED;
+					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+					MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+							: MovementClock.MINIMUM_SPEED);
 					enemies.pendingDirection = EnemySquad.Direction.LEFT;
 				} else if (e.x - 50 <= 0
 						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
 					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.movementSpeed * (4.0 / 5.0));
-					MovementClock.movementSpeed = speed > MovementClock.MINIMUM_SPEED ? speed
-							: MovementClock.MINIMUM_SPEED;
+					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+					MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+							: MovementClock.MINIMUM_SPEED);
 					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 				}
 			}

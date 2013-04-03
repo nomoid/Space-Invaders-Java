@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -98,14 +101,15 @@ public class Menu extends JPanel {
 		}
 		removeKeyListener(keyListener);
 		keyListener = null;
-		MainCanvas.engine = new Engine();
+		ScheduledExecutorService ses = Executors.newScheduledThreadPool(3);
+		MainCanvas.engine = new Engine(ses);
 		add(MainCanvas.engine);
 		MainCanvas.frame.pack();
 		MainCanvas.isOn = true;
 		MainCanvas.rand = new Random();
 		MainCanvas.engine.state = "ready";
 		System.out.println("Engine starting");
-		new Thread(new Clock()).start();
+		ses.scheduleAtFixedRate(new Clock(), 16, 16, TimeUnit.MILLISECONDS);
 	}
 
 	public synchronized void done() {
