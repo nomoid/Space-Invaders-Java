@@ -1,6 +1,7 @@
 package com.github.assisstion.spaceInvaders;
 
 import java.util.Random;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
@@ -32,6 +33,7 @@ public final class MainCanvas {
 	 * is ready.
 	 */
 	public static ReentrantLock audioLock = new ReentrantLock();
+	public static Condition looperCondition = audioLock.newCondition();
 	
 	//This class should not be instantiated
 	private MainCanvas(){
@@ -78,7 +80,7 @@ public final class MainCanvas {
 				 * it, and add the menu.
 				 */
 				audioLock.lock();
-				{
+				try{
 					menu = new Menu();
 					
 					frame.setContentPane(menu);
@@ -89,7 +91,9 @@ public final class MainCanvas {
 					frame.validate();
 					menu.addMenuBuilder(new MainMenuBuilder());
 				}
-				audioLock.unlock();
+				finally{
+					audioLock.unlock();
+				}
 		
 				System.out.println("Frame created");
 			}

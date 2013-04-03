@@ -184,19 +184,17 @@ public class MainMenuBuilder implements MenuBuilder {
 				while (on) {
 					if (ready) {
 						MainCanvas.audioLock.lock();
-						{
-							MainCanvas.audioLock.unlock();
-							synchronized (this) {
-								while (paused) {
-									wait();
-								}
+						try{
+							while (paused) {
+								MainCanvas.looperCondition.await();
 							}
-							MainCanvas.audioLock.lock();
 							Helper.streamSound(location, this);
 							System.out.println("Audio Loop");
 							ready = false;
 						}
-						MainCanvas.audioLock.unlock();
+						finally{
+							MainCanvas.audioLock.unlock();
+						}
 					}
 				}
 			} catch (Exception e) {
@@ -239,8 +237,12 @@ public class MainMenuBuilder implements MenuBuilder {
 				this.paused = paused;
 			}
 			if (tempPaused && !paused) {
-				synchronized (this) {
-					notify();
+				MainCanvas.audioLock.lock();
+				try{
+					MainCanvas.looperCondition.notify();
+				}
+				finally{
+					MainCanvas.audioLock.unlock();
 				}
 			}
 			this.paused = paused;

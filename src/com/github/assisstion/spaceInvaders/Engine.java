@@ -1164,7 +1164,7 @@ public class Engine extends Canvas implements KeyListener {
 					nextLevel();
 				} else if (e.getKeyCode() == KeyEvent.VK_M){
 					//TODO TEST CODE, TO BE REMOVED
-					ResourceManager.setMuted(true);
+					ResourceManager.setMuted(!ResourceManager.getMuted());
 				} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
 					if (!minigameOn) {
 						redeem();

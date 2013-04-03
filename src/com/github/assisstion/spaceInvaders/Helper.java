@@ -147,7 +147,7 @@ public final class Helper{
 		@Override
 		public void run(){
 			MainCanvas.audioLock.lock();
-			{
+			try{
 				try{
 					SourceDataLine sdl = null;
 				    try {
@@ -160,13 +160,9 @@ public final class Helper{
 				        int b = 0;
 				        sdl.start();
 				        while((b = bis.read(buffer)) >= 0 && looper.isOn()){
-				        	MainCanvas.audioLock.unlock();
-				        	synchronized(looper){
-				        		while(looper.isPaused()){
-				        			looper.wait();
-				        		}
+				        	while(looper.isPaused()){
+				        		MainCanvas.looperCondition.await();
 				        	}
-				        	MainCanvas.audioLock.lock();
 				        	sdl.write(buffer, 0, b);
 				        }
 				        sdl.drain();
@@ -192,7 +188,9 @@ public final class Helper{
 					ex.printStackTrace();
 				}
 			}
-			MainCanvas.audioLock.unlock();
+			finally{
+				MainCanvas.audioLock.unlock();
+			}
 		}
 	}
 }
