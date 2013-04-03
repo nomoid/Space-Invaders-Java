@@ -1171,17 +1171,13 @@ public class Engine extends Canvas implements KeyListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
 					player1.livesRemaining = 0;
 					playerDeath();
-<<<<<<< HEAD
 				} else if (e.getKeyCode() == KeyEvent.VK_L){
 					//TODO TEST CODE, TO BE REMOVED
 					nextLevel();
 				} else if (e.getKeyCode() == KeyEvent.VK_M){
 					//TODO TEST CODE, TO BE REMOVED
 					ResourceManager.setMuted(!ResourceManager.getMuted());
-				} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
-=======
 				} else if (rewardAvailable && e.getKeyCode() == KeyInputData.REDEEM) {
->>>>>>> Lot of changes. Added ability to change controls
 					if (!minigameOn) {
 						redeem();
 					}
