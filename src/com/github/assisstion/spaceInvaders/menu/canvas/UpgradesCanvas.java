@@ -2,7 +2,10 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> Lot of changes. Added ability to change controls
 //import java.awt.Graphics2D;
 
 import com.github.assisstion.MSToolkit.MSBasicFont;

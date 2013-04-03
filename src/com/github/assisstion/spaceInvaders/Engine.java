@@ -1131,17 +1131,14 @@ public class Engine extends Canvas implements KeyListener {
 					} else {
 						godmode = "";
 					}
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				} else if (e.getKeyCode() == KeyInputData.FIRE) {
 					// tells the update loop to allow bullet firing
 					spaceOn = true;
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE
-						&& rewardAvailable) {
-					redeem();
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				} else if (e.getKeyCode() == KeyInputData.RIGHT) {
 					// sets the direction to Right
 					rightOn = true;
 					player1.currentDirection = Player.Direction.RIGHT;
-				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				} else if (e.getKeyCode() == KeyInputData.LEFT) {
 					// sets the direction to Left
 					if (state.equals("main")) {
 						leftOn = true;
@@ -1174,6 +1171,7 @@ public class Engine extends Canvas implements KeyListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
 					player1.livesRemaining = 0;
 					playerDeath();
+<<<<<<< HEAD
 				} else if (e.getKeyCode() == KeyEvent.VK_L){
 					//TODO TEST CODE, TO BE REMOVED
 					nextLevel();
@@ -1181,6 +1179,9 @@ public class Engine extends Canvas implements KeyListener {
 					//TODO TEST CODE, TO BE REMOVED
 					ResourceManager.setMuted(!ResourceManager.getMuted());
 				} else if (rewardAvailable && e.getKeyCode() == KeyEvent.VK_R) {
+=======
+				} else if (rewardAvailable && e.getKeyCode() == KeyInputData.REDEEM) {
+>>>>>>> Lot of changes. Added ability to change controls
 					if (!minigameOn) {
 						redeem();
 					}
@@ -1218,7 +1219,7 @@ public class Engine extends Canvas implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		try {
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if (e.getKeyCode() == KeyInputData.RIGHT) {
 				// sets the direction to None
 				if (state.equals("main") || state.equals("just_died")
 						|| state.equals("pause")) {
@@ -1233,7 +1234,7 @@ public class Engine extends Canvas implements KeyListener {
 					}
 				}
 
-			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			} else if (e.getKeyCode() == KeyInputData.LEFT) {
 				// sets the direction to None
 				if (state.equals("main") || state.equals("just_died")
 						|| state.equals("pause")) {
@@ -1252,14 +1253,14 @@ public class Engine extends Canvas implements KeyListener {
 						}
 					}
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			} else if (e.getKeyCode() == KeyInputData.FIRE) {
 				// tells the update loop to stop bullet firing
 				if (state.equals("main") || state.equals("just_died")
 						|| state.equals("pause")) {
 					spaceOn = false;
 					AchievementMethods.SecondAmendment = false;
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_P) {
+			} else if (e.getKeyCode() == KeyInputData.PAUSE) {
 				if (state.equals("main")) {
 					state = "pause";
 					MainCanvas.menu.remove(this);
