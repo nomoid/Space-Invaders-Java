@@ -3,6 +3,8 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 //import java.awt.Graphics2D;
 
 import com.github.assisstion.MSToolkit.MSBasicFont;
@@ -17,8 +19,9 @@ import com.github.assisstion.MSToolkit.impl.MSHelper;
 import com.github.assisstion.MSToolkit.style.MSMutableStyle;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.github.assisstion.spaceInvaders.Scheduler;
 
-public class UpgradesCanvas extends MSAbstractCanvas{
+public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 		
 		private static final long serialVersionUID = 5897847762185790426L;
 
@@ -26,10 +29,9 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 		private MSTextLabel label;
 		private MSSelectableSprite upgrade1;
 		private MSSingleSelectionGroup<MSSelectableSprite> group;
+		private ScheduledExecutorService service;
 		
 		public UpgradesCanvas(){
-			RepaintingClock clock = new RepaintingClock(this);
-			new Thread(clock).start();
 			setBackground(Color.BLUE);
 			int width;
 			MSBasicFont buttonFont = new MSBasicFont("Calibri", 20);
@@ -84,6 +86,25 @@ public class UpgradesCanvas extends MSAbstractCanvas{
 		public boolean interrupted(InterruptedException e){
 			e.printStackTrace();
 			return false;
+		}
+
+
+		@Override
+		public ScheduledExecutorService getService(){
+			return service;
+		}
+
+
+		@Override
+		public void setService(ScheduledExecutorService ses){
+			service = ses;
+		}
+
+
+		@Override
+		public void startService(){
+			RepaintingClock clock = new RepaintingClock(this);
+			service.scheduleAtFixedRate(clock, 16, 16, TimeUnit.MILLISECONDS);
 		}
 }
 	

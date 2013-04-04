@@ -5,6 +5,8 @@ import java.awt.geom.AffineTransform;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -19,6 +21,9 @@ import com.github.assisstion.spaceInvaders.gameObject.Sprite;
 import com.github.assisstion.spaceInvaders.menu.Looper;
 
 public final class Helper{
+	
+	private static ScheduledExecutorService current;
+	private static int serviceCounter;
 	
 	//This class should not be instantiated
 	private Helper(){
@@ -91,12 +96,14 @@ public final class Helper{
 	
 	//Plays a sound controlled by the Looper
 	public static void streamSound(String location, Looper looper){
-		new Thread(new SoundStreamer(location, looper)).start();
+		SoundStreamer ss = new SoundStreamer(location, looper);
+		new Thread(ss, "SoundStreamer-"+ ss.hashCode()).start();
 	}
 	
 	//Plays a sound once, without Looper control
 	public static void streamSound(String location){
-		new Thread(new SoundStreamer(location)).start();
+		SoundStreamer ss = new SoundStreamer(location);
+		new Thread(ss, "SoundStreamer-"+ ss.hashCode()).start();
 	}
 	
 	private static class SoundStreamer implements Runnable{
@@ -192,5 +199,19 @@ public final class Helper{
 				MainCanvas.audioLock.unlock();
 			}
 		}
+	}
+
+	public static ScheduledExecutorService newService(int i){
+		if(current != null){
+			if(!current.isShutdown()){
+				current.shutdown();
+				serviceCounter++;
+			}
+		}
+		return Executors.newScheduledThreadPool(i);
+	}
+	
+	public static int serviceCounter(){
+		return serviceCounter;
 	}
 }

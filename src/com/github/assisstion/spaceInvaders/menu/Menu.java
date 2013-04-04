@@ -1,19 +1,18 @@
 package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.github.assisstion.spaceInvaders.Clock;
 import com.github.assisstion.spaceInvaders.Engine;
+import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
+import com.github.assisstion.spaceInvaders.Scheduler;
 
 public class Menu extends JPanel {
 
@@ -41,6 +40,11 @@ public class Menu extends JPanel {
 		currentMenu = builder;
 		builders.add(builder);
 		builder.build(this);
+		if(builder instanceof Scheduler){
+			Scheduler s = (Scheduler) builder;
+			s.setService(Helper.newService(3));
+			s.startService();
+		}
 		requestFocus();
 		revalidate();
 		repaint();
@@ -49,6 +53,10 @@ public class Menu extends JPanel {
 	public synchronized void closeMenu(MenuBuilder builder) {
 		builders.remove(builder);
 		builder.unBuild(this);
+		if(builder instanceof Scheduler){
+			Scheduler s = (Scheduler) builder;
+			s.getService().shutdown();
+		}
 		requestFocus();
 		revalidate();
 		repaint();
@@ -59,6 +67,10 @@ public class Menu extends JPanel {
 		while (builder != null) {
 			builders.remove(builder);
 			builder.unBuild(this);
+			if(builder instanceof Scheduler){
+				Scheduler s = (Scheduler) builder;
+				s.getService().shutdown();
+			}
 			builder = builders.pollLast();
 		}
 		revalidate();
@@ -101,15 +113,13 @@ public class Menu extends JPanel {
 		}
 		removeKeyListener(keyListener);
 		keyListener = null;
-		ScheduledExecutorService ses = Executors.newScheduledThreadPool(3);
-		MainCanvas.engine = new Engine(ses);
+		MainCanvas.engine = new Engine();
 		add(MainCanvas.engine);
 		MainCanvas.frame.pack();
 		MainCanvas.isOn = true;
 		MainCanvas.rand = new Random();
 		MainCanvas.engine.state = "ready";
 		System.out.println("Engine starting");
-		ses.scheduleAtFixedRate(new Clock(), 16, 16, TimeUnit.MILLISECONDS);
 	}
 
 	public synchronized void done() {
@@ -118,5 +128,25 @@ public class Menu extends JPanel {
 
 	public synchronized boolean started() {
 		return started;
+	}
+	
+	@Override
+	public void remove(Component comp){
+		super.remove(comp);
+		if(comp instanceof Scheduler){
+			Scheduler s = (Scheduler) comp;
+			s.getService().shutdown();
+		}
+	}
+	
+	@Override
+	public Component add(Component comp){
+		Component c = super.add(comp);
+		if(comp instanceof Scheduler){
+			Scheduler s = (Scheduler) comp;
+			s.setService(Helper.newService(3));
+			s.startService();
+		}
+		return c;
 	}
 }

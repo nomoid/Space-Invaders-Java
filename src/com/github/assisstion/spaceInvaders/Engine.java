@@ -49,7 +49,7 @@ import static com.github.assisstion.spaceInvaders.Helper.*;
  * @author Markus Feng
  * @author Michael Man
  */
-public class Engine extends Canvas implements KeyListener {
+public class Engine extends Canvas implements KeyListener, Scheduler {
 
 	/*
 	 * Serial version UID, recommended for every class that implements
@@ -117,11 +117,14 @@ public class Engine extends Canvas implements KeyListener {
 	private int livesLost = 0;
 	private ScheduledExecutorService service;
 
+	private boolean useClock;
+
+	private boolean readied;
+
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
 	 */
-	public Engine(ScheduledExecutorService service) {
-		this.service = service;
+	public Engine() {
 		AchievementMethods.setEngine(this);
 		AchievementMethods.reset();
 		addKeyListener(this);
@@ -1049,11 +1052,10 @@ public class Engine extends Canvas implements KeyListener {
 		 * use ScheduledExcecutorServices, which automatically
 		 * execute tasks with a given delay.
 		 */
-		startTimers(service);
-		/*
-		new Thread(new MovementClock()).start();
-		new Thread(new TimerClock()).start();
-		*/
+		useClock = true;
+		readied = true;
+		startService();
+		useClock = false;
 		int type = 0;
 		AchievementMethods.checkName(tempname);
 		type = 0;
@@ -1077,10 +1079,15 @@ public class Engine extends Canvas implements KeyListener {
 
 	}
 	
-	private void startTimers(ScheduledExecutorService ses){
-		MovementClock.setService(ses);
-		MovementClock.setMovementSpeed(MovementClock.getMovementSpeed());
-		ses.scheduleAtFixedRate(new TimerClock(), 1, 1, TimeUnit.SECONDS);
+	public void startService(){
+		if(!useClock){
+			service.scheduleAtFixedRate(new Clock(), 16, 16, TimeUnit.MILLISECONDS);
+		}
+		if(readied){
+			MovementClock.setService(service);
+			MovementClock.setMovementSpeed(MovementClock.getMovementSpeed());
+			service.scheduleAtFixedRate(new TimerClock(), 1, 1, TimeUnit.SECONDS);
+		}
 	}
 
 	// Constructs a bunker formation with the top left corner at (x, y)
@@ -1281,43 +1288,45 @@ public class Engine extends Canvas implements KeyListener {
 	}
 
 	public void moveEnemies() {
-		for (EnemySquad enemies : enemySquads) {
-			if (enemies.direction.equals(Direction.DOWN)) {
-				enemies.direction = enemies.pendingDirection;
-			}
-			for (Enemy e : enemies) {
-				if (e.x + 50 >= MainCanvas.frame.getWidth()
-						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
-					MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
-							: MovementClock.MINIMUM_SPEED);
-					enemies.pendingDirection = EnemySquad.Direction.LEFT;
-				} else if (e.x - 50 <= 0
-						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
-					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
-					MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
-							: MovementClock.MINIMUM_SPEED);
-					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
+		if(state.equalsIgnoreCase("main")){
+			for (EnemySquad enemies : enemySquads) {
+				if (enemies.direction.equals(Direction.DOWN)) {
+					enemies.direction = enemies.pendingDirection;
 				}
-			}
-			for (Enemy e : enemies) {
-				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
-					if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-						e.x += 40;
-					} else if (enemies.direction
-							.equals(EnemySquad.Direction.LEFT)) {
-						e.x -= 40;
-					} else if (enemies.direction
-							.equals(EnemySquad.Direction.DOWN)) {
-						e.y += 25;
-						if (e.y - e.startingY >= 50) {
-							readyForMothership = true;
-						}
+				for (Enemy e : enemies) {
+					if (e.x + 50 >= MainCanvas.frame.getWidth()
+							&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
+						enemies.direction = EnemySquad.Direction.DOWN;
+						int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+						MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+								: MovementClock.MINIMUM_SPEED);
+						enemies.pendingDirection = EnemySquad.Direction.LEFT;
+					} else if (e.x - 50 <= 0
+							&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
+						enemies.direction = EnemySquad.Direction.DOWN;
+						int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+						MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+								: MovementClock.MINIMUM_SPEED);
+						enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 					}
 				}
-				updateHitbox(e);
+				for (Enemy e : enemies) {
+					if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
+						if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
+							e.x += 40;
+						} else if (enemies.direction
+								.equals(EnemySquad.Direction.LEFT)) {
+							e.x -= 40;
+						} else if (enemies.direction
+								.equals(EnemySquad.Direction.DOWN)) {
+							e.y += 25;
+							if (e.y - e.startingY >= 50) {
+								readyForMothership = true;
+							}
+						}
+					}
+					updateHitbox(e);
+				}
 			}
 		}
 	}
@@ -1403,5 +1412,15 @@ public class Engine extends Canvas implements KeyListener {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public ScheduledExecutorService getService(){
+		return service;
+	}
+	
+	@Override
+	public void setService(ScheduledExecutorService ses){
+		service = ses;
 	}
 }

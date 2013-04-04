@@ -66,7 +66,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 	@Override
 	public void exitMenu() {
 		parent.closeMenu(instance);
-		parent.addMenuBuilder(levelScreen);		
+		parent.addMenuBuilder(levelScreen);	
 	}
 
 	/*

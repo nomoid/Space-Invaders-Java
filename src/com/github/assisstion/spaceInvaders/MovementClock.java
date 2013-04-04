@@ -18,6 +18,8 @@ public class MovementClock implements Runnable {
 	private static ScheduledFuture<?> future;
 	private static ScheduledExecutorService service;
 	private static boolean started;
+	private static int serviceCounter;
+	
 	@Override
 	public void run(){
 		/* Changed the implementation of the timers to
@@ -25,8 +27,16 @@ public class MovementClock implements Runnable {
 		 * execute tasks with a given delay.
 		 * See the engine class to see the changes
 		 */
-		MainCanvas.engine.moveEnemies();
-		service.schedule(Executors.callable(this), movementSpeed, TimeUnit.MILLISECONDS);
+		if(MainCanvas.engine != null){
+			MainCanvas.engine.moveEnemies();
+		}
+		int a = Helper.serviceCounter();
+		if(a != serviceCounter){
+			serviceCounter = a;
+		}
+		else{
+			service.schedule(Executors.callable(this), movementSpeed, TimeUnit.MILLISECONDS);
+		}
 		/*
 		try{
 			while(MainCanvas.isOn){

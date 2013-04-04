@@ -63,8 +63,10 @@ public class MainMenuBuilder implements MenuBuilder {
 					CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
 							CutsceneData.Cutscene1.SCENE);
 					parent.addMenuBuilder(cutscenebuilder);
-					new Thread(new CutsceneUpdater(cutscenebuilder,
-							Cutscene.DEFAULT_DELAY)).start();
+					CutsceneUpdater cu = new CutsceneUpdater(cutscenebuilder,
+							Cutscene.DEFAULT_DELAY);
+					CutsceneUpdater.setService(Helper.newService(3));
+					cu.schedule();
 				} else {
 					parent.startGame();
 				}

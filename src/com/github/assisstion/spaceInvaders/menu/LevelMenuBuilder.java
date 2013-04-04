@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
+import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 import com.github.assisstion.spaceInvaders.TimerClock;
@@ -261,8 +262,10 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 						CutsceneData.Cutscene2.SCENE);
 				MainCanvas.menu.addMenuBuilder(cutscenebuilder);
 				cutscenebuilder.nonStarting = true;
-				new Thread(new CutsceneUpdater(cutscenebuilder,
-						Cutscene.DEFAULT_DELAY)).start();
+				CutsceneUpdater cu = new CutsceneUpdater(cutscenebuilder,
+						Cutscene.DEFAULT_DELAY);
+				CutsceneUpdater.setService(Helper.newService(3));
+				cu.schedule();
 				MainCanvas.frame.pack();
 			} else {
 				AchievementMethods.clearLevelAchievements();
