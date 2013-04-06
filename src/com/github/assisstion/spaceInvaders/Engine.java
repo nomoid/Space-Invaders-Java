@@ -131,7 +131,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-
 	}
 
 	/*
