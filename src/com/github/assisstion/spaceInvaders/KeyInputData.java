@@ -40,19 +40,14 @@ public final class KeyInputData {
 	}
 
 	private static boolean findInArray(String string, String[] array) {
-		int x = 0;
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(string)) {
-				x++;
+				return true;
 			}
 		}
-
-		if (x > 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
+	
 
 	// add moar later
 	public static void updateData(String left, String right, String fire,
@@ -60,8 +55,10 @@ public final class KeyInputData {
 
 		String[] controlList = { left, right, fire, pause, exitMenu, redeem };
 		boolean conflict = false;
-		Outer: for (String string : controlList) {
-			for (String string2 : controlList) {
+		Outer: for (int i = 0; i < controlList.length; i++) {
+			String string = controlList[i];
+			for (int j = i+1; j < controlList.length; j++) {
+				String string2 = controlList[j];
 				if (string.equals(string2) && findInArray(string, controlList)) {
 					System.out.println("ERROR: " + string + " and " + string2);
 					conflict = true;
@@ -111,6 +108,6 @@ public final class KeyInputData {
 				}
 			}
 		}
-		return 0;
+		return -1;
 	}
 }

@@ -8,6 +8,8 @@ public class Clock implements Runnable{
 	
 	@Override
 	public void run(){
+		MainCanvas.engine.repaint();
+		/*
 		try{
 			while(true){
 				if(MainCanvas.engine == null){
@@ -28,6 +30,7 @@ public class Clock implements Runnable{
 			//TODO placeholder
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 }

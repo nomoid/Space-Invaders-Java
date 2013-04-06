@@ -12,6 +12,8 @@ public class RepaintingClock implements Runnable{
 	
 	@Override
 	public void run(){
+		canvas.repaint();
+		/*
 		try{
 			while(true){
 				try{
@@ -31,6 +33,7 @@ public class RepaintingClock implements Runnable{
 			//TODO placeholder
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 }

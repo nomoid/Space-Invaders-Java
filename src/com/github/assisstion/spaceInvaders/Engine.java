@@ -1176,6 +1176,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 					}
 
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
+					//TODO TEST CODE, TO BE REMOVED
 					player1.livesRemaining = 0;
 					playerDeath();
 				} else if (e.getKeyCode() == KeyEvent.VK_L){
@@ -1184,7 +1185,10 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				} else if (e.getKeyCode() == KeyEvent.VK_M){
 					//TODO TEST CODE, TO BE REMOVED
 					ResourceManager.setMuted(!ResourceManager.getMuted());
-				} else if (rewardAvailable && e.getKeyCode() == KeyInputData.REDEEM) {
+				} else if (e.getKeyCode() == KeyEvent.VK_N){
+					//TODO TEST CODE, TO BE REMOVED
+					System.out.println("break");
+				}else if (rewardAvailable && e.getKeyCode() == KeyInputData.REDEEM) {
 					if (!minigameOn) {
 						redeem();
 					}
@@ -1214,7 +1218,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				}
 			}
 		} catch (Exception ex) {
-			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
@@ -1243,11 +1246,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 						|| state.equals("pause")) {
 					leftOn = false;
 					if (player1.currentDirection == Player.Direction.LEFT) {
-						player1.currentDirection = Player.Direction.NONE;
-						// Sees whether rightarrow is still being pressed.
-						if (rightOn) {
-							player1.currentDirection = Player.Direction.RIGHT;
-						}
 						player1.currentDirection = Player.Direction.NONE;
 						// Sees whether rightarrow is still being pressed.
 						if (rightOn) {
