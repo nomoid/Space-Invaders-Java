@@ -44,5 +44,5 @@ public class Player extends Sprite {
 		return name;
 	}
 	
-
+	
 }
