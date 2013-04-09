@@ -56,13 +56,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	 * Serializable or any class that extends something that implements
 	 * Serializable
 	 */
-
-	// for testing
-	private SaveState state1;
-
-	private boolean useClock;
-	private boolean readied;
-
 	private static final long serialVersionUID = 21816248595432439L;
 
 	private boolean mothershipOn = false;
@@ -75,7 +68,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	private boolean rewardAvailable = false;
 	private Powerup.PowerupType openReward;
 	private String tempname = "";
-	public int hitSpree = 0;
+	private int hitSpree = 0;
 	private char[] leName = createEmptyName('-', NAME_MAX_LENGTH);
 	private int nameLength;
 
@@ -93,7 +86,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	private Graphics2D g;
 	private String godmode = "";
 	public boolean godmodeOn = false;
-	public Player player1;
+	private Player player1;
 	// true if right arrow key down
 	private boolean rightOn = false;
 	// true if left arrow key down
@@ -101,23 +94,21 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	// true if space key down
 	private boolean spaceOn = false;
 	// Set containing all game objects
-
-	public ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
+	private ConcurrentSkipListSet<Sprite> gameObjects = new ConcurrentSkipListSet<Sprite>();
 	// set containing all enemies
-	public ConcurrentSkipListSet<EnemySquad> enemySquads = new ConcurrentSkipListSet<EnemySquad>();
+	private ConcurrentSkipListSet<EnemySquad> enemySquads = new ConcurrentSkipListSet<EnemySquad>();
 	// Set containing all bullets
-	public ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
+	private ConcurrentSkipListSet<Bullet> bullets = new ConcurrentSkipListSet<Bullet>();
 	// Set containing all bunkers
-	public ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
+	private ConcurrentSkipListSet<Bunker> bunkers = new ConcurrentSkipListSet<Bunker>();
 	// Set containing all visible powerups
-	public ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
+	private ConcurrentSkipListSet<Powerup> powerups = new ConcurrentSkipListSet<Powerup>();
 	// Set containing all objects to be rendered above gameObjects
-	public ConcurrentSkipListSet<Sprite> overlay = new ConcurrentSkipListSet<Sprite>();
+	private ConcurrentSkipListSet<Sprite> overlay = new ConcurrentSkipListSet<Sprite>();
 	// Set containing all explosions
-	public ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
+	private ConcurrentSkipListSet<Explosion> explosions = new ConcurrentSkipListSet<Explosion>();
 	// The boss
-	public Boss boss;
-
+	private Boss boss;
 	// Current level
 	public int currentLevel = 1;
 	private PauseMenuBuilder pauseMenu = new PauseMenuBuilder();
@@ -125,6 +116,10 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	public boolean bossOn;
 	private int livesLost = 0;
 	private ScheduledExecutorService service;
+
+	private boolean useClock;
+
+	private boolean readied;
 
 	/*
 	 * Creates a new Engine and sets up the background and dimensions
@@ -658,7 +653,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 
 	private void nextLevel() {
 		godmodeOn = false;
-
+		
 		rightOn = false;
 		leftOn = false;
 		spaceOn = false;
@@ -674,24 +669,23 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 			gameCleanup();
 			state = "game_won";
 			currentLevel = 1;
-
+			
 			if (!godmodeOn) {
 				HighScoreDataHandler.logScore(player1.score, player1.getName());
-				HighScoreDataHandler.logTime(TimerClock.timePassed,
-						player1.getName());
+				HighScoreDataHandler.logTime(TimerClock.timePassed, player1.getName());
 			}
 
+			
 		} else {
 			if (state != "paused") {
 				state = "paused";
 				levelCleanup();
 				constructEnemyFormation(currentLevel);
-				MovementClock.setMovementSpeed(MovementClock.DEFAULT_SPEED,
-						false);
+				MovementClock.setMovementSpeed(MovementClock.DEFAULT_SPEED, false);
 				readyForMothership = false;
 
 				MainCanvas.menu.remove(this);
-
+				
 				nextLevelMenu = new LevelMenuBuilder(player1.score, shotsHit,
 						shotsFired, godmodeOn, livesLost, player1.levelScore);
 				MainCanvas.menu.addMenuBuilder(nextLevelMenu);
@@ -725,13 +719,12 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
 								.ordinal()], 0);
 				shotsFired++;
-
-				if (!godmodeOn
-						|| !player1.powerups.containsKey(PowerupType.FIRERATE)
-						&& godmodeOn) {
-					playSound(BULLET_SOUND);
+				
+				if (!godmodeOn || !player1.powerups.containsKey(PowerupType.FIRERATE) && godmodeOn ) {
+					playSound(BULLET_SOUND);		
 				}
-
+				
+				
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
@@ -828,9 +821,8 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				if (k.health <= 0) {
 					gameObjects.remove(k);
 					bunkers.remove(k);
-
-					if (AchievementMethods.Untouchable
-							&& b.owner instanceof Player) {
+					
+					if (AchievementMethods.Untouchable && b.owner instanceof Player) {
 						AchievementMethods.redeemAchievement(new Achievement(
 								"LEEROY"));
 					}
@@ -885,7 +877,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 								}
 								if (minigameOn) {
 									player1.score += 500;
-									player1.levelScore += 500;
+									player1.levelScore +=500;
 								} else {
 									player1.score += e.scoreReward;
 									player1.levelScore += e.scoreReward;
@@ -899,8 +891,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 							gameCleanup();
 							state = "game_over";
 							if (!godmodeOn) {
-								HighScoreDataHandler.logScore(player1.score,
-										player1.getName());
+								HighScoreDataHandler.logScore(player1.score,player1.getName());
 							}
 							System.out.println("Game Over!");
 						}
@@ -1056,17 +1047,14 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	public void startGame() {
 		// Starts the game
 		System.out.println("It's starting!");
-		/*
-		 * Changed the implementation of the timers to use
-		 * ScheduledExcecutorServices, which automatically execute tasks with a
-		 * given delay.
+		/* Changed the implementation of the timers to
+		 * use ScheduledExcecutorServices, which automatically
+		 * execute tasks with a given delay.
 		 */
-
 		useClock = true;
 		readied = true;
 		startService();
 		useClock = false;
-
 		int type = 0;
 		AchievementMethods.checkName(tempname);
 		type = 0;
@@ -1089,17 +1077,15 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 		state = "main";
 
 	}
-
-	public void startService() {
-		if (!useClock) {
-			service.scheduleAtFixedRate(new Clock(), 16, 16,
-					TimeUnit.MILLISECONDS);
+	
+	public void startService(){
+		if(!useClock){
+			service.scheduleAtFixedRate(new Clock(), 16, 16, TimeUnit.MILLISECONDS);
 		}
-		if (readied) {
+		if(readied){
 			MovementClock.setService(service);
 			MovementClock.setMovementSpeed(MovementClock.getMovementSpeed());
-			service.scheduleAtFixedRate(new TimerClock(), 1, 1,
-					TimeUnit.SECONDS);
+			service.scheduleAtFixedRate(new TimerClock(), 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -1189,16 +1175,19 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 					}
 
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
+					//TODO TEST CODE, TO BE REMOVED
 					player1.livesRemaining = 0;
 					playerDeath();
-				} else if (e.getKeyCode() == KeyEvent.VK_L) {
-					// TODO TEST CODE, TO BE REMOVED
+				} else if (e.getKeyCode() == KeyEvent.VK_L){
+					//TODO TEST CODE, TO BE REMOVED
 					nextLevel();
-				} else if (e.getKeyCode() == KeyEvent.VK_M) {
-					// TODO TEST CODE, TO BE REMOVED
+				} else if (e.getKeyCode() == KeyEvent.VK_M){
+					//TODO TEST CODE, TO BE REMOVED
 					ResourceManager.setMuted(!ResourceManager.getMuted());
-				} else if (rewardAvailable
-						&& e.getKeyCode() == KeyInputData.REDEEM) {
+				} else if (e.getKeyCode() == KeyEvent.VK_N){
+					//TODO TEST CODE, TO BE REMOVED
+					System.out.println("break");
+				}else if (rewardAvailable && e.getKeyCode() == KeyInputData.REDEEM) {
 					if (!minigameOn) {
 						redeem();
 					}
@@ -1228,7 +1217,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				}
 			}
 		} catch (Exception ex) {
-			// TODO placeholder
 			ex.printStackTrace();
 		}
 	}
@@ -1260,23 +1248,11 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 						player1.currentDirection = Player.Direction.NONE;
 						// Sees whether rightarrow is still being pressed.
 						if (rightOn) {
-							player1.currentDirection = Player.Direction.RIGHT;
-						}
-						player1.currentDirection = Player.Direction.NONE;
-						// Sees whether rightarrow is still being pressed.
-						if (rightOn) {
 							// If it is, change direction back to Right
 							player1.currentDirection = Player.Direction.RIGHT;
 						}
 					}
 				}
-				// FOR TESTING (
-			} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				state1 = new SaveState(MainCanvas.engine);
-			} else if (e.getKeyCode() == KeyEvent.VK_L) {
-				SaveState.load(MainCanvas.engine, state1);
-				// ) END TESTING
-
 			} else if (e.getKeyCode() == KeyInputData.FIRE) {
 				// tells the update loop to stop bullet firing
 				if (state.equals("main") || state.equals("just_died")
@@ -1309,45 +1285,45 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	}
 
 	public void moveEnemies() {
-		for (EnemySquad enemies : enemySquads) {
-			if (enemies.direction.equals(Direction.DOWN)) {
-				enemies.direction = enemies.pendingDirection;
-			}
-			for (Enemy e : enemies) {
-				if (e.x + 50 >= MainCanvas.frame.getWidth()
-						&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
-					MovementClock
-							.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
-									: MovementClock.MINIMUM_SPEED);
-					enemies.pendingDirection = EnemySquad.Direction.LEFT;
-				} else if (e.x - 50 <= 0
-						&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
-					enemies.direction = EnemySquad.Direction.DOWN;
-					int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
-					MovementClock
-							.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
-									: MovementClock.MINIMUM_SPEED);
-					enemies.pendingDirection = EnemySquad.Direction.RIGHT;
+		if(state.equalsIgnoreCase("main")){
+			for (EnemySquad enemies : enemySquads) {
+				if (enemies.direction.equals(Direction.DOWN)) {
+					enemies.direction = enemies.pendingDirection;
 				}
-			}
-			for (Enemy e : enemies) {
-				if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
-					if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
-						e.x += 40;
-					} else if (enemies.direction
-							.equals(EnemySquad.Direction.LEFT)) {
-						e.x -= 40;
-					} else if (enemies.direction
-							.equals(EnemySquad.Direction.DOWN)) {
-						e.y += 25;
-						if (e.y - e.startingY >= 50) {
-							readyForMothership = true;
-						}
+				for (Enemy e : enemies) {
+					if (e.x + 50 >= MainCanvas.frame.getWidth()
+							&& enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
+						enemies.direction = EnemySquad.Direction.DOWN;
+						int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+						MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+								: MovementClock.MINIMUM_SPEED);
+						enemies.pendingDirection = EnemySquad.Direction.LEFT;
+					} else if (e.x - 50 <= 0
+							&& enemies.direction.equals(EnemySquad.Direction.LEFT)) {
+						enemies.direction = EnemySquad.Direction.DOWN;
+						int speed = (int) (MovementClock.getMovementSpeed() * (4.0 / 5.0));
+						MovementClock.setMovementSpeed(speed > MovementClock.MINIMUM_SPEED ? speed
+								: MovementClock.MINIMUM_SPEED);
+						enemies.pendingDirection = EnemySquad.Direction.RIGHT;
 					}
 				}
-				updateHitbox(e);
+				for (Enemy e : enemies) {
+					if (!e.enemytype.equals(Enemy.EnemyType.MOTHERSHIP)) {
+						if (enemies.direction.equals(EnemySquad.Direction.RIGHT)) {
+							e.x += 40;
+						} else if (enemies.direction
+								.equals(EnemySquad.Direction.LEFT)) {
+							e.x -= 40;
+						} else if (enemies.direction
+								.equals(EnemySquad.Direction.DOWN)) {
+							e.y += 25;
+							if (e.y - e.startingY >= 50) {
+								readyForMothership = true;
+							}
+						}
+					}
+					updateHitbox(e);
+				}
 			}
 		}
 	}
@@ -1377,7 +1353,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 			gameCleanup();
 			state = "game_over";
 			if (!godmodeOn) {
-				HighScoreDataHandler.logScore(player1.score, player1.getName());
+				HighScoreDataHandler.logScore(player1.score,player1.getName());
 			}
 		}
 		player1.health = Player.PLAYER_DEFAULT_HEALTH;
@@ -1402,7 +1378,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				bullets.addAll(added);
 				gameObjects.addAll(added);
 			}
-
+			
 			Pair<Boolean, Set<Bullet>> pair = boss.update();
 			if (!pair.getValueOne()) {
 				bullets.addAll(pair.getValueTwo());
@@ -1433,8 +1409,8 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				}
 			}
 		}
-
 	}
+	
 	@Override
 	public ScheduledExecutorService getService(){
 		return service;
