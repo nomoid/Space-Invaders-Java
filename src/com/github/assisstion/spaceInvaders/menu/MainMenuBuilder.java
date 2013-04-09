@@ -162,7 +162,7 @@ public class MainMenuBuilder implements MenuBuilder {
 	public void playSound(String location) {
 		if (looper == null || !looper.on) {
 			looper = new AudioLooper(location);
-			new Thread(looper).start();
+			new Thread(looper, "SoundLooper-" + looper.hashCode()).start();
 		}
 	}
 

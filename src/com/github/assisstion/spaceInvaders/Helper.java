@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,6 +23,11 @@ public final class Helper{
 	
 	private static ScheduledExecutorService current;
 	private static int serviceCounter;
+	private static ThreadGroup soundStreamerThreads;
+	
+	static{
+		soundStreamerThreads = new ThreadGroup("SoundStreaners");
+	}
 	
 	//This class should not be instantiated
 	private Helper(){
@@ -97,13 +101,13 @@ public final class Helper{
 	//Plays a sound controlled by the Looper
 	public static void streamSound(String location, Looper looper){
 		SoundStreamer ss = new SoundStreamer(location, looper);
-		new Thread(ss, "SoundStreamer-"+ ss.hashCode()).start();
+		new Thread(soundStreamerThreads, ss, "SoundStreamer-"+ ss.hashCode()).start();
 	}
 	
 	//Plays a sound once, without Looper control
 	public static void streamSound(String location){
 		SoundStreamer ss = new SoundStreamer(location);
-		new Thread(ss, "SoundStreamer-"+ ss.hashCode()).start();
+		new Thread(soundStreamerThreads, ss, "SoundStreamer-"+ ss.hashCode()).start();
 	}
 	
 	private static class SoundStreamer implements Runnable{
@@ -170,7 +174,7 @@ public final class Helper{
 				        	while(looper.isPaused()){
 				        		MainCanvas.looperCondition.await();
 				        	}
-				        	sdl.write(buffer, 0, b);
+					        sdl.write(buffer, 0, b);
 				        }
 				        sdl.drain();
 				        sdl.stop();
@@ -201,14 +205,15 @@ public final class Helper{
 		}
 	}
 
-	public static ScheduledExecutorService newService(int i){
+	public static synchronized ScheduledExecutorService newService(int i){
 		if(current != null){
 			if(!current.isShutdown()){
 				current.shutdown();
 				serviceCounter++;
 			}
 		}
-		return Executors.newScheduledThreadPool(i);
+		current = Executors.newScheduledThreadPool(i);
+		return current;
 	}
 	
 	public static int serviceCounter(){

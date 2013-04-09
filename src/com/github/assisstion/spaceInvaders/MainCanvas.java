@@ -25,7 +25,7 @@ public final class MainCanvas {
 	public static Random rand;
 	public static boolean isOn;
 	public static Menu menu;
-	
+
 	/*
 	 * There can only be one audio stream
 	 * running at a time due to this lock, 
@@ -61,6 +61,8 @@ public final class MainCanvas {
 				/*
 				 * Create a new JFrame and set it's properties up.
 				 */
+				
+				Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
 				
 				System.out.println("Program launch");
 				frame = new JFrame("Space Invaders");
@@ -101,5 +103,15 @@ public final class MainCanvas {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private static class ShutdownRunnable implements Runnable{
+
+		@Override
+		public void run(){
+			ResourceManager.setMuted(true);
+			System.out.println("Shutdown");
+		}
+		
 	}
 }
