@@ -1187,20 +1187,11 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 					} else {
 						godmode = "";
 					}
-					
-					// FOR TESTING (
-				} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-					state1 = new SaveState(MainCanvas.engine);
-					System.out.println("Save State Saved");
-				} else if (e.getKeyCode() == KeyEvent.VK_L) {
-					SaveState.load(MainCanvas.engine, state1);
-					System.out.println("Save State Loaded");
-					// ) END TESTING	
-					
+
 				} else if (e.getKeyCode() == KeyEvent.VK_K) {
 					player1.livesRemaining = 0;
 					playerDeath();
-				} else if (e.getKeyCode() == KeyEvent.VK_N) {
+				} else if (e.getKeyCode() == KeyEvent.VK_L) {
 					// TODO TEST CODE, TO BE REMOVED
 					nextLevel();
 				} else if (e.getKeyCode() == KeyEvent.VK_M) {
@@ -1279,6 +1270,12 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 						}
 					}
 				}
+				// FOR TESTING (
+			} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				state1 = new SaveState(MainCanvas.engine);
+			} else if (e.getKeyCode() == KeyEvent.VK_L) {
+				SaveState.load(MainCanvas.engine, state1);
+				// ) END TESTING
 
 			} else if (e.getKeyCode() == KeyInputData.FIRE) {
 				// tells the update loop to stop bullet firing

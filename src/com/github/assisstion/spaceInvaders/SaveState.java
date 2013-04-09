@@ -37,39 +37,36 @@ public class SaveState {
 	
 	public SaveState(Engine engine){
 		
-		timePassed = new Integer(TimerClock.timePassed);
-		levelTime = new Integer(TimerClock.levelTime);
-		//damnit gotta figure this out
-		//player = engine.player1.clone();
-		//boss = engine.boss;
-		
+		timePassed = TimerClock.timePassed;
+		levelTime = TimerClock.levelTime;
 		player = engine.player1;
-		currentLevel = new Integer(engine.currentLevel);
-		gameObjects = engine.gameObjects.clone();
-		enemySquads = engine.enemySquads.clone();
-		bullets = engine.bullets.clone();
-		bunkers = engine.bunkers.clone();
-		powerups = engine.powerups.clone();
-		overlay = engine.overlay.clone();
-		explosions = engine.explosions.clone();
-		
-		hitSpree = new Integer(engine.hitSpree);
+		currentLevel = engine.currentLevel;
+		gameObjects = engine.gameObjects;
+		enemySquads = engine.enemySquads;
+		bullets = engine.bullets;
+		bunkers = engine.bunkers;
+		powerups = engine.powerups;
+		overlay = engine.overlay;
+		explosions = engine.explosions;
+		boss = engine.boss;
+		hitSpree = engine.hitSpree;
 		
 	}
 	
 	
 	public static void load(Engine engine, SaveState state){
+		
 		TimerClock.timePassed = state.timePassed;
 		TimerClock.levelTime = state.levelTime;
 		engine.player1 = state.player;
 		engine.currentLevel = state.currentLevel;
-		engine.gameObjects = state.gameObjects.clone();
-		engine.enemySquads = state.enemySquads.clone();
-		engine.bullets = state.bullets.clone();
-		engine.bunkers = state.bunkers.clone();
-		engine.powerups = state.powerups.clone();
-		engine.overlay = state.overlay.clone();
-		engine.explosions = state.explosions.clone();
+		engine.gameObjects = state.gameObjects;
+		engine.enemySquads = state.enemySquads;
+		engine.bullets = state.bullets;
+		engine.bunkers = state.bunkers;
+		engine.powerups = state.powerups;
+		engine.overlay = state.overlay;
+		engine.explosions = state.explosions;
 		engine.boss = state.boss;
 		engine.hitSpree = state.hitSpree;	
 	}
