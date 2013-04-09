@@ -44,7 +44,6 @@ public class SaveState {
 		//boss = engine.boss;
 		
 		player = engine.player1;
-		
 		currentLevel = new Integer(engine.currentLevel);
 		gameObjects = engine.gameObjects.clone();
 		enemySquads = engine.enemySquads.clone();
@@ -60,12 +59,10 @@ public class SaveState {
 	
 	
 	public static void load(Engine engine, SaveState state){
-		TimerClock.timePassed = new Integer(state.timePassed);
-		TimerClock.levelTime = new Integer(state.levelTime);
-		
+		TimerClock.timePassed = state.timePassed;
+		TimerClock.levelTime = state.levelTime;
 		engine.player1 = state.player;
-		
-		engine.currentLevel = new Integer(state.currentLevel);
+		engine.currentLevel = state.currentLevel;
 		engine.gameObjects = state.gameObjects.clone();
 		engine.enemySquads = state.enemySquads.clone();
 		engine.bullets = state.bullets.clone();
