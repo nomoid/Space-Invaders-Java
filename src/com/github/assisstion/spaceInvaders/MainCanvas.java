@@ -84,7 +84,6 @@ public final class MainCanvas {
 					menu = new Menu();
 					
 					frame.setContentPane(menu);
-					
 					frame.setLocationRelativeTo(null);
 					frame.pack();
 					frame.setVisible(true);
