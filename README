@@ -2,7 +2,7 @@ Space Invaders (Java)
 ----------------------------------------------------------------
 
 Date Started: Feb. 16, 2013
-Last Updated: Mar. 18, 2013
+Last Updated: April 11, 2013
 
 Status:
 Pre-Alpha
@@ -16,7 +16,7 @@ Create Enemy Mechanics: DONE
 Create Bunker Mechanics: DONE
 Collision Testing: DONE
 Menu Screen/UI: BASICALLY DONE - Many menus need to be touched up
-Music: IN PROGRESS - main menu music done and bullet sound done
+Music/SFX: IN PROGRESS - main menu, levels, boss level themes done, bullet sounds done
 Graphics: IN PROGRESS - add bg, change sprites (possibly)
 Story: IN PROGRESS- added cutscenes, writing script
 Opening Screen: DONE
@@ -24,15 +24,9 @@ Closing Screen: BASICALLY DONE
 Levels: DONE
 Hitstreaks: DONE
 Game Balancing: IN PROGRESS
-Game Testing: BARELY STARTED - 2 testers: LunacyEcho, Seung Ho
+Game Testing: BARELY STARTED - 2 testers: LunacyEcho, hiseungho
 Achievements: IN PROGRESS
 Upgrades: IN PROGRESS
-
-POTENTIAL FEATURES:
-Boss battle!
-High score leaderboards!
-Music!
-Better sprites!
 
 *Game Description/Instructions here*
 
