@@ -10,15 +10,15 @@ public class MovementClock implements Runnable {
 	public static final int DEFAULT_SPEED = 3525;
 	public static final int MINIMUM_SPEED = 2000;
 	
-	public MovementClock(){
-		
+	public MovementClock(int serviceCounter){
+		this.serviceCounter = serviceCounter;
 	}
 	
 	private static int movementSpeed = DEFAULT_SPEED;
 	private static ScheduledFuture<?> future;
 	private static ScheduledExecutorService service;
 	private static boolean started;
-	private static int serviceCounter;
+	private int serviceCounter;
 	
 	@Override
 	public void run(){
@@ -31,10 +31,7 @@ public class MovementClock implements Runnable {
 			MainCanvas.engine.moveEnemies();
 		}
 		int a = Helper.serviceCounter();
-		if(a != serviceCounter){
-			serviceCounter = a;
-		}
-		else{
+		if(a == serviceCounter){
 			service.schedule(Executors.callable(this), movementSpeed, TimeUnit.MILLISECONDS);
 		}
 		/*
@@ -76,7 +73,7 @@ public class MovementClock implements Runnable {
 		}
 		if(on){
 			started = true;
-			future = service.schedule(Executors.callable(new MovementClock()), movementSpeed, TimeUnit.MILLISECONDS);
+			future = service.schedule(Executors.callable(new MovementClock(Helper.serviceCounter())), movementSpeed, TimeUnit.MILLISECONDS);
 		}
 	}
 	

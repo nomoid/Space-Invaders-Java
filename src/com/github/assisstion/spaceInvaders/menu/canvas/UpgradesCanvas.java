@@ -27,7 +27,7 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 
 		private MSButton button;
 		private MSTextLabel label;
-		private MSSelectableSprite upgrade1;
+		private UpgradeIcon upgrade1;
 		private MSSingleSelectionGroup<MSSelectableSprite> group;
 		private ScheduledExecutorService service;
 		
@@ -62,12 +62,6 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 			newStyle.setFont(titleFont);
 			label.setStyle(newStyle);
 			group = new MSSingleSelectionGroup<MSSelectableSprite>();
-			try{
-				upgrade1 = new MSSelectableSprite(group, 100, 100, "resources/SpaceShip.png");
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
 			addComponent(upgrade1);
 			addComponent(button);
 			addComponent(label);

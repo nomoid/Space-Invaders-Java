@@ -3,7 +3,7 @@ package com.github.assisstion.MSToolkit;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MSSelectionGroup<T extends MSSelectable<T>>{
+public class MSSelectionGroup<T extends MSSelectable>{
 	
 	protected Set<T> selectables;
 	

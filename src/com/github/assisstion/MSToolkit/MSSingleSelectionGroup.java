@@ -2,7 +2,7 @@ package com.github.assisstion.MSToolkit;
 
 import java.util.Set;
 
-public class MSSingleSelectionGroup<T extends MSSelectable<T>> extends MSSelectionGroup<T>{
+public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionGroup<T>{
 	
 	protected T current;
 	

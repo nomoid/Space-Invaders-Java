@@ -1,8 +1,8 @@
 package com.github.assisstion.MSToolkit;
 
-public interface MSSelectable<T extends MSSelectable<T>>{
+public interface MSSelectable{
 	boolean select();
 	boolean deselect();
-	MSSelectionGroup<T> getSelectionGroup();
+	MSSelectionGroup<?> getSelectionGroup();
 	boolean isSelected();
 }

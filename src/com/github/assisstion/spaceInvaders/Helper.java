@@ -209,9 +209,9 @@ public final class Helper{
 		if(current != null){
 			if(!current.isShutdown()){
 				current.shutdown();
-				serviceCounter++;
 			}
 		}
+		serviceCounter++;
 		current = Executors.newScheduledThreadPool(i);
 		return current;
 	}

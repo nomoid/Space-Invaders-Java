@@ -18,7 +18,7 @@ import com.github.assisstion.MSToolkit.event.MSMouseListener;
 import com.github.assisstion.MSToolkit.impl.MSHelper;
 
 public class MSSelectableSprite extends MSSprite 
-		implements MSMouseListener, MSMouseHandler, MSActionHandler, MSSelectable<MSSelectableSprite>{
+		implements MSSelectable, MSMouseListener, MSMouseHandler, MSActionHandler{
 
 	private MSSelectionGroup<MSSelectableSprite> group;
 	private Set<MSMouseListener> mouseListeners;
