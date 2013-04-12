@@ -13,7 +13,7 @@ public final class HighScoreDataHandler {
 	// public static int[] scoreArray =
 	// {7000,6500,6200,6000,5000,3000,2000,1000,500,20};
 
-	private static final String DATE_FORMAT = "MM/dd/yy (HH a)";
+	private static final String DATE_FORMAT = "MM/dd/yy (h a)";
 
 	public static void clearData() {
 
