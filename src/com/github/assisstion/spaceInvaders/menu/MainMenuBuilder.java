@@ -174,6 +174,7 @@ public class MainMenuBuilder implements MenuBuilder {
 		private boolean paused = false;
 		private Object pauseLock = new Object();
 		private Object onLock = new Object();
+		private Object readyLock = new Object();
 
 		public AudioLooper(String location) {
 			this.location = location;
@@ -196,6 +197,11 @@ public class MainMenuBuilder implements MenuBuilder {
 						}
 						finally{
 							MainCanvas.audioLock.unlock();
+						}
+					}
+					else{
+						synchronized(readyLock){
+							readyLock.wait();
 						}
 					}
 				}
@@ -221,6 +227,9 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		@Override
 		public void ready() {
+			synchronized(readyLock){
+				readyLock.notify();
+			}
 			ready = true;
 		}
 
