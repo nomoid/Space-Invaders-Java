@@ -4,7 +4,7 @@ import com.github.assisstion.spaceInvaders.GameException;
 
 public class Bullet extends Sprite {
 		private static final String[] BULLET_SHOT = 
-			{"resources/Bullet.png", "resources/GrayShot.png","resources/RedShot.png","resources/BlueShot.png","resources/EggBullet.png"};
+			{LinkHolder.bullet, LinkHolder.grayBullet, LinkHolder.redBullet, LinkHolder.blueBullet,"resources/EggBullet.png"};
 		
 		public static final double[] BULLET_MOVEMENT_SPEED = 
 			{8, 4,4,4,8};

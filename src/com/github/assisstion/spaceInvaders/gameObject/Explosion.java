@@ -4,7 +4,7 @@ import com.github.assisstion.spaceInvaders.GameException;
 
 public class Explosion extends Sprite{
 	
-	private static final String[] EXPLOSION_DEFAULT_IMAGES = {"resources/Explosion.png","resources/Explosion 48*48.png"};
+	private static final String[] EXPLOSION_DEFAULT_IMAGES = {LinkHolder.explosion,LinkHolder.playerExplosion};
 	public static int[] DEFAULT_EXPLOSION_TIMERS= {15,150};
 	
 	public int explosionTimer;

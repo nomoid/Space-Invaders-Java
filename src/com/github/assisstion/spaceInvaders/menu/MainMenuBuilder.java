@@ -10,6 +10,7 @@ import com.github.assisstion.spaceInvaders.AudioPlayable;
 import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
+import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 
 public class MainMenuBuilder implements MenuBuilder {
 	
@@ -30,6 +31,7 @@ public class MainMenuBuilder implements MenuBuilder {
 	private JButton helpButton;
 	private JButton achievementsButton;
 	private JButton optionsButton;
+	private JButton texturepackButton;
 
 	private JLabel logolabel;
 	private JButton creditsButton;
@@ -42,6 +44,8 @@ public class MainMenuBuilder implements MenuBuilder {
 
 	@Override
 	public void build(Menu menu) {
+		LinkHolder.restoreDefaults();
+		
 		playSound(MENUSONG);
 		parent = menu;
 
@@ -53,11 +57,14 @@ public class MainMenuBuilder implements MenuBuilder {
 		storyButton = new JButton(new ImageIcon(STORYBUTTON));
 		logolabel = new JLabel(new ImageIcon(MAINLOGO));
 		optionsButton = new JButton(new ImageIcon(STARTBUTTON));
+		//For testing
+		texturepackButton = new JButton("Texture Packs");
+		
+
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				parent.closeMenu(instance);
-				
 				if (Cutscene.enabled) {
 					// CUTSCENE 2 HERE 4 TESTING
 					CutsceneBuilder cutscenebuilder = new CutsceneBuilder(
@@ -72,10 +79,16 @@ public class MainMenuBuilder implements MenuBuilder {
 				}
 			}
 		});
+		
+		texturepackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parent.closeMenu(instance);
+				parent.addMenuBuilder(new TexturePackMenuBuilder());
+			}
+		});
 
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new HelpMenuBuilder());
 			}
@@ -83,7 +96,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		creditsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new CreditsMenuBuilder());
 			}
@@ -91,7 +103,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		hscoreButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new HighScoreMenuBuilder());
 			}
@@ -99,7 +110,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		storyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new PlotMenuBuilder());
 			}
@@ -107,7 +117,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 		achievementsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
 				parent.closeMenu(instance);
 				parent.addMenuBuilder(new AchievementsMenuBuilder(instance));
 			}
@@ -121,7 +130,7 @@ public class MainMenuBuilder implements MenuBuilder {
 		});
 
 		startButton.setBounds(960 / 2 - 81, 360, 162, 79);
-
+		
 		helpButton.setBounds(960 / 2 - 364, 260, 162, 79);
 		storyButton.setBounds(960 / 2 - 364, 360, 162, 79);
 		optionsButton.setBounds(960 / 2 - 364, 460, 162, 79);
@@ -129,9 +138,11 @@ public class MainMenuBuilder implements MenuBuilder {
 		creditsButton.setBounds(684, 260, 162, 79);
 		hscoreButton.setBounds(684, 360, 162, 79);
 		achievementsButton.setBounds(684, 460, 162, 79);
-
+		texturepackButton.setBounds(960 / 2 - 364, 560, 162, 79);
+		
 		logolabel.setBounds(960 / 2 - 450, 25, 900, 100);
 
+		parent.add(texturepackButton);
 		parent.add(achievementsButton);
 		parent.add(creditsButton);
 		parent.add(hscoreButton);
@@ -153,7 +164,8 @@ public class MainMenuBuilder implements MenuBuilder {
 		parent.remove(hscoreButton);
 		parent.remove(achievementsButton);
 		parent.remove(optionsButton);
-
+		parent.remove(texturepackButton);
+		
 		looper.stop();
 		ResourceManager.removeAudioPlayer(looper);
 		looper = null;
