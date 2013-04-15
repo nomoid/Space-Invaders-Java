@@ -220,7 +220,7 @@ public class MainMenuBuilder implements MenuBuilder {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				ResourceManager.removeAudioPlayer(looper);
+				ResourceManager.removeAudioPlayer(this);
 			}
 		}
 

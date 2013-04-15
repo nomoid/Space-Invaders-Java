@@ -2,27 +2,31 @@ package com.github.assisstion.MSToolkit;
 
 import java.util.Set;
 
-public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionGroup<T>{
+public class MSSingleSelectionGroup extends MSSelectionGroup{
 	
-	protected T current;
+	protected MSSelectable current;
+	protected boolean alwaysSelected;
 	
 	public MSSingleSelectionGroup(){
-		
+
 	}
 	
-	public MSSingleSelectionGroup(Set<T> selectables){
+	public MSSingleSelectionGroup(Set<MSSelectable> selectables, MSSelectable lead, boolean mustBeSelected){
 		super(selectables);
+		if(mustBeSelected){
+			lead.select();
+		}
 	}
 	
 	@Override
-	public boolean select(T selectable){
+	public boolean select(MSSelectable selectable){
 		if(current == null){
 			boolean b = super.select(selectable);
 			current = selectable;
 			return b;
 		}
 		else if(!current.equals(selectable)){
-			deselect(current);
+			internalDeselect(current, true);
 			boolean b = super.select(selectable);
 			current = selectable;
 			return b;
@@ -33,8 +37,15 @@ public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionG
 	}
 	
 	@Override
-	public boolean deselect(T selectable){
+	public boolean deselect(MSSelectable selectable){
+		return internalDeselect(selectable, false);
+	}
+	
+	protected boolean internalDeselect(MSSelectable selectable, boolean overrideAlwaysSelected){
 		if(current == null || !current.equals(selectable)){
+			return false;
+		}
+		else if(alwaysSelected && !overrideAlwaysSelected){
 			return false;
 		}
 		else{
@@ -44,7 +55,7 @@ public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionG
 		}
 	}
 	
-	public T getCurrentlySelected(){
+	public MSSelectable getCurrentlySelected(){
 		return current;
 	}
 	
@@ -55,5 +66,20 @@ public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionG
 		else{
 			return false;
 		}
+	}
+	
+	public void alwaysSelected(MSSelectable lead){
+		if(!currentlySelected()){
+			select(lead);
+		}
+		alwaysSelected = true;
+	}
+	
+	public void notAlwaysSelected(){
+		alwaysSelected = false;
+	}
+	
+	public boolean isAlwaysSelected(){
+		return alwaysSelected;
 	}
 }

@@ -3,19 +3,19 @@ package com.github.assisstion.MSToolkit;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MSSelectionGroup<T extends MSSelectable>{
+public class MSSelectionGroup{
 	
-	protected Set<T> selectables;
+	protected Set<MSSelectable> selectables;
 	
 	public MSSelectionGroup(){
-		selectables = new HashSet<T>();
+		selectables = new HashSet<MSSelectable>();
 	}
 	
-	public MSSelectionGroup(Set<T> selectables){
+	public MSSelectionGroup(Set<MSSelectable> selectables){
 		this.selectables = selectables;
 	}
 
-	public boolean select(T selectable){
+	public boolean select(MSSelectable selectable){
 		if(selectables.contains(selectable)){
 			return selectable.select();
 		}
@@ -24,7 +24,7 @@ public class MSSelectionGroup<T extends MSSelectable>{
 		}
 	}
 
-	public boolean deselect(T selectable){
+	public boolean deselect(MSSelectable selectable){
 		if(selectables.contains(selectable)){
 			return selectable.deselect();
 		}
@@ -33,7 +33,7 @@ public class MSSelectionGroup<T extends MSSelectable>{
 		}
 	}
 	
-	public Set<T> getSelectables(){
+	public Set<MSSelectable> getSelectables(){
 		return selectables;
 	}
 

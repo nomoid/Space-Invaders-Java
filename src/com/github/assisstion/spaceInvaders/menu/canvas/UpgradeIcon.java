@@ -1,17 +1,25 @@
 package com.github.assisstion.spaceInvaders.menu.canvas;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import com.github.assisstion.MSToolkit.MSSelectableSprite;
 import com.github.assisstion.MSToolkit.MSSingleSelectionGroup;
 
 public class UpgradeIcon extends MSSelectableSprite{
 	
-	private static final String IMAGE_LOCATION = "resources/SpaceShip.png";
+	private static final String[] IMAGE_LOCATIONS = Collections.nCopies(UpgradeType.values().length, "resources/SpaceShip.png").toArray(new String[0]);
 
-	public UpgradeIcon(UpgradeType bulletSpeed,
-			MSSingleSelectionGroup<UpgradeIcon> group, int x, int y) throws IOException{
-		//super(group, x, y, IMAGE_LOCATION);
+	private UpgradeType type;
+	
+	public UpgradeIcon(UpgradeType type,
+			MSSingleSelectionGroup group, int x, int y) throws IOException{
+		super(group, x, y, IMAGE_LOCATIONS[type.ordinal()]);
+		this.type = type;
+	}
+	
+	public UpgradeType getType(){
+		return type;
 	}
 
 }

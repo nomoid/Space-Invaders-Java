@@ -20,7 +20,7 @@ import com.github.assisstion.MSToolkit.impl.MSHelper;
 public class MSSelectableSprite extends MSSprite 
 		implements MSSelectable, MSMouseListener, MSMouseHandler, MSActionHandler{
 
-	private MSSelectionGroup<MSSelectableSprite> group;
+	private MSSelectionGroup group;
 	private Set<MSMouseListener> mouseListeners;
 	protected CollectionSynchronizer
 			<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
@@ -33,12 +33,12 @@ public class MSSelectableSprite extends MSSprite
 		
 	}
 	
-	public MSSelectableSprite(MSSelectionGroup<MSSelectableSprite> group, int x, int y, String link) 
+	public MSSelectableSprite(MSSelectionGroup group, int x, int y, String link) 
 			throws IOException{
 		this(group, x, y, new MSImage(MSHelper.getImage(link)));
 	}
 	
-	public MSSelectableSprite(MSSelectionGroup<MSSelectableSprite> group, int x, int y, MSImage image){
+	public MSSelectableSprite(MSSelectionGroup group, int x, int y, MSImage image){
 		super(x, y, image);
 		this.group = group;
 		group.getSelectables().add(this);
@@ -163,7 +163,7 @@ public class MSSelectableSprite extends MSSprite
 	}
 
 	@Override
-	public MSSelectionGroup<MSSelectableSprite> getSelectionGroup(){
+	public MSSelectionGroup getSelectionGroup(){
 		return group;
 	}
 
