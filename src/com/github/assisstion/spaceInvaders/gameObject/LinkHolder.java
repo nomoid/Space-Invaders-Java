@@ -40,8 +40,26 @@ public final class LinkHolder {
 		grayBullet="resources/" + name + "/GrayShot.png";
 		blueBullet="resources/" + name + "/BlueShot.png";
 		redBullet="resources/" + name + "/RedShot.png";
+		
+		refresh();
 	}
 	
+	private static void refresh(){
+	
+		Enemy.ENEMY_IMAGE = new String[]{
+				LinkHolder.grayEnemy,
+				LinkHolder.blueEnemy,
+				LinkHolder.redEnemy, 
+				LinkHolder.mothership};
+		
+		Bullet.BULLET_SHOT = 
+			new String[]{LinkHolder.bullet, LinkHolder.grayBullet, LinkHolder.redBullet, LinkHolder.blueBullet,"resources/EggBullet.png"};
+		
+		Explosion.EXPLOSION_DEFAULT_IMAGES = new String[]{LinkHolder.explosion,LinkHolder.playerExplosion};
+		
+		Player.PLAYER_DEFAULT_IMAGE = new String[]{LinkHolder.player,"resources/EasterEgg.png"};
+
+	}
 	
 	public static void restoreDefaults(){
 		player="resources/Default Sprites/Spaceship.png";
@@ -61,5 +79,7 @@ public final class LinkHolder {
 		grayBullet="resources/Default Sprites/GrayShot.png";
 		blueBullet="resources/Default Sprites/BlueShot.png";
 		redBullet="resources/Default Sprites/RedShot.png";
+		refresh();
+		
 	}
 }

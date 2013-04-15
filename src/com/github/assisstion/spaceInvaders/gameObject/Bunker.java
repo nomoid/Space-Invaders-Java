@@ -10,25 +10,25 @@ public class Bunker extends Sprite {
 		
 		public static final int BUNKER_DEFAULT_HEALTH = 300;
 		//normal square
-		private static final String BUNKER_A = "resources/BunkerA.png";
-		private static final String BUNKER_A1 = "resources/BunkerA-1.png";
-		private static final String BUNKER_A2 = "resources/BunkerA-2.png";
+		private static final String BUNKER_A = "resources/Bunkers/BunkerA.png";
+		private static final String BUNKER_A1 = "resources/Bunkers/BunkerA-1.png";
+		private static final String BUNKER_A2 = "resources/Bunkers/BunkerA-2.png";
 		//curved side to the left 
-		private static final String BUNKER_B = "resources/BunkerB.png";
-		private static final String BUNKER_B1 = "resources/BunkerB-1.png";
-		private static final String BUNKER_B2 = "resources/BunkerB-2.png";
+		private static final String BUNKER_B = "resources/Bunkers/BunkerB.png";
+		private static final String BUNKER_B1 = "resources/Bunkers/BunkerB-1.png";
+		private static final String BUNKER_B2 = "resources/Bunkers/BunkerB-2.png";
 		//curved side to the right
-		private static final String BUNKER_C = "resources/BunkerC.png";
-		private static final String BUNKER_C1 = "resources/BunkerC-1.png";
-		private static final String BUNKER_C2 = "resources/BunkerC-2.png";
+		private static final String BUNKER_C = "resources/Bunkers/BunkerC.png";
+		private static final String BUNKER_C1 = "resources/Bunkers/BunkerC-1.png";
+		private static final String BUNKER_C2 = "resources/Bunkers/BunkerC-2.png";
 		//curved side to the bottom right 
-		private static final String BUNKER_D = "resources/BunkerD.png";
-		private static final String BUNKER_D1 = "resources/BunkerD-1.png";
-		private static final String BUNKER_D2 = "resources/BunkerD-2.png";
+		private static final String BUNKER_D = "resources/Bunkers/BunkerD.png";
+		private static final String BUNKER_D1 = "resources/Bunkers/BunkerD-1.png";
+		private static final String BUNKER_D2 = "resources/Bunkers/BunkerD-2.png";
 		//curved side to the bottom left
-		private static final String BUNKER_E = "resources/BunkerE.png";
-		private static final String BUNKER_E1 = "resources/BunkerE-1.png";
-		private static final String BUNKER_E2 = "resources/BunkerE-2.png";
+		private static final String BUNKER_E = "resources/Bunkers/BunkerE.png";
+		private static final String BUNKER_E1 = "resources/Bunkers/BunkerE-1.png";
+		private static final String BUNKER_E2 = "resources/Bunkers/BunkerE-2.png";
 		
 		public static final int BUNKER_SIZE = 16;
 		

@@ -7,7 +7,7 @@ import com.github.assisstion.spaceInvaders.gameObject.Powerup.PowerupType;
 
 public class Player extends Sprite {
 	
-	private static final String[] PLAYER_DEFAULT_IMAGE = {LinkHolder.player,"resources/EasterEgg.png"};
+	public static String[] PLAYER_DEFAULT_IMAGE = {LinkHolder.player,"resources/EasterEgg.png"};
 	public static final int PLAYER_DEFAULT_HEALTH = 500;
 	public static final int PLAYER_DEFAULT_FIRING_COOLDOWN = 50;
 	public int credits=0;

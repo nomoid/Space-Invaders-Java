@@ -3,7 +3,7 @@ package com.github.assisstion.spaceInvaders.gameObject;
 import com.github.assisstion.spaceInvaders.GameException;
 
 public class Bullet extends Sprite {
-		private static final String[] BULLET_SHOT = 
+		public static String[] BULLET_SHOT = 
 			{LinkHolder.bullet, LinkHolder.grayBullet, LinkHolder.redBullet, LinkHolder.blueBullet,"resources/EggBullet.png"};
 		
 		public static final double[] BULLET_MOVEMENT_SPEED = 

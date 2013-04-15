@@ -7,7 +7,7 @@ import com.github.assisstion.spaceInvaders.MainCanvas;
 public class Enemy extends Sprite{
 
 	private static final int[] ENEMY_HEALTH = { 100, 200, 300, 100 };
-	private static final String[] ENEMY_IMAGE = {
+	public static String[] ENEMY_IMAGE = {
 			LinkHolder.grayEnemy,
 			LinkHolder.blueEnemy,
 			LinkHolder.redEnemy, 
@@ -33,6 +33,8 @@ public class Enemy extends Sprite{
 
 	public Enemy(EnemyType type, int x, int y) throws GameException {
 		super(ENEMY_IMAGE[type.ordinal()], x, y);
+		
+		
 		enemytype = type;
 		int index = type.ordinal();
 		health = ENEMY_HEALTH[index];

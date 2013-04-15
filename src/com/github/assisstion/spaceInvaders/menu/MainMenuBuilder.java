@@ -44,7 +44,6 @@ public class MainMenuBuilder implements MenuBuilder {
 
 	@Override
 	public void build(Menu menu) {
-		LinkHolder.restoreDefaults();
 		
 		playSound(MENUSONG);
 		parent = menu;

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 
+@ReturnableMenu
 public class TexturePackMenuBuilder implements MenuBuilder {
 
 	private Menu parent;
@@ -32,7 +33,7 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 		topLabel.setForeground(Color.WHITE);
 		Menu.centerLabel(topLabel, 100);
 		
-		nameList.add("BobPack");
+		nameList.add("WeirdPack");
 		nameList.add("YoloPack");
 		
 		int y = 200;
@@ -40,6 +41,7 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 		for (String name : nameList){
 			JButton button = new JButton(name);
 			button.setBounds(400,y,200, 80);
+			button.setFocusable(false);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println(((JButton) arg0.getSource()).getText() + " Texture Pack Loaded");
