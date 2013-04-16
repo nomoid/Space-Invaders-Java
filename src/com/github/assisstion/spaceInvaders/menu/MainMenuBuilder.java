@@ -10,7 +10,6 @@ import com.github.assisstion.spaceInvaders.AudioPlayable;
 import com.github.assisstion.spaceInvaders.Helper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.ResourceManager;
-import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 
 public class MainMenuBuilder implements MenuBuilder {
 	

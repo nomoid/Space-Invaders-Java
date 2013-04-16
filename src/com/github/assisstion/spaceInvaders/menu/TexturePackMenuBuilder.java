@@ -15,16 +15,16 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 
 	private Menu parent;
 	private TexturePackMenuBuilder instance;
-	
+
 	private JLabel topLabel;
-	
+
 	private LinkedList<String> nameList = new LinkedList<String>();
 	private LinkedList<JButton> buttonList = new LinkedList<JButton>();
-	
-	public TexturePackMenuBuilder(){
+
+	public TexturePackMenuBuilder() {
 		instance = this;
 	}
-	
+
 	@Override
 	public void build(Menu menu) {
 		parent = menu;
@@ -33,28 +33,32 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 		topLabel.setForeground(Color.WHITE);
 		Menu.centerLabel(topLabel, 100);
 		
-		nameList.add("WeirdPack");
-		nameList.add("YoloPack");
+		TexturePackDataHandler.save();
+		TexturePackDataHandler.load();
+		
+		nameList = TexturePackDataHandler.nameList;
 		
 		int y = 200;
-		
-		for (String name : nameList){
+
+		for (String name : nameList) {
 			JButton button = new JButton(name);
-			button.setBounds(400,y,200, 80);
+			button.setBounds(400, y, 200, 80);
 			button.setFocusable(false);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println(((JButton) arg0.getSource()).getText() + " Texture Pack Loaded");
-					LinkHolder.setSprites(((JButton) arg0.getSource()).getText());
+					System.out.println(((JButton) arg0.getSource()).getText()
+							+ " Texture Pack Loaded");
+					LinkHolder.setSprites(((JButton) arg0.getSource())
+							.getText());
 				}
 			});
-			y+=100;
-			
+			y += 100;
+
 			buttonList.add(button);
 		}
-		
+
 		parent.add(topLabel);
-		for (JButton b : buttonList){
+		for (JButton b : buttonList) {
 			parent.add(b);
 		}
 	}
@@ -62,7 +66,7 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 	@Override
 	public void unBuild(Menu menu) {
 		parent.remove(topLabel);
-		for (JButton b : buttonList){
+		for (JButton b : buttonList) {
 			parent.remove(b);
 		}
 

@@ -5,10 +5,11 @@ import java.util.Collections;
 
 import com.github.assisstion.MSToolkit.MSSelectableSprite;
 import com.github.assisstion.MSToolkit.MSSingleSelectionGroup;
+import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 
 public class UpgradeIcon extends MSSelectableSprite{
 	
-	private static final String[] IMAGE_LOCATIONS = Collections.nCopies(UpgradeType.values().length, "resources/SpaceShip.png").toArray(new String[0]);
+	private static final String[] IMAGE_LOCATIONS = Collections.nCopies(UpgradeType.values().length, LinkHolder.player).toArray(new String[0]);
 
 	private UpgradeType type;
 	
