@@ -1,6 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -20,6 +21,7 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 
 	private LinkedList<String> nameList = new LinkedList<String>();
 	private LinkedList<JButton> buttonList = new LinkedList<JButton>();
+	private LinkedList<JLabel> labelList = new LinkedList<JLabel>();
 
 	public TexturePackMenuBuilder() {
 		instance = this;
@@ -31,7 +33,7 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 		
 		topLabel = new JLabel("TEXTURE PACKS");
 		topLabel.setForeground(Color.WHITE);
-		Menu.centerLabel(topLabel, 100);
+		topLabel.setBounds(10,100,(int) topLabel.getPreferredSize().getWidth(),(int) topLabel.getPreferredSize().getHeight());
 		
 		TexturePackDataHandler.save();
 		TexturePackDataHandler.load();
@@ -42,8 +44,15 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 
 		for (String name : nameList) {
 			JButton button = new JButton(name);
-			button.setBounds(400, y, 200, 80);
+			button.setBounds(30, y, 200, 80);
+			
+			JLabel label = new JLabel(TexturePackDataHandler.getDescription(name));
+			label.setForeground(Color.white);
+			label.setBounds(250,y,500,80);
+			label.setFont(new Font("Copperplate Gothic Bold",Font.ITALIC,30));
+			
 			button.setFocusable(false);
+			
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println(((JButton) arg0.getSource()).getText()
@@ -54,13 +63,13 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 			});
 			y += 100;
 
+			labelList.add(label);
+			parent.add(label);
 			buttonList.add(button);
+			parent.add(button);
 		}
 
 		parent.add(topLabel);
-		for (JButton b : buttonList) {
-			parent.add(b);
-		}
 	}
 
 	@Override
@@ -69,7 +78,9 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 		for (JButton b : buttonList) {
 			parent.remove(b);
 		}
-
+		for (JLabel l : labelList){
+			parent.remove(l);
+		}
 	}
 
 	@Override

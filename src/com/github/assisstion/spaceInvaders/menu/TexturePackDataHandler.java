@@ -17,9 +17,9 @@ public final class TexturePackDataHandler {
 	
 	public static void save(){
 		//Property: Key - Name,  Value - Brief description
-		p.setProperty("WeirdPack", "A weird pack");
-		p.setProperty("BobPack", "Pack of bobs");
-		p.setProperty("Default Sprites", "The default sprites");
+		p.setProperty("WeirdPack", "A weird pack - Michael Man");
+		p.setProperty("BobPack", "Pack of bobs - Bob the Builder");
+		p.setProperty("Default Sprites", "The default sprites - Michael Man");
 		
 		FileOutputStream fop = null;
 		
@@ -37,6 +37,10 @@ public final class TexturePackDataHandler {
 			}
 		}
 
+	}
+	
+	public static String getDescription(String key){
+		return p.getProperty(key);	
 	}
 	
 	public static void load(){
