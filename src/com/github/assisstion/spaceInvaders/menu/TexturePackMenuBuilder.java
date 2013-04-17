@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 
 @ReturnableMenu
@@ -30,12 +31,10 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 	@Override
 	public void build(Menu menu) {
 		parent = menu;
-		
 		topLabel = new JLabel("TEXTURE PACKS");
 		topLabel.setForeground(Color.WHITE);
 		topLabel.setBounds(10,100,(int) topLabel.getPreferredSize().getWidth(),(int) topLabel.getPreferredSize().getHeight());
 		
-		TexturePackDataHandler.save();
 		TexturePackDataHandler.load();
 		
 		nameList = TexturePackDataHandler.nameList;
@@ -68,7 +67,19 @@ public class TexturePackMenuBuilder implements MenuBuilder {
 			buttonList.add(button);
 			parent.add(button);
 		}
-
+		
+		
+		JButton newPackButton = new JButton("Load Texture Pack");
+		newPackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+		        TexturePackDataHandler.newPack();
+			}
+		});
+		newPackButton.setBounds(MainCanvas.FRAME_WIDTH/2 - 250,y,300,500);
+		newPackButton.setFocusable(false);
+	
+		buttonList.add(newPackButton);
+		parent.add(newPackButton);
 		parent.add(topLabel);
 	}
 

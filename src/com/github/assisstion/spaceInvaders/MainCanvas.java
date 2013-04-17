@@ -11,6 +11,7 @@ import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.Menu;
+import com.github.assisstion.spaceInvaders.menu.TexturePackDataHandler;
 
 /**
  * Main class for starting the program.
@@ -73,6 +74,8 @@ public final class MainCanvas {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setResizable(false);
 				 
+				
+				TexturePackDataHandler.defaults();
 				/*
 				 * Creates the engine and adds it to the frame
 				 */
