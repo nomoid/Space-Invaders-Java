@@ -26,6 +26,8 @@ public final class MainCanvas {
 	public static Random rand;
 	public static boolean isOn;
 	public static Menu menu;
+	
+	private static boolean running;
 
 	/*
 	 * There can only be one audio stream
@@ -49,6 +51,7 @@ public final class MainCanvas {
 		
 		@Override
 		public void run(){
+			running = true;
 			try {
 				if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
 					// take the menu bar off the jframe
@@ -111,9 +114,14 @@ public final class MainCanvas {
 
 		@Override
 		public void run(){
+			running = false;
 			ResourceManager.setMuted(true);
 			System.out.println("Shutdown");
 		}
 		
+	}
+	
+	public static boolean isRunning(){
+		return running;
 	}
 }

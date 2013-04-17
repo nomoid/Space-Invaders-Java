@@ -12,3 +12,7 @@
 .classpath
 .project
 .settings/*
+
+# Data Files #
+data/*
+testing/*

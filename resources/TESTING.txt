@@ -1,5 +1,0 @@
-#Texture Pack Data
-#Tue Apr 16 23:04:28 CST 2013
-BobPack=Pack of bobs
-WeirdPack=A weird pack
-Default\ Sprites=The default sprites

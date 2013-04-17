@@ -11,7 +11,7 @@ import java.util.Properties;
 public final class TexturePackDataHandler {
 
 	private static Properties p = new Properties();
-	private static File file = new File("resources/TESTING.txt");
+	private static File file = new File("testing/TESTING.txt");
 	public static LinkedList<String> nameList = new LinkedList<String>();
 	
 	
