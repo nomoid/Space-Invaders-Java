@@ -25,7 +25,7 @@ public class MovementClock implements Runnable {
 	
 	@Override
 	public void run(){
-		if(!MainCanvas.isRunning()){
+		if(!Main.isRunning()){
 			return;
 		}
 		/* Changed the implementation of the timers to
