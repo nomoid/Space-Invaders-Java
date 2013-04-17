@@ -47,9 +47,9 @@ public final class TexturePackDataHandler {
 		int returnVal = f.showOpenDialog(MainCanvas.menu);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = f.getSelectedFile();
-            System.out.println(file);
-            //This is where a real application would open the file.
+            File newFile = f.getSelectedFile();
+            System.out.println(newFile.getName());
+            newEntry(newFile.getName(),"No Description");
         } else {
            System.out.println("No file selected");
         }
