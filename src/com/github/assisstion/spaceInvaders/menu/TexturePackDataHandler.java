@@ -18,12 +18,18 @@ public final class TexturePackDataHandler {
 	public static JFileChooser f = new JFileChooser();
 	
 	private static Properties p = new Properties();
-	private static File file = new File("resources/TESTING.txt");
+	public static File file = new File("testing/TESTING.txt");
 	public static LinkedList<String> nameList = new LinkedList<String>();
 	
 	
 	public static void defaults(){
 		//Property: Key - Name,  Value - Brief description
+		try {
+			new File("testing").mkdir();
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		p.setProperty("WeirdPack", "A weird pack - Michael Man");
 		p.setProperty("BobPack", "Pack of bobs - Bob the Builder");
 		p.setProperty("Default Sprites", "The default sprites - Michael Man");
@@ -78,7 +84,10 @@ public final class TexturePackDataHandler {
 			Properties n = new Properties();
 			fip = new FileInputStream(file);
 			n.load(fip);
-		
+			p = n;
+			
+			nameList = new LinkedList<String>();
+			
 			for (Object s: n.keySet()){
 				nameList.add((String) s);
 				System.out.println(s);

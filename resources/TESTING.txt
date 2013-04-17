@@ -1,5 +1,0 @@
-#Texture Pack Data
-#Wed Apr 17 13:17:39 CST 2013
-BobPack=Pack of bobs - Bob the Builder
-WeirdPack=A weird pack - Michael Man
-Default\ Sprites=The default sprites - Michael Man

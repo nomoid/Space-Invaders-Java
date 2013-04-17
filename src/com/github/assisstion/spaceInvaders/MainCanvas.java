@@ -5,7 +5,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
@@ -42,81 +41,81 @@ public final class MainCanvas {
 		
 	}
 	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new MainRunnable());
-	}
-	
-	private static class MainRunnable implements Runnable{
-		
-		@Override
-		public void run(){
-			try {
-				if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
-					// take the menu bar off the jframe
-					System.setProperty("apple.laf.useScreenMenuBar", "true");
-					
-					// set the name of the application menu item
-					System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Space Invaders");
-					
-				}
+	protected static void start(){
+		try {
+			if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
+				// take the menu bar off the jframe
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
 				
-				/*
-				 * Create a new JFrame and set it's properties up.
-				 */
+				// set the name of the application menu item
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Space Invaders");
 				
-				Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
-				
-				System.out.println("Program launch");
-				frame = new JFrame("Space Invaders");
-				HighScoreDataHandler.clearData();
-				LinkHolder.restoreDefaults();
-				
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setResizable(false);
-				 
-				
+			}
+			
+			System.out.println("Program launch");
+			frame = new JFrame("Space Invaders");
+			HighScoreDataHandler.clearData();
+			LinkHolder.restoreDefaults();
+			
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setResizable(false);
+			 
+			
+			
+			/*
+			 * Creates the engine and adds it to the frame
+			 */
+			
+			System.out.println("Engine created");
+			
+			if (TexturePackDataHandler.file.exists()){
+				TexturePackDataHandler.load();
+			} else {
 				TexturePackDataHandler.defaults();
-				/*
-				 * Creates the engine and adds it to the frame
-				 */
-				
-				System.out.println("Engine created");
-				
-				/*
-				 * Pack the frame, position it in the center of the screen, and then display
-				 * it, and add the menu.
-				 */
-				audioLock.lock();
-				try{
-					menu = new Menu();
-					
-					frame.setContentPane(menu);
-					frame.setLocationRelativeTo(null);
-					frame.pack();
-					frame.setVisible(true);
-					frame.validate();
-					menu.addMenuBuilder(new MainMenuBuilder());
-				}
-				finally{
-					audioLock.unlock();
-				}
-		
-				System.out.println("Frame created");
 			}
-			catch(Exception e){
-				//TODO placeholder
-				e.printStackTrace();
+			
+			/*
+			 * Create a new JFrame and set it's properties up.
+			 */
+			
+			System.out.println("Program launch");
+			frame = new JFrame("Space Invaders");
+			HighScoreDataHandler.clearData();
+			LinkHolder.restoreDefaults();
+			
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setResizable(false);
+			 
+			/*
+			 * Creates the engine and adds it to the frame
+			 */
+			
+			System.out.println("Engine created");
+			
+			/*
+			 * Pack the frame, position it in the center of the screen, and then display
+			 * it, and add the menu.
+			 */
+			audioLock.lock();
+			try{
+				menu = new Menu();
+				
+				frame.setContentPane(menu);
+				frame.setLocationRelativeTo(null);
+				frame.pack();
+				frame.setVisible(true);
+				frame.validate();
+				menu.addMenuBuilder(new MainMenuBuilder());
 			}
-		}
-	}
+			finally{
+				audioLock.unlock();
+			}
 	
-	private static class ShutdownRunnable implements Runnable{
-
-		@Override
-		public void run(){
-			ResourceManager.setMuted(true);
-			System.out.println("Shutdown");
+			System.out.println("Frame created");
 		}
-		
+		catch(Exception e){
+			//TODO placeholder
+			e.printStackTrace();
+		}
 	}
 }

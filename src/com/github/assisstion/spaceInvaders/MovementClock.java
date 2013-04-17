@@ -7,31 +7,38 @@ import java.util.concurrent.TimeUnit;
 
 public class MovementClock implements Runnable {
 	
-	public static final int DEFAULT_SPEED = 3525;
-	public static final int MINIMUM_SPEED = 2000;
+	public static final int DEFAULT_SPEED = 1000;
+	public static final int MINIMUM_SPEED = 500;
 	
-	public MovementClock(int serviceCounter){
+	public MovementClock(int serviceCounter, int id){
 		this.serviceCounter = serviceCounter;
+		instanceID = id;
 	}
 	
 	private static int movementSpeed = DEFAULT_SPEED;
 	private static ScheduledFuture<?> future;
 	private static ScheduledExecutorService service;
 	private static boolean started;
+	private static int currentID;
 	private int serviceCounter;
+	private int instanceID;
 	
 	@Override
 	public void run(){
+		if(!Main.isRunning()){
+			return;
+		}
 		/* Changed the implementation of the timers to
 		 * use ScheduledExcecutorServices, which automatically
 		 * execute tasks with a given delay.
 		 * See the engine class to see the changes
 		 */
+		System.out.println("move");
 		if(MainCanvas.engine != null){
 			MainCanvas.engine.moveEnemies();
 		}
 		int a = Helper.serviceCounter();
-		if(a == serviceCounter){
+		if(a == serviceCounter && currentID == instanceID){
 			service.schedule(Executors.callable(this), movementSpeed, TimeUnit.MILLISECONDS);
 		}
 		/*
@@ -73,7 +80,7 @@ public class MovementClock implements Runnable {
 		}
 		if(on){
 			started = true;
-			future = service.schedule(Executors.callable(new MovementClock(Helper.serviceCounter())), movementSpeed, TimeUnit.MILLISECONDS);
+			future = service.schedule(Executors.callable(new MovementClock(Helper.serviceCounter(), currentID)), movementSpeed, TimeUnit.MILLISECONDS);
 		}
 	}
 	
@@ -82,6 +89,7 @@ public class MovementClock implements Runnable {
 	}
 	
 	private static synchronized void stop(){
+		currentID++;
 		future.cancel(false);
 		started = false;
 	}
