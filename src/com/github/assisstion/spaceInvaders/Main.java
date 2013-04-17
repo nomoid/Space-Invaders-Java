@@ -9,22 +9,30 @@ import javax.swing.SwingUtilities;
 public class Main{
 	
 	private static boolean running;
+	private static ExceptionHandlerWrapper ehw;
+	private static Object startupLock = new Object();
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new StartupRunnable());
-		LinkedList<Thread.UncaughtExceptionHandler> ll = new LinkedList<Thread.UncaughtExceptionHandler>();
-		ll.add(Thread.getDefaultUncaughtExceptionHandler());
-		ll.add(new GameExceptionHandler());
-		ExceptionHandlerWrapper ehw = new ExceptionHandlerWrapper(ll);
-		Thread.setDefaultUncaughtExceptionHandler(ehw);
-		Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
+		synchronized(startupLock){
+			LinkedList<Thread.UncaughtExceptionHandler> ll = new LinkedList<Thread.UncaughtExceptionHandler>();
+			ll.add(Thread.getDefaultUncaughtExceptionHandler());
+			ll.add(new GameExceptionHandler());
+			ehw = new ExceptionHandlerWrapper(ll);
+			Thread.setDefaultUncaughtExceptionHandler(ehw);
+			Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
+			SwingUtilities.invokeLater(new StartupRunnable());
+			
+		}
 	}
 	
 	private static class StartupRunnable implements Runnable{
 		@Override
 		public void run(){
-			running = true;
-			MainCanvas.start();
+			synchronized(startupLock){
+				Thread.currentThread().setUncaughtExceptionHandler(ehw);
+				running = true;
+				MainCanvas.start();
+			}
 		}
 	}
 	
