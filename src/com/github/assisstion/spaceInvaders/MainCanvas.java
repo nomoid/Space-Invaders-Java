@@ -11,6 +11,7 @@ import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.Menu;
 import com.github.assisstion.spaceInvaders.menu.TexturePackDataHandler;
+import com.github.assisstion.spaceInvaders.menu.canvas.Upgrades;
 
 /**
  * Main class for starting the program.
@@ -26,6 +27,7 @@ public final class MainCanvas {
 	public static Random rand;
 	public static boolean isOn;
 	public static Menu menu;
+	public static Upgrades upgrades;
 
 	/*
 	 * There can only be one audio stream
@@ -73,6 +75,8 @@ public final class MainCanvas {
 			} else {
 				TexturePackDataHandler.defaults();
 			}
+			
+			upgrades = new Upgrades();
 			
 			/*
 			 * Create a new JFrame and set it's properties up.

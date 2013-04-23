@@ -703,10 +703,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 		// Bullet creation code
 		if (spaceOn) {
 			if (player1.firingCooldown <= 0) {
-				int extraDamage = 1;
-				if (player1.powerups.containsKey(PowerupType.DAMAGE)) {
-					extraDamage = 3;
-				}
 				BulletType tempType = BulletType.PLAYER;
 				if (pixarOn) {
 					// sumthing
@@ -714,10 +710,8 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 					tempType = BulletType.EGG;
 				}
 				Bullet b = new Bullet(tempType, player1.x + 16, player1.y,
-						Bullet.BULLET_DAMAGE[BulletType.PLAYER.ordinal()]
-								* extraDamage,
-						Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER
-								.ordinal()], 0);
+						player1.getBulletDamage(),
+						player1.getBulletMovementSpeed(), 0);
 				shotsFired++;
 				
 				if (!godmodeOn || !player1.powerups.containsKey(PowerupType.FIRERATE) && godmodeOn ) {
@@ -728,11 +722,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 				b.owner = player1;
 				bullets.add(b);
 				gameObjects.add(b);
-				if (player1.powerups.containsKey(PowerupType.FIRERATE)) {
-					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN / 3;
-				} else {
-					player1.firingCooldown = Player.PLAYER_DEFAULT_FIRING_COOLDOWN;
-				}
+				player1.firingCooldown = player1.getFiringCooldown();
 			}
 		}
 
@@ -795,12 +785,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 		}
 
 		for (Bullet b : bullets) {
-			double extraBulletSpeed = 1;
-			if (player1.powerups.containsKey(PowerupType.SPEED)
-					&& (b.owner instanceof Player)) {
-				extraBulletSpeed = 1.75;
-			}
-			b.move(extraBulletSpeed);
+			b.move();
 			updateHitbox(b);
 			for (Bunker k : bunkers) {
 				if (b.hitBox.overLaps(k.hitBox)) {
@@ -1064,7 +1049,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 			type = 2;
 		}
 		// Creates a new player
-		player1 = new Player(type, tempname);
+		player1 = new Player(type, tempname, MainCanvas.upgrades);
 		gameObjects.add(player1);
 		// loads map plan here
 		constructEnemyFormation(1);

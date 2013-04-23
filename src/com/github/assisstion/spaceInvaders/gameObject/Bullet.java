@@ -63,9 +63,9 @@ public class Bullet extends Sprite {
 			y = (int) tempY;
 		}
 		
-		public void move(double extraBulletSpeed){
-			tempX += movementSpeed * Math.sin(Math.toRadians(rotation)) * extraBulletSpeed;
-			tempY -= movementSpeed * Math.cos(Math.toRadians(rotation)) * extraBulletSpeed;
+		public void move(){
+			tempX += movementSpeed * Math.sin(Math.toRadians(rotation));
+			tempY -= movementSpeed * Math.cos(Math.toRadians(rotation));
 			updateLocation();
 		}
 }

@@ -79,7 +79,7 @@ public final class CutsceneData{
 		
 		private static final char[][] PAGES = {PAGE_1.toCharArray(), PAGE_2.toCharArray(), PAGE_3.toCharArray(), PAGE_4.toCharArray(), PAGE_5.toCharArray(), PAGE_6.toCharArray(), PAGE_7.toCharArray(), PAGE_8.toCharArray(), PAGE_9.toCharArray(), PAGE_10.toCharArray(), PAGE_11.toCharArray(), PAGE_12.toCharArray(), PAGE_13.toCharArray(), PAGE_14.toCharArray(), PAGE_15.toCharArray(), PAGE_16.toCharArray(), PAGE_17.toCharArray(), PAGE_18.toCharArray(), PAGE_19.toCharArray(), PAGE_20.toCharArray(), PAGE_21.toCharArray(), PAGE_22.toCharArray(), PAGE_23.toCharArray(), PAGE_24.toCharArray(), PAGE_25.toCharArray(), PAGE_26.toCharArray(), PAGE_27.toCharArray(), PAGE_28.toCharArray(), PAGE_29.toCharArray(), PAGE_30.toCharArray(), PAGE_31.toCharArray(), PAGE_32.toCharArray(), PAGE_33.toCharArray(), PAGE_34.toCharArray(), PAGE_35.toCharArray(), PAGE_36.toCharArray(), PAGE_37.toCharArray(), PAGE_38.toCharArray(),PAGE_39.toCharArray(),PAGE_40.toCharArray(),PAGE_41.toCharArray()};
 		
-		private static final Sprite[][] SPRITES = {{new Player(0, "hi")},{}};
+		private static final Sprite[][] SPRITES = {{new Sprite(Player.PLAYER_DEFAULT_IMAGE[0])},{}};
 		private static final double[] DELAYLIST = {10,10,10,10,20,10,10,10,10,10,10,10,10,10,15,20,15,15,20,15,20,20,20,15,20,15,10,15,15,15,10,25,25,15,15,20,20,15,20,20,20,20};		
 		public static Cutscene SCENE = null;
 		
@@ -123,7 +123,7 @@ public final class CutsceneData{
 		
 		
 		private static final char[][] PAGES = {PAGE_1.toCharArray(), PAGE_2.toCharArray(), PAGE_3.toCharArray(), PAGE_4.toCharArray(), PAGE_5.toCharArray(), PAGE_6.toCharArray(), PAGE_7.toCharArray(), PAGE_8.toCharArray(), PAGE_9.toCharArray(), PAGE_10.toCharArray(), PAGE_11.toCharArray(), PAGE_12.toCharArray(), PAGE_13.toCharArray(), PAGE_14.toCharArray(), PAGE_15.toCharArray(), PAGE_16.toCharArray(), PAGE_17.toCharArray(), PAGE_18.toCharArray()};
-		private static final Sprite[][] SPRITES = {{new Player(0, "hi")},{}};
+		private static final Sprite[][] SPRITES = {{new Sprite(Player.PLAYER_DEFAULT_IMAGE[0])},{}};
 		
 		private static final double[] DELAYLIST = {10,10,10,10,10,10,15,20,10,30,15,50,15,10,25,10,15,10};	
 		public static Cutscene SCENE = null;
