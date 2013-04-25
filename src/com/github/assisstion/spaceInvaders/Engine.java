@@ -729,15 +729,11 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	}
 
 	private void playerUpdate() {
-		int extraSpeed = 1;
-		if (player1.powerups.containsKey(PowerupType.SPEED)) {
-			extraSpeed = 3;
-		}
 		if (player1.currentDirection.equals(Player.Direction.LEFT)) {
-			player1.x -= 4 * extraSpeed;
+			player1.x -= 4 * player1.getMovementSpeed();
 			updateHitbox(player1);
 		} else if (player1.currentDirection.equals(Player.Direction.RIGHT)) {
-			player1.x += 4 * extraSpeed;
+			player1.x += 4 * player1.getMovementSpeed();
 			updateHitbox(player1);
 		}
 		if (player1.firingCooldown > 0) {

@@ -22,5 +22,4 @@ public class UpgradeIcon extends MSSelectableSprite{
 	public UpgradeType getType(){
 		return type;
 	}
-
 }

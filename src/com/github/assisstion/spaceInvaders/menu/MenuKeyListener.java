@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 public class MenuKeyListener implements KeyListener {
 
-	Menu parent;
+	public Menu parent;
 	
 	public MenuKeyListener(Menu menu){
 		parent = menu;

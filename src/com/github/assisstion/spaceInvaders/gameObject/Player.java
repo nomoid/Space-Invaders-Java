@@ -61,7 +61,7 @@ public class Player extends Sprite {
 	
 	public double getBulletMovementSpeed(){
 		double d = Bullet.BULLET_MOVEMENT_SPEED[BulletType.PLAYER.ordinal()];
-		d *= Math.pow(10/9, upgrades.getUpgrade(UpgradeType.BULLET_SPEED));
+		d *= Math.pow(10.0/9.0, upgrades.getUpgrade(UpgradeType.BULLET_SPEED));
 		if(powerups.containsKey(PowerupType.SPEED)){
 			d *= 1.75;
 		}
@@ -76,5 +76,15 @@ public class Player extends Sprite {
 		int i = upgrades.getUpgrade(UpgradeType.BULLET_DAMAGE);
 		d *= Math.pow(1.25, i);
 		return (int) d;
+	}
+	
+	public double getMovementSpeed(){
+		double d = 1.0;
+		if (powerups.containsKey(PowerupType.SPEED)) {
+			d *= 3;
+		}
+		int i = upgrades.getUpgrade(UpgradeType.PLAYER_SPEED);
+		d *= Math.pow(10.0/9.0, i);
+		return d;
 	}
 }

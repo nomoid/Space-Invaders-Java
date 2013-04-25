@@ -33,8 +33,7 @@ public class MovementClock implements Runnable {
 		 * execute tasks with a given delay.
 		 * See the engine class to see the changes
 		 */
-		System.out.println("move");
-		if(MainCanvas.engine != null){
+		if(MainCanvas.engine != null && MainCanvas.engine.state.equalsIgnoreCase("main")){
 			MainCanvas.engine.moveEnemies();
 		}
 		int a = Helper.serviceCounter();

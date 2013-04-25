@@ -21,24 +21,27 @@ import com.github.assisstion.MSToolkit.style.MSMutableStyle;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.Scheduler;
+import com.github.assisstion.spaceInvaders.menu.UpgradesMenuBuilder;
 
 public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	
 	private static final long serialVersionUID = 5897847762185790426L;
-
-	private MSButton button;
+	private MSButton buttonUpgrade;
+	private MSButton buttonBack;
 	private MSTextLabel label;
 	private HashSet<UpgradeIcon> upgrades = new HashSet<UpgradeIcon>();
 	private MSSingleSelectionGroup group;
 	private ScheduledExecutorService service;
+	private UpgradesMenuBuilder menuParent;
 	
-	public UpgradesCanvas(){
+	public UpgradesCanvas(UpgradesMenuBuilder parent){
+		menuParent = parent;
 		setBackground(Color.BLUE);
 		int width;
 		MSBasicFont buttonFont = new MSBasicFont("Calibri", 20);
 		width = MSHelper.getTextWidth(buttonFont, "Upgrade", null);
-		button = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*9/10, "Upgrade");
-		button.addMSActionListener(new MSActionListener(){
+		buttonUpgrade = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*9/10, "Upgrade");
+		buttonUpgrade.addMSActionListener(new MSActionListener(){
 
 			@Override
 			public void action(MSActionEvent e){
@@ -51,22 +54,26 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 					MSSelectable current = group.getCurrentlySelected() ;
 					if(current instanceof UpgradeIcon){
 						UpgradeIcon ui = (UpgradeIcon) current;
-						switch(ui.getType()){
-							case BULLET_SPEED:
-								System.out.println("Upgrade 1 Complete!");
-								break;
-							case BULLET_DAMAGE:
-								System.out.println("Upgrade 2 Complete!");
-								break;
-							default:
-								throw new IllegalArgumentException("Invalid upgrade type!: " + ui.getType());
-						}
-						
+						MainCanvas.upgrades.upgrade(ui.getType());
+						System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
 					}
 				}
 			}
 
 			
+		});
+		buttonBack = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*19/20, "Back");
+		buttonBack.addMSActionListener(new MSActionListener(){
+			
+			@Override
+			public void action(MSActionEvent e){
+				
+			}
+			
+			@Override
+			public void meaningfulAction(MSActionEvent e){
+				menuParent.exitMenu();
+			}
 		});
 		MSBasicFont titleFont = new MSBasicFont("Calibri", 100);
 		width = MSHelper.getTextWidth(titleFont, "Upgrades", null);
@@ -85,7 +92,8 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 				throw new ClassCastException("Illegal Class in selection group");
 			}
 		}
-		addComponent(button);
+		addComponent(buttonBack);
+		addComponent(buttonUpgrade);
 		addComponent(label);
 	}
 	
@@ -129,6 +137,10 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 			upgrades.add(upgrade0);
 			UpgradeIcon upgrade1 = new UpgradeIcon(UpgradeType.BULLET_DAMAGE, group, 200, 200);
 			upgrades.add(upgrade1);
+			UpgradeIcon upgrade2 = new UpgradeIcon(UpgradeType.PLAYER_SPEED, group, 300, 200);
+			upgrades.add(upgrade2);
+			UpgradeIcon upgrade3 = new UpgradeIcon(UpgradeType.PLAYER_FIRERATE, group, 400, 200);
+			upgrades.add(upgrade3);
 			group.alwaysSelected(upgrade0);
 		}
 		catch(IOException e){

@@ -6,7 +6,6 @@ package com.github.assisstion.spaceInvaders.menu;
 //import java.io.IOException;
 
 //import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
@@ -19,7 +18,6 @@ import static com.github.assisstion.spaceInvaders.MainCanvas.*;
 public class UpgradesMenuBuilder implements MenuBuilder {
 	private Menu parent;
 	private LevelMenuBuilder levelScreen;
-	private JButton returnButton;
 	private UpgradesCanvas canvas;
 	private UpgradesMenuBuilder instance;
 	
@@ -36,7 +34,7 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 		parent.requestFocus();
 		parent.revalidate();
 		
-		canvas = new UpgradesCanvas();
+		canvas = new UpgradesCanvas(this);
 		canvas.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		/*
 		returnButton = new JButton(new ImageIcon(getImage("resources/returnButton.png")));
@@ -57,8 +55,9 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 
 	@Override
 	public void unBuild(Menu menu) {
+		parent = menu;
 		parent.disableMenuKeyListener();
-		parent.remove(returnButton);
+		//parent.remove(returnButton);
 		parent.remove(canvas);
 
 	}
@@ -67,6 +66,10 @@ public class UpgradesMenuBuilder implements MenuBuilder {
 	public void exitMenu() {
 		parent.closeMenu(instance);
 		parent.addMenuBuilder(levelScreen);	
+	}
+	
+	public Menu getParent(){
+		return parent;
 	}
 
 	/*
