@@ -27,4 +27,6 @@ public interface MSComponent extends MSRenderable{
 	int getX();
 	
 	int getY();
+	
+	String getName();
 }

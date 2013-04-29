@@ -37,6 +37,7 @@ import com.github.assisstion.spaceInvaders.menu.HighScoreDataHandler;
 import com.github.assisstion.spaceInvaders.menu.LevelMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.MainMenuBuilder;
 import com.github.assisstion.spaceInvaders.menu.PauseMenuBuilder;
+import com.github.assisstion.spaceInvaders.menu.canvas.UpgradeType;
 
 import static com.github.assisstion.spaceInvaders.Data.*;
 import static com.github.assisstion.spaceInvaders.MainCanvas.*;
@@ -65,6 +66,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	public boolean pixarOn;
 	private int deathCounter;
 	private int nextReward;
+	private int rewardLevel;
 	private boolean rewardAvailable = false;
 	private Powerup.PowerupType openReward;
 	private String tempname = "";
@@ -526,8 +528,8 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 
 	private void hitSpreeUpdate() {
 		for (int i = 0; i < REWARDS_REQUIREMENTS.length; i++) {
-			nextReward = REWARDS_REQUIREMENTS[i];
-			if (hitSpree >= REWARDS_REQUIREMENTS[i]) {
+			nextReward = REWARDS_REQUIREMENTS[rewardLevel][i];
+			if (hitSpree >= REWARDS_REQUIREMENTS[rewardLevel][i]) {
 				openReward = REWARDS_LIST[i];
 				rewardAvailable = true;
 			} else {
@@ -694,6 +696,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 
 				shotsFired = 0;
 				shotsHit = 0;
+				rewardLevel = player1.upgrades.getUpgrade(UpgradeType.REWARD_REQUIREMENT);
 			}
 		}
 
@@ -950,7 +953,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	}
 
 	private void dropPowerup(Enemy e, int x, int y) {
-		int randint = MainCanvas.rand.nextInt(1000);
+		int randint = MainCanvas.rand.nextInt(Powerup.POWERUP_DROP_CHANCE[player1.upgrades.getUpgrade(UpgradeType.POWERUP_FREQUENCY)]);
 		PowerupType fillerType = null;
 		int numeral = getIndex(Powerup.ENEMY_POWERUP_TABLE, e.enemytype);
 		if (randint < Powerup.POWERUP_CHANCES[numeral][0]) {
@@ -974,6 +977,7 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	private void processPowerup(Player player, PowerupType p) {
 		AchievementMethods.Abstinence = false;
 		AchievementMethods.thisIsSparta = false;
+		int powerupFrames = Powerup.POWERUP_FRAMES[player.upgrades.getUpgrade(UpgradeType.POWERUP_LENGTH)];
 		switch (p) {
 		case HEALTH:
 			player.health += Player.PLAYER_DEFAULT_HEALTH / 2;
@@ -983,18 +987,18 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 			break;
 		case FIRERATE:
 			player.powerups.put(PowerupType.FIRERATE,
-					Powerup.DEFAULT_POWERUP_FRAMES);
+					powerupFrames);
 			break;
 		case DAMAGE:
 			player.powerups.put(PowerupType.DAMAGE,
-					Powerup.DEFAULT_POWERUP_FRAMES);
+					powerupFrames);
 			break;
 		case XTRALIFE:
 			player.livesRemaining++;
 			break;
 		case SPEED:
 			player.powerups.put(PowerupType.SPEED,
-					Powerup.DEFAULT_POWERUP_FRAMES);
+					powerupFrames);
 			break;
 		case STEROIDS:
 			AchievementMethods.redeemAchievement(new Achievement(

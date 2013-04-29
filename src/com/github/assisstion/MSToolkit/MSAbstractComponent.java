@@ -43,4 +43,8 @@ public abstract class MSAbstractComponent implements MSComponent{
 		this.style = style;
 	}
 
+	@Override
+	public String getName(){
+		return toString();
+	}
 }

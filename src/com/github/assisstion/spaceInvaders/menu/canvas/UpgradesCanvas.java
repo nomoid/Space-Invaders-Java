@@ -29,6 +29,7 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	private MSButton buttonUpgrade;
 	private MSButton buttonBack;
 	private MSTextLabel label;
+	private MSTextLabel display;
 	private HashSet<UpgradeIcon> upgrades = new HashSet<UpgradeIcon>();
 	private MSSingleSelectionGroup group;
 	private ScheduledExecutorService service;
@@ -92,9 +93,15 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 				throw new ClassCastException("Illegal Class in selection group");
 			}
 		}
+		display = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT/50, "", false);
+		MSBasicFont displayFont = new MSBasicFont("Calibri", 30);
+		newStyle = MSStyleManager.getMutableStyle(style);
+		newStyle.setFont(displayFont);
+		display.setStyle(newStyle);
 		addComponent(buttonBack);
 		addComponent(buttonUpgrade);
 		addComponent(label);
+		addComponent(display);
 	}
 	
 
@@ -141,7 +148,35 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 			upgrades.add(upgrade2);
 			UpgradeIcon upgrade3 = new UpgradeIcon(UpgradeType.PLAYER_FIRERATE, group, 400, 200);
 			upgrades.add(upgrade3);
+			UpgradeIcon upgrade4 = new UpgradeIcon(UpgradeType.REWARD_REQUIREMENT, group, 150, 300);
+			upgrades.add(upgrade4);
+			UpgradeIcon upgrade5 = new UpgradeIcon(UpgradeType.POWERUP_LENGTH, group, 250, 300);
+			upgrades.add(upgrade5);
+			UpgradeIcon upgrade6 = new UpgradeIcon(UpgradeType.POWERUP_FREQUENCY, group, 350, 300);
+			upgrades.add(upgrade6);
 			group.alwaysSelected(upgrade0);
+			for(MSSelectable selectable : group.getSelectables()){
+				if(selectable instanceof UpgradeIcon){
+					UpgradeIcon upgrade = (UpgradeIcon) selectable;
+					upgrade.addMSActionListener(new MSActionListener(){
+
+						@Override
+						public void action(MSActionEvent e){
+							
+						}
+
+						@Override
+						public void meaningfulAction(MSActionEvent e){
+							if(e.getMessage().equals("Selected")){
+								display.setText(e.getSource().getName());
+							}
+						}
+					});
+				}
+				else{
+					throw new ClassCastException("Illegal Class in selection group");
+				}
+			}
 		}
 		catch(IOException e){
 			e.printStackTrace();

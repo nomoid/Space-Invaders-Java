@@ -25,28 +25,28 @@ public final class Data {
 
 	public static final int[][] LEVELS = { { 7, 4 }, { 9, 5 }, { 12, 6 },
 			{ 13, 7 }, { 15, 8 }, { 18, 10 }, {18, 10}};
-	public static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
+	public static final Enemy.EnemyType[] LEVEL1DATA = { Enemy.EnemyType.NORMAL,
+			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
 
 
 
-	public static final Enemy.EnemyType[] LEVEL2DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
+	public static final Enemy.EnemyType[] LEVEL2DATA = { Enemy.EnemyType.BLUE,
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
+			Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL };
 	public static final Enemy.EnemyType[] LEVEL3DATA = { Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL,
+			Enemy.EnemyType.RED, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL,
 			Enemy.EnemyType.NORMAL };
 	public static final Enemy.EnemyType[] LEVEL4DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
 			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE,
-			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL };
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.NORMAL, Enemy.EnemyType.NORMAL };
 	public static final Enemy.EnemyType[] LEVEL5DATA = { Enemy.EnemyType.RED,
 			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
-			Enemy.EnemyType.RED, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE };
+			Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.BLUE,
+			Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE, Enemy.EnemyType.BLUE };
 	
 	public static final Enemy.EnemyType[] MINIGAMEDATA = { Enemy.EnemyType.RED,
 		Enemy.EnemyType.RED, Enemy.EnemyType.RED, Enemy.EnemyType.RED,
@@ -58,7 +58,14 @@ public final class Data {
 			Powerup.PowerupType.BUNKER, Powerup.PowerupType.DAMAGE,
 			Powerup.PowerupType.FIRERATE, Powerup.PowerupType.XTRALIFE,
 			Powerup.PowerupType.STEROIDS };
-	public static final int[] REWARDS_REQUIREMENTS = { 5, 8, 11, 15, 20, 23, 30 };
+	public static final int[][] REWARDS_REQUIREMENTS = {
+		{  5, 10, 15, 20, 25, 30, 40 },
+		{  4,  8, 12, 16, 20, 25, 30 },
+		{  4,  7, 10, 14, 18, 22, 25 },
+		{  4,  7, 10, 13, 16, 19, 22 },
+		{  3,  6,  9, 12, 15, 18, 21 },
+		{  3,  5,  8, 10, 13, 16, 20 },
+		};
 	
 	public static final String BULLET_SOUND = "resources/bulletsound.wav";
 }

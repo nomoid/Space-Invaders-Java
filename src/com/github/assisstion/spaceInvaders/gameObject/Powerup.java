@@ -4,15 +4,17 @@ import com.github.assisstion.spaceInvaders.gameObject.Enemy.EnemyType;
 
 public class Powerup extends Sprite{
 	
-	public static final int DEFAULT_POWERUP_FRAMES = 1250;
+	public static final int[] POWERUP_FRAMES = 
+		{1000, 1200, 1400, 1600, 1800, 2000};
 	private static String[] POWERUP_IMAGE = {LinkHolder.healthBoost,LinkHolder.firerateBoost,LinkHolder.powerBoost,LinkHolder.speedBoost};
 	public static final int[][] POWERUP_CHANCES = {
 		{40, 22, 32, 37, 40},
 		{80, 45, 65, 72, 80},
 		{160, 90, 130, 150, 160},
-		{1000, 200, 400, 650, 1000},
+		{1500, 300, 600, 1000, 1500},
 	};
-	
+	public static final int[] POWERUP_DROP_CHANCE = 
+		{1500, 1300, 1100, 900, 700, 500};
 	
 	public static final EnemyType[] ENEMY_POWERUP_TABLE = {
 		EnemyType.NORMAL, EnemyType.BLUE, EnemyType.RED, EnemyType.MOTHERSHIP

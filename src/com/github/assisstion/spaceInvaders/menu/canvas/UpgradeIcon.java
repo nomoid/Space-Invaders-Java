@@ -22,4 +22,8 @@ public class UpgradeIcon extends MSSelectableSprite{
 	public UpgradeType getType(){
 		return type;
 	}
+	
+	public String getName(){
+		return type.displayName();
+	}
 }

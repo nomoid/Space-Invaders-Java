@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MovementClock implements Runnable {
 	
-	public static final int DEFAULT_SPEED = 1000;
-	public static final int MINIMUM_SPEED = 500;
+	public static final int DEFAULT_SPEED = 2000;
+	public static final int MINIMUM_SPEED = 1000;
 	
 	public MovementClock(int serviceCounter, int id){
 		this.serviceCounter = serviceCounter;
