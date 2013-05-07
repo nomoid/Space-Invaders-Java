@@ -2,16 +2,16 @@ package com.github.assisstion.MSToolkit;
 
 import java.util.Set;
 
-public class MSSingleSelectionGroup extends MSSelectionGroup{
+public class MSSingleSelectionGroup<T extends MSSelectable> extends MSSelectionGroup<T>{
 	
-	protected MSSelectable current;
+	protected T current;
 	protected boolean alwaysSelected;
 	
 	public MSSingleSelectionGroup(){
 
 	}
 	
-	public MSSingleSelectionGroup(Set<MSSelectable> selectables, MSSelectable lead, boolean mustBeSelected){
+	public MSSingleSelectionGroup(Set<T> selectables, MSSelectable lead, boolean mustBeSelected){
 		super(selectables);
 		if(mustBeSelected){
 			lead.select();
@@ -19,7 +19,17 @@ public class MSSingleSelectionGroup extends MSSelectionGroup{
 	}
 	
 	@Override
-	public boolean select(MSSelectable selectable){
+	public boolean select(MSSelectable s){
+		T selectable = null;
+		for(T obj : selectables){
+			if(obj.equals(s)){
+				selectable = obj;
+				break;
+			}
+		}
+		if(selectable == null){
+			throw new MSException("Selectable not in selection group");
+		}
 		if(current == null){
 			boolean b = super.select(selectable);
 			current = selectable;
@@ -55,7 +65,7 @@ public class MSSingleSelectionGroup extends MSSelectionGroup{
 		}
 	}
 	
-	public MSSelectable getCurrentlySelected(){
+	public T getCurrentlySelected(){
 		return current;
 	}
 	

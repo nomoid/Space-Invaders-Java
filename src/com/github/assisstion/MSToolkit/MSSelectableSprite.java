@@ -20,7 +20,7 @@ import com.github.assisstion.MSToolkit.impl.MSHelper;
 public class MSSelectableSprite extends MSSprite 
 		implements MSSelectable, MSMouseListener, MSMouseHandler, MSActionHandler{
 
-	private MSSelectionGroup group;
+	private MSSelectableGroup group;
 	private Set<MSMouseListener> mouseListeners;
 	protected CollectionSynchronizer
 			<Set<MSMouseListener>, MSMouseListener> mouseListenerSync;
@@ -33,15 +33,14 @@ public class MSSelectableSprite extends MSSprite
 		
 	}
 	
-	public MSSelectableSprite(MSSelectionGroup group, int x, int y, String link) 
+	public MSSelectableSprite(MSSelectableGroup group, int x, int y, String link) 
 			throws IOException{
 		this(group, x, y, new MSImage(MSHelper.getImage(link)));
 	}
 	
-	public MSSelectableSprite(MSSelectionGroup group, int x, int y, MSImage image){
+	public MSSelectableSprite(MSSelectableGroup group, int x, int y, MSImage image){
 		super(x, y, image);
 		this.group = group;
-		group.getSelectables().add(this);
 		mouseListeners = new HashSet<MSMouseListener>();
 		mouseListenerSync = new CollectionSynchronizer<Set<MSMouseListener>, 
 				MSMouseListener>(mouseListeners);
@@ -138,10 +137,10 @@ public class MSSelectableSprite extends MSSprite
 	public void mouseClicked(MSMouseEvent e){
 		if(MSHelper.pointIn(getX(), getY(), getX()+getWidth(), getY()+getHeight(), e.getX(), e.getY())){
 			if(isSelected()){
-				getSelectionGroup().deselect(this);
+				getSelectableGroup().deselect(this);
 			}
 			else{
-				getSelectionGroup().select(this);
+				getSelectableGroup().select(this);
 			}
 			processActionEvent(new MSActionEvent(this, e, false));
 			processMouseEvent(e);
@@ -163,7 +162,7 @@ public class MSSelectableSprite extends MSSprite
 	}
 
 	@Override
-	public MSSelectionGroup getSelectionGroup(){
+	public MSSelectableGroup getSelectableGroup(){
 		return group;
 	}
 

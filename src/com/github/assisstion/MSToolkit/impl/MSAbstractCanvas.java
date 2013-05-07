@@ -92,6 +92,9 @@ public abstract class MSAbstractCanvas extends Canvas implements MSContainer{
 	@Override
 	public void render(MSGraphicalContext g, int x, int y){
 		for(MSComponent component : components){
+			if(component.isVisible() == false){
+				g = MSGraphicImpl.emptyGraphicalContext();
+			}
 			if(component instanceof MSGraphicContextual){
 				((MSGraphicContextual) component).setGraphicsContext(g);
 			}

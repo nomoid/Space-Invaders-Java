@@ -29,4 +29,10 @@ public interface MSComponent extends MSRenderable{
 	int getY();
 	
 	String getName();
+	
+	void hide();
+	
+	void show();
+
+	boolean isVisible();
 }

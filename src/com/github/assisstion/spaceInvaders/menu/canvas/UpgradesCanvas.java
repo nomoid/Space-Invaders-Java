@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.assisstion.MSToolkit.MSBasicFont;
 import com.github.assisstion.MSToolkit.MSButton;
-import com.github.assisstion.MSToolkit.MSSelectable;
 import com.github.assisstion.MSToolkit.MSSingleSelectionGroup;
 import com.github.assisstion.MSToolkit.MSTextLabel;
 import com.github.assisstion.MSToolkit.event.MSActionEvent;
@@ -31,11 +30,12 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	private MSTextLabel label;
 	private MSTextLabel display;
 	private HashSet<UpgradeIcon> upgrades = new HashSet<UpgradeIcon>();
-	private MSSingleSelectionGroup group;
+	private MSSingleSelectionGroup<UpgradeIcon> group;
 	private ScheduledExecutorService service;
 	private UpgradesMenuBuilder menuParent;
 	
 	public UpgradesCanvas(UpgradesMenuBuilder parent){
+		try{
 		menuParent = parent;
 		setBackground(Color.BLUE);
 		int width;
@@ -52,12 +52,9 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 			@Override
 			public void meaningfulAction(MSActionEvent e){
 				if(group.currentlySelected()){
-					MSSelectable current = group.getCurrentlySelected() ;
-					if(current instanceof UpgradeIcon){
-						UpgradeIcon ui = (UpgradeIcon) current;
-						MainCanvas.upgrades.upgrade(ui.getType());
-						System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
-					}
+					UpgradeIcon ui = group.getCurrentlySelected() ;
+					MainCanvas.upgrades.upgrade(ui.getType());
+					System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
 				}
 			}
 
@@ -82,26 +79,26 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 		MSMutableStyle newStyle = MSStyleManager.getMutableStyle(style);
 		newStyle.setFont(titleFont);
 		label.setStyle(newStyle);
-		group = new MSSingleSelectionGroup();
+		group = new MSSingleSelectionGroup<UpgradeIcon>();
 		addUpgrades(group);
-		for(MSSelectable c : group.getSelectables()){
-			if(c instanceof UpgradeIcon){
-				UpgradeIcon ui = (UpgradeIcon) c;
-				addComponent(ui);
-			}
-			else{
-				throw new ClassCastException("Illegal Class in selection group");
-			}
+		for(UpgradeIcon ui : group.getSelectables()){
+			addComponent(ui);
 		}
-		display = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT/50, "", false);
+		display = new MSTextLabel((MainCanvas.FRAME_WIDTH*5)/8, MainCanvas.FRAME_HEIGHT/4, "", false);
 		MSBasicFont displayFont = new MSBasicFont("Calibri", 30);
 		newStyle = MSStyleManager.getMutableStyle(style);
 		newStyle.setFont(displayFont);
 		display.setStyle(newStyle);
+		display.setText(group.getCurrentlySelected().getName());
+		
 		addComponent(buttonBack);
 		addComponent(buttonUpgrade);
 		addComponent(label);
 		addComponent(display);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -138,44 +135,45 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 		service.scheduleAtFixedRate(clock, 16, 16, TimeUnit.MILLISECONDS);
 	}
 	
-	private void addUpgrades(MSSingleSelectionGroup group){
+	private void addUpgrades(MSSingleSelectionGroup<UpgradeIcon> group){
 		try{
 			UpgradeIcon upgrade0 = new UpgradeIcon(UpgradeType.BULLET_SPEED, group, 100, 200);
 			upgrades.add(upgrade0);
+			group.add(upgrade0);
 			UpgradeIcon upgrade1 = new UpgradeIcon(UpgradeType.BULLET_DAMAGE, group, 200, 200);
 			upgrades.add(upgrade1);
+			group.add(upgrade1);
 			UpgradeIcon upgrade2 = new UpgradeIcon(UpgradeType.PLAYER_SPEED, group, 300, 200);
 			upgrades.add(upgrade2);
+			group.add(upgrade2);
 			UpgradeIcon upgrade3 = new UpgradeIcon(UpgradeType.PLAYER_FIRERATE, group, 400, 200);
 			upgrades.add(upgrade3);
+			group.add(upgrade3);
 			UpgradeIcon upgrade4 = new UpgradeIcon(UpgradeType.REWARD_REQUIREMENT, group, 150, 300);
 			upgrades.add(upgrade4);
+			group.add(upgrade4);
 			UpgradeIcon upgrade5 = new UpgradeIcon(UpgradeType.POWERUP_LENGTH, group, 250, 300);
 			upgrades.add(upgrade5);
+			group.add(upgrade5);
 			UpgradeIcon upgrade6 = new UpgradeIcon(UpgradeType.POWERUP_FREQUENCY, group, 350, 300);
 			upgrades.add(upgrade6);
+			group.add(upgrade6);
 			group.alwaysSelected(upgrade0);
-			for(MSSelectable selectable : group.getSelectables()){
-				if(selectable instanceof UpgradeIcon){
-					UpgradeIcon upgrade = (UpgradeIcon) selectable;
-					upgrade.addMSActionListener(new MSActionListener(){
+			for(UpgradeIcon upgrade : group.getSelectables()){
+				upgrade.addMSActionListener(new MSActionListener(){
 
-						@Override
-						public void action(MSActionEvent e){
-							
-						}
+					@Override
+					public void action(MSActionEvent e){
+						
+					}
 
-						@Override
-						public void meaningfulAction(MSActionEvent e){
-							if(e.getMessage().equals("Selected")){
-								display.setText(e.getSource().getName());
-							}
+					@Override
+					public void meaningfulAction(MSActionEvent e){
+						if(e.getMessage().equals("Selected")){
+							display.setText(e.getSource().getName());
 						}
-					});
-				}
-				else{
-					throw new ClassCastException("Illegal Class in selection group");
-				}
+					}
+				});
 			}
 		}
 		catch(IOException e){

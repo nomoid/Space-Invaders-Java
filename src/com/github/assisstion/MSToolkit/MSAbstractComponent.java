@@ -7,6 +7,7 @@ public abstract class MSAbstractComponent implements MSComponent{
 	protected MSStyle style;
 	protected int x;
 	protected int y;
+	protected boolean visible = true;
 	
 	protected MSAbstractComponent(){
 		
@@ -46,5 +47,20 @@ public abstract class MSAbstractComponent implements MSComponent{
 	@Override
 	public String getName(){
 		return toString();
+	}
+	
+	@Override
+	public boolean isVisible(){
+		return visible;
+	}
+	
+	@Override
+	public void hide(){
+		visible = false;
+	}
+	
+	@Override
+	public void show(){
+		visible = true;
 	}
 }

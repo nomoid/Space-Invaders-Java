@@ -14,7 +14,7 @@ public class UpgradeIcon extends MSSelectableSprite{
 	private UpgradeType type;
 	
 	public UpgradeIcon(UpgradeType type,
-			MSSingleSelectionGroup group, int x, int y) throws IOException{
+			MSSingleSelectionGroup<? extends UpgradeIcon> group, int x, int y) throws IOException{
 		super(group, x, y, IMAGE_LOCATIONS[type.ordinal()]);
 		this.type = type;
 	}
