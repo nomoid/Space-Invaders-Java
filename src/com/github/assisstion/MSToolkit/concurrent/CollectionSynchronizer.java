@@ -41,6 +41,11 @@ public class CollectionSynchronizer<T extends Collection<S>, S>{
 			return ci.getReturnValue();
 		}
 		
+		public void clear(){
+			CollectionClearer cc = new CollectionClearer();
+			new Thread(cc).start();
+		}
+		
 		public T getCollection(){
 			return collection;
 		}
@@ -128,6 +133,16 @@ public class CollectionSynchronizer<T extends Collection<S>, S>{
 			public void run(){
 				synchronized(lock){
 					returnValue.put(collection.iterator());
+				}
+			}
+		}
+		
+		private class CollectionClearer implements Runnable{
+			
+			@Override
+			public void run(){
+				synchronized(lock){
+					collection.clear();
 				}
 			}
 		}

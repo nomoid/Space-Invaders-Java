@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import com.github.assisstion.MSToolkit.impl.MSHelper;
+
 public class Main{
 	
 	private static boolean running;
@@ -41,6 +43,7 @@ public class Main{
 		@Override
 		public void run(){
 			running = false;
+			MSHelper.disableSystem();
 			ResourceManager.setMuted(true);
 			System.out.println("Shutdown");
 		}

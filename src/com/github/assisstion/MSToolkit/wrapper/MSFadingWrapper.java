@@ -1,18 +1,25 @@
 package com.github.assisstion.MSToolkit.wrapper;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.github.assisstion.MSToolkit.MSComponent;
 import com.github.assisstion.MSToolkit.concurrent.CollectionSynchronizer;
+import com.github.assisstion.MSToolkit.concurrent.ScheduledRunnable;
+import com.github.assisstion.MSToolkit.impl.MSHelper;
 
 public class MSFadingWrapper<T extends MSComponent>{
 	
+	private static FadingTimer fader;
 	private T object;
-	private CollectionSynchronizer<HashSet<FadingTimer>, FadingTimer> timers;
+	private ScheduledRunnable sr;
+	
+	static{
+		fader = new FadingTimer();
+		new Thread(fader, "Fading-Timer").start();
+	}
 	
 	public MSFadingWrapper(T obj){
-		timers = new CollectionSynchronizer<HashSet<FadingTimer>, FadingTimer>(new HashSet<FadingTimer>());
 		this.object = obj;
 	}
 	
@@ -40,54 +47,81 @@ public class MSFadingWrapper<T extends MSComponent>{
 			}
 			
 		};
-		new Thread(new FadingTimer(r, millis)).start();
+		
+		sr = new ScheduledRunnable(r, millis);
+		fader.add(sr);
 	}
 	
 	protected void override(){
-		Iterable<FadingTimer> iter = new Iterable<FadingTimer>(){
-
-			@Override
-			public Iterator<FadingTimer> iterator(){
-				return timers.iterator().get();
-			}
-		};
-		for(FadingTimer timer : iter){
-			timer.interrupt();
-		}
+		fader.remove(sr);
 	}
 	
-	private static class FadingTimer implements Runnable{
+	protected static class FadingTimer implements Runnable{
+		private CollectionSynchronizer<LinkedList<ScheduledRunnable>, ScheduledRunnable> queue;
+		private static final long DELAY = 250;
+		private boolean stopped;
 		
-		private long length;
-		private long startTime;
-		private Runnable task;
-		
-		//Milliseconds
-		public FadingTimer(Runnable task, long length){
-			startTime = System.currentTimeMillis();
-			this.task = task;
-			this.length = length;
-		}
-		
-		public long timeRemaining(){
-			return length - (System.currentTimeMillis() - startTime);
+		public FadingTimer(){
+			
 		}
 
 		@Override
 		public void run(){
-			try{
-				while(timeRemaining() > 0){
-					Thread.sleep(1000);
+			while(MSHelper.isSystemOn()){
+				try{
+					Thread.sleep(DELAY);
+
+					Iterable<ScheduledRunnable> iter = new Iterable<ScheduledRunnable>(){
+
+						@Override
+						public Iterator<ScheduledRunnable> iterator(){
+							return queue.iterator().get();
+						}
+					};
+					for(ScheduledRunnable sr : iter){
+						if(stopped){
+							break;
+						}
+						if(sr.isStopped()){
+							continue;
+						}
+						long time = System.currentTimeMillis() - sr.getLastStart();
+						if(time > sr.getDelay()){
+							sr.setLoops(sr.getLoops() - 1);
+							if(sr.getLoops() < 0){
+								queue.remove(sr);
+								continue;
+							}
+							else{
+								new Thread(sr).start();
+							}
+						}
+					}
+					stopped = false;
 				}
-				task.run();
-			}
-			catch(InterruptedException e){
-				
+				catch(InterruptedException e){
+					
+				}
 			}
 		}
 		
-		public void interrupt(){
-			Thread.currentThread().interrupt();
+		public void add(ScheduledRunnable sr){
+			sr.setStopped(false);
+			queue.add(sr);
 		}
+		
+		public void remove(ScheduledRunnable sr){
+			sr.setStopped(true);
+			queue.remove(sr);
+		}
+		
+		public void stopAll(){
+			stopped = true;
+			queue.clear();
+		}
+	}
+	
+	public static void stopAll(){
+		fader.stopAll();
 	}
 }
