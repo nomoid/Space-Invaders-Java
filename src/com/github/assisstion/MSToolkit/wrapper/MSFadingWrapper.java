@@ -62,7 +62,7 @@ public class MSFadingWrapper<T extends MSComponent>{
 		private boolean stopped;
 		
 		public FadingTimer(){
-			
+			queue = new CollectionSynchronizer<LinkedList<ScheduledRunnable>, ScheduledRunnable>(new LinkedList<ScheduledRunnable>());
 		}
 
 		@Override
@@ -73,9 +73,16 @@ public class MSFadingWrapper<T extends MSComponent>{
 
 					Iterable<ScheduledRunnable> iter = new Iterable<ScheduledRunnable>(){
 
+						public Iterator<ScheduledRunnable> iterator;
+						
+						{
+							iterator = queue.iterator().get();
+						}
+						
+						
 						@Override
 						public Iterator<ScheduledRunnable> iterator(){
-							return queue.iterator().get();
+							return iterator;
 						}
 					};
 					for(ScheduledRunnable sr : iter){
@@ -101,6 +108,9 @@ public class MSFadingWrapper<T extends MSComponent>{
 				}
 				catch(InterruptedException e){
 					
+				}
+				catch(Exception e){
+					e.printStackTrace();
 				}
 			}
 		}

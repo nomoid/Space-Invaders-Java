@@ -18,6 +18,7 @@ import com.github.assisstion.MSToolkit.impl.MSAbstractCanvas;
 import com.github.assisstion.MSToolkit.impl.MSHelper;
 import com.github.assisstion.MSToolkit.style.MSMutableStyle;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
+import com.github.assisstion.MSToolkit.wrapper.MSFadingWrapper;
 import com.github.assisstion.spaceInvaders.MainCanvas;
 import com.github.assisstion.spaceInvaders.Scheduler;
 import com.github.assisstion.spaceInvaders.menu.UpgradesMenuBuilder;
@@ -55,6 +56,16 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 					UpgradeIcon ui = group.getCurrentlySelected() ;
 					MainCanvas.upgrades.upgrade(ui.getType());
 					System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
+					MSBasicFont font = new MSBasicFont("Calibri", 40);
+					int width = MSHelper.getTextWidth(font, "Upgrade Complete!", null);
+					MSTextLabel label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*4/5, "Upgrade Complete!", false);
+					MSMutableStyle ms = MSStyleManager.getMutableStyle(style);
+					ms.setFont(font);
+					label.setStyle(ms);
+					MSFadingWrapper<MSTextLabel> wrapper = new MSFadingWrapper<MSTextLabel>(label);
+					label.hide();
+					addComponent(label);
+					wrapper.displayForTime(3000);
 				}
 			}
 
