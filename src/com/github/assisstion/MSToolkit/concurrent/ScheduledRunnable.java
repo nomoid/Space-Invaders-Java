@@ -55,6 +55,7 @@ public class ScheduledRunnable implements Runnable{
 	public void run(){
 		updateLastStart();
 		runnable.run();
+		setStopped(true);
 	}
 	
 	public void updateLastStart(){

@@ -65,7 +65,13 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 					MSFadingWrapper<MSTextLabel> wrapper = new MSFadingWrapper<MSTextLabel>(label);
 					label.hide();
 					addComponent(label);
-					wrapper.displayForTime(3000);
+					final MSTextLabel textLabel = label;
+					wrapper.displayForTime(3000, new Runnable(){
+						@Override
+						public void run(){
+							removeComponent(textLabel);
+						}
+					});
 				}
 			}
 

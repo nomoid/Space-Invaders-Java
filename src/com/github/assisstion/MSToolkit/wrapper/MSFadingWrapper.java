@@ -38,12 +38,26 @@ public class MSFadingWrapper<T extends MSComponent>{
 	}
 	
 	public void displayForTime(long millis){
+		displayForTime(millis, null);
+	}
+	
+	public void displayForTime(long millis, Runnable finishing){
 		object.show();
+		final Runnable tempFinishing = finishing;
 		Runnable r = new Runnable(){
+			
+			private Runnable finishing;
+			
+			{
+				finishing = tempFinishing;
+			}
 
 			@Override
 			public void run(){
 				object.hide();
+				if(finishing != null){
+					new Thread(finishing).start();
+				}
 			}
 			
 		};
@@ -67,9 +81,10 @@ public class MSFadingWrapper<T extends MSComponent>{
 
 		@Override
 		public void run(){
+			boolean active = true;
 			while(MSHelper.isSystemOn()){
 				try{
-					Thread.sleep(DELAY);
+					Thread.sleep(active ? DELAY : DELAY * 4);
 
 					Iterable<ScheduledRunnable> iter = new Iterable<ScheduledRunnable>(){
 
@@ -85,6 +100,13 @@ public class MSFadingWrapper<T extends MSComponent>{
 							return iterator;
 						}
 					};
+					if(!iter.iterator().hasNext()){
+						active = false;
+					}
+					else{
+						active = true;
+					}
+					LinkedList<ScheduledRunnable> ll = new LinkedList<ScheduledRunnable>();
 					for(ScheduledRunnable sr : iter){
 						if(stopped){
 							break;
@@ -94,20 +116,22 @@ public class MSFadingWrapper<T extends MSComponent>{
 						}
 						long time = System.currentTimeMillis() - sr.getLastStart();
 						if(time > sr.getDelay()){
+							new Thread(sr).start();
 							sr.setLoops(sr.getLoops() - 1);
-							if(sr.getLoops() < 0){
-								queue.remove(sr);
+							if(sr.getLoops() <= 0){
+								ll.add(sr);
 								continue;
-							}
-							else{
-								new Thread(sr).start();
 							}
 						}
 					}
+					for(ScheduledRunnable sr : ll){
+						queue.remove(sr);
+					}
+					ll.clear();
 					stopped = false;
 				}
 				catch(InterruptedException e){
-					
+					e.printStackTrace();
 				}
 				catch(Exception e){
 					e.printStackTrace();

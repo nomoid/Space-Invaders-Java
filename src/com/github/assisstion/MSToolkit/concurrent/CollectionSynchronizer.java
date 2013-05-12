@@ -132,7 +132,37 @@ public class CollectionSynchronizer<T extends Collection<S>, S>{
 			@Override
 			public void run(){
 				synchronized(lock){
-					returnValue.put(collection.iterator());
+					Iterator<S> newIter = new Iterator<S>(){
+
+						private Iterator<S> iterator;
+						
+						{
+							iterator = collection.iterator();
+						}
+						
+						@Override
+						public boolean hasNext(){
+							synchronized(lock){
+								return iterator.hasNext();
+							}
+						}
+
+						@Override
+						public S next(){
+							synchronized(lock){
+								return iterator.next();
+							}
+						}
+
+						@Override
+						public void remove(){
+							synchronized(lock){
+								iterator.remove();
+							}
+						}
+						
+					};
+					returnValue.put(newIter);
 				}
 			}
 		}

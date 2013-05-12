@@ -75,7 +75,6 @@ class MSGraphicImpl implements MSGraphicalContext, ImageObserver{
 			@Override
 			public void drawString(String str, int x, int y){
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
