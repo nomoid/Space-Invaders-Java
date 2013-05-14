@@ -30,7 +30,7 @@ public class Boss extends Sprite implements IrregularHitbox{
 	public static int BOSS_IMAGE_WIDTH = 32;
 	public static int BOSS_IMAGE_HEIGHT = 32;
 	private static String BOSS_IMAGE =
-			"resources/SpaceShip.png";
+			LinkHolder.player;
 	public static final int[][] 
 			BOSS_HITBOX_FORMATION = {
 			{0, 0, BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT},

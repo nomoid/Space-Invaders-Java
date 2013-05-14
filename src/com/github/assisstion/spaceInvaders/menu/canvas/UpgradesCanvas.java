@@ -3,7 +3,7 @@ package com.github.assisstion.spaceInvaders.menu.canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 //import java.awt.Graphics2D;
@@ -30,10 +30,10 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	private MSButton buttonBack;
 	private MSTextLabel label;
 	private MSTextLabel display;
-	private HashSet<UpgradeIcon> upgrades = new HashSet<UpgradeIcon>();
 	private MSSingleSelectionGroup<UpgradeIcon> group;
 	private ScheduledExecutorService service;
 	private UpgradesMenuBuilder menuParent;
+	private ArrayList<MSTextLabel> upgradeInfo;
 	
 	public UpgradesCanvas(UpgradesMenuBuilder parent){
 		try{
@@ -66,7 +66,7 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 					label.hide();
 					addComponent(label);
 					final MSTextLabel textLabel = label;
-					wrapper.displayForTime(3000, new Runnable(){
+					wrapper.displayForTime(1500, new Runnable(){
 						@Override
 						public void run(){
 							removeComponent(textLabel);
@@ -100,6 +100,9 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 		addUpgrades(group);
 		for(UpgradeIcon ui : group.getSelectables()){
 			addComponent(ui);
+		}
+		for(MSTextLabel label : upgradeInfo){
+			addComponent(label);
 		}
 		display = new MSTextLabel((MainCanvas.FRAME_WIDTH*5)/8, MainCanvas.FRAME_HEIGHT/4, "", false);
 		MSBasicFont displayFont = new MSBasicFont("Calibri", 30);
@@ -154,27 +157,45 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	
 	private void addUpgrades(MSSingleSelectionGroup<UpgradeIcon> group){
 		try{
+			MSBasicFont font = new MSBasicFont(MSStyleManager.getDefaultStyleSystem().getLabel().getFont().getName(), 15);
+			upgradeInfo = new ArrayList<MSTextLabel>();
+			
 			UpgradeIcon upgrade0 = new UpgradeIcon(UpgradeType.BULLET_SPEED, group, 100, 200);
-			upgrades.add(upgrade0);
 			group.add(upgrade0);
+			MSTextLabel text0 = new MSTextLabel(100, 250, UpgradeType.BULLET_SPEED.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text0);
+			
+			
 			UpgradeIcon upgrade1 = new UpgradeIcon(UpgradeType.BULLET_DAMAGE, group, 200, 200);
-			upgrades.add(upgrade1);
 			group.add(upgrade1);
+			MSTextLabel text1 = new MSTextLabel(200, 250, UpgradeType.BULLET_DAMAGE.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text1);
+			
 			UpgradeIcon upgrade2 = new UpgradeIcon(UpgradeType.PLAYER_SPEED, group, 300, 200);
-			upgrades.add(upgrade2);
 			group.add(upgrade2);
+			MSTextLabel text2 = new MSTextLabel(300, 250, UpgradeType.PLAYER_SPEED.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text2);
+			
 			UpgradeIcon upgrade3 = new UpgradeIcon(UpgradeType.PLAYER_FIRERATE, group, 400, 200);
-			upgrades.add(upgrade3);
 			group.add(upgrade3);
+			MSTextLabel text3 = new MSTextLabel(400, 250, UpgradeType.PLAYER_FIRERATE.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text3);
+			
 			UpgradeIcon upgrade4 = new UpgradeIcon(UpgradeType.REWARD_REQUIREMENT, group, 150, 300);
-			upgrades.add(upgrade4);
 			group.add(upgrade4);
+			MSTextLabel text4 = new MSTextLabel(150, 350, UpgradeType.REWARD_REQUIREMENT.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text4);
+			
 			UpgradeIcon upgrade5 = new UpgradeIcon(UpgradeType.POWERUP_LENGTH, group, 250, 300);
-			upgrades.add(upgrade5);
 			group.add(upgrade5);
+			MSTextLabel text5 = new MSTextLabel(250, 350, UpgradeType.POWERUP_LENGTH.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text5);
+			
 			UpgradeIcon upgrade6 = new UpgradeIcon(UpgradeType.POWERUP_FREQUENCY, group, 350, 300);
-			upgrades.add(upgrade6);
 			group.add(upgrade6);
+			MSTextLabel text6 = new MSTextLabel(350, 350, UpgradeType.POWERUP_FREQUENCY.shortDisplayName(), MSStyleManager.getDefaultStyleSystem().getLabel().getForeground(), font);
+			upgradeInfo.add(text6);
+			
 			group.alwaysSelected(upgrade0);
 			for(UpgradeIcon upgrade : group.getSelectables()){
 				upgrade.addMSActionListener(new MSActionListener(){

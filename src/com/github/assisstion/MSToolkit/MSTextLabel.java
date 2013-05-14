@@ -1,6 +1,7 @@
 package com.github.assisstion.MSToolkit;
 
 import com.github.assisstion.MSToolkit.impl.MSHelper;
+import com.github.assisstion.MSToolkit.style.MSMutableStyle;
 import com.github.assisstion.MSToolkit.style.MSStyleManager;
 
 public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphicContextual{
@@ -13,9 +14,28 @@ public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphic
 		
 	}
 	
+	public MSTextLabel(int x, int y, String text){
+		this(x, y, text, false);
+	}
+	
 	public MSTextLabel(int x, int y, String text, boolean filled){
 		super(x, y);
 		style = MSStyleManager.getDefaultStyleSystem().getLabel();
+		this.text = text;
+		this.filled = filled;
+	}
+	
+	public MSTextLabel(int x, int y, String text, MSColor color, MSFont font){
+		this(x, y, text, false, color, MSStyleManager.getDefaultStyleSystem().getLabel().getFrontBackground(), font);
+	}
+	
+	public MSTextLabel(int x, int y, String text, boolean filled, MSColor color, MSColor fillColor, MSFont font){
+		super(x, y);
+		MSMutableStyle mms = MSStyleManager.getMutableStyle(MSStyleManager.getDefaultStyleSystem().getLabel());
+		mms.setForeground(color);
+		mms.setFrontBackground(fillColor);
+		mms.setFont(font);
+		style = mms;
 		this.text = text;
 		this.filled = filled;
 	}

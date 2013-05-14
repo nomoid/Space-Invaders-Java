@@ -280,6 +280,7 @@ public class LevelMenuBuilder implements MenuBuilder, KeyListener {
 			MainCanvas.menu.add(MainCanvas.engine);
 			MainCanvas.engine.state = "main";
 			MainCanvas.frame.pack();
+			MainCanvas.engine.updateRewardLevel();
 		}
 
 	}

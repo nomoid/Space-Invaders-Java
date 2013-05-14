@@ -679,8 +679,8 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 
 			
 		} else {
-			if (state != "paused") {
-				state = "paused";
+			if (state != "pause") {
+				state = "pause";
 				levelCleanup();
 				constructEnemyFormation(currentLevel);
 				MovementClock.setMovementSpeed(MovementClock.DEFAULT_SPEED, false);
@@ -696,7 +696,6 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 
 				shotsFired = 0;
 				shotsHit = 0;
-				rewardLevel = player1.upgrades.getUpgrade(UpgradeType.REWARD_REQUIREMENT);
 			}
 		}
 
@@ -1404,5 +1403,9 @@ public class Engine extends Canvas implements KeyListener, Scheduler {
 	@Override
 	public void setService(ScheduledExecutorService ses){
 		service = ses;
+	}
+
+	public void updateRewardLevel(){
+		rewardLevel = player1.upgrades.getUpgrade(UpgradeType.REWARD_REQUIREMENT);
 	}
 }

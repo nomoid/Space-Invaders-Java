@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import com.github.assisstion.spaceInvaders.AchievementMethods;
 import com.github.assisstion.spaceInvaders.ResourceManager;
 import com.github.assisstion.spaceInvaders.gameObject.Achievement;
+import com.github.assisstion.spaceInvaders.gameObject.LinkHolder;
 @ReturnableMenu
 public class PlotMenuBuilder implements MenuBuilder {
 	
@@ -28,7 +29,7 @@ public class PlotMenuBuilder implements MenuBuilder {
 	public void build(Menu menu) {
 		AchievementMethods.redeemAchievement(new Achievement("Taking Orders"));
 		parent=menu;
-		mainlabel = new JLabel(new ImageIcon("resources/Spaceship.png"));
+		mainlabel = new JLabel(new ImageIcon(LinkHolder.player));
 		mainlabel.setBounds(960/2,100,100,100);
 		parent.add(mainlabel);
 

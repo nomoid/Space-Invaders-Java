@@ -69,4 +69,25 @@ public enum UpgradeType{
 		}
 		return s;
 	}
+	
+	public String shortDisplayName(){
+		switch(this){
+			case BULLET_SPEED: 
+				return "Bullet Spe.";
+			case BULLET_DAMAGE:
+				return "Bullet Dmg.";
+			case PLAYER_SPEED:
+				return "Player Spe.";
+			case PLAYER_FIRERATE:
+				return "Player FR";
+			case REWARD_REQUIREMENT:
+				return "Reward Req.";
+			case POWERUP_LENGTH:
+				return "Powerup Len.";
+			case POWERUP_FREQUENCY:
+				return "Powerup Freq.";
+			default:
+				return "";
+		}
+	}
 }
