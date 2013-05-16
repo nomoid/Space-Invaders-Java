@@ -30,6 +30,7 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	private MSButton buttonBack;
 	private MSTextLabel label;
 	private MSTextLabel display;
+	private MSTextLabel detailDisplay;
 	private MSSingleSelectionGroup<UpgradeIcon> group;
 	private ScheduledExecutorService service;
 	private UpgradesMenuBuilder menuParent;
@@ -37,84 +38,91 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 	
 	public UpgradesCanvas(UpgradesMenuBuilder parent){
 		try{
-		menuParent = parent;
-		setBackground(Color.BLUE);
-		int width;
-		MSBasicFont buttonFont = new MSBasicFont("Calibri", 20);
-		width = MSHelper.getTextWidth(buttonFont, "Upgrade", null);
-		buttonUpgrade = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*9/10, "Upgrade");
-		buttonUpgrade.addMSActionListener(new MSActionListener(){
-
-			@Override
-			public void action(MSActionEvent e){
-				
-			}
-
-			@Override
-			public void meaningfulAction(MSActionEvent e){
-				if(group.currentlySelected()){
-					UpgradeIcon ui = group.getCurrentlySelected() ;
-					MainCanvas.upgrades.upgrade(ui.getType());
-					System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
-					MSBasicFont font = new MSBasicFont("Calibri", 40);
-					int width = MSHelper.getTextWidth(font, "Upgrade Complete!", null);
-					MSTextLabel label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*4/5, "Upgrade Complete!", false);
-					MSMutableStyle ms = MSStyleManager.getMutableStyle(style);
-					ms.setFont(font);
-					label.setStyle(ms);
-					MSFadingWrapper<MSTextLabel> wrapper = new MSFadingWrapper<MSTextLabel>(label);
-					label.hide();
-					addComponent(label);
-					final MSTextLabel textLabel = label;
-					wrapper.displayForTime(1500, new Runnable(){
-						@Override
-						public void run(){
-							removeComponent(textLabel);
-						}
-					});
+			menuParent = parent;
+			setBackground(Color.BLUE);
+			int width;
+			MSBasicFont buttonFont = new MSBasicFont("Calibri", 20);
+			width = MSHelper.getTextWidth(buttonFont, "Upgrade", null);
+			buttonUpgrade = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*9/10, "Upgrade");
+			buttonUpgrade.addMSActionListener(new MSActionListener(){
+	
+				@Override
+				public void action(MSActionEvent e){
+					
 				}
-			}
-
-			
-		});
-		buttonBack = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*19/20, "Back");
-		buttonBack.addMSActionListener(new MSActionListener(){
-			
-			@Override
-			public void action(MSActionEvent e){
+	
+				@Override
+				public void meaningfulAction(MSActionEvent e){
+					if(group.currentlySelected()){
+						UpgradeIcon ui = group.getCurrentlySelected() ;
+						MainCanvas.upgrades.upgrade(ui.getType());
+						System.out.println("Name: " + ui.getType().name() + "; Level: " + MainCanvas.upgrades.getUpgrade(ui.getType()));
+						MSBasicFont font = new MSBasicFont("Calibri", 40);
+						int width = MSHelper.getTextWidth(font, "Upgrade Complete!", null);
+						MSTextLabel label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*4/5, "Upgrade Complete!", false);
+						MSMutableStyle ms = MSStyleManager.getMutableStyle(style);
+						ms.setFont(font);
+						label.setStyle(ms);
+						MSFadingWrapper<MSTextLabel> wrapper = new MSFadingWrapper<MSTextLabel>(label);
+						label.hide();
+						addComponent(label);
+						final MSTextLabel textLabel = label;
+						wrapper.displayForTime(1500, new Runnable(){
+							@Override
+							public void run(){
+								removeComponent(textLabel);
+							}
+						});
+					}
+				}
+	
 				
+			});
+			buttonBack = new MSButton((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT*19/20, "Back");
+			buttonBack.addMSActionListener(new MSActionListener(){
+				
+				@Override
+				public void action(MSActionEvent e){
+					
+				}
+				
+				@Override
+				public void meaningfulAction(MSActionEvent e){
+					menuParent.exitMenu();
+				}
+			});
+			MSBasicFont titleFont = new MSBasicFont("Calibri", 100);
+			width = MSHelper.getTextWidth(titleFont, "Upgrades", null);
+			label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT/50, "Upgrades", false);
+			MSMutableStyle newStyle = MSStyleManager.getMutableStyle(style);
+			newStyle.setFont(titleFont);
+			label.setStyle(newStyle);
+			group = new MSSingleSelectionGroup<UpgradeIcon>();
+			addUpgrades(group);
+			for(UpgradeIcon ui : group.getSelectables()){
+				addComponent(ui);
 			}
+			for(MSTextLabel label : upgradeInfo){
+				addComponent(label);
+			}
+			display = new MSTextLabel((MainCanvas.FRAME_WIDTH*5)/8, MainCanvas.FRAME_HEIGHT/4, "", false);
+			MSBasicFont displayFont = new MSBasicFont("Calibri", 30);
+			newStyle = MSStyleManager.getMutableStyle(style);
+			newStyle.setFont(displayFont);
+			display.setStyle(newStyle);
+			display.setText(group.getCurrentlySelected().getName());
+			detailDisplay = new MSTextLabel((MainCanvas.FRAME_WIDTH*5)/8, (MainCanvas.FRAME_HEIGHT*3)/8, "", false);
+			MSBasicFont detailDisplayFont = new MSBasicFont("Calibri", 20);
+			newStyle = MSStyleManager.getMutableStyle(style);
+			newStyle.setFont(detailDisplayFont);
+			detailDisplay.setStyle(newStyle);
+			detailDisplay.setText(MainCanvas.upgrades.getDetail(group.getCurrentlySelected().getType()));
 			
-			@Override
-			public void meaningfulAction(MSActionEvent e){
-				menuParent.exitMenu();
-			}
-		});
-		MSBasicFont titleFont = new MSBasicFont("Calibri", 100);
-		width = MSHelper.getTextWidth(titleFont, "Upgrades", null);
-		label = new MSTextLabel((MainCanvas.FRAME_WIDTH - width)/2, MainCanvas.FRAME_HEIGHT/50, "Upgrades", false);
-		MSMutableStyle newStyle = MSStyleManager.getMutableStyle(style);
-		newStyle.setFont(titleFont);
-		label.setStyle(newStyle);
-		group = new MSSingleSelectionGroup<UpgradeIcon>();
-		addUpgrades(group);
-		for(UpgradeIcon ui : group.getSelectables()){
-			addComponent(ui);
-		}
-		for(MSTextLabel label : upgradeInfo){
+			addComponent(buttonBack);
+			addComponent(buttonUpgrade);
 			addComponent(label);
-		}
-		display = new MSTextLabel((MainCanvas.FRAME_WIDTH*5)/8, MainCanvas.FRAME_HEIGHT/4, "", false);
-		MSBasicFont displayFont = new MSBasicFont("Calibri", 30);
-		newStyle = MSStyleManager.getMutableStyle(style);
-		newStyle.setFont(displayFont);
-		display.setStyle(newStyle);
-		display.setText(group.getCurrentlySelected().getName());
-		
-		addComponent(buttonBack);
-		addComponent(buttonUpgrade);
-		addComponent(label);
-		addComponent(display);
+			addComponent(display);
+			addComponent(detailDisplay);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -209,6 +217,13 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 					public void meaningfulAction(MSActionEvent e){
 						if(e.getMessage().equals("Selected")){
 							display.setText(e.getSource().getName());
+							if(e.getSource() instanceof UpgradeIcon){
+								UpgradeIcon ui = (UpgradeIcon) e.getSource();
+								detailDisplay.setText(MainCanvas.upgrades.getDetail(ui.getType()));
+							}
+							else{
+								detailDisplay.setText("");
+							}
 						}
 					}
 				});

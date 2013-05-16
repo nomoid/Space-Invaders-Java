@@ -50,6 +50,10 @@ public enum UpgradeType{
 		}
 	}
 	
+	public int maxUpgrade(){
+		return MAX_UPGRADES[ordinal()];
+	}
+	
 	public String displayName(){
 		String s = "";
 		char[] chars = name().toCharArray();

@@ -47,4 +47,10 @@ public class Upgrades{
 		}
 		return success;
 	}
+	
+	public synchronized String getDetail(UpgradeType type){
+		String detail = "Level: " + getUpgrade(type) + "\n"
+				+ "Max Level: " + type.maxUpgrade() + "\n";
+		return detail;
+	}
 }
