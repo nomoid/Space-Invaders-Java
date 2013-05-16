@@ -73,6 +73,7 @@ public class UpgradesCanvas extends MSAbstractCanvas implements Scheduler{
 								removeComponent(textLabel);
 							}
 						});
+						detailDisplay.setText(MainCanvas.upgrades.getDetail(group.getCurrentlySelected().getType()));
 					}
 				}
 	
