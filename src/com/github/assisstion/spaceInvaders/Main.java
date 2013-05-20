@@ -42,10 +42,18 @@ public class Main{
 
 		@Override
 		public void run(){
-			running = false;
-			MSHelper.disableSystem();
-			ResourceManager.setMuted(true);
-			System.out.println("Shutdown");
+			try{
+				MainCanvas.disableOutputs();
+				running = false;
+				MSHelper.disableSystem();
+				ResourceManager.setMuted(true);
+			}
+			catch(Exception e){
+				System.out.println("Exception Occured During Shutdown");
+			}
+			finally{
+				System.out.println("Shutdown");
+			}
 		}
 	}
 	

@@ -1,5 +1,11 @@
 package com.github.assisstion.spaceInvaders;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,6 +34,8 @@ public final class MainCanvas {
 	public static boolean isOn;
 	public static Menu menu;
 	public static Upgrades upgrades;
+	public static boolean exceptional;
+	public static ObjectOutputStream output;
 
 	/*
 	 * There can only be one audio stream
@@ -43,6 +51,7 @@ public final class MainCanvas {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	protected static void start(){
 		try {
 			if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
@@ -53,6 +62,7 @@ public final class MainCanvas {
 				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Space Invaders");
 				
 			}
+			
 			
 			System.out.println("Program launch");
 			frame = new JFrame("Space Invaders");
@@ -89,6 +99,42 @@ public final class MainCanvas {
 			
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setResizable(false);
+			
+			/*
+			 * Reads game data
+			 */
+			try{
+				if(Data.DATA_LOCATION == "" || Data.DATA_LOCATION_FOLDER == ""){
+					throw new IOException("Data IO Disabled");
+				}
+				File file = new File(Data.DATA_LOCATION);
+				File folder = new File(Data.DATA_LOCATION_FOLDER);
+				if(!folder.exists()){
+					folder.mkdirs();
+				}
+				if(!file.exists()){
+					file.createNewFile();
+				}
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+				
+				try{
+					try{
+						DataHandler.manager = DataManager.read(ois);
+					}
+					finally{
+						ois.close();
+						output = new ObjectOutputStream(new FileOutputStream(file));
+					}
+				}
+				catch(IOException e){
+					//Empty file or corrupted Stream
+					DataManager.write(output, DataHandler.manager);
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				exceptional = true;
+			}
 			 
 			/*
 			 * Creates the engine and adds it to the frame
@@ -120,6 +166,17 @@ public final class MainCanvas {
 		catch(Exception e){
 			//TODO placeholder
 			e.printStackTrace();
+		}
+	}
+
+	public static void disableOutputs(){
+		try{
+			if(MainCanvas.output != null){
+				MainCanvas.output.close();
+			}
+		}
+		catch(IOException e){
+			//Something wrong with Stream closure
 		}
 	}
 }

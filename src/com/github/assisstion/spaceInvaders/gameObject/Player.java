@@ -13,7 +13,7 @@ public class Player extends Sprite {
 	public static String[] PLAYER_DEFAULT_IMAGE = {LinkHolder.player,"resources/EasterEgg.png"};
 	public static final int PLAYER_DEFAULT_HEALTH = 500;
 	public static final int PLAYER_DEFAULT_FIRING_COOLDOWN = 50;
-	public int credits=0;
+	//public int credits=0;
 	
 	protected Player(){
 		

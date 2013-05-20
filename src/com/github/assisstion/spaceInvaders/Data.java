@@ -68,4 +68,7 @@ public final class Data {
 		};
 	
 	public static final String BULLET_SOUND = "resources/bulletsound.wav";
+	
+	public static final String DATA_LOCATION = "";
+	public static final String DATA_LOCATION_FOLDER = "";
 }
