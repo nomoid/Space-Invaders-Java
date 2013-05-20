@@ -52,6 +52,7 @@ public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphic
 
 	@Override
 	public void render(MSGraphicalContext g, int x, int y){
+		String[] texts = getTexts();
 		MSColor tempColor = g.getColor();
 		MSFont tempFont = g.getFont();
 		g.setFont(getStyle().getFont());
@@ -60,19 +61,43 @@ public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphic
 			g.fillRect(x, y, getWidth(), getHeight());
 		}
 		g.setColor(getStyle().getForeground());
-		g.drawString(text, x + getStyle().getPaddingLeft(), y + getStyle().getPaddingTop() + getStyle().getFont().getSize());
+		int n = 0;
+		for(String s : texts){
+			g.drawString(s, x + getStyle().getPaddingLeft(), y + getStyle().getPaddingTop() + (getStyle().getFont().getSize() * (n++ + 1)));
+		}
 		g.setColor(tempColor);
 		g.setFont(tempFont);
 	}
 	
 	@Override
 	public int getWidth(){
-		return MSHelper.getTextWidth(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingLeft() + getStyle().getPaddingRight();
+		String[] texts = getTexts();
+		int maxWidth = 0;
+		for(String s : texts){
+			int i = getTextWidth(s);
+			if(i > maxWidth){
+				maxWidth = i;
+			}
+		}
+		return maxWidth + getStyle().getPaddingLeft() + getStyle().getPaddingRight();
 	}
 	
 	@Override
 	public int getHeight(){
-		return MSHelper.getTextHeight(getStyle().getFont(), text, graphicsContext) + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
+		String[] texts = getTexts();
+		int totalHeight = 0;
+		for(String s : texts){
+			totalHeight += getTextHeight(s);
+		}
+		return totalHeight + getStyle().getPaddingTop() + getStyle().getPaddingBottom();
+	}
+	
+	private int getTextWidth(String text){
+		return MSHelper.getTextWidth(getStyle().getFont(), text, graphicsContext);
+	}
+	
+	private int getTextHeight(String text){
+		return MSHelper.getTextHeight(getStyle().getFont(), text, graphicsContext);
 	}
 	
 	public void setText(String text){
@@ -91,5 +116,9 @@ public class MSTextLabel extends MSAbstractBoundedComponent implements MSGraphic
 	@Override
 	public MSGraphicalContext getGraphicsContext(){
 		return graphicsContext;
+	}
+	
+	private String[] getTexts(){
+		return text.split("\n");
 	}
 }
