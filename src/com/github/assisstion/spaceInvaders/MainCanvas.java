@@ -1,10 +1,10 @@
 package com.github.assisstion.spaceInvaders;
 
-import java.io.File;
+/*import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;*/
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
@@ -51,7 +51,7 @@ public final class MainCanvas {
 		
 	}
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	protected static void start(){
 		try {
 			if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
@@ -100,9 +100,11 @@ public final class MainCanvas {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setResizable(false);
 			
+			
 			/*
-			 * Reads game data
+			 * Reads game data (unimplemented yet)
 			 */
+			/*
 			try{
 				if(Data.DATA_LOCATION == "" || Data.DATA_LOCATION_FOLDER == ""){
 					throw new IOException("Data IO Disabled");
@@ -135,6 +137,7 @@ public final class MainCanvas {
 				e.printStackTrace();
 				exceptional = true;
 			}
+			*/
 			 
 			/*
 			 * Creates the engine and adds it to the frame

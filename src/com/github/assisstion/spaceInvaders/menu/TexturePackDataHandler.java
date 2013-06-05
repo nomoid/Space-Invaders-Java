@@ -90,7 +90,7 @@ public final class TexturePackDataHandler {
 			
 			for (Object s: n.keySet()){
 				nameList.add((String) s);
-				System.out.println(s);
+				//System.out.println(s);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

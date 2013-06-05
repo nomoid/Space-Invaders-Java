@@ -1,5 +1,7 @@
 package com.github.assisstion.spaceInvaders.menu;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -33,6 +35,7 @@ public class MainMenuBuilder implements MenuBuilder {
 	private JButton texturepackButton;
 
 	private JLabel logolabel;
+	private JLabel authorlabel;
 	private JButton creditsButton;
 	private JButton hscoreButton;
 	private static AudioLooper looper;
@@ -54,6 +57,7 @@ public class MainMenuBuilder implements MenuBuilder {
 		helpButton = new JButton(new ImageIcon(HELPBUTTON));
 		storyButton = new JButton(new ImageIcon(STORYBUTTON));
 		logolabel = new JLabel(new ImageIcon(MAINLOGO));
+		authorlabel = new JLabel("By assisstion and michael99man (https://github.com/assisstion/Space-Invaders-Java)");
 		optionsButton = new JButton(new ImageIcon(STARTBUTTON));
 		//For testing
 		texturepackButton = new JButton("Texture Packs");
@@ -139,6 +143,9 @@ public class MainMenuBuilder implements MenuBuilder {
 		texturepackButton.setBounds(960 / 2 - 364, 560, 162, 79);
 		
 		logolabel.setBounds(960 / 2 - 450, 25, 900, 100);
+		authorlabel.setBounds(960 / 2 - 450, 100, 900, 100);
+		authorlabel.setForeground(Color.WHITE);
+		authorlabel.setFont(new Font("Calibri", 0, 20));
 
 		parent.add(texturepackButton);
 		parent.add(achievementsButton);
@@ -148,6 +155,7 @@ public class MainMenuBuilder implements MenuBuilder {
 		parent.add(helpButton);
 		parent.add(startButton);
 		parent.add(logolabel);
+		parent.add(authorlabel);
 		parent.add(optionsButton);
 	}
 
